@@ -8,6 +8,8 @@ import javax.validation.constraints.NotNull;
 
 public class UserProfileDto {
 	@NotBlank
+	private Long id;
+	@NotBlank
 	private String username;
 	private String password;
 	@NotBlank
@@ -24,10 +26,11 @@ public class UserProfileDto {
 	private Date dateBirth;
 	private Character state;
 	
-	public UserProfileDto(@NotBlank String username, @NotBlank String name,
+	public UserProfileDto(@NotBlank Long id, @NotBlank String username, @NotBlank String name,
 			@NotBlank String lastname, @NotBlank String lastnameMother,
 			@Email String email, @NotBlank String dni, @NotNull Date dateBirth,
 			@NotBlank Character state, String password) {
+		this.id = id;
 		this.username = username;
 		this.name = name;
 		this.lastname = lastname;
@@ -40,6 +43,14 @@ public class UserProfileDto {
 	}
 
 	public UserProfileDto() {}
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public String getUsername() {
 		return username;

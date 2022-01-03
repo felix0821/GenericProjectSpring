@@ -70,7 +70,7 @@ public class ApiQueries {
 		return data;
 	}
 	
-	//Api consumida de https://ruc.com.pe/tokens
+	//Api consumida de https://docs.api-peru.com/
 	public String[] checkDniApiPeru(String dni) throws Exception {
 		String data[]= {"NaN","NaN","NaN"};
 		URL url;
@@ -78,6 +78,7 @@ public class ApiQueries {
 			url = new URL("https://consulta.api-peru.com/api/dni/"+dni);
 			HttpURLConnection http = (HttpURLConnection)url.openConnection();
 			http.setRequestMethod("GET");
+			http.setDoOutput(true);
 			http.setRequestProperty("Content-Type", "application/json");
 			http.setRequestProperty("Accept", "application/json");
 
@@ -89,24 +90,11 @@ public class ApiQueries {
 					        response.append(responseLine.trim());
 					    }
 					    //Extraemos el objeto json del 'response'
-				    	JSONObject jo = new JSONObject(response.toString());
-				    	String fullName = jo.get("nombre_completo").toString();
-				    	int position = 0;
-				    	int breakBucle = 2;
-				    	//Distribuir informacion recibida
-				    	for (int i=0;i<fullName.length();i++){
-				    		if(breakBucle==0){
-				    			System.out.println(fullName.substring(position));
-				    			data[breakBucle]=fullName.substring(position);
-				    			break;
-				    		}
-				    		if(Character.compare(fullName.charAt(i), ' ') == 0){
-				    			System.out.println(fullName.substring(position,i));
-				    			data[breakBucle]=fullName.substring(position,i);
-				    			position=i+1;
-				    			breakBucle--;
-				    		}
-				    	}
+					    JSONObject jo = new JSONObject(response.toString());
+					    JSONObject jos = jo.getJSONObject("data");
+					    data[0] = jos.getString("nombres").toString();
+					    data[1] = jos.getString("apellido_paterno").toString();
+					    data[2] = jos.getString("apellido_materno").toString();
 					}
 			catch(Exception e){
 				e.printStackTrace();

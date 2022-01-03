@@ -16,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -60,7 +61,7 @@ public class UserController {
 		Iterable<User> list = userService.getAllUsers();
 		List<UserProfileDto> listDto = new ArrayList<UserProfileDto>();
 		for(User user: list) {
-			listDto.add(new UserProfileDto(user.getUsername(),user.getName(),user.getLastname(),
+			listDto.add(new UserProfileDto(user.getIdUser(), user.getUsername(),user.getName(),user.getLastname(),
         		user.getLastnameMother(),user.getEmail(),user.getDni(),user.getDateBirth(),user.getState(),null));
 		}
         return new ResponseEntity<List<UserProfileDto>>(listDto, HttpStatus.OK);
@@ -101,9 +102,50 @@ public class UserController {
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@GetMapping("/deleteUser/{id}")
-	public ResponseEntity<?> delete(){
-		
+	public ResponseEntity<?> delete(@PathVariable(name="id")Long id){
+		try {
+			userService.deleteUser(id);
+		} 
+		catch (com.system.demo.exception.UsernameOrIdNotFound uoin) {
+			uoin.printStackTrace();
+			return new ResponseEntity(new Message("No existe Id"), HttpStatus.BAD_REQUEST);
+		}
 		return new ResponseEntity(new Message("Información eliminada exitosamente"), HttpStatus.CREATED);
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@GetMapping("/editUser/{id}")
+	public ResponseEntity<?> updateForm(@PathVariable(name ="id")Long id) {
+		User userEdit = null;
+		try {
+			userEdit = userService.getUserById(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity(new Message("No existe Id"), HttpStatus.BAD_REQUEST);
+		}
+		UserProfileDto result = new UserProfileDto(userEdit.getIdUser(), userEdit.getUsername(),userEdit.getName(),userEdit.getLastname(),
+        		userEdit.getLastnameMother(),userEdit.getEmail(),userEdit.getDni(),userEdit.getDateBirth(),userEdit.getState(),null);
+		return new ResponseEntity<UserProfileDto>(result, HttpStatus.OK);
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@PostMapping("/editUser")
+	public ResponseEntity<?> updateData(@Valid @RequestBody UserProfileDto userUpdate, BindingResult bindingResult) {
+		//Realizamos las validaciones pertinentes
+        if(bindingResult.hasErrors())
+            return new ResponseEntity(new Message("Hay campos mal puestos o email inválido"), HttpStatus.BAD_REQUEST);
+        if(userService.existsByUsername(userUpdate.getUsername()))
+            return new ResponseEntity(new Message("Ese nombre de usuario ya existe"), HttpStatus.BAD_REQUEST);
+        if(userService.existsByEmail(userUpdate.getEmail()))
+            return new ResponseEntity(new Message("Ese email ya existe"), HttpStatus.BAD_REQUEST);
+        User userEdit = null;
+        try {
+			userEdit = userService.getUserById(userUpdate.getId());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity(new Message("No existe Id"), HttpStatus.BAD_REQUEST);
+		}
+        return new ResponseEntity(new Message("Usted modifico exitosamente"), HttpStatus.CREATED);
 	}
 	
 	public String usernameFromToken(HttpHeaders headers) {
