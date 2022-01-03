@@ -55,7 +55,7 @@ public class UserController {
 	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 	
-	@GetMapping("/")
+	@GetMapping({"/","/index",""})
     public ResponseEntity<List<UserProfileDto>> list(){
 		Iterable<User> list = userService.getAllUsers();
 		List<UserProfileDto> listDto = new ArrayList<UserProfileDto>();
@@ -68,7 +68,7 @@ public class UserController {
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@PostMapping("/register")
-    public ResponseEntity<?> nuevo(@Valid @RequestBody UserRegisterDto userRegister, BindingResult bindingResult) throws Exception{
+    public ResponseEntity<?> save(@Valid @RequestBody UserRegisterDto userRegister, BindingResult bindingResult) throws Exception{
 		//Realizamos las validaciones pertinentes
         if(bindingResult.hasErrors())
             return new ResponseEntity(new Message("Hay campos mal puestos o email inválido"), HttpStatus.BAD_REQUEST);
@@ -84,7 +84,7 @@ public class UserController {
 		LocalDate fechaPeru=LocalDate.now(ZoneId.of("America/Lima"));
 		Date fechaRegistro=Date.from(fechaPeru.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
 		//Insertar nombres por dni
-		String names[] = apiQueries.checkDniRucPe(userRegister.getDni());
+		String names[] = apiQueries.checkDniApiPeru(userRegister.getDni());
 		//Crear un usuario para persistir
         User user =
                 new User(idUser, userRegister.getUsername(), password, names[0], names[2], 
@@ -98,6 +98,13 @@ public class UserController {
 		userRolService.createUserRol(userRol);
         return new ResponseEntity(new Message("Usted se registro exitosamente"), HttpStatus.CREATED);
     }
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@GetMapping("/deleteUser/{id}")
+	public ResponseEntity<?> delete(){
+		
+		return new ResponseEntity(new Message("Información eliminada exitosamente"), HttpStatus.CREATED);
+	}
 	
 	public String usernameFromToken(HttpHeaders headers) {
 		final String authorizationHeaderValue = headers.getFirst(HttpHeaders.AUTHORIZATION);

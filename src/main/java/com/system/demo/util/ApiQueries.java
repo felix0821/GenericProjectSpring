@@ -60,6 +60,56 @@ public class ApiQueries {
 				    	}
 					}
 			catch(Exception e){
+				e.printStackTrace();
+				System.out.println("Error de parseo");
+			}
+			http.disconnect();
+		} catch (MalformedURLException e1) {
+			System.out.println("Error de conexion");
+		}
+		return data;
+	}
+	
+	//Api consumida de https://ruc.com.pe/tokens
+	public String[] checkDniApiPeru(String dni) throws Exception {
+		String data[]= {"NaN","NaN","NaN"};
+		URL url;
+		try {
+			url = new URL("https://consulta.api-peru.com/api/dni/"+dni);
+			HttpURLConnection http = (HttpURLConnection)url.openConnection();
+			http.setRequestMethod("GET");
+			http.setRequestProperty("Content-Type", "application/json");
+			http.setRequestProperty("Accept", "application/json");
+
+			try(BufferedReader br = new BufferedReader(
+					  new InputStreamReader(http.getInputStream(), "utf-8"))) {
+					    StringBuilder response = new StringBuilder();
+					    String responseLine = null;
+					    while ((responseLine = br.readLine()) != null) {
+					        response.append(responseLine.trim());
+					    }
+					    //Extraemos el objeto json del 'response'
+				    	JSONObject jo = new JSONObject(response.toString());
+				    	String fullName = jo.get("nombre_completo").toString();
+				    	int position = 0;
+				    	int breakBucle = 2;
+				    	//Distribuir informacion recibida
+				    	for (int i=0;i<fullName.length();i++){
+				    		if(breakBucle==0){
+				    			System.out.println(fullName.substring(position));
+				    			data[breakBucle]=fullName.substring(position);
+				    			break;
+				    		}
+				    		if(Character.compare(fullName.charAt(i), ' ') == 0){
+				    			System.out.println(fullName.substring(position,i));
+				    			data[breakBucle]=fullName.substring(position,i);
+				    			position=i+1;
+				    			breakBucle--;
+				    		}
+				    	}
+					}
+			catch(Exception e){
+				e.printStackTrace();
 				System.out.println("Error de parseo");
 			}
 			http.disconnect();
