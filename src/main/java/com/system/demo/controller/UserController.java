@@ -145,6 +145,17 @@ public class UserController {
 			e.printStackTrace();
 			return new ResponseEntity(new Message("No existe Id"), HttpStatus.BAD_REQUEST);
 		}
+        userEdit.setEmail(userUpdate.getEmail());
+        userEdit.setName(userUpdate.getName());
+        userEdit.setLastname(userUpdate.getLastname());
+        userEdit.setLastnameMother(userUpdate.getLastnameMother());
+        userEdit.setDateBirth(userUpdate.getDateBirth());
+        try {
+			userService.updateUser(userEdit);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity(new Message("No existe Usuario"), HttpStatus.BAD_REQUEST);
+		}
         return new ResponseEntity(new Message("Usted modifico exitosamente"), HttpStatus.CREATED);
 	}
 	
