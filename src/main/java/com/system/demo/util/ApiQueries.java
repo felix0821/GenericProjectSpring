@@ -70,7 +70,7 @@ public class ApiQueries {
 		return data;
 	}
 	
-	//Api consumida de https://docs.api-peru.com/
+	//Api consumida de https://api-peru.com/
 	public String[] checkDniApiPeru(String dni) throws Exception {
 		String data[]= {"NaN","NaN","NaN"};
 		URL url;

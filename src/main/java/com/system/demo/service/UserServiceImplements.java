@@ -59,7 +59,7 @@ public class UserServiceImplements implements UserService{
 		
 		@Override
 		public User getUserById(Long id) throws UsernameOrIdNotFound {
-			return repository.findById(id).orElseThrow(() -> new UsernameOrIdNotFound("El Id del usuario no existe."));
+			return repository.findByIdUser(id).orElseThrow(() -> new UsernameOrIdNotFound("El Id del usuario no existe."));
 		}
 		@Override
 		public Optional<User> getUserByUsername(String username) {
