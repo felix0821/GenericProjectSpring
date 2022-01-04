@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.system.demo.dto.Message;
@@ -56,7 +57,8 @@ public class UserController {
 	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 	
-	@GetMapping({"/","/index",""})
+	@GetMapping//(value = {"","/"})
+	@ResponseBody
     public ResponseEntity<List<UserProfileDto>> list(){
 		Iterable<User> list = userService.getAllUsers();
 		List<UserProfileDto> listDto = new ArrayList<UserProfileDto>();
@@ -67,7 +69,7 @@ public class UserController {
         return new ResponseEntity<List<UserProfileDto>>(listDto, HttpStatus.OK);
     }
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@PostMapping("/register")
     public ResponseEntity<?> save(@Valid @RequestBody UserRegisterDto userRegister, BindingResult bindingResult) throws Exception{
 		//Realizamos las validaciones pertinentes
@@ -100,7 +102,7 @@ public class UserController {
         return new ResponseEntity(new Message("Usted se registro exitosamente"), HttpStatus.CREATED);
     }
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@GetMapping("/deleteUser/{id}")
 	public ResponseEntity<?> delete(@PathVariable(name="id")Long id){
 		try {
@@ -113,7 +115,7 @@ public class UserController {
 		return new ResponseEntity(new Message("Información eliminada exitosamente"), HttpStatus.CREATED);
 	}
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@GetMapping("/editUser/{id}")
 	public ResponseEntity<?> updateForm(@PathVariable(name ="id")Long id) {
 		User userEdit = null;
@@ -128,16 +130,12 @@ public class UserController {
 		return new ResponseEntity<UserProfileDto>(result, HttpStatus.OK);
 	}
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@PostMapping("/editUser")
 	public ResponseEntity<?> updateData(@Valid @RequestBody UserProfileDto userUpdate, BindingResult bindingResult) {
 		//Realizamos las validaciones pertinentes
         if(bindingResult.hasErrors())
             return new ResponseEntity(new Message("Hay campos mal puestos o email inválido"), HttpStatus.BAD_REQUEST);
-        if(userService.existsByUsername(userUpdate.getUsername()))
-            return new ResponseEntity(new Message("Ese nombre de usuario ya existe"), HttpStatus.BAD_REQUEST);
-        if(userService.existsByEmail(userUpdate.getEmail()))
-            return new ResponseEntity(new Message("Ese email ya existe"), HttpStatus.BAD_REQUEST);
         User userEdit = null;
         try {
 			userEdit = userService.getUserById(userUpdate.getId());
@@ -145,6 +143,7 @@ public class UserController {
 			e.printStackTrace();
 			return new ResponseEntity(new Message("No existe Id"), HttpStatus.BAD_REQUEST);
 		}
+        userEdit.setUsername(userUpdate.getUsername());
         userEdit.setEmail(userUpdate.getEmail());
         userEdit.setName(userUpdate.getName());
         userEdit.setLastname(userUpdate.getLastname());

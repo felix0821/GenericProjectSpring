@@ -5,11 +5,13 @@ import java.util.Date;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 public class UserProfileDto {
-	@NotBlank
+	@NotNull(message = "Ingrese un Long para id")
 	private Long id;
 	@NotBlank
+	@Size(max = 20, min = 3, message = "Usuario invalido")
 	private String username;
 	private String password;
 	@NotBlank
@@ -26,7 +28,7 @@ public class UserProfileDto {
 	private Date dateBirth;
 	private Character state;
 	
-	public UserProfileDto(@NotBlank Long id, @NotBlank String username, @NotBlank String name,
+	public UserProfileDto(@NotNull(message = "Ingrese un Long para id") Long id, @NotBlank String username, @NotBlank String name,
 			@NotBlank String lastname, @NotBlank String lastnameMother,
 			@Email String email, @NotBlank String dni, @NotNull Date dateBirth,
 			@NotBlank Character state, String password) {
