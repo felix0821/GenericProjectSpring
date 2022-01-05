@@ -57,16 +57,22 @@ public class UserController {
 	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@GetMapping//(value = {"","/"})
 	@ResponseBody
-    public ResponseEntity<List<UserProfileDto>> list(){
-		Iterable<User> list = userService.getAllUsers();
-		List<UserProfileDto> listDto = new ArrayList<UserProfileDto>();
-		for(User user: list) {
-			listDto.add(new UserProfileDto(user.getIdUser(), user.getUsername(),user.getName(),user.getLastname(),
-        		user.getLastnameMother(),user.getEmail(),user.getDni(),user.getDateBirth(),user.getState(),null));
+    public ResponseEntity<?> list(){
+		try {
+			Iterable<User> list = userService.getAllUsers();
+			List<UserProfileDto> listDto = new ArrayList<UserProfileDto>();
+			for(User user: list) {
+				listDto.add(new UserProfileDto(user.getIdUser(), user.getUsername(),user.getName(),user.getLastname(),
+	        		user.getLastnameMother(),user.getEmail(),user.getDni(),user.getDateBirth(),user.getState(),null));
+			}
+	        return new ResponseEntity<List<UserProfileDto>>(listDto, HttpStatus.OK);
 		}
-        return new ResponseEntity<List<UserProfileDto>>(listDto, HttpStatus.OK);
+		catch (Exception e) {
+        	return new ResponseEntity(new Message("BLOQUED"), HttpStatus.BAD_REQUEST);
+        }
     }
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
@@ -74,7 +80,7 @@ public class UserController {
     public ResponseEntity<?> save(@Valid @RequestBody UserRegisterDto userRegister, BindingResult bindingResult) throws Exception{
 		//Realizamos las validaciones pertinentes
         if(bindingResult.hasErrors())
-            return new ResponseEntity(new Message("Hay campos mal puestos o email inválido"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
         if(userService.existsByUsername(userRegister.getUsername()))
             return new ResponseEntity(new Message("Ese nombre de usuario ya existe"), HttpStatus.BAD_REQUEST);
         if(userService.existsByEmail(userRegister.getEmail()))
@@ -135,7 +141,7 @@ public class UserController {
 	public ResponseEntity<?> updateData(@Valid @RequestBody UserProfileDto userUpdate, BindingResult bindingResult) {
 		//Realizamos las validaciones pertinentes
         if(bindingResult.hasErrors())
-            return new ResponseEntity(new Message("Hay campos mal puestos o email inválido"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
         User userEdit = null;
         try {
 			userEdit = userService.getUserById(userUpdate.getId());

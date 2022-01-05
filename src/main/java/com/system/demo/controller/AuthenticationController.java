@@ -39,16 +39,21 @@ public class AuthenticationController {
     
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@PostMapping("/login")
-    public ResponseEntity<JwtDto> login(@Valid @RequestBody UserLoginDto userLogin, BindingResult bindingResult) throws Exception{
-        if(bindingResult.hasErrors())
-            return new ResponseEntity(new Message("campos mal puestos"), HttpStatus.BAD_REQUEST);
-        Authentication authentication =
-                authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userLogin.getUsername(), userLogin.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtProvider.generateToken(authentication);
-        UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-        String key = encripId.encript(userDetails.getUsername());
-        JwtDto jwtDto = new JwtDto(jwt, userDetails.getUsername(), key, userDetails.getAuthorities());
-        return new ResponseEntity<JwtDto>(jwtDto, HttpStatus.OK);
+    public ResponseEntity<?> login(@Valid @RequestBody UserLoginDto userLogin, BindingResult bindingResult) throws Exception{
+        try {
+        	if(bindingResult.hasErrors())
+                return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
+            Authentication authentication =
+                    authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userLogin.getUsername(), userLogin.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String jwt = jwtProvider.generateToken(authentication);
+            UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+            String key = encripId.encript(userDetails.getUsername());
+            JwtDto jwtDto = new JwtDto(jwt, userDetails.getUsername(), key, userDetails.getAuthorities());
+            return new ResponseEntity<JwtDto>(jwtDto, HttpStatus.OK);
+        }
+        catch (Exception e) {
+        	return new ResponseEntity(new Message("BLOQUED"), HttpStatus.BAD_REQUEST);
+        }
     }
 }
