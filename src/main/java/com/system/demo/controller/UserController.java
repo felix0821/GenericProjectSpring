@@ -155,7 +155,7 @@ public class UserController {
 			e.printStackTrace();
 			return new ResponseEntity(new Message("No existe Usuario"), HttpStatus.BAD_REQUEST);
 		}
-        return new ResponseEntity(new Message("Usted modifico exitosamente"), HttpStatus.CREATED);
+        return new ResponseEntity(new Message("Usuario modificado exitosamente"), HttpStatus.CREATED);
 	}
 	
 	public String usernameFromToken(HttpHeaders headers) {
