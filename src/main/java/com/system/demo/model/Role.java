@@ -24,6 +24,8 @@ import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 /**
  *
  * @author Felix
@@ -50,6 +52,7 @@ public class Role implements Serializable {
     @Basic(optional = false)
     @Column(name = "registration_date")
     @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date registrationDate;
     @Basic(optional = false)
     private Character state;

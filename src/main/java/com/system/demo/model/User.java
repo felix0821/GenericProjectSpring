@@ -89,7 +89,7 @@ public class User implements Serializable {
     private Character state;
     @Column(name = "modifyin_user")
     private Long modifyingUser;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
     private Collection<UserRol> userRolCollection;
     
     @Transient
