@@ -23,7 +23,6 @@ import javax.xml.bind.annotation.XmlTransient;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sistema.plazas.entity.User;
 
 /**
  *
