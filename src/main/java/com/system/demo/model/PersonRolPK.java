@@ -22,8 +22,8 @@ public class PersonRolPK implements Serializable {
 	 */
 	private static final long serialVersionUID = -6082938809894718774L;
 	@Basic(optional = false)
-    @Column(name = "id_user")
-    private long idUser;
+    @Column(name = "id_person")
+    private long idPerson;
     @Basic(optional = false)
     @Column(name = "id_role")
     private long idRole;
@@ -32,16 +32,16 @@ public class PersonRolPK implements Serializable {
     }
 
     public PersonRolPK(long idUser, long idRole) {
-        this.idUser = idUser;
+        this.idPerson = idUser;
         this.idRole = idRole;
     }
 
-    public long getIdUser() {
-        return idUser;
+    public long getIdPerson() {
+        return idPerson;
     }
 
-    public void setIdUser(long idUser) {
-        this.idUser = idUser;
+    public void setIdPerson(long idUser) {
+        this.idPerson = idUser;
     }
 
     public long getIdRole() {
@@ -55,7 +55,7 @@ public class PersonRolPK implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (int) idUser;
+        hash += (int) idPerson;
         hash += (int) idRole;
         return hash;
     }
@@ -67,7 +67,7 @@ public class PersonRolPK implements Serializable {
             return false;
         }
         PersonRolPK other = (PersonRolPK) object;
-        if (this.idUser != other.idUser) {
+        if (this.idPerson != other.idPerson) {
             return false;
         }
         if (this.idRole != other.idRole) {
@@ -78,7 +78,7 @@ public class PersonRolPK implements Serializable {
 
     @Override
     public String toString() {
-        return "vacancies_application_system.UserRolPK[ idUser=" + idUser + ", idRole=" + idRole + " ]";
+        return "system.UserRolPK[ idPerson=" + idPerson + ", idRole=" + idRole + " ]";
     }
     
 }

@@ -104,7 +104,7 @@ public class UserController {
         Long idRole = 2L;
         PersonRol personRol = new PersonRol(idUser,idRole);
 		personRol.setState('A');
-		userRolService.createUserRol(personRol);
+		userRolService.createPersonRol(personRol);
         return new ResponseEntity(new Message("Usted se registro exitosamente"), HttpStatus.CREATED);
     }
 	

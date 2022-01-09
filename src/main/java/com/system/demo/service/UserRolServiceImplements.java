@@ -15,15 +15,15 @@ public class UserRolServiceImplements implements UserRolService {
 	UserRolRepository repository;
 
 	@Override
-	public PersonRol createUserRol(PersonRol personRol) throws Exception {
+	public PersonRol createPersonRol(PersonRol personRol) throws Exception {
 		personRol = repository.save(personRol);
 		return personRol;
 	}
 
 	@Override
-	public void deleteUserRol(Long idUser, long idRole) throws Exception {
-		PersonRolPK userRolPk = new PersonRolPK(idUser,idRole);
-		repository.deleteById(userRolPk);
+	public void deletePersonRol(Long idUser, long idRole) throws Exception {
+		PersonRolPK personRolPk = new PersonRolPK(idUser,idRole);
+		repository.deleteById(personRolPk);
 	}
 
 }
