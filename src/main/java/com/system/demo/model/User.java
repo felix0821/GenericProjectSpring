@@ -43,7 +43,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
     @NamedQuery(name = "User.findByDni", query = "SELECT u FROM User u WHERE u.dni = :dni"),
     @NamedQuery(name = "User.findByDateBirth", query = "SELECT u FROM User u WHERE u.dateBirth = :dateBirth"),
     @NamedQuery(name = "User.findByRegistrationDate", query = "SELECT u FROM User u WHERE u.registrationDate = :registrationDate"),
-    @NamedQuery(name = "User.findByUrlProfilepicture", query = "SELECT u FROM User u WHERE u.urlProfilepicture = :urlProfilepicture"),
     @NamedQuery(name = "User.findByState", query = "SELECT u FROM User u WHERE u.state = :state")})
 public class User implements Serializable {
 
@@ -102,6 +101,25 @@ public class User implements Serializable {
         this.idUser = idUser;
     }
 
+    public User(Long idUser, String username, String password, String name, String lastnameFather,
+			String lastnameMother, String email, String dni, Date dateBirth, Date registrationDate,
+			String urlProfilepicture, Character state, Long modifyingUser) {
+		super();
+		this.idUser = idUser;
+		this.username = username;
+		this.password = password;
+		this.name = name;
+		this.lastnameFather = lastnameFather;
+		this.lastnameMother = lastnameMother;
+		this.email = email;
+		this.dni = dni;
+		this.dateBirth = dateBirth;
+		this.registrationDate = registrationDate;
+		this.urlProfilepicture = urlProfilepicture;
+		this.state = state;
+		this.modifyingUser = modifyingUser;
+	}
+    
     public User(Long idUser, String username, String password, String name, String lastnameFather, String lastnameMother, 
     		String email, String dni, Date dateBirth, Date registrationDate, Character state) {
         this.idUser = idUser;
@@ -117,7 +135,7 @@ public class User implements Serializable {
         this.state = state;
     }
 
-    public Long getIdUser() {
+	public Long getIdUser() {
         return idUser;
     }
 

@@ -24,8 +24,6 @@ import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 /**
  *
  * @author Felix
