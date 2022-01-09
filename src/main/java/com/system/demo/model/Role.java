@@ -7,6 +7,7 @@ package com.system.demo.model;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Date;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -18,6 +19,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -45,6 +48,10 @@ public class Role implements Serializable {
     @Column(name = "name_role")
     private String nameRole;
     @Basic(optional = false)
+    @Column(name = "registration_date")
+    @Temporal(TemporalType.DATE)
+    private Date registrationDate;
+    @Basic(optional = false)
     private Character state;
     private String description;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "role", fetch = FetchType.LAZY)
@@ -56,11 +63,25 @@ public class Role implements Serializable {
     public Role(Long idRole) {
         this.idRole = idRole;
     }
+    
+    
 
-    public Role(Long idRole, String nameRole, Character state) {
+    public Role(Long idRole, String nameRole, Date registrationDate, Character state, String description,
+			Collection<UserRol> userRolCollection) {
+		super();
+		this.idRole = idRole;
+		this.nameRole = nameRole;
+		this.registrationDate = registrationDate;
+		this.state = state;
+		this.description = description;
+		this.userRolCollection = userRolCollection;
+	}
+
+	public Role(Long idRole, String nameRole, Character state, Date registrationDate) {
         this.idRole = idRole;
         this.nameRole = nameRole;
         this.state = state;
+        this.registrationDate = registrationDate;
     }
 
     public Long getIdRole() {
@@ -95,7 +116,15 @@ public class Role implements Serializable {
         this.description = description;
     }
 
-    @XmlTransient
+    public Date getRegistrationDate() {
+		return registrationDate;
+	}
+
+	public void setRegistrationDate(Date registrationDate) {
+		this.registrationDate = registrationDate;
+	}
+
+	@XmlTransient
     public Collection<UserRol> getUserRolCollection() {
         return userRolCollection;
     }
