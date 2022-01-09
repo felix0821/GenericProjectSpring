@@ -4,7 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.system.demo.model.User;
+import com.system.demo.model.Person;
 
 import java.util.Collection;
 import java.util.List;
@@ -29,11 +29,11 @@ public class JwtUser implements UserDetails {
         this.authorities = authorities;
     }
 
-    public static JwtUser build(User user){
+    public static JwtUser build(Person person){
         List<GrantedAuthority> authorities =
-                user.getUserRolCollection().stream().map(role -> new SimpleGrantedAuthority(
+                person.getPersonRolCollection().stream().map(role -> new SimpleGrantedAuthority(
                 		role.getRole().getNameRole())).collect(Collectors.toList());
-        return new JwtUser(user.getName(), user.getUsername(), user.getEmail(), user.getPassword(), authorities);
+        return new JwtUser(person.getName(), person.getUsername(), person.getEmail(), person.getPassword(), authorities);
     }
 
     @Override

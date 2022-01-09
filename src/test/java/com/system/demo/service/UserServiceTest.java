@@ -20,7 +20,7 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 
-import com.system.demo.model.User;
+import com.system.demo.model.Person;
 import com.system.demo.repository.UserRepository;
 
 @SpringBootTest
@@ -44,18 +44,18 @@ public class UserServiceTest {
 	//PRUEBAS DE ITERADOR
 	@Test
 	public void userTestServiceGetAllUsers() {
-		List<User> expected = this.getListUsers();
-		Iterable<User> result = userService.getAllUsers();
+		List<Person> expected = this.getListUsers();
+		Iterable<Person> result = userService.getAllUsers();
 		
 		int resultSize = 0;
-		for(User user:result) {
-			Assertions.assertEquals(user.toString(), expected.get(resultSize).toString());
+		for(Person person:result) {
+			Assertions.assertEquals(person.toString(), expected.get(resultSize).toString());
 			resultSize++;
 		}
 		Assertions.assertEquals(expected.size(), resultSize);
 	}
 	
-	private User generateUser() {
+	private Person generateUser() {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); 
 		Date dateBirth=null;
 		try {
@@ -67,27 +67,27 @@ public class UserServiceTest {
 		LocalDate datePeru=LocalDate.now(ZoneId.of("America/Lima"));
 		Date dateRegister=Date.from(datePeru.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
 		//Crear usuario
-		User user = new User(1L, "felix123", "123", "FELIX", "MONTALICO", "LAQUIHUANACO", 
+		Person person = new Person(1L, "felix123", "123", "FELIX", "MONTALICO", "LAQUIHUANACO", 
 	    		"felixmontalico@gmail.com", "77283387", dateBirth, dateRegister, 'A');
-		return user;
+		return person;
 	}
 	
-	private List<User> getListUsers() {
-		List<User> users = new ArrayList<>();
+	private List<Person> getListUsers() {
+		List<Person> persons = new ArrayList<>();
 		//Crear usuario
-		User user = generateUser();
-		users.add(user);
-		return users;
+		Person person = generateUser();
+		persons.add(person);
+		return persons;
 	}
 	
 	//Genera una instancia de repositorio
 	@BeforeEach
 	public void setup() {
-		List<User> users = new ArrayList<>();
+		List<Person> persons = new ArrayList<>();
 		//Crear usuario
-		User user = generateUser();
-		users.add(user);
-		Mockito.when(userRepository.findAll()).thenReturn(users);
+		Person person = generateUser();
+		persons.add(person);
+		Mockito.when(userRepository.findAll()).thenReturn(persons);
 	}
 	
 	//PRUEBAS DE CONSULTA

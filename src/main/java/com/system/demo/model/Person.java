@@ -32,25 +32,25 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "person")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
-    @NamedQuery(name = "User.findByIdUser", query = "SELECT u FROM User u WHERE u.idUser = :idUser"),
-    @NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.username = :username"),
-    @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
-    @NamedQuery(name = "User.findByName", query = "SELECT u FROM User u WHERE u.name = :name"),
-    @NamedQuery(name = "User.findByLastnameFather", query = "SELECT u FROM User u WHERE u.lastnameFather = :lastnameFather"),
-    @NamedQuery(name = "User.findByLastnameMother", query = "SELECT u FROM User u WHERE u.lastnameMother = :lastnameMother"),
-    @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
-    @NamedQuery(name = "User.findByDni", query = "SELECT u FROM User u WHERE u.dni = :dni"),
-    @NamedQuery(name = "User.findByDateBirth", query = "SELECT u FROM User u WHERE u.dateBirth = :dateBirth"),
-    @NamedQuery(name = "User.findByRegistrationDate", query = "SELECT u FROM User u WHERE u.registrationDate = :registrationDate"),
-    @NamedQuery(name = "User.findByState", query = "SELECT u FROM User u WHERE u.state = :state")})
-public class User implements Serializable {
+    @NamedQuery(name = "Person.findAll", query = "SELECT u FROM Person u"),
+    @NamedQuery(name = "Person.findByIdPerson", query = "SELECT u FROM Person u WHERE u.idPerson = :idPerson"),
+    @NamedQuery(name = "Person.findByUsername", query = "SELECT u FROM Person u WHERE u.username = :username"),
+    @NamedQuery(name = "Person.findByPassword", query = "SELECT u FROM Person u WHERE u.password = :password"),
+    @NamedQuery(name = "Person.findByName", query = "SELECT u FROM Person u WHERE u.name = :name"),
+    @NamedQuery(name = "Person.findByLastnameFather", query = "SELECT u FROM Person u WHERE u.lastnameFather = :lastnameFather"),
+    @NamedQuery(name = "Person.findByLastnameMother", query = "SELECT u FROM Person u WHERE u.lastnameMother = :lastnameMother"),
+    @NamedQuery(name = "Person.findByEmail", query = "SELECT u FROM Person u WHERE u.email = :email"),
+    @NamedQuery(name = "Person.findByDni", query = "SELECT u FROM Person u WHERE u.dni = :dni"),
+    @NamedQuery(name = "Person.findByDateBirth", query = "SELECT u FROM Person u WHERE u.dateBirth = :dateBirth"),
+    @NamedQuery(name = "Person.findByRegistrationDate", query = "SELECT u FROM Person u WHERE u.registrationDate = :registrationDate"),
+    @NamedQuery(name = "Person.findByState", query = "SELECT u FROM Person u WHERE u.state = :state")})
+public class Person implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Id
     @Basic(optional = false)
-    @Column(name = "id_user")
-    private Long idUser;
+    @Column(name = "id_person")
+    private Long idPerson;
     @Basic(optional = false)
     @Column(name = "username")
     private String username;
@@ -88,24 +88,24 @@ public class User implements Serializable {
     private Character state;
     @Column(name = "modifyin_user")
     private Long modifyingUser;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
-    private Collection<UserRol> userRolCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person", fetch = FetchType.LAZY)
+    private Collection<PersonRol> personRolCollection;
     
     @Transient
     @JsonIgnore
 	private String confirmPassword;
 
-    public User() {}
+    public Person() {}
 
-    public User(Long idUser) {
-        this.idUser = idUser;
+    public Person(Long idPerson) {
+        this.idPerson = idPerson;
     }
 
-    public User(Long idUser, String username, String password, String name, String lastnameFather,
+    public Person(Long idPerson, String username, String password, String name, String lastnameFather,
 			String lastnameMother, String email, String dni, Date dateBirth, Date registrationDate,
 			String urlProfilepicture, Character state, Long modifyingUser) {
 		super();
-		this.idUser = idUser;
+		this.idPerson = idPerson;
 		this.username = username;
 		this.password = password;
 		this.name = name;
@@ -120,9 +120,9 @@ public class User implements Serializable {
 		this.modifyingUser = modifyingUser;
 	}
     
-    public User(Long idUser, String username, String password, String name, String lastnameFather, String lastnameMother, 
+    public Person(Long idPerson, String username, String password, String name, String lastnameFather, String lastnameMother, 
     		String email, String dni, Date dateBirth, Date registrationDate, Character state) {
-        this.idUser = idUser;
+        this.idPerson = idPerson;
         this.username = username;
         this.password = password;
         this.name = name;
@@ -135,12 +135,12 @@ public class User implements Serializable {
         this.state = state;
     }
 
-	public Long getIdUser() {
-        return idUser;
+	public Long getIdPerson() {
+        return idPerson;
     }
 
-    public void setIdUser(Long idUser) {
-        this.idUser = idUser;
+    public void setIdPerson(Long idPerson) {
+        this.idPerson = idPerson;
     }
 
     public String getUsername() {
@@ -248,29 +248,29 @@ public class User implements Serializable {
 	}
 	
 	@XmlTransient
-    public Collection<UserRol> getUserRolCollection() {
-        return userRolCollection;
+    public Collection<PersonRol> getPersonRolCollection() {
+        return personRolCollection;
     }
 
-    public void setUserRolCollection(Collection<UserRol> userRolCollection) {
-        this.userRolCollection = userRolCollection;
+    public void setPersonRolCollection(Collection<PersonRol> userRolCollection) {
+        this.personRolCollection = userRolCollection;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idUser != null ? idUser.hashCode() : 0);
+        hash += (idPerson != null ? idPerson.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof User)) {
+        if (!(object instanceof Person)) {
             return false;
         }
-        User other = (User) object;
-        if ((this.idUser == null && other.idUser != null) || (this.idUser != null && !this.idUser.equals(other.idUser))) {
+        Person other = (Person) object;
+        if ((this.idPerson == null && other.idPerson != null) || (this.idPerson != null && !this.idPerson.equals(other.idPerson))) {
             return false;
         }
         return true;
@@ -278,7 +278,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "system.User[ idUser=" + idUser + " ]";
+        return "system.Person[ idPerson=" + idPerson + " ]";
     }
 
 }

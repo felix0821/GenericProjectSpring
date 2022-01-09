@@ -22,50 +22,50 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Felix
  */
 @Entity
-@Table(name = "user_rol")
+@Table(name = "person_rol")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "UserRol.findAll", query = "SELECT u FROM UserRol u"),
-    @NamedQuery(name = "UserRol.findByIdUser", query = "SELECT u FROM UserRol u WHERE u.userRolPK.idUser = :idUser"),
-    @NamedQuery(name = "UserRol.findByIdRole", query = "SELECT u FROM UserRol u WHERE u.userRolPK.idRole = :idRole"),
-    @NamedQuery(name = "UserRol.findByState", query = "SELECT u FROM UserRol u WHERE u.state = :state")})
-public class UserRol implements Serializable {
+    @NamedQuery(name = "PersonRol.findAll", query = "SELECT u FROM PersonRol u"),
+    @NamedQuery(name = "PersonRol.findByIdPerson", query = "SELECT u FROM PersonRol u WHERE u.personRolPK.idPerson = :idPerson"),
+    @NamedQuery(name = "PersonRol.findByIdRole", query = "SELECT u FROM PersonRol u WHERE u.personRolPK.idRole = :idRole"),
+    @NamedQuery(name = "PersonRol.findByState", query = "SELECT u FROM PersonRol u WHERE u.state = :state")})
+public class PersonRol implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
-    protected UserRolPK userRolPK;
+    protected PersonRolPK personRolPK;
     @Basic(optional = false)
     @Column(name = "state")
     private Character state;
     @JoinColumn(name = "id_role", referencedColumnName = "id_role", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Role role;
-    @JoinColumn(name = "id_user", referencedColumnName = "id_user", insertable = false, updatable = false)
+    @JoinColumn(name = "id_person", referencedColumnName = "id_person", insertable = false, updatable = false)
     @ManyToOne(optional = false)
-    private User user;
+    private Person person;
 
-    public UserRol() {
+    public PersonRol() {
     }
 
-    public UserRol(UserRolPK userRolPK) {
-        this.userRolPK = userRolPK;
+    public PersonRol(PersonRolPK personRolPK) {
+        this.personRolPK = personRolPK;
     }
 
-    public UserRol(UserRolPK userRolPK, Character state) {
-        this.userRolPK = userRolPK;
+    public PersonRol(PersonRolPK personRolPK, Character state) {
+        this.personRolPK = personRolPK;
         this.state = state;
     }
 
-    public UserRol(long idUser, long idRole) {
-        this.userRolPK = new UserRolPK(idUser, idRole);
+    public PersonRol(long idUser, long idRole) {
+        this.personRolPK = new PersonRolPK(idUser, idRole);
     }
 
-    public UserRolPK getUserRolPK() {
-        return userRolPK;
+    public PersonRolPK getPersonRolPK() {
+        return personRolPK;
     }
 
-    public void setUserRolPK(UserRolPK userRolPK) {
-        this.userRolPK = userRolPK;
+    public void setPersonRolPK(PersonRolPK personRolPK) {
+        this.personRolPK = personRolPK;
     }
 
     public Character getState() {
@@ -84,29 +84,29 @@ public class UserRol implements Serializable {
         this.role = role;
     }
 
-    public User getUser() {
-        return user;
+    public Person getUser() {
+        return person;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(Person person) {
+        this.person = person;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (userRolPK != null ? userRolPK.hashCode() : 0);
+        hash += (personRolPK != null ? personRolPK.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof UserRol)) {
+        if (!(object instanceof PersonRol)) {
             return false;
         }
-        UserRol other = (UserRol) object;
-        if ((this.userRolPK == null && other.userRolPK != null) || (this.userRolPK != null && !this.userRolPK.equals(other.userRolPK))) {
+        PersonRol other = (PersonRol) object;
+        if ((this.personRolPK == null && other.personRolPK != null) || (this.personRolPK != null && !this.personRolPK.equals(other.personRolPK))) {
             return false;
         }
         return true;
@@ -114,7 +114,7 @@ public class UserRol implements Serializable {
 
     @Override
     public String toString() {
-        return "vacancies_application_system.UserRol[ userRolPK=" + userRolPK + " ]";
+        return "vacancies_application_system.UserRol[ userRolPK=" + personRolPK + " ]";
     }
     
 }

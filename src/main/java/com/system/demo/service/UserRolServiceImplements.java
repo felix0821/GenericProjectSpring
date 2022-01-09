@@ -4,8 +4,8 @@ package com.system.demo.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.system.demo.model.UserRol;
-import com.system.demo.model.UserRolPK;
+import com.system.demo.model.PersonRol;
+import com.system.demo.model.PersonRolPK;
 import com.system.demo.repository.UserRolRepository;
 
 
@@ -15,14 +15,14 @@ public class UserRolServiceImplements implements UserRolService {
 	UserRolRepository repository;
 
 	@Override
-	public UserRol createUserRol(UserRol userRol) throws Exception {
-		userRol = repository.save(userRol);
-		return userRol;
+	public PersonRol createUserRol(PersonRol personRol) throws Exception {
+		personRol = repository.save(personRol);
+		return personRol;
 	}
 
 	@Override
 	public void deleteUserRol(Long idUser, long idRole) throws Exception {
-		UserRolPK userRolPk = new UserRolPK(idUser,idRole);
+		PersonRolPK userRolPk = new PersonRolPK(idUser,idRole);
 		repository.deleteById(userRolPk);
 	}
 

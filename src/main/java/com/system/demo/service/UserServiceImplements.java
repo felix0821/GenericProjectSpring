@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import com.system.demo.dto.ChangePasswordDto;
 import com.system.demo.exception.CustomeFieldValidationException;
 import com.system.demo.exception.UsernameOrIdNotFound;
-import com.system.demo.model.User;
+import com.system.demo.model.Person;
 import com.system.demo.repository.UserRepository;
 
 @Service
@@ -28,49 +28,49 @@ public class UserServiceImplements implements UserService{
 		BCryptPasswordEncoder bCryptPasswordEncoder;
 		//----------------------------------Iterable Methods----------------------------------//	
 		@Override
-		public Iterable<User> getAllUsers() {
+		public Iterable<Person> getAllUsers() {
 			return repository.findAll();
 		}
 		
 		//----------------------------------Querys Methods----------------------------------//
 		
 		@Override
-		public User createUser(User user) throws Exception {
+		public Person createUser(Person person) throws Exception {
 			/*if (checkUsernameAvailable(user) && checkPasswordValid(user)) {
 				String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
 				user.setPassword(encodedPassword);
 				user = repository.save(user);
 			}*/
-			return repository.save(user);
+			return repository.save(person);
 		}
 		@Override
-		public User updateUser(User fromUser) throws Exception {
-			User toUser = getUserById(fromUser.getIdUser());
+		public Person updateUser(Person fromUser) throws Exception {
+			Person toUser = getUserById(fromUser.getIdPerson());
 			mapUser(fromUser, toUser);
 			return repository.save(toUser);
 		}
 		@Override
 		public void deleteUser(Long id) throws UsernameOrIdNotFound {
-			User user = getUserById(id);
-			repository.delete(user);
+			Person person = getUserById(id);
+			repository.delete(person);
 		}
 		
 		//----------------------------------Send Methods----------------------------------//	
 		
 		@Override
-		public User getUserById(Long id) throws UsernameOrIdNotFound {
+		public Person getUserById(Long id) throws UsernameOrIdNotFound {
 			return repository.findById(id).orElseThrow(() -> new UsernameOrIdNotFound("El Id del usuario no existe."));
 		}
 		@Override
-		public Optional<User> getUserByUsername(String username) {
+		public Optional<Person> getUserByUsername(String username) {
 			return repository.findByUsername(username);
 		}
 		@Override
-		public Optional<User> getUserByEmail(String email) {
+		public Optional<Person> getUserByEmail(String email) {
 			return repository.findByEmail(email);
 		}
 		@Override
-		public Optional<User> getUserByDni(String dni) {
+		public Optional<Person> getUserByDni(String dni) {
 			return repository.findByDni(dni);
 		}
 		@Override
@@ -92,14 +92,14 @@ public class UserServiceImplements implements UserService{
 		//----------------------------------Util Methods----------------------------------//
 		
 		@Override
-		public User changePassword(ChangePasswordDto form) throws Exception {
-			User user = getUserById(form.getId());
+		public Person changePassword(ChangePasswordDto form) throws Exception {
+			Person person = getUserById(form.getId());
 			
 			//if ( !isLoggedUserADMIN() && !user.getPassword().equals(form.getCurrentPassword())) {
 				//hrow new Exception ("Current Password invalido.");
 			//}
 			
-			if( user.getPassword().equals(form.getNewPassword())) {
+			if( person.getPassword().equals(form.getNewPassword())) {
 				throw new Exception ("Nuevo debe ser diferente al password actual.");
 			}
 			
@@ -108,14 +108,14 @@ public class UserServiceImplements implements UserService{
 			}
 			
 			String encodePassword = bCryptPasswordEncoder.encode(form.getNewPassword());
-			user.setPassword(encodePassword);
-			return repository.save(user);
+			person.setPassword(encodePassword);
+			return repository.save(person);
 		}
 		
 		
 		//----------------------------------Methods Complements----------------------------------//
 		
-		protected void mapUser(User from,User to) {
+		protected void mapUser(Person from,Person to) {
 			to.setUsername(from.getUsername());
 			to.setName(from.getName());
 			to.setLastnameFather(from.getLastnameFather());
@@ -126,7 +126,7 @@ public class UserServiceImplements implements UserService{
 			to.setRegistrationDate(from.getRegistrationDate());
 			to.setState(from.getState());
 			to.setUrlProfilepicture(from.getUrlProfilepicture());
-			to.setUserRolCollection(from.getUserRolCollection());
+			to.setPersonRolCollection(from.getPersonRolCollection());
 		}
 		
 		private boolean isLoggedUserADMIN() {
@@ -147,7 +147,7 @@ public class UserServiceImplements implements UserService{
 			return roles != null ? true : false;
 		}
 		
-		private User getLoggedUser() throws Exception {
+		private Person getLoggedUser() throws Exception {
 			//Obtener el usuario logeado
 			Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			
@@ -158,26 +158,26 @@ public class UserServiceImplements implements UserService{
 				loggedUser = (UserDetails) principal;
 			}
 			
-			User myUser = repository
+			Person myUser = repository
 					.findByUsername(loggedUser.getUsername()).orElseThrow(() -> new Exception("Error obteniendo el usuario logeado desde la sesion."));
 			
 			return myUser;
 		}
 		
-		private boolean checkUsernameAvailable(User user) throws Exception {
-			Optional<User> userFound = repository.findByUsername(user.getUsername());
+		private boolean checkUsernameAvailable(Person person) throws Exception {
+			Optional<Person> userFound = repository.findByUsername(person.getUsername());
 			if (userFound.isPresent()) {
 				throw new CustomeFieldValidationException("Username no disponible","userName");
 			}
 			return true;
 		}
 
-		private boolean checkPasswordValid(User user) throws Exception {
-			if (user.getConfirmPassword() == null || user.getConfirmPassword().isEmpty()) {
+		private boolean checkPasswordValid(Person person) throws Exception {
+			if (person.getConfirmPassword() == null || person.getConfirmPassword().isEmpty()) {
 				throw new CustomeFieldValidationException("Confirm Password es obligatorio","confirmPassword");
 			}
 			
-			if ( !user.getPassword().equals(user.getConfirmPassword())) {
+			if ( !person.getPassword().equals(person.getConfirmPassword())) {
 				throw new CustomeFieldValidationException("Password y Confirm Password no son iguales","password");
 			}
 			return true;

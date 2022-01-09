@@ -26,8 +26,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.system.demo.dto.Message;
 import com.system.demo.dto.UserProfileDto;
 import com.system.demo.dto.UserRegisterDto;
-import com.system.demo.model.User;
-import com.system.demo.model.UserRol;
+import com.system.demo.model.Person;
+import com.system.demo.model.PersonRol;
 import com.system.demo.security.JwtProvider;
 import com.system.demo.service.UserRolService;
 import com.system.demo.service.UserService;
@@ -62,11 +62,11 @@ public class UserController {
 	@ResponseBody
     public ResponseEntity<?> list(){
 		try {
-			Iterable<User> list = userService.getAllUsers();
+			Iterable<Person> list = userService.getAllUsers();
 			List<UserProfileDto> listDto = new ArrayList<UserProfileDto>();
-			for(User user: list) {
-				listDto.add(new UserProfileDto(user.getIdUser(), user.getUsername(),user.getName(),user.getLastnameFather(),
-	        		user.getLastnameMother(),user.getEmail(),user.getDni(),user.getDateBirth(),user.getState(),null));
+			for(Person person: list) {
+				listDto.add(new UserProfileDto(person.getIdPerson(), person.getUsername(),person.getName(),person.getLastnameFather(),
+	        		person.getLastnameMother(),person.getEmail(),person.getDni(),person.getDateBirth(),person.getState(),null));
 			}
 	        return new ResponseEntity<List<UserProfileDto>>(listDto, HttpStatus.OK);
 		}
@@ -95,16 +95,16 @@ public class UserController {
 		//Insertar nombres por dni
 		String names[] = apiQueries.checkDniApiPeru(userRegister.getDni());
 		//Crear un usuario para persistir
-        User user =
-                new User(idUser, userRegister.getUsername(), password, names[0], names[2], 
+        Person person =
+                new Person(idUser, userRegister.getUsername(), password, names[0], names[2], 
                 		names[1], userRegister.getEmail(), userRegister.getDni(),userRegister.getDateBirth(), 
                 		fechaRegistro, 'A');
-        userService.createUser(user);
+        userService.createUser(person);
         //Agregar rol a nuevo usuario
         Long idRole = 2L;
-        UserRol userRol = new UserRol(idUser,idRole);
-		userRol.setState('A');
-		userRolService.createUserRol(userRol);
+        PersonRol personRol = new PersonRol(idUser,idRole);
+		personRol.setState('A');
+		userRolService.createUserRol(personRol);
         return new ResponseEntity(new Message("Usted se registro exitosamente"), HttpStatus.CREATED);
     }
 	
@@ -124,14 +124,14 @@ public class UserController {
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@GetMapping("/editUser/{id}")
 	public ResponseEntity<?> updateForm(@PathVariable(name ="id")Long id) {
-		User userEdit = null;
+		Person userEdit = null;
 		try {
 			userEdit = userService.getUserById(id);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity(new Message("No existe Id"), HttpStatus.BAD_REQUEST);
 		}
-		UserProfileDto result = new UserProfileDto(userEdit.getIdUser(), userEdit.getUsername(),userEdit.getName(),userEdit.getLastnameFather(),
+		UserProfileDto result = new UserProfileDto(userEdit.getIdPerson(), userEdit.getUsername(),userEdit.getName(),userEdit.getLastnameFather(),
         		userEdit.getLastnameMother(),userEdit.getEmail(),userEdit.getDni(),userEdit.getDateBirth(),userEdit.getState(),null);
 		return new ResponseEntity<UserProfileDto>(result, HttpStatus.OK);
 	}
@@ -142,7 +142,7 @@ public class UserController {
 		//Realizamos las validaciones pertinentes
         if(bindingResult.hasErrors())
             return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
-        User userEdit = null;
+        Person userEdit = null;
         try {
 			userEdit = userService.getUserById(userUpdate.getId());
 		} catch (Exception e) {

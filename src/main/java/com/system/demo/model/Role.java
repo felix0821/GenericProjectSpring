@@ -56,7 +56,7 @@ public class Role implements Serializable {
     @Column(name = "description")
     private String description;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "role", fetch = FetchType.LAZY)
-    private Collection<UserRol> userRolCollection;
+    private Collection<PersonRol> userRolCollection;
 
     public Role() {
     }
@@ -68,7 +68,7 @@ public class Role implements Serializable {
     
 
     public Role(Long idRole, String nameRole, Date registrationDate, Character state, String description,
-			Collection<UserRol> userRolCollection) {
+			Collection<PersonRol> userRolCollection) {
 		super();
 		this.idRole = idRole;
 		this.nameRole = nameRole;
@@ -126,11 +126,11 @@ public class Role implements Serializable {
 	}
 
 	@XmlTransient
-    public Collection<UserRol> getUserRolCollection() {
+    public Collection<PersonRol> getUserRolCollection() {
         return userRolCollection;
     }
 
-    public void setUserRolCollection(Collection<UserRol> userRolCollection) {
+    public void setUserRolCollection(Collection<PersonRol> userRolCollection) {
         this.userRolCollection = userRolCollection;
     }
 

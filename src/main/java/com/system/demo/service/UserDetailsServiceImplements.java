@@ -18,7 +18,7 @@ public class UserDetailsServiceImplements implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    	com.system.demo.model.User user = userRepository.findByUsername(username).get();
-        return JwtUser.build(user);
+    	com.system.demo.model.Person person = userRepository.findByUsername(username).get();
+        return JwtUser.build(person);
     }
 }
