@@ -2,13 +2,18 @@ package com.system.demo.service;
 
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.system.demo.exception.CustomeFieldValidationException;
 import com.system.demo.exception.RolenameNotFoundException;
 import com.system.demo.model.Role;
 import com.system.demo.repository.RoleRepository;
 
+@Service
+@Transactional
 public class RoleServiceImplements implements RoleService{
 
 	@Autowired

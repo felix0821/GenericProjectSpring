@@ -1,6 +1,8 @@
 package com.system.demo.service;
 
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +12,7 @@ import com.system.demo.repository.UserRolRepository;
 
 
 @Service
+@Transactional
 public class UserRolServiceImplements implements UserRolService {
 	@Autowired
 	UserRolRepository repository;
