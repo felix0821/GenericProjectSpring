@@ -53,6 +53,7 @@ public class Role implements Serializable {
     private Date registrationDate;
     @Basic(optional = false)
     private Character state;
+    @Column(name = "description")
     private String description;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "role", fetch = FetchType.LAZY)
     private Collection<UserRol> userRolCollection;

@@ -92,7 +92,6 @@ public class User implements Serializable {
     private Collection<UserRol> userRolCollection;
     
     @Transient
-    @JsonIgnore
 	private String confirmPassword;
 
     public User() {}
