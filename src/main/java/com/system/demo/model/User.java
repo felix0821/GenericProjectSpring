@@ -47,7 +47,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
     @NamedQuery(name = "User.findByState", query = "SELECT u FROM User u WHERE u.state = :state")})
 public class User implements Serializable {
 
-	private static final long serialVersionUID = 5904407363761583172L;
+	private static final long serialVersionUID = 1L;
 	@Id
     @Basic(optional = false)
     @Column(name = "id_user")
