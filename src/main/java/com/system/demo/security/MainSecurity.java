@@ -23,7 +23,7 @@ import com.system.demo.service.UserDetailsServiceImplements;
 public class MainSecurity extends WebSecurityConfigurerAdapter {
 	private String[] resources = new String[]{
 			"/css/**","/icons/**","/img/**","/js/**","/layer/**","/","/index",
-			"/auth/**","/user/register","/","generate-data"
+			"/auth/**","/user/register","/","generate-data", "/favicon.ico"
     };
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 	
