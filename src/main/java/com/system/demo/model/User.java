@@ -23,6 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sistema.plazas.entity.User;
 
 /**
  *
@@ -92,6 +93,7 @@ public class User implements Serializable {
     private Collection<UserRol> userRolCollection;
     
     @Transient
+    @JsonIgnore
 	private String confirmPassword;
 
     public User() {}
@@ -255,116 +257,29 @@ public class User implements Serializable {
         this.userRolCollection = userRolCollection;
     }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((confirmPassword == null) ? 0 : confirmPassword.hashCode());
-		result = prime * result + ((dateBirth == null) ? 0 : dateBirth.hashCode());
-		result = prime * result + ((dni == null) ? 0 : dni.hashCode());
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((idUser == null) ? 0 : idUser.hashCode());
-		result = prime * result + ((lastnameFather == null) ? 0 : lastnameFather.hashCode());
-		result = prime * result + ((lastnameMother == null) ? 0 : lastnameMother.hashCode());
-		result = prime * result + ((modifyingUser == null) ? 0 : modifyingUser.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((password == null) ? 0 : password.hashCode());
-		result = prime * result + ((registrationDate == null) ? 0 : registrationDate.hashCode());
-		result = prime * result + ((state == null) ? 0 : state.hashCode());
-		result = prime * result + ((urlProfilepicture == null) ? 0 : urlProfilepicture.hashCode());
-		result = prime * result + ((username == null) ? 0 : username.hashCode());
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (idUser != null ? idUser.hashCode() : 0);
+        return hash;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		User other = (User) obj;
-		if (confirmPassword == null) {
-			if (other.confirmPassword != null)
-				return false;
-		} else if (!confirmPassword.equals(other.confirmPassword))
-			return false;
-		if (dateBirth == null) {
-			if (other.dateBirth != null)
-				return false;
-		} else if (!dateBirth.equals(other.dateBirth))
-			return false;
-		if (dni == null) {
-			if (other.dni != null)
-				return false;
-		} else if (!dni.equals(other.dni))
-			return false;
-		if (email == null) {
-			if (other.email != null)
-				return false;
-		} else if (!email.equals(other.email))
-			return false;
-		if (idUser == null) {
-			if (other.idUser != null)
-				return false;
-		} else if (!idUser.equals(other.idUser))
-			return false;
-		if (lastnameFather == null) {
-			if (other.lastnameFather != null)
-				return false;
-		} else if (!lastnameFather.equals(other.lastnameFather))
-			return false;
-		if (lastnameMother == null) {
-			if (other.lastnameMother != null)
-				return false;
-		} else if (!lastnameMother.equals(other.lastnameMother))
-			return false;
-		if (modifyingUser == null) {
-			if (other.modifyingUser != null)
-				return false;
-		} else if (!modifyingUser.equals(other.modifyingUser))
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (password == null) {
-			if (other.password != null)
-				return false;
-		} else if (!password.equals(other.password))
-			return false;
-		if (registrationDate == null) {
-			if (other.registrationDate != null)
-				return false;
-		} else if (!registrationDate.equals(other.registrationDate))
-			return false;
-		if (state == null) {
-			if (other.state != null)
-				return false;
-		} else if (!state.equals(other.state))
-			return false;
-		if (urlProfilepicture == null) {
-			if (other.urlProfilepicture != null)
-				return false;
-		} else if (!urlProfilepicture.equals(other.urlProfilepicture))
-			return false;
-		if (username == null) {
-			if (other.username != null)
-				return false;
-		} else if (!username.equals(other.username))
-			return false;
-		return true;
-	}
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof User)) {
+            return false;
+        }
+        User other = (User) object;
+        if ((this.idUser == null && other.idUser != null) || (this.idUser != null && !this.idUser.equals(other.idUser))) {
+            return false;
+        }
+        return true;
+    }
 
-	@Override
-	public String toString() {
-		return "User [idUser=" + idUser + ", username=" + username + ", password=" + password + ", name=" + name
-				+ ", lastnameFather=" + lastnameFather + ", lastnameMother=" + lastnameMother + ", email=" + email
-				+ ", dni=" + dni + ", dateBirth=" + dateBirth + ", registrationDate=" + registrationDate
-				+ ", urlProfilepicture=" + urlProfilepicture + ", state=" + state + ", modifyingUser=" + modifyingUser
-				+ ", confirmPassword=" + confirmPassword + "]";
-	}
+    @Override
+    public String toString() {
+        return "system.User[ idUser=" + idUser + " ]";
+    }
 
 }

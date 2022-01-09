@@ -156,7 +156,7 @@ public class Role implements Serializable {
 
     @Override
     public String toString() {
-        return "postulant_workplace.Role[ idRole=" + idRole + " ]";
+        return "system.Role[ idRole=" + idRole + " ]";
     }
     
 }
