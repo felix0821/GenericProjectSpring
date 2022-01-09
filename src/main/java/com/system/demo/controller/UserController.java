@@ -65,7 +65,7 @@ public class UserController {
 			Iterable<User> list = userService.getAllUsers();
 			List<UserProfileDto> listDto = new ArrayList<UserProfileDto>();
 			for(User user: list) {
-				listDto.add(new UserProfileDto(user.getIdUser(), user.getUsername(),user.getName(),user.getLastname(),
+				listDto.add(new UserProfileDto(user.getIdUser(), user.getUsername(),user.getName(),user.getLastnameFather(),
 	        		user.getLastnameMother(),user.getEmail(),user.getDni(),user.getDateBirth(),user.getState(),null));
 			}
 	        return new ResponseEntity<List<UserProfileDto>>(listDto, HttpStatus.OK);
@@ -131,7 +131,7 @@ public class UserController {
 			e.printStackTrace();
 			return new ResponseEntity(new Message("No existe Id"), HttpStatus.BAD_REQUEST);
 		}
-		UserProfileDto result = new UserProfileDto(userEdit.getIdUser(), userEdit.getUsername(),userEdit.getName(),userEdit.getLastname(),
+		UserProfileDto result = new UserProfileDto(userEdit.getIdUser(), userEdit.getUsername(),userEdit.getName(),userEdit.getLastnameFather(),
         		userEdit.getLastnameMother(),userEdit.getEmail(),userEdit.getDni(),userEdit.getDateBirth(),userEdit.getState(),null);
 		return new ResponseEntity<UserProfileDto>(result, HttpStatus.OK);
 	}
@@ -152,7 +152,7 @@ public class UserController {
         userEdit.setUsername(userUpdate.getUsername());
         userEdit.setEmail(userUpdate.getEmail());
         userEdit.setName(userUpdate.getName());
-        userEdit.setLastname(userUpdate.getLastname());
+        userEdit.setLastnameFather(userUpdate.getLastname());
         userEdit.setLastnameMother(userUpdate.getLastnameMother());
         userEdit.setDateBirth(userUpdate.getDateBirth());
         try {

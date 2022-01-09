@@ -118,7 +118,7 @@ public class UserServiceImplements implements UserService{
 		protected void mapUser(User from,User to) {
 			to.setUsername(from.getUsername());
 			to.setName(from.getName());
-			to.setLastname(from.getLastname());
+			to.setLastnameFather(from.getLastnameFather());
 			to.setLastnameMother(from.getLastnameMother());
 			to.setEmail(from.getEmail());
 			to.setDni(from.getDni());
