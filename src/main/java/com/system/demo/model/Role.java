@@ -52,7 +52,9 @@ public class Role implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date registrationDate;
     @Basic(optional = false)
+    @Column(name = "state")
     private Character state;
+    @Basic(optional = true)
     @Column(name = "description")
     private String description;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "role", fetch = FetchType.LAZY)
@@ -67,24 +69,15 @@ public class Role implements Serializable {
     
     
 
-    public Role(Long idRole, String nameRole, Date registrationDate, Character state, String description,
-			Collection<PersonRol> userRolCollection) {
+    public Role(Long idRole, String nameRole, Date registrationDate, Character state, String description) {
 		super();
 		this.idRole = idRole;
 		this.nameRole = nameRole;
 		this.registrationDate = registrationDate;
 		this.state = state;
 		this.description = description;
-		this.userRolCollection = userRolCollection;
 	}
-
-	public Role(Long idRole, String nameRole, Character state, Date registrationDate) {
-        this.idRole = idRole;
-        this.nameRole = nameRole;
-        this.state = state;
-        this.registrationDate = registrationDate;
-    }
-
+    
     public Long getIdRole() {
         return idRole;
     }
