@@ -90,7 +90,6 @@ public class User implements Serializable {
     @Column(name = "modifyin_user")
     private Long modifyingUser;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
-    @JsonIgnore
     private Collection<UserRol> userRolCollection;
     
     @Transient
@@ -150,11 +149,11 @@ public class User implements Serializable {
         this.name = name;
     }
 
-    public String getLastname() {
+    public String getLastnameFather() {
         return lastnameFather;
     }
 
-    public void setLastname(String lastnameFather) {
+    public void setLastnameFather(String lastnameFather) {
         this.lastnameFather = lastnameFather;
     }
 
