@@ -25,6 +25,8 @@ public class MainSecurity extends WebSecurityConfigurerAdapter {
 			"/css/**","/icons/**","/img/**","/js/**","/layer/**","/","/index",
 			"/auth/**","/user/register"
     };
+	BCryptPasswordEncoder bCryptPasswordEncoder;
+	
 	@Autowired
     UserDetailsServiceImplements userDetailsService;
 
@@ -54,7 +56,7 @@ public class MainSecurity extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }*/
     
-    BCryptPasswordEncoder bCryptPasswordEncoder;
+    
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
 		bCryptPasswordEncoder = new BCryptPasswordEncoder();
