@@ -62,13 +62,18 @@ public class UserController {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@GetMapping//(value = {"","/"})
 	@ResponseBody
-    public ResponseEntity<?> list(){
+    public ResponseEntity<?> list(@RequestHeader HttpHeaders headers){
 		try {
 			Iterable<Person> list = userService.getAllUsers();
 			List<UserProfileDto> listDto = new ArrayList<UserProfileDto>();
 			for(Person person: list) {
-				listDto.add(new UserProfileDto(person.getIdPerson(), person.getUsername(),person.getName(),person.getLastnameFather(),
-	        		person.getLastnameMother(),person.getEmail(),person.getDni(),person.getDateBirth(),person.getState(),null));
+				//Verificar mi usuario
+				String userFromToken = usernameFromToken(headers);
+		        Person user = userService.getUserByUsername(userFromToken).get();
+				//Agregar a lista
+				if (!user.getUsername().equals(person.getUsername()))
+					listDto.add(new UserProfileDto(person.getIdPerson(), person.getUsername(),person.getName(),person.getLastnameFather(),
+			        		person.getLastnameMother(),person.getEmail(),person.getDni(),person.getDateBirth(),person.getState(),null));
 			}
 	        return new ResponseEntity<List<UserProfileDto>>(listDto, HttpStatus.OK);
 		}
