@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -74,6 +75,50 @@ public class UserController {
         	return new ResponseEntity(new Message("BLOQUED"), HttpStatus.BAD_REQUEST);
         }
     }
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@GetMapping("/profile")
+    public ResponseEntity<?> profile(@RequestHeader HttpHeaders headers){
+		try {
+			String userFromToken = usernameFromToken(headers);
+	        Person user = userService.getUserByUsername(userFromToken).get();
+	        return new ResponseEntity<Person>(user, HttpStatus.OK);
+		}
+		catch (Exception e) {
+        	return new ResponseEntity(new Message("BLOQUED"), HttpStatus.BAD_REQUEST);
+        }
+	}
+	
+	@SuppressWarnings(value = { "rawtypes", "unchecked" })
+	@PostMapping("/profile/edit")
+	public ResponseEntity<?> updateProfile(@Valid @RequestBody Person userUpdate, BindingResult bindingResult) {
+		//Realizamos las validaciones pertinentes
+        if(bindingResult.hasErrors())
+            return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
+        Person userEdit = null;
+        try {
+			userEdit = userService.getUserById(userUpdate.getIdPerson());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity(new Message("No existe Id"), HttpStatus.BAD_REQUEST);
+		}
+        userEdit.setUsername(userUpdate.getUsername());
+        userEdit.setEmail(userUpdate.getEmail());
+        userEdit.setName(userUpdate.getName());
+        userEdit.setLastnameFather(userUpdate.getLastnameFather());
+        userEdit.setLastnameMother(userUpdate.getLastnameMother());
+        userEdit.setDateBirth(userUpdate.getDateBirth());
+        userEdit.setDni(userUpdate.getDni());
+        userEdit.setUrlProfilepicture(userUpdate.getUrlProfilepicture());
+        
+        try {
+			userService.updateUser(userEdit);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity(new Message("No existe Usuario"), HttpStatus.BAD_REQUEST);
+		}
+        return new ResponseEntity(new Message("Usuario modificado exitosamente"), HttpStatus.CREATED);
+	}
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@PostMapping("/register")
