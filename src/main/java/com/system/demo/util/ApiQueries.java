@@ -72,7 +72,7 @@ public class ApiQueries {
 	
 	//Api consumida de https://api-peru.com/
 	public String[] checkDniApiPeru(String dni) throws Exception {
-		String data[]= {"NaN","NaN","NaN"};
+		String data[]= {"NaN","NaN","NaN",null};
 		URL url;
 		try {
 			url = new URL("https://consulta.api-peru.com/api/dni/"+dni);
@@ -95,6 +95,7 @@ public class ApiQueries {
 					    data[0] = jos.getString("nombres").toString();
 					    data[1] = jos.getString("apellido_paterno").toString();
 					    data[2] = jos.getString("apellido_materno").toString();
+					    data[3] = jos.getString("fecha_nacimiento").toString();
 					}
 			catch(Exception e){
 				e.printStackTrace();

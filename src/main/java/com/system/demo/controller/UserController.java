@@ -1,5 +1,6 @@
 package com.system.demo.controller;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -139,10 +140,12 @@ public class UserController {
 		Date dateRegister=Date.from(fechaPeru.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
 		//Insertar nombres por dni
 		String names[] = apiQueries.checkDniApiPeru(userRegister.getDni());
+		Date dateBirth=new SimpleDateFormat("yyyy-MM-dd").parse(names[3]);
+		String emailPerson = names[0]+"@"+names[1]+names[2];
 		//Crear un usuario para persistir
         Person person =
                 new Person(idUser, userRegister.getUsername(), password, names[0], names[2], 
-                		names[1], userRegister.getEmail(), userRegister.getDni(),userRegister.getDateBirth(), 
+                		names[1], emailPerson, userRegister.getDni(),dateBirth, 
                 		dateRegister, 'A');
         userService.createUser(person);
         //Agregar rol a nuevo usuario

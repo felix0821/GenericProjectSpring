@@ -11,15 +11,29 @@ public class UserRegisterDto {
 	private String username;
 	@NotBlank(message = "Campo de contraseña vacio")
 	private String password;
-	@NotBlank(message = "Campo de correo vacio")
-	@Email(message = "Correo electronico invalido")
+	//@NotBlank(message = "Campo de correo vacio")
+	//@Email(message = "Correo electronico invalido")
 	private String email;
 	@NotBlank(message = "Campo de dni vacio")
 	private String dni;
-	@NotNull(message = "No se selecciono Fecha")
+	//@NotNull(message = "No se selecciono Fecha")
 	private Date dateBirth;
 	public UserRegisterDto() {};
+	
+	
 	public UserRegisterDto(@NotBlank(message = "Campo de usuario vacio") String username,
+			@NotBlank(message = "Campo de contraseña vacio") String password, String email,
+			@NotBlank(message = "Campo de dni vacio") String dni, Date dateBirth) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.email = email;
+		this.dni = dni;
+		this.dateBirth = dateBirth;
+	}
+
+
+	/*public UserRegisterDto(@NotBlank(message = "Campo de usuario vacio") String username,
 			@NotBlank(message = "Campo de contraseña vacio") String password,
 			@NotBlank(message = "Campo de correo vacio") @Email(message = "Correo electronico invalido") String email,
 			@NotBlank(message = "Campo de dni vacio") String dni,
@@ -30,7 +44,7 @@ public class UserRegisterDto {
 		this.email = email;
 		this.dni = dni;
 		this.dateBirth = dateBirth;
-	}
+	}*/
 
 	public String getUsername() {
 		return username;
