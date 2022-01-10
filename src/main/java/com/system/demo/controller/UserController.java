@@ -136,14 +136,14 @@ public class UserController {
         String password = bCryptPasswordEncoder.encode(userRegister.getPassword());
         //Insertar fecha de registro
 		LocalDate fechaPeru=LocalDate.now(ZoneId.of("America/Lima"));
-		Date fechaRegistro=Date.from(fechaPeru.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+		Date dateRegister=Date.from(fechaPeru.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
 		//Insertar nombres por dni
 		String names[] = apiQueries.checkDniApiPeru(userRegister.getDni());
 		//Crear un usuario para persistir
         Person person =
                 new Person(idUser, userRegister.getUsername(), password, names[0], names[2], 
                 		names[1], userRegister.getEmail(), userRegister.getDni(),userRegister.getDateBirth(), 
-                		fechaRegistro, 'A');
+                		dateRegister, 'A');
         userService.createUser(person);
         //Agregar rol a nuevo usuario
         Long idRole = 2L;

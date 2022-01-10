@@ -25,6 +25,9 @@ public class MainSecurity extends WebSecurityConfigurerAdapter {
 			"/css/**","/icons/**","/img/**","/js/**","/layer/**","/","/index",
 			"/auth/**","/user/register","/","/generate-data", "/favicon.ico"
     };
+	
+	private String[] resourcesAdmin = new String[] {"/user/deleteUser/*","/user/editUser/*"};
+	private String[] resourcesUser = new String[] {"/user/profile","/user/profile/*"};
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@Autowired
@@ -35,7 +38,9 @@ public class MainSecurity extends WebSecurityConfigurerAdapter {
     
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable()
+		//http.authorizeRequests().antMatchers(resourcesAdmin).hasAnyAuthority("ADMIN");
+        //http.authorizeRequests().antMatchers(resourcesUser).hasAnyAuthority("USER");
+		http.cors().and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers(resources).permitAll()
                 .anyRequest().authenticated()
@@ -43,6 +48,7 @@ public class MainSecurity extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(jwtEntryPoint)
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		
         http.addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
