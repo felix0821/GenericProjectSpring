@@ -5,12 +5,15 @@ import java.time.ZoneId;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.system.demo.dto.Message;
 import com.system.demo.model.Person;
 import com.system.demo.model.PersonRol;
 import com.system.demo.model.Role;
@@ -72,37 +75,27 @@ public class AppController {
 	}
 	
 	private void generatePerson() throws Exception {
-		Person superadmin, us;
+		Person superadmin;
 		// Crear objetos iniciales
-		Long idPerson = uI.uniqid();
-		LocalDate datePeru=LocalDate.now(ZoneId.of("America/Lima"));
-		String password = bCryptPasswordEncoder.encode("admin");
-		Date dateRegister=Date.from(datePeru.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-		// SuperAdmin
-		superadmin = new Person(idPerson, "admin", password, "ADMIN", "NaN", 
-				"NaN", "NaN", "11111111",dateRegister, 
-				dateRegister, 'A');
-		
-		Long idPerson1 = uI.uniqid();
-		us = new Person(idPerson1, "add", password, "1234", "NaN", 
-				"NaN", "asdasd", "11111111",dateRegister, 
-				dateRegister, 'A');
-		
-		userService.createUser(us);
-		userService.createUser(superadmin);
-        //Agregar rol a nuevo usuario
-        Long idRoleAdmin = 1L;
-        Long idRoleUser = 2L;
-        PersonRol personRol = new PersonRol(idPerson,idRoleAdmin);
-		personRol.setState('A');
-		userRolService.createPersonRol(personRol);
-		
-		PersonRol personRol1 = new PersonRol(idPerson1,idRoleAdmin);
-		personRol1.setState('A');
-		PersonRol personRol2 = new PersonRol(idPerson1,idRoleUser);
-		personRol2.setState('A');
-		userRolService.createPersonRol(personRol1);
-		userRolService.createPersonRol(personRol2);
+		if(userService.existsByUsername("admin"))
+			System.out.println("Ese nombre de usuario ya existe");
+		else {
+			Long idPerson = uI.uniqid();
+			LocalDate datePeru=LocalDate.now(ZoneId.of("America/Lima"));
+			String password = bCryptPasswordEncoder.encode("admin");
+			Date dateRegister=Date.from(datePeru.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+			// SuperAdmin
+			superadmin = new Person(idPerson, "admin", password, "ADMIN", "NaN", 
+					"NaN", "NaN", "11111111",dateRegister, 
+					dateRegister, 'A');
+			userService.createUser(superadmin);
+	        //Agregar rol a nuevo usuario
+	        Long idRoleAdmin = 1L;
+	        PersonRol personRol = new PersonRol(idPerson,idRoleAdmin);
+			personRol.setState('A');
+			userRolService.createPersonRol(personRol);
+			System.out.println("Usuario creado exitosamente");
+		}
 	}
 
 }
