@@ -98,7 +98,9 @@ public class AppController {
 		userRolService.createPersonRol(personRol);
 		
 		PersonRol personRol1 = new PersonRol(idPerson1,idRoleAdmin);
+		personRol1.setState('A');
 		PersonRol personRol2 = new PersonRol(idPerson1,idRoleUser);
+		personRol2.setState('A');
 		userRolService.createPersonRol(personRol1);
 		userRolService.createPersonRol(personRol2);
 	}
