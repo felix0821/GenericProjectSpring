@@ -203,7 +203,6 @@ public class UserController {
 			return new ResponseEntity(new Message("No existe Id"), HttpStatus.BAD_REQUEST);
 		}
         userEdit.setUsername(userUpdate.getUsername());
-        userEdit.setEmail(userUpdate.getEmail());
         userEdit.setName(userUpdate.getName());
         userEdit.setLastnameFather(userUpdate.getLastname());
         userEdit.setLastnameMother(userUpdate.getLastnameMother());
