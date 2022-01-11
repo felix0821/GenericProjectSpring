@@ -48,7 +48,7 @@ public class AppController {
 	@PostMapping("/generate-data")
 	public String createUser(ModelMap model) {
 		try {
-			//generateRole();
+			generateRole();
 			generatePerson();
 			model.addAttribute("page", "completed.html");
 		} catch (Exception e) {
@@ -59,18 +59,20 @@ public class AppController {
 	}
 	
 	private void generateRole() throws Exception {
-		Role admin,user;
+		Role admin,user,invited;
 		// Crear objetos iniciales
 		LocalDate datePeru=LocalDate.now(ZoneId.of("America/Lima"));
 		Date dateRegister=Date.from(datePeru.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-		admin = new Role(1L,"ADMIN", dateRegister,'A',"Adminitrador de pagina");
-		user = new Role(2L,"USER", dateRegister,'A',"Usuario de pagina");
+		admin = new Role(1L,"Administrador", dateRegister,'A',"Adminitrador de pagina");
+		user = new Role(2L,"Usuario", dateRegister,'A',"Usuario de pagina");
+		invited = new Role(3L,"Invitado", dateRegister,'A',"Invitado de pagina");
 		roleService.createRole(admin);
 		roleService.createRole(user);
+		roleService.createRole(invited);
 	}
 	
 	private void generatePerson() throws Exception {
-		Person superadmin;
+		Person superadmin, us;
 		// Crear objetos iniciales
 		Long idPerson = uI.uniqid();
 		LocalDate datePeru=LocalDate.now(ZoneId.of("America/Lima"));
@@ -80,13 +82,25 @@ public class AppController {
 		superadmin = new Person(idPerson, "admin", password, "ADMIN", "NaN", 
 				"NaN", "NaN", "11111111",dateRegister, 
 				dateRegister, 'A');
+		
+		Long idPerson1 = uI.uniqid();
+		us = new Person(idPerson1, "add", password, "1234", "NaN", 
+				"NaN", "asdasd", "11111111",dateRegister, 
+				dateRegister, 'A');
+		
+		userService.createUser(us);
 		userService.createUser(superadmin);
         //Agregar rol a nuevo usuario
-        Long idRole = 1L;
-        PersonRol personRol = new PersonRol(idPerson,idRole);
+        Long idRoleAdmin = 1L;
+        Long idRoleUser = 2L;
+        PersonRol personRol = new PersonRol(idPerson,idRoleAdmin);
 		personRol.setState('A');
 		userRolService.createPersonRol(personRol);
 		
+		PersonRol personRol1 = new PersonRol(idPerson1,idRoleAdmin);
+		PersonRol personRol2 = new PersonRol(idPerson1,idRoleUser);
+		userRolService.createPersonRol(personRol1);
+		userRolService.createPersonRol(personRol2);
 	}
 
 }
