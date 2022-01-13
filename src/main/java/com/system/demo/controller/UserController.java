@@ -31,8 +31,8 @@ import com.system.demo.dto.UserRegisterDto;
 import com.system.demo.model.Person;
 import com.system.demo.model.PersonRol;
 import com.system.demo.security.JwtProvider;
-import com.system.demo.service.UserRolService;
-import com.system.demo.service.UserService;
+import com.system.demo.service.PersonRolService;
+import com.system.demo.service.PersonService;
 import com.system.demo.util.ApiQueries;
 import com.system.demo.util.UniqId;
 
@@ -48,10 +48,10 @@ public class UserController {
     JwtProvider jwtProvider;
 	
 	@Autowired
-	UserService userService;
+	PersonService personService;
 	
 	@Autowired
-	UserRolService userRolService;
+	PersonRolService personRolService;
 	
 	@Autowired
 	UniqId uI;
@@ -64,12 +64,12 @@ public class UserController {
 	@ResponseBody
     public ResponseEntity<?> list(@RequestHeader HttpHeaders headers){
 		try {
-			Iterable<Person> list = userService.getAllUsers();
+			Iterable<Person> list = personService.getAllUsers();
 			List<UserProfileDto> listDto = new ArrayList<UserProfileDto>();
 			for(Person person: list) {
 				//Verificar mi usuario
 				String userFromToken = usernameFromToken(headers);
-		        Person user = userService.getUserByUsername(userFromToken).get();
+		        Person user = personService.getUserByUsername(userFromToken).get();
 				//Agregar a lista
 				if (!user.getUsername().equals(person.getUsername()))
 					listDto.add(new UserProfileDto(person.getIdPerson(), person.getUsername(),person.getName(),person.getLastnameFather(),
@@ -87,7 +87,7 @@ public class UserController {
     public ResponseEntity<?> profile(@RequestHeader HttpHeaders headers){
 		try {
 			String userFromToken = usernameFromToken(headers);
-	        Person user = userService.getUserByUsername(userFromToken).get();
+	        Person user = personService.getUserByUsername(userFromToken).get();
 	        return new ResponseEntity<Person>(user, HttpStatus.OK);
 		}
 		catch (Exception e) {
@@ -103,7 +103,7 @@ public class UserController {
             return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
         Person userEdit = null;
         try {
-			userEdit = userService.getUserById(userUpdate.getIdPerson());
+			userEdit = personService.getUserById(userUpdate.getIdPerson());
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity(new Message("No existe Id"), HttpStatus.BAD_REQUEST);
@@ -118,7 +118,7 @@ public class UserController {
         userEdit.setUrlProfilepicture(userUpdate.getUrlProfilepicture());
         
         try {
-			userService.updateUser(userEdit);
+			personService.updateUser(userEdit);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity(new Message("No existe Usuario"), HttpStatus.BAD_REQUEST);
@@ -132,11 +132,11 @@ public class UserController {
 		//Realizamos las validaciones pertinentes
         if(bindingResult.hasErrors())
             return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
-        if(userService.existsByUsername(userRegister.getUsername()))
+        if(personService.existsByUsername(userRegister.getUsername()))
             return new ResponseEntity(new Message("Ese nombre de usuario ya existe"), HttpStatus.BAD_REQUEST);
-        if(userService.existsByEmail(userRegister.getEmail()))
+        if(personService.existsByEmail(userRegister.getEmail()))
             return new ResponseEntity(new Message("Ese email ya existe"), HttpStatus.BAD_REQUEST);
-        if(userService.existsByDni(userRegister.getDni()))
+        if(personService.existsByDni(userRegister.getDni()))
             return new ResponseEntity(new Message("Ese dni ya existe"), HttpStatus.BAD_REQUEST);
         Long idUser = uI.uniqid();
         String password = bCryptPasswordEncoder.encode(userRegister.getPassword());
@@ -149,15 +149,15 @@ public class UserController {
 		String emailPerson = names[0]+"@"+names[1]+names[2];
 		//Crear un usuario para persistir
         Person person =
-                new Person(idUser, userRegister.getUsername(), password, names[0], names[2], 
-                		names[1], emailPerson, userRegister.getDni(),dateBirth, 
+                new Person(idUser, userRegister.getUsername(), password, names[0], names[1], 
+                		names[2], emailPerson, userRegister.getDni(),dateBirth, 
                 		dateRegister, 'A');
-        userService.createUser(person);
+        personService.createUser(person);
         //Agregar rol a nuevo usuario
         Long idRole = 2L;
         PersonRol personRol = new PersonRol(idUser,idRole);
 		personRol.setState('A');
-		userRolService.createPersonRol(personRol);
+		personRolService.createPersonRol(personRol);
         return new ResponseEntity(new Message("Usted se registro exitosamente"), HttpStatus.CREATED);
     }
 	
@@ -165,7 +165,7 @@ public class UserController {
 	@GetMapping("/deleteUser/{id}")
 	public ResponseEntity<?> delete(@PathVariable(name="id")Long id){
 		try {
-			userService.deleteUser(id);
+			personService.deleteUser(id);
 		} 
 		catch (com.system.demo.exception.UsernameOrIdNotFound uoin) {
 			uoin.printStackTrace();
@@ -179,7 +179,7 @@ public class UserController {
 	public ResponseEntity<?> updateForm(@PathVariable(name ="id")Long id) {
 		Person userEdit = null;
 		try {
-			userEdit = userService.getUserById(id);
+			userEdit = personService.getUserById(id);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity(new Message("No existe Id"), HttpStatus.BAD_REQUEST);
@@ -197,7 +197,7 @@ public class UserController {
             return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
         Person userEdit = null;
         try {
-			userEdit = userService.getUserById(userUpdate.getId());
+			userEdit = personService.getUserById(userUpdate.getId());
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity(new Message("No existe Id"), HttpStatus.BAD_REQUEST);
@@ -208,7 +208,7 @@ public class UserController {
         userEdit.setLastnameMother(userUpdate.getLastnameMother());
         userEdit.setDateBirth(userUpdate.getDateBirth());
         try {
-			userService.updateUser(userEdit);
+			personService.updateUser(userEdit);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity(new Message("No existe Usuario"), HttpStatus.BAD_REQUEST);
@@ -219,7 +219,7 @@ public class UserController {
 	public String usernameFromToken(HttpHeaders headers) {
 		final String authorizationHeaderValue = headers.getFirst(HttpHeaders.AUTHORIZATION);
 		String token = authorizationHeaderValue.substring(7, authorizationHeaderValue.length());
-		String usernameFromToken = jwtProvider.getNombreUsuarioFromToken(token);
+		String usernameFromToken = jwtProvider.getUsernameFromToken(token);
 		return usernameFromToken;
 	}
 

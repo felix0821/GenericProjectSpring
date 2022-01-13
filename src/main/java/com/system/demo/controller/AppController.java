@@ -18,8 +18,8 @@ import com.system.demo.model.Person;
 import com.system.demo.model.PersonRol;
 import com.system.demo.model.Role;
 import com.system.demo.service.RoleService;
-import com.system.demo.service.UserRolService;
-import com.system.demo.service.UserService;
+import com.system.demo.service.PersonRolService;
+import com.system.demo.service.PersonService;
 import com.system.demo.util.UniqId;
 
 @Controller
@@ -29,10 +29,10 @@ public class AppController {
 	UniqId uI;
 	
 	@Autowired
-	UserService userService;
+	PersonService personService;
 	
 	@Autowired
-	UserRolService userRolService;
+	PersonRolService personRolService;
 	
 	@Autowired
 	RoleService roleService;
@@ -77,7 +77,7 @@ public class AppController {
 	private void generatePerson() throws Exception {
 		Person superadmin;
 		// Crear objetos iniciales
-		if(userService.existsByUsername("admin"))
+		if(personService.existsByUsername("admin"))
 			System.out.println("Ese nombre de usuario ya existe");
 		else {
 			Long idPerson = uI.uniqid();
@@ -88,12 +88,12 @@ public class AppController {
 			superadmin = new Person(idPerson, "admin", password, "ADMIN", "NaN", 
 					"NaN", "NaN", "11111111",dateRegister, 
 					dateRegister, 'A');
-			userService.createUser(superadmin);
+			personService.createUser(superadmin);
 	        //Agregar rol a nuevo usuario
 	        Long idRoleAdmin = 1L;
 	        PersonRol personRol = new PersonRol(idPerson,idRoleAdmin);
 			personRol.setState('A');
-			userRolService.createPersonRol(personRol);
+			personRolService.createPersonRol(personRol);
 			System.out.println("Usuario creado exitosamente");
 		}
 	}

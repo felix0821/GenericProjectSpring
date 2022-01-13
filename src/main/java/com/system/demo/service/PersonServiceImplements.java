@@ -14,15 +14,15 @@ import com.system.demo.dto.ChangePasswordDto;
 import com.system.demo.exception.CustomeFieldValidationException;
 import com.system.demo.exception.UsernameOrIdNotFound;
 import com.system.demo.model.Person;
-import com.system.demo.repository.UserRepository;
+import com.system.demo.repository.PersonRepository;
 
 @Service
 @Transactional
-public class UserServiceImplements implements UserService{
+public class PersonServiceImplements implements PersonService{
 	
 	//----------------------------------Iterable Methods----------------------------------//
 		@Autowired
-		UserRepository repository;
+		PersonRepository repository;
 		
 		@Autowired
 		BCryptPasswordEncoder bCryptPasswordEncoder;

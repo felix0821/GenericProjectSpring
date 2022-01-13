@@ -6,7 +6,7 @@ import com.system.demo.dto.ChangePasswordDto;
 import com.system.demo.exception.UsernameOrIdNotFound;
 import com.system.demo.model.Person;
 
-public interface UserService {
+public interface PersonService {
 
 	//Iteradores
 	Iterable<Person> getAllUsers();

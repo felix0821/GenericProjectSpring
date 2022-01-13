@@ -26,8 +26,7 @@ public class MainSecurity extends WebSecurityConfigurerAdapter {
 			"/auth/**","/user/register","/","/generate-data", "/favicon.ico"
     };
 	
-	private String[] resourcesAdmin = new String[] {"/user/deleteUser/*","/user/editUser/*"};
-	private String[] resourcesUser = new String[] {"/user/profile","/user/profile/*"};
+	//private String[] resourcesAdmin = new String[] {"/user/deleteUser/*","/user/editUser/*","/user"};
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@Autowired
@@ -38,17 +37,14 @@ public class MainSecurity extends WebSecurityConfigurerAdapter {
     
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
-		//http.authorizeRequests().antMatchers(resourcesAdmin).hasAnyAuthority("ADMIN");
-        //http.authorizeRequests().antMatchers(resourcesUser).hasAnyAuthority("USER");
-		http.cors().and().csrf().disable()
-                .authorizeRequests()
-                .antMatchers(resources).permitAll()
-                .anyRequest().authenticated()
+		http.cors().and().csrf().disable();
+		http.authorizeRequests().antMatchers(resources).permitAll();
+		//http.authorizeRequests().antMatchers(resourcesAdmin).hasAnyAuthority("Administrador");
+		http.authorizeRequests().anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(jwtEntryPoint)
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-		
         http.addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 

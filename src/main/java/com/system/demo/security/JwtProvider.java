@@ -28,7 +28,7 @@ public class JwtProvider {
                 .compact();
     }
 
-    public String getNombreUsuarioFromToken(String token){
+    public String getUsernameFromToken(String token){
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getSubject();
     }
 
@@ -37,15 +37,15 @@ public class JwtProvider {
             Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
             return true;
         }catch (MalformedJwtException e){
-            logger.error("token mal formado");
+            logger.error("Token mal formado");
         }catch (UnsupportedJwtException e){
-            logger.error("token no soportado");
+            logger.error("Token no soportado");
         }catch (ExpiredJwtException e){
-            logger.error("token expirado");
+            logger.error("Token expirado");
         }catch (IllegalArgumentException e){
-            logger.error("token vacío");
+            logger.error("Token vacío");
         }catch (SignatureException e){
-            logger.error("fail en la firma");
+            logger.error("Fallo en la firma");
         }
         return false;
     }

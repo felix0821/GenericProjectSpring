@@ -21,31 +21,31 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 
 import com.system.demo.model.Person;
-import com.system.demo.repository.UserRepository;
+import com.system.demo.repository.PersonRepository;
 
 @SpringBootTest
-public class UserServiceTest {
+public class PersonServiceTest {
 	
 	@TestConfiguration
 	static class UserServiceTestConfiguration {
 		
 		@Bean
-		public UserService userService() {
-			return new UserServiceImplements();
+		public PersonService personService() {
+			return new PersonServiceImplements();
 		}
 	}
 	
 	@Autowired
-	UserService userService;
+	PersonService personService;
 	
 	@MockBean
-	UserRepository userRepository;
+	PersonRepository personRepository;
 	
 	//PRUEBAS DE ITERADOR
 	@Test
 	public void userTestServiceGetAllUsers() {
 		List<Person> expected = this.getListUsers();
-		Iterable<Person> result = userService.getAllUsers();
+		Iterable<Person> result = personService.getAllUsers();
 		
 		int resultSize = 0;
 		for(Person person:result) {
@@ -87,7 +87,7 @@ public class UserServiceTest {
 		//Crear usuario
 		Person person = generateUser();
 		persons.add(person);
-		Mockito.when(userRepository.findAll()).thenReturn(persons);
+		Mockito.when(personRepository.findAll()).thenReturn(persons);
 	}
 	
 	//PRUEBAS DE CONSULTA

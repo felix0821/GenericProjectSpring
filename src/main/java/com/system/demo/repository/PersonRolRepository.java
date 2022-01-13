@@ -10,7 +10,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 @Repository
-public interface UserRolRepository extends JpaRepository<PersonRol,PersonRolPK>{
+public interface PersonRolRepository extends JpaRepository<PersonRol,PersonRolPK>{
 	public List<PersonRol> findByIdPerson(long idPerson);
 	public List<PersonRol> findByIdRole(long idRole);
 

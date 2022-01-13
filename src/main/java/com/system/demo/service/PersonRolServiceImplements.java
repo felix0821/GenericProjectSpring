@@ -8,14 +8,14 @@ import org.springframework.stereotype.Service;
 
 import com.system.demo.model.PersonRol;
 import com.system.demo.model.PersonRolPK;
-import com.system.demo.repository.UserRolRepository;
+import com.system.demo.repository.PersonRolRepository;
 
 
 @Service
 @Transactional
-public class UserRolServiceImplements implements UserRolService {
+public class PersonRolServiceImplements implements PersonRolService {
 	@Autowired
-	UserRolRepository repository;
+	PersonRolRepository repository;
 
 	@Override
 	public PersonRol createPersonRol(PersonRol personRol) throws Exception {
@@ -24,8 +24,8 @@ public class UserRolServiceImplements implements UserRolService {
 	}
 
 	@Override
-	public void deletePersonRol(Long idUser, long idRole) throws Exception {
-		PersonRolPK personRolPk = new PersonRolPK(idUser,idRole);
+	public void deletePersonRol(Long idPerson, long idRole) throws Exception {
+		PersonRolPK personRolPk = new PersonRolPK(idPerson,idRole);
 		repository.deleteById(personRolPk);
 	}
 
