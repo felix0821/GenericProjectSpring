@@ -18,10 +18,12 @@ import com.system.demo.dto.PersonLoginDto;
 import com.system.demo.security.JwtProvider;
 import com.system.demo.util.EncripId;
 
+import static com.system.demo.GenericProjectSystemStatement.*;
+
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping(URL_AUTH_REQUEST)
 @CrossOrigin
 public class AuthenticationController {
 
@@ -38,7 +40,7 @@ public class AuthenticationController {
     EncripId encripId;
     
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@PostMapping("/login")
+	@PostMapping(URL_AUTH_LOGIN_POST)
     public ResponseEntity<?> login(@Valid @RequestBody PersonLoginDto userLogin, BindingResult bindingResult) throws Exception{
         try {
         	if(bindingResult.hasErrors())

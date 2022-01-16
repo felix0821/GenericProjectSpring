@@ -41,9 +41,10 @@ import com.system.demo.service.PersonService;
 import com.system.demo.util.ApiQueries;
 import com.system.demo.util.UniqId;
 
+import static com.system.demo.GenericProjectSystemStatement.*;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping(URL_PERSON_REQUEST)
 @CrossOrigin(origins = "*")
 public class PersonController {
 	
@@ -94,12 +95,15 @@ public class PersonController {
     }
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@GetMapping(value="/profile")
+	@GetMapping(value=URL_PERSON_PROFILE_GET)
     public ResponseEntity<?> profile(@RequestHeader HttpHeaders headers){
 		try {
 			String userFromToken = usernameFromToken(headers);
 	        Person user = personService.getPersonByUsername(userFromToken).get();
-	        return new ResponseEntity<Person>(user, HttpStatus.OK);
+	        PersonProfileDto personEditDto = new PersonProfileDto(user.getIdPerson(), user.getUsername(), user.getName(),
+	        		user.getLastnameFather(), user.getLastnameMother(), user.getEmail(), user.getDni(), user.getDateBirth(),
+	        		user.getUrlProfilepicture());
+	        return new ResponseEntity<PersonProfileDto>(personEditDto, HttpStatus.OK);
 		}
 		catch (Exception e) {
         	return new ResponseEntity(new Message("BLOQUED"), HttpStatus.BAD_REQUEST);
@@ -107,7 +111,7 @@ public class PersonController {
 	}
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
-	@PostMapping(value="/profile/edit")
+	@PostMapping(value=URL_PERSON_PROFILE_EDIT_POST)
 	public ResponseEntity<?> updateProfile(@Valid @RequestBody PersonProfileDto userUpdate, BindingResult bindingResult) {
 		//Realizamos las validaciones pertinentes
         if(bindingResult.hasErrors())
@@ -138,7 +142,7 @@ public class PersonController {
 	}
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
-	@PostMapping(value="/register")
+	@PostMapping(value=URL_PERSON_REGISTER_POST)
     public ResponseEntity<?> save(@Valid @RequestBody PersonRegisterDto userRegister, BindingResult bindingResult) throws Exception{
 		//Realizamos las validaciones pertinentes
         if(bindingResult.hasErrors())
@@ -173,7 +177,7 @@ public class PersonController {
     }
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
-	@GetMapping("/deleteUser/{id}")
+	@GetMapping(URL_PERSON_DELETE_GET)
 	public ResponseEntity<?> delete(@PathVariable(name="id")Long id){
 		try {
 			personService.deletePerson(id);
@@ -186,8 +190,8 @@ public class PersonController {
 	}
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
-	@GetMapping("/editUser/{id}")
-	public ResponseEntity<?> updateForm(@PathVariable(name ="id")Long id) {
+	@GetMapping(URL_PERSON_EDIT_GET)
+	public ResponseEntity<?> editForm(@PathVariable(name ="id")Long id) {
 		Person userEdit = null;
 		try {
 			userEdit = personService.getPersonById(id);
@@ -201,8 +205,8 @@ public class PersonController {
 	}
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
-	@PostMapping("/editUser")
-	public ResponseEntity<?> updateData(@Valid @RequestBody PersonEditDto userUpdate, BindingResult bindingResult) {
+	@PostMapping(URL_PERSON_EDIT_POST)
+	public ResponseEntity<?> editData(@Valid @RequestBody PersonEditDto userUpdate, BindingResult bindingResult) {
 		//Realizamos las validaciones pertinentes
         if(bindingResult.hasErrors())
             return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);

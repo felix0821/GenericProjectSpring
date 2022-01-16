@@ -14,7 +14,6 @@ public class PersonProfileDto {
 	@NotBlank
 	@Size(max = 20, min = 3, message = "Usuario invalido")
 	private String username;
-	private String password;
 	
 	@NotBlank(message = "Ingrese un nombre.")
 	private String name;
@@ -33,10 +32,11 @@ public class PersonProfileDto {
 	
 	@NotNull(message = "Ingrese una fecha de nacimiento.")
 	private Date dateBirth;
+	
 	private String urlProfilepicture;
 	
 	public PersonProfileDto(@NotNull(message = "Ingrese un id valido") Long id,
-			@NotBlank @Size(max = 20, min = 3, message = "Usuario invalido") String username, String password,
+			@NotBlank @Size(max = 20, min = 3, message = "Usuario invalido") String username,
 			@NotBlank(message = "Ingrese un nombre.") String name,
 			@NotBlank(message = "Ingrese un apellido paterno.") String lastnameFather,
 			@NotBlank(message = "Ingrese un apellido materno.") String lastnameMother,
@@ -46,7 +46,6 @@ public class PersonProfileDto {
 		super();
 		this.id = id;
 		this.username = username;
-		this.password = password;
 		this.name = name;
 		this.lastnameFather = lastnameFather;
 		this.lastnameMother = lastnameMother;
@@ -128,14 +127,6 @@ public class PersonProfileDto {
 
 	public void setUrlProfilepicture(String urlProfilepicture) {
 		this.urlProfilepicture = urlProfilepicture;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 }
