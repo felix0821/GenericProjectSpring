@@ -12,7 +12,7 @@ public class PersonRegisterDto {
 	private String username;
 	
 	@NotBlank(message = "Ingrese una contraseña.")
-	@Min(value = 4, message = "Ingrese al menos 4 caracteres.")
+	@Size(min = 4, message = "Ingrese al menos 4 caracteres.")
 	private String password;
 	
 	//@NotBlank(message = "Campo de correo vacio")
@@ -20,7 +20,7 @@ public class PersonRegisterDto {
 	private String email;
 	
 	@NotBlank(message = "Ingrese una documento de identidad.")
-	@Min(value = 8, message = "Ingrese al menos 8 caracteres.")
+	@Size(min = 8, message = "Ingrese al menos 8 caracteres.")
 	private String dni;
 
 	
