@@ -24,6 +24,9 @@ import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+
 /**
  *
  * @author Felix
@@ -57,7 +60,9 @@ public class Role implements Serializable {
     @Basic(optional = true)
     @Column(name = "description")
     private String description;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "role", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "role", fetch = FetchType.EAGER)
+    private Collection<Access> accessCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "role")
     private Collection<PersonRol> userRolCollection;
 
     public Role() {
@@ -117,6 +122,15 @@ public class Role implements Serializable {
 	public void setRegistrationDate(Date registrationDate) {
 		this.registrationDate = registrationDate;
 	}
+	
+	@XmlTransient
+    public Collection<Access> getAccessCollection() {
+        return accessCollection;
+    }
+
+    public void setAccessCollection(Collection<Access> accessCollection) {
+        this.accessCollection = accessCollection;
+    }
 
 	@XmlTransient
     public Collection<PersonRol> getUserRolCollection() {

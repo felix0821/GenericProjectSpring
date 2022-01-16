@@ -88,7 +88,7 @@ public class AppController {
 			superadmin = new Person(idPerson, "admin", password, "ADMIN", "NaN", 
 					"NaN", "NaN", "11111111",dateRegister, 
 					dateRegister, 'A');
-			personService.createUser(superadmin);
+			personService.createPerson(superadmin);
 	        //Agregar rol a nuevo usuario
 	        Long idRoleAdmin = 1L;
 	        PersonRol personRol = new PersonRol(idPerson,idRoleAdmin);

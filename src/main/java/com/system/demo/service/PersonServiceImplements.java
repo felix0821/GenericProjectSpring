@@ -28,14 +28,14 @@ public class PersonServiceImplements implements PersonService{
 		BCryptPasswordEncoder bCryptPasswordEncoder;
 		//----------------------------------Iterable Methods----------------------------------//	
 		@Override
-		public Iterable<Person> getAllUsers() {
+		public Iterable<Person> getAllPersons() {
 			return repository.findAll();
 		}
 		
 		//----------------------------------Querys Methods----------------------------------//
 		
 		@Override
-		public Person createUser(Person person) throws Exception {
+		public Person createPerson(Person person) throws Exception {
 			/*if (checkUsernameAvailable(user) && checkPasswordValid(user)) {
 				String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
 				user.setPassword(encodedPassword);
@@ -44,33 +44,33 @@ public class PersonServiceImplements implements PersonService{
 			return repository.save(person);
 		}
 		@Override
-		public Person updateUser(Person fromUser) throws Exception {
-			Person toUser = getUserById(fromUser.getIdPerson());
+		public Person updatePerson(Person fromUser) throws Exception {
+			Person toUser = getPersonById(fromUser.getIdPerson());
 			mapUser(fromUser, toUser);
 			return repository.save(toUser);
 		}
 		@Override
-		public void deleteUser(Long id) throws UsernameOrIdNotFound {
-			Person person = getUserById(id);
+		public void deletePerson(Long id) throws UsernameOrIdNotFound {
+			Person person = getPersonById(id);
 			repository.delete(person);
 		}
 		
 		//----------------------------------Send Methods----------------------------------//	
 		
 		@Override
-		public Person getUserById(Long id) throws UsernameOrIdNotFound {
+		public Person getPersonById(Long id) throws UsernameOrIdNotFound {
 			return repository.findById(id).orElseThrow(() -> new UsernameOrIdNotFound("El Id del usuario no existe."));
 		}
 		@Override
-		public Optional<Person> getUserByUsername(String username) {
+		public Optional<Person> getPersonByUsername(String username) {
 			return repository.findByUsername(username);
 		}
 		@Override
-		public Optional<Person> getUserByEmail(String email) {
+		public Optional<Person> getPersonByEmail(String email) {
 			return repository.findByEmail(email);
 		}
 		@Override
-		public Optional<Person> getUserByDni(String dni) {
+		public Optional<Person> getPersonByDni(String dni) {
 			return repository.findByDni(dni);
 		}
 		@Override
@@ -93,7 +93,7 @@ public class PersonServiceImplements implements PersonService{
 		
 		@Override
 		public Person changePassword(ChangePasswordDto form) throws Exception {
-			Person person = getUserById(form.getId());
+			Person person = getPersonById(form.getId());
 			
 			//if ( !isLoggedUserADMIN() && !user.getPassword().equals(form.getCurrentPassword())) {
 				//hrow new Exception ("Current Password invalido.");

@@ -35,7 +35,7 @@ public class PersonServiceTest {
 		}
 	}
 	
-	@Autowired
+	@Autowired 
 	PersonService personService;
 	
 	@MockBean
@@ -45,7 +45,7 @@ public class PersonServiceTest {
 	@Test
 	public void userTestServiceGetAllUsers() {
 		List<Person> expected = this.getListUsers();
-		Iterable<Person> result = personService.getAllUsers();
+		Iterable<Person> result = personService.getAllPersons();
 		
 		int resultSize = 0;
 		for(Person person:result) {

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.system.demo.dto.JwtDto;
 import com.system.demo.dto.Message;
-import com.system.demo.dto.UserLoginDto;
+import com.system.demo.dto.PersonLoginDto;
 import com.system.demo.security.JwtProvider;
 import com.system.demo.util.EncripId;
 
@@ -39,7 +39,7 @@ public class AuthenticationController {
     
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody UserLoginDto userLogin, BindingResult bindingResult) throws Exception{
+    public ResponseEntity<?> login(@Valid @RequestBody PersonLoginDto userLogin, BindingResult bindingResult) throws Exception{
         try {
         	if(bindingResult.hasErrors())
                 return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);

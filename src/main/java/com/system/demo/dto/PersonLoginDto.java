@@ -1,11 +1,15 @@
 package com.system.demo.dto;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import javax.validation.constraints.Min;
 
-public class UserLoginDto {
-	@NotBlank
+public class PersonLoginDto {
+	@NotBlank(message = "Ingrese un nombre de usuario.")
+	@Size(max = 20, min = 3, message = "Ingrese entre 3 a 30 caracteres.")
     private String username;
-    @NotBlank
+    @NotBlank(message = "Ingrese una contraseña.")
+    @Min(value = 4, message = "Ingrese al menos 4 caracteres.")
     private String password;
     
     public String getUsername() {

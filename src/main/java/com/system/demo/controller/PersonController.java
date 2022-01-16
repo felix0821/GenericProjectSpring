@@ -7,12 +7,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -26,10 +28,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.system.demo.dto.Message;
-import com.system.demo.dto.UserProfileDto;
-import com.system.demo.dto.UserRegisterDto;
+import com.system.demo.dto.PersonEditDto;
+import com.system.demo.dto.PersonListDto;
+import com.system.demo.dto.PersonProfileDto;
+import com.system.demo.dto.PersonRegisterDto;
 import com.system.demo.model.Person;
 import com.system.demo.model.PersonRol;
+import com.system.demo.security.AclFilterVerify;
 import com.system.demo.security.JwtProvider;
 import com.system.demo.service.PersonRolService;
 import com.system.demo.service.PersonService;
@@ -40,7 +45,8 @@ import com.system.demo.util.UniqId;
 @RestController
 @RequestMapping("/user")
 @CrossOrigin(origins = "*")
-public class UserController {
+public class PersonController {
+	
 	@Autowired
 	ApiQueries apiQueries;
 	
@@ -59,23 +65,28 @@ public class UserController {
 	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 	
+	@Autowired
+	AclFilterVerify aclFilterVerify;
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@GetMapping//(value = {"","/"})
+	@GetMapping
 	@ResponseBody
-    public ResponseEntity<?> list(@RequestHeader HttpHeaders headers){
+    public ResponseEntity<?> list(@RequestHeader HttpHeaders headers, HttpServletRequest request){
+		String userFromToken = usernameFromToken(headers);
+		/*if(!aclFilterVerify.accessRoleForPerson(request.getRequestURI().toString(),userFromToken)) 
+			return new ResponseEntity(new Message("Unauthorized access"), HttpStatus.UNAUTHORIZED);*/
 		try {
-			Iterable<Person> list = personService.getAllUsers();
-			List<UserProfileDto> listDto = new ArrayList<UserProfileDto>();
+			Iterable<Person> list = personService.getAllPersons();
+			List<PersonListDto> listDto = new ArrayList<PersonListDto>();
 			for(Person person: list) {
 				//Verificar mi usuario
-				String userFromToken = usernameFromToken(headers);
-		        Person user = personService.getUserByUsername(userFromToken).get();
+		        Person user = personService.getPersonByUsername(userFromToken).get();
 				//Agregar a lista
 				if (!user.getUsername().equals(person.getUsername()))
-					listDto.add(new UserProfileDto(person.getIdPerson(), person.getUsername(),person.getName(),person.getLastnameFather(),
-			        		person.getLastnameMother(),person.getEmail(),person.getDni(),person.getDateBirth(),person.getState(),null));
+					listDto.add(new PersonListDto(person.getIdPerson(), person.getUsername(),person.getName(),person.getLastnameFather(),
+			        		person.getLastnameMother(),person.getState()));
 			}
-	        return new ResponseEntity<List<UserProfileDto>>(listDto, HttpStatus.OK);
+	        return new ResponseEntity<List<PersonListDto>>(listDto, HttpStatus.OK);
 		}
 		catch (Exception e) {
         	return new ResponseEntity(new Message("BLOQUED"), HttpStatus.BAD_REQUEST);
@@ -83,11 +94,11 @@ public class UserController {
     }
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@GetMapping("/profile")
+	@GetMapping(value="/profile")
     public ResponseEntity<?> profile(@RequestHeader HttpHeaders headers){
 		try {
 			String userFromToken = usernameFromToken(headers);
-	        Person user = personService.getUserByUsername(userFromToken).get();
+	        Person user = personService.getPersonByUsername(userFromToken).get();
 	        return new ResponseEntity<Person>(user, HttpStatus.OK);
 		}
 		catch (Exception e) {
@@ -96,14 +107,14 @@ public class UserController {
 	}
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
-	@PostMapping("/profile/edit")
+	@PostMapping(value="/profile/edit")
 	public ResponseEntity<?> updateProfile(@Valid @RequestBody Person userUpdate, BindingResult bindingResult) {
 		//Realizamos las validaciones pertinentes
         if(bindingResult.hasErrors())
             return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
         Person userEdit = null;
         try {
-			userEdit = personService.getUserById(userUpdate.getIdPerson());
+			userEdit = personService.getPersonById(userUpdate.getIdPerson());
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity(new Message("No existe Id"), HttpStatus.BAD_REQUEST);
@@ -118,7 +129,7 @@ public class UserController {
         userEdit.setUrlProfilepicture(userUpdate.getUrlProfilepicture());
         
         try {
-			personService.updateUser(userEdit);
+			personService.updatePerson(userEdit);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity(new Message("No existe Usuario"), HttpStatus.BAD_REQUEST);
@@ -127,8 +138,8 @@ public class UserController {
 	}
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
-	@PostMapping("/register")
-    public ResponseEntity<?> save(@Valid @RequestBody UserRegisterDto userRegister, BindingResult bindingResult) throws Exception{
+	@PostMapping(value="/register")
+    public ResponseEntity<?> save(@Valid @RequestBody PersonRegisterDto userRegister, BindingResult bindingResult) throws Exception{
 		//Realizamos las validaciones pertinentes
         if(bindingResult.hasErrors())
             return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
@@ -152,7 +163,7 @@ public class UserController {
                 new Person(idUser, userRegister.getUsername(), password, names[0], names[1], 
                 		names[2], emailPerson, userRegister.getDni(),dateBirth, 
                 		dateRegister, 'A');
-        personService.createUser(person);
+        personService.createPerson(person);
         //Agregar rol a nuevo usuario
         Long idRole = 2L;
         PersonRol personRol = new PersonRol(idUser,idRole);
@@ -165,7 +176,7 @@ public class UserController {
 	@GetMapping("/deleteUser/{id}")
 	public ResponseEntity<?> delete(@PathVariable(name="id")Long id){
 		try {
-			personService.deleteUser(id);
+			personService.deletePerson(id);
 		} 
 		catch (com.system.demo.exception.UsernameOrIdNotFound uoin) {
 			uoin.printStackTrace();
@@ -179,36 +190,36 @@ public class UserController {
 	public ResponseEntity<?> updateForm(@PathVariable(name ="id")Long id) {
 		Person userEdit = null;
 		try {
-			userEdit = personService.getUserById(id);
+			userEdit = personService.getPersonById(id);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity(new Message("No existe Id"), HttpStatus.BAD_REQUEST);
 		}
-		UserProfileDto result = new UserProfileDto(userEdit.getIdPerson(), userEdit.getUsername(),userEdit.getName(),userEdit.getLastnameFather(),
-        		userEdit.getLastnameMother(),userEdit.getEmail(),userEdit.getDni(),userEdit.getDateBirth(),userEdit.getState(),null);
-		return new ResponseEntity<UserProfileDto>(result, HttpStatus.OK);
+		PersonEditDto result = new PersonEditDto(userEdit.getIdPerson(), userEdit.getName(), userEdit.getLastnameFather(),
+				userEdit.getLastnameMother(), userEdit.getDateBirth(), userEdit.getState());
+		return new ResponseEntity<PersonEditDto>(result, HttpStatus.OK);
 	}
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@PostMapping("/editUser")
-	public ResponseEntity<?> updateData(@Valid @RequestBody UserProfileDto userUpdate, BindingResult bindingResult) {
+	public ResponseEntity<?> updateData(@Valid @RequestBody PersonEditDto userUpdate, BindingResult bindingResult) {
 		//Realizamos las validaciones pertinentes
         if(bindingResult.hasErrors())
             return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
         Person userEdit = null;
         try {
-			userEdit = personService.getUserById(userUpdate.getId());
+			userEdit = personService.getPersonById(userUpdate.getId());
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity(new Message("No existe Id"), HttpStatus.BAD_REQUEST);
 		}
-        userEdit.setUsername(userUpdate.getUsername());
         userEdit.setName(userUpdate.getName());
-        userEdit.setLastnameFather(userUpdate.getLastname());
+        userEdit.setLastnameFather(userUpdate.getLastnameFather());
         userEdit.setLastnameMother(userUpdate.getLastnameMother());
         userEdit.setDateBirth(userUpdate.getDateBirth());
+        userEdit.setState(userUpdate.getState());
         try {
-			personService.updateUser(userEdit);
+			personService.updatePerson(userEdit);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity(new Message("No existe Usuario"), HttpStatus.BAD_REQUEST);

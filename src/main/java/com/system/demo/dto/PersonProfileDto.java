@@ -7,44 +7,56 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class UserProfileDto {
-	@NotNull(message = "Ingrese un Long para id")
+public class PersonProfileDto {
+	@NotNull(message = "Ingrese un id valido")
 	private Long id;
+	
 	@NotBlank
 	@Size(max = 20, min = 3, message = "Usuario invalido")
 	private String username;
 	private String password;
-	@NotBlank
+	
+	@NotBlank(message = "Ingrese un nombre.")
 	private String name;
-	@NotBlank
-	private String lastname;
-	@NotBlank
+	
+	@NotBlank(message = "Ingrese un apellido paterno.")
+	private String lastnameFather;
+	
+	@NotBlank(message = "Ingrese un apellido materno.")
 	private String lastnameMother;
-	@Email
+	
+	@Email(message = "Ingrese un correo electronico.")
 	private String email;
-	@NotBlank
+	
+	@NotBlank(message = "Ingrese una documento de identidad.")
 	private String dni;
-	@NotNull
+	
+	@NotNull(message = "Ingrese una fecha de nacimiento.")
 	private Date dateBirth;
 	private Character state;
 	
-	public UserProfileDto(@NotNull(message = "Ingrese un Long para id") Long id, @NotBlank String username, @NotBlank String name,
-			@NotBlank String lastname, @NotBlank String lastnameMother,
-			@Email String email, @NotBlank String dni, @NotNull Date dateBirth,
-			@NotBlank Character state, String password) {
+	public PersonProfileDto(@NotNull(message = "Ingrese un id valido") Long id,
+			@NotBlank @Size(max = 20, min = 3, message = "Usuario invalido") String username, String password,
+			@NotBlank(message = "Ingrese un nombre.") String name,
+			@NotBlank(message = "Ingrese un apellido paterno.") String lastnameFather,
+			@NotBlank(message = "Ingrese un apellido materno.") String lastnameMother,
+			@Email(message = "Ingrese un correo electronico.") String email,
+			@NotBlank(message = "Ingrese una documento de identidad.") String dni,
+			@NotNull(message = "Ingrese una fecha de nacimiento.") Date dateBirth, Character state) {
+		super();
 		this.id = id;
 		this.username = username;
+		this.password = password;
 		this.name = name;
-		this.lastname = lastname;
+		this.lastnameFather = lastnameFather;
 		this.lastnameMother = lastnameMother;
 		this.email = email;
 		this.dni = dni;
 		this.dateBirth = dateBirth;
 		this.state = state;
-		this.setPassword(password);
 	}
 
-	public UserProfileDto() {}
+	public PersonProfileDto() {}
 	
 	public Long getId() {
 		return id;
@@ -70,12 +82,12 @@ public class UserProfileDto {
 		this.name = name;
 	}
 
-	public String getLastname() {
-		return lastname;
+	public String getLastnameFather() {
+		return lastnameFather;
 	}
 
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
+	public void setLastnameFather(String lastname) {
+		this.lastnameFather = lastname;
 	}
 
 	public String getLastnameMother() {
