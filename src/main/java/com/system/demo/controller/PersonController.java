@@ -108,13 +108,13 @@ public class PersonController {
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@PostMapping(value="/profile/edit")
-	public ResponseEntity<?> updateProfile(@Valid @RequestBody Person userUpdate, BindingResult bindingResult) {
+	public ResponseEntity<?> updateProfile(@Valid @RequestBody PersonProfileDto userUpdate, BindingResult bindingResult) {
 		//Realizamos las validaciones pertinentes
         if(bindingResult.hasErrors())
             return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
         Person userEdit = null;
         try {
-			userEdit = personService.getPersonById(userUpdate.getIdPerson());
+			userEdit = personService.getPersonById(userUpdate.getId());
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity(new Message("No existe Id"), HttpStatus.BAD_REQUEST);

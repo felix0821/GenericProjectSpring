@@ -33,7 +33,7 @@ public class PersonProfileDto {
 	
 	@NotNull(message = "Ingrese una fecha de nacimiento.")
 	private Date dateBirth;
-	private Character state;
+	private String urlProfilepicture;
 	
 	public PersonProfileDto(@NotNull(message = "Ingrese un id valido") Long id,
 			@NotBlank @Size(max = 20, min = 3, message = "Usuario invalido") String username, String password,
@@ -42,7 +42,7 @@ public class PersonProfileDto {
 			@NotBlank(message = "Ingrese un apellido materno.") String lastnameMother,
 			@Email(message = "Ingrese un correo electronico.") String email,
 			@NotBlank(message = "Ingrese una documento de identidad.") String dni,
-			@NotNull(message = "Ingrese una fecha de nacimiento.") Date dateBirth, Character state) {
+			@NotNull(message = "Ingrese una fecha de nacimiento.") Date dateBirth, String urlProfilepicture) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -53,7 +53,7 @@ public class PersonProfileDto {
 		this.email = email;
 		this.dni = dni;
 		this.dateBirth = dateBirth;
-		this.state = state;
+		this.urlProfilepicture = urlProfilepicture;
 	}
 
 	public PersonProfileDto() {}
@@ -122,12 +122,12 @@ public class PersonProfileDto {
 		this.dateBirth = dateBirth;
 	}
 
-	public Character getState() {
-		return state;
+	public String getUrlProfilepicture() {
+		return urlProfilepicture;
 	}
 
-	public void setState(Character state) {
-		this.state = state;
+	public void setUrlProfilepicture(String urlProfilepicture) {
+		this.urlProfilepicture = urlProfilepicture;
 	}
 
 	public String getPassword() {
