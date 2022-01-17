@@ -17,8 +17,7 @@ public class RequisitionDetailServiceImplements implements RequisitionDetailServ
 
 	@Override
 	public Iterable<RequisitionDetail> getAllRequisitionDetails() {
-		// TODO Auto-generated method stub
-		return null;
+		return requisitionDetailRepository.findAll();
 	}
 
 	@Override

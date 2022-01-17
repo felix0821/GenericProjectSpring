@@ -2,28 +2,36 @@ package com.system.demo.controller;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.system.demo.dto.AlertRequisitionDto;
 import com.system.demo.dto.Message;
+import com.system.demo.dto.RequisitionRegisterDto;
 import com.system.demo.model.FinancialMovement;
 import com.system.demo.model.Person;
 import com.system.demo.model.PersonRol;
 import com.system.demo.model.Requisition;
+import com.system.demo.model.RequisitionDetail;
 import com.system.demo.model.RequisitionStatus;
 import com.system.demo.model.Role;
 import com.system.demo.service.RoleService;
 import com.system.demo.service.FinancialMovementService;
 import com.system.demo.service.PersonRolService;
 import com.system.demo.service.PersonService;
+import com.system.demo.service.RequisitionDetailService;
 import com.system.demo.service.RequisitionService;
 import com.system.demo.service.RequisitionStatusService;
 import com.system.demo.util.UniqId;
@@ -49,9 +57,24 @@ public class AppController {
 	FinancialMovementService financialMovementService;
 	@Autowired
 	RequisitionStatusService requisitionStatusService;
+	@Autowired
+	RequisitionDetailService requisitionDetailService;
 	
 	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
+	
+	@MessageMapping
+	@SendTo("/alert")
+	public List<AlertRequisitionDto> sendAlert() {
+		RequisitionStatus req = requisitionStatusService.RequisitionStatusById(1L);
+		Iterable<RequisitionDetail> reqDetails = req.getRequisitionDetailCollection();
+		List<AlertRequisitionDto> response = new ArrayList<>();
+		for (RequisitionDetail reqDet : reqDetails) {
+			response.add(new AlertRequisitionDto(reqDet.getIdRequisitionDetail(),
+					reqDet.getBank(), reqDet.getDocument(), reqDet.getObservation()));
+		}
+		return response;
+	}
 	
 	@GetMapping({"/","/index"})
 	public String index(ModelMap model) {
