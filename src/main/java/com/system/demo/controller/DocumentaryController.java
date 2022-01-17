@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.system.demo.dto.DocumentaryListDetailDto;
@@ -31,7 +32,8 @@ public class DocumentaryController {
 	RequisitionStatusService requisitionStatusService;
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@GetMapping(value=URL_REQUISITION_STATUS_GET)
+	@GetMapping
+	@ResponseBody
     public ResponseEntity<?> profile(@RequestHeader HttpHeaders headers){
 		try {
 			Iterable<RequisitionStatus> listRequisitionStatus = requisitionStatusService.getAllRequisitionStatus();
