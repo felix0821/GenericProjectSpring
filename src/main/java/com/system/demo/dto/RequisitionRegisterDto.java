@@ -17,14 +17,12 @@ public class RequisitionRegisterDto {
 	@NotBlank(message = "Ingrese un documento.")
 	private String document;
 	
-	@NotBlank(message = "Ingrese un comentario.")
 	private String comment;
 
 	public RequisitionRegisterDto(@NotNull(message = "Ingrese un id valido.") Long idRegister,
 			@NotNull(message = "Ingrese una cantidad.") Double amount,
 			@NotBlank(message = "Ingrese un banco.") String bank,
-			@NotBlank(message = "Ingrese un documento.") String document,
-			@NotBlank(message = "Ingrese un comentario.") String comment) {
+			@NotBlank(message = "Ingrese un documento.") String document, String comment) {
 		super();
 		this.idRegister = idRegister;
 		this.amount = amount;

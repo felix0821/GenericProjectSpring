@@ -26,5 +26,7 @@ public class GenericProjectSystemStatement {
 	public static final String URL_REQUISITION_STATUS_GET = "/status";
 	//	Mapeo para el controlador "Solicitud"
 	public static final String URL_FINANCIAL_MOVEMENT_REQUEST = "/financial-movement";
+	//	Mapeo para el controlador "Solicitud"
+	public static final String URL_DOCUMENTARY_REQUEST = "/documentary";
 
 }
