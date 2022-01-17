@@ -2,6 +2,9 @@ package com.system.demo.controller;
 
 import static com.system.demo.GenericProjectSystemStatement.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.system.demo.dto.FinancialMovementListDto;
 import com.system.demo.dto.Message;
+import com.system.demo.model.FinancialMovementDetail;
+import com.system.demo.service.FinancialMovementDetailService;
 import com.system.demo.service.FinancialMovementService;
 
 @RestController
@@ -25,12 +31,26 @@ public class FinancialMovementController {
 	
 	@Autowired
 	FinancialMovementService financialMovementService;
+	
+	@Autowired
+	FinancialMovementDetailService financialMovementDetailService;
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@GetMapping
 	@ResponseBody
     public ResponseEntity<?> list(@RequestHeader HttpHeaders headers, HttpServletRequest request){
+		try {
+			Iterable<FinancialMovementDetail> financialMovDetailList = financialMovementDetailService.getAllFinancialMovementDetail();
+			List<FinancialMovementListDto> financialMovDetailListDto = new ArrayList<>();
+			for (FinancialMovementDetail fMovDetail : financialMovDetailList) {
+				financialMovDetailListDto.add(new FinancialMovementListDto(fMovDetail.getRequisitionDetail().getIdRequisitionDetail(),
+						fMovDetail.getFinancialMovement().getName(), fMovDetail.getFinancialMovement().getSymbol(),fMovDetail.getAmount(),
+						fMovDetail.getRequisitionDetail().getBank(), fMovDetail.getRequisitionDetail().getDocument()));
+			}
+			return new ResponseEntity<List<FinancialMovementListDto>>(financialMovDetailListDto, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity(new Message("BLOQUED"), HttpStatus.BAD_REQUEST);
+		}
 		
-		return new ResponseEntity(new Message("BLOQUED"), HttpStatus.BAD_REQUEST);
 	}
 }

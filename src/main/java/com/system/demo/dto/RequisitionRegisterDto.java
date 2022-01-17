@@ -12,7 +12,7 @@ public class RequisitionRegisterDto {
 	private Double amount;
 	
 	@NotBlank(message = "Ingrese un banco.")
-	private String banck;
+	private String bank;
 	
 	@NotBlank(message = "Ingrese un documento.")
 	private String document;
@@ -22,13 +22,13 @@ public class RequisitionRegisterDto {
 
 	public RequisitionRegisterDto(@NotNull(message = "Ingrese un id valido.") Long idRegister,
 			@NotNull(message = "Ingrese una cantidad.") Double amount,
-			@NotBlank(message = "Ingrese un banco.") String banck,
+			@NotBlank(message = "Ingrese un banco.") String bank,
 			@NotBlank(message = "Ingrese un documento.") String document,
 			@NotBlank(message = "Ingrese un comentario.") String comment) {
 		super();
 		this.idRegister = idRegister;
 		this.amount = amount;
-		this.banck = banck;
+		this.bank = bank;
 		this.document = document;
 		this.comment = comment;
 	}
@@ -49,12 +49,12 @@ public class RequisitionRegisterDto {
 		this.amount = amount;
 	}
 
-	public String getBanck() {
-		return banck;
+	public String getBank() {
+		return bank;
 	}
 
-	public void setBanck(String banck) {
-		this.banck = banck;
+	public void setBank(String banck) {
+		this.bank = banck;
 	}
 
 	public String getDocument() {
