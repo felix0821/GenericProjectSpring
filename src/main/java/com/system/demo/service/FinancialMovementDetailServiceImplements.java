@@ -17,14 +17,12 @@ public class FinancialMovementDetailServiceImplements implements FinancialMoveme
 
 	@Override
 	public Iterable<FinancialMovementDetail> getAllFinancialMovementDetail() {
-		// TODO Auto-generated method stub
-		return null;
+		return financialMovementDetailRepository.findAll();
 	}
 
 	@Override
 	public FinancialMovementDetail createFinancialMovementDetail(FinancialMovementDetail financialMovementDetail) {
-		// TODO Auto-generated method stub
-		return null;
+		return financialMovementDetailRepository.save(financialMovementDetail);
 	}
 
 	@Override

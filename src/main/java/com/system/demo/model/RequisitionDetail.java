@@ -48,15 +48,15 @@ public class RequisitionDetail implements Serializable{
     @Column(name = "observation")
     private String observation;
 	
-	@JoinColumn(name = "id_requisition", referencedColumnName = "id_requisition", insertable = false, updatable = false)
+	@JoinColumn(name = "id_requisition", referencedColumnName = "id_requisition", insertable = true, updatable = false)
     @ManyToOne(optional = false)
     private Requisition requisition;
 	
-	@JoinColumn(name = "id_person", referencedColumnName = "id_person", insertable = false, updatable = false)
+	@JoinColumn(name = "id_person", referencedColumnName = "id_person", insertable = true, updatable = false)
     @ManyToOne(optional = false)
     private Person person;
 	
-	@JoinColumn(name = "id_requisition_status", referencedColumnName = "id_requisition_status", insertable = false, updatable = false)
+	@JoinColumn(name = "id_requisition_status", referencedColumnName = "id_requisition_status", insertable = true, updatable = false)
     @ManyToOne(optional = false)
     private RequisitionStatus requisitionStatus;
 	
@@ -66,7 +66,7 @@ public class RequisitionDetail implements Serializable{
 	public RequisitionDetail(){};
 	
 	public RequisitionDetail(Long idRequisitionDetail, String bank, String document, String observation,
-			Requisition requisition, Person person) {
+			Requisition requisition, Person person, RequisitionStatus requisitionStatus) {
 		super();
 		this.idRequisitionDetail = idRequisitionDetail;
 		this.bank = bank;
@@ -74,7 +74,9 @@ public class RequisitionDetail implements Serializable{
 		this.observation = observation;
 		this.requisition = requisition;
 		this.person = person;
+		this.requisitionStatus = requisitionStatus;
 	}
+
 
 	public Long getIdRequisitionDetail() {
 		return idRequisitionDetail;

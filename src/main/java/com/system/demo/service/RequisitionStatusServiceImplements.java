@@ -17,14 +17,12 @@ public class RequisitionStatusServiceImplements implements RequisitionStatusServ
 
 	@Override
 	public Iterable<RequisitionStatus> getAllRequisitionStatus() {
-		// TODO Auto-generated method stub
-		return null;
+		return requisitionStatusRepository.findAll();
 	}
 
 	@Override
 	public RequisitionStatus createRequisitionStatus(RequisitionStatus requisitionStatus) {
-		// TODO Auto-generated method stub
-		return null;
+		return requisitionStatusRepository.save(requisitionStatus);
 	}
 
 	@Override
@@ -35,8 +33,7 @@ public class RequisitionStatusServiceImplements implements RequisitionStatusServ
 
 	@Override
 	public RequisitionStatus RequisitionStatusById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return requisitionStatusRepository.getById(id);
 	}
 
 }

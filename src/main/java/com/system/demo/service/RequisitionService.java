@@ -1,5 +1,7 @@
 package com.system.demo.service;
 
+import java.util.Optional;
+
 import com.system.demo.model.Requisition;
 
 public interface RequisitionService {
@@ -9,6 +11,6 @@ public interface RequisitionService {
 	public Requisition createRequisition(Requisition requisition);
 	public Requisition updateRequisition(Requisition requisition);
 	
-	public Requisition getRequisitionById(Long id);
+	public Optional<Requisition> getRequisitionById(Long id) throws Exception;
 
 }

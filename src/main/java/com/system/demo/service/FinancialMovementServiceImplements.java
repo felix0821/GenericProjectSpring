@@ -23,8 +23,7 @@ public class FinancialMovementServiceImplements implements FinancialMovementServ
 
 	@Override
 	public FinancialMovement createFinancialMovement(FinancialMovement financialMovement) {
-		// TODO Auto-generated method stub
-		return null;
+		return financialMovementRepository.save(financialMovement);
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package com.system.demo.service;
 
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +34,8 @@ public class RequisitionServiceImplements implements RequisitionService{
 	}
 
 	@Override
-	public Requisition getRequisitionById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Optional<Requisition> getRequisitionById(Long id) throws Exception{
+		return requisitionRepository.findById(id);
 	}
 
 }

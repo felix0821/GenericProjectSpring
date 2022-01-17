@@ -14,14 +14,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.system.demo.dto.Message;
+import com.system.demo.model.FinancialMovement;
 import com.system.demo.model.Person;
 import com.system.demo.model.PersonRol;
 import com.system.demo.model.Requisition;
+import com.system.demo.model.RequisitionStatus;
 import com.system.demo.model.Role;
 import com.system.demo.service.RoleService;
+import com.system.demo.service.FinancialMovementService;
 import com.system.demo.service.PersonRolService;
 import com.system.demo.service.PersonService;
 import com.system.demo.service.RequisitionService;
+import com.system.demo.service.RequisitionStatusService;
 import com.system.demo.util.UniqId;
 
 @Controller
@@ -38,9 +42,13 @@ public class AppController {
 	@Autowired
 	RoleService roleService;
 	
-	//Gestion de Solicitudes
+	//Gestion de Solicitudes y Movimientos financieros
 	@Autowired
 	RequisitionService requisitionService;
+	@Autowired
+	FinancialMovementService financialMovementService;
+	@Autowired
+	RequisitionStatusService requisitionStatusService;
 	
 	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -56,7 +64,9 @@ public class AppController {
 	@PostMapping("/generate-data")
 	public String createUser(ModelMap model) {
 		try {
-			generateRequisition();
+			generateFinancialMovement();
+			generateRequisitionStatus();
+			//generateRequisition();
 			//generateRole();
 			//generatePerson();
 			model.addAttribute("page", "completed.html");
@@ -65,6 +75,28 @@ public class AppController {
 			e.printStackTrace();
 		}
 		return "display-page";
+	}
+	
+	private void generateFinancialMovement() throws Exception {
+		FinancialMovement income, egress;
+		// Crear objetos iniciales
+		income = new FinancialMovement(1L,"Ingresos en soles", "S/", '+', 'A');
+		egress = new FinancialMovement(2L,"Egresos en soles", "S/", '-', 'A');
+		// Generar cosulta
+		financialMovementService.createFinancialMovement(income);
+		financialMovementService.createFinancialMovement(egress);
+	}
+	
+	private void generateRequisitionStatus() throws Exception {
+		RequisitionStatus sent, reviewed, observed;
+		// Crear objetos iniciales
+		sent = new RequisitionStatus(1L, "Enviado", 'A', null);
+		reviewed = new RequisitionStatus(2L, "Revisado", 'A', null);
+		observed = new RequisitionStatus(3L, "Observado", 'A', null);
+		// Generar cosulta
+		requisitionStatusService.createRequisitionStatus(sent);
+		requisitionStatusService.createRequisitionStatus(reviewed);
+		requisitionStatusService.createRequisitionStatus(observed);
 	}
 	
 	private void generateRequisition() throws Exception {

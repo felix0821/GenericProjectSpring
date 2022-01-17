@@ -231,6 +231,7 @@ public class PersonController {
         return new ResponseEntity(new Message("Usuario modificado exitosamente"), HttpStatus.CREATED);
 	}
 	
+	//---------------------------JWT_UTIL--------------------------------------------------------
 	public String usernameFromToken(HttpHeaders headers) {
 		final String authorizationHeaderValue = headers.getFirst(HttpHeaders.AUTHORIZATION);
 		String token = authorizationHeaderValue.substring(7, authorizationHeaderValue.length());

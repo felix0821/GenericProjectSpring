@@ -23,8 +23,7 @@ public class RequisitionDetailServiceImplements implements RequisitionDetailServ
 
 	@Override
 	public RequisitionDetail createRequisitionDetail(RequisitionDetail requisitionDetail) {
-		// TODO Auto-generated method stub
-		return null;
+		return requisitionDetailRepository.save(requisitionDetail);
 	}
 
 	@Override
