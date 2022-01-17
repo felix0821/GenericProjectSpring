@@ -1,4 +1,4 @@
-package com.system.demo.security;
+package com.system.demo.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -14,13 +14,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.system.demo.security.JwtEntryPoint;
+import com.system.demo.security.JwtTokenFilter;
 import com.system.demo.service.UserDetailsServiceImplements;
 
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class MainSecurity extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	private String[] resources = new String[]{
 			"/css/**","/icons/**","/img/**","/js/**","/layer/**","/","/index",
 			"/auth/**","/user/register","/","/generate-data", "/favicon.ico"

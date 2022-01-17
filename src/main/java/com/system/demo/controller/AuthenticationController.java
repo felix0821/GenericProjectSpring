@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.*;
 import com.system.demo.dto.JwtDto;
 import com.system.demo.dto.Message;
 import com.system.demo.dto.PersonLoginDto;
+import com.system.demo.model.Person;
 import com.system.demo.security.JwtProvider;
+import com.system.demo.service.PersonService;
 import com.system.demo.util.EncripId;
 
 import static com.system.demo.GenericProjectSystemStatement.*;
@@ -39,6 +41,9 @@ public class AuthenticationController {
     @Autowired
     EncripId encripId;
     
+    @Autowired
+	PersonService personService;
+    
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@PostMapping(URL_AUTH_LOGIN_POST)
     public ResponseEntity<?> login(@Valid @RequestBody PersonLoginDto userLogin, BindingResult bindingResult) throws Exception{
@@ -51,7 +56,8 @@ public class AuthenticationController {
             String jwt = jwtProvider.generateToken(authentication);
             UserDetails userDetails = (UserDetails)authentication.getPrincipal();
             String key = encripId.encript(userDetails.getUsername());
-            JwtDto jwtDto = new JwtDto(jwt, userDetails.getUsername(), key, userDetails.getAuthorities());
+            Person user = personService.getPersonByUsername(userDetails.getUsername()).get();
+            JwtDto jwtDto = new JwtDto(jwt, userDetails.getUsername(), key, userDetails.getAuthorities(), user.getUrlProfilepicture());
             return new ResponseEntity<JwtDto>(jwtDto, HttpStatus.OK);
         }
         catch (Exception e) {

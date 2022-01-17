@@ -108,7 +108,7 @@ public class PersonController {
 		catch (Exception e) {
         	return new ResponseEntity(new Message("BLOQUED"), HttpStatus.BAD_REQUEST);
         }
-	}
+	} 
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@PostMapping(value=URL_PERSON_PROFILE_EDIT_POST)

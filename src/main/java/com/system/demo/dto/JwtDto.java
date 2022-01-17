@@ -10,13 +10,15 @@ public class JwtDto {
     private String bearer = "Bearer";
     private String username;
     private String key;
+    private String imageUrl;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public JwtDto(String token, String username, String key, Collection<? extends GrantedAuthority> authorities) {
+    public JwtDto(String token, String username, String key, Collection<? extends GrantedAuthority> authorities, String imageUrl) {
         this.token = token;
         this.username = username;
         this.authorities = authorities;
         this.key = key;
+        this.imageUrl = imageUrl;
     }
     
     public String getToken() {
@@ -58,4 +60,13 @@ public class JwtDto {
     public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
         this.authorities = authorities;
     }
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+    
 }
