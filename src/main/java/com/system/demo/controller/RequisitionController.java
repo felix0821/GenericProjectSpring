@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -43,17 +44,25 @@ public class RequisitionController {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@GetMapping
 	@ResponseBody
-    public ResponseEntity<?> list(@RequestHeader HttpHeaders headers, HttpServletRequest request){
+    public ResponseEntity<?> formRequisition(@RequestHeader HttpHeaders headers, HttpServletRequest request){
 		try {
 			Iterable<Requisition> listRequisition = requisitionService.getAllRequisitions();
 			List<RequisitionTypeDto> listRequisitionDto = new ArrayList<>();
 			for(Requisition requisition:listRequisition) {
 				listRequisitionDto.add(new RequisitionTypeDto(requisition.getIdRequisition(),requisition.getName()));
 			}
-			return new ResponseEntity<List<RequisitionTypeDto>>(listRequisitionDto, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<List<RequisitionTypeDto>>(listRequisitionDto, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity(new Message("BLOQUED"), HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@PostMapping
+	@ResponseBody
+    public ResponseEntity<?> registerRequisition(@RequestHeader HttpHeaders headers, HttpServletRequest request){
+		
+		return new ResponseEntity(new Message("BLOQUED"), HttpStatus.BAD_REQUEST);
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
