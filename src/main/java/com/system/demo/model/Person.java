@@ -88,9 +88,13 @@ public class Person implements Serializable {
     private Character state;
     @Column(name = "modifyin_user")
     private Long modifyingUser;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person", fetch = FetchType.EAGER)
     @JsonIgnore
     private Collection<PersonRol> personRolCollection;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
+    private Collection<RequisitionDetail> requisitionDetailCollection;
     
     @Transient
     @JsonIgnore

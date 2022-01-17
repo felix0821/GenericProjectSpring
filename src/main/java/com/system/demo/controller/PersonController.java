@@ -44,7 +44,7 @@ import com.system.demo.util.UniqId;
 import static com.system.demo.GenericProjectSystemStatement.*;
 
 @RestController
-@RequestMapping(URL_PERSON_REQUEST)
+@RequestMapping(value=URL_PERSON_REQUEST)
 @CrossOrigin(origins = "*")
 public class PersonController {
 	

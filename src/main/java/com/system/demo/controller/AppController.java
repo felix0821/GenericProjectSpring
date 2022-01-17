@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.system.demo.dto.Message;
 import com.system.demo.model.Person;
 import com.system.demo.model.PersonRol;
+import com.system.demo.model.Requisition;
 import com.system.demo.model.Role;
 import com.system.demo.service.RoleService;
 import com.system.demo.service.PersonRolService;
 import com.system.demo.service.PersonService;
+import com.system.demo.service.RequisitionService;
 import com.system.demo.util.UniqId;
 
 @Controller
@@ -28,14 +30,17 @@ public class AppController {
 	@Autowired
 	UniqId uI;
 	
+	// Gestion de ACL
 	@Autowired
 	PersonService personService;
-	
 	@Autowired
 	PersonRolService personRolService;
-	
 	@Autowired
 	RoleService roleService;
+	
+	//Gestion de Solicitudes
+	@Autowired
+	RequisitionService requisitionService;
 	
 	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -51,14 +56,25 @@ public class AppController {
 	@PostMapping("/generate-data")
 	public String createUser(ModelMap model) {
 		try {
-			generateRole();
-			generatePerson();
+			generateRequisition();
+			//generateRole();
+			//generatePerson();
 			model.addAttribute("page", "completed.html");
 		} catch (Exception e) {
 			model.addAttribute("page", "error.html");
 			e.printStackTrace();
 		}
 		return "display-page";
+	}
+	
+	private void generateRequisition() throws Exception {
+		Requisition pay, collect;
+		// Crear objetos iniciales
+		pay = new Requisition(1L,"Pago de matricula",'A',null);
+		collect = new Requisition(2L,"Cobro de sueldo",'A',null);
+		// Generar cosulta
+		requisitionService.createRequisition(pay);
+		requisitionService.createRequisition(collect);
 	}
 	
 	private void generateRole() throws Exception {
@@ -69,6 +85,7 @@ public class AppController {
 		admin = new Role(1L,"Administrador", dateRegister,'A',"Adminitrador de pagina");
 		user = new Role(2L,"Usuario", dateRegister,'A',"Usuario de pagina");
 		invited = new Role(3L,"Invitado", dateRegister,'A',"Invitado de pagina");
+		// Generar cosulta
 		roleService.createRole(admin);
 		roleService.createRole(user);
 		roleService.createRole(invited);

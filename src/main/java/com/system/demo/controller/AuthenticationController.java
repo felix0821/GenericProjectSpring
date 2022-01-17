@@ -23,7 +23,7 @@ import static com.system.demo.GenericProjectSystemStatement.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(URL_AUTH_REQUEST)
+@RequestMapping(value=URL_AUTH_REQUEST)
 @CrossOrigin
 public class AuthenticationController {
 
