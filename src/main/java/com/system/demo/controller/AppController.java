@@ -64,7 +64,7 @@ public class AppController {
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@MessageMapping
-	@SendTo("/alert")
+	@SendTo("/alert-response")
 	public List<AlertRequisitionDto> sendAlert() {
 		RequisitionStatus req = requisitionStatusService.RequisitionStatusById(1L);
 		Iterable<RequisitionDetail> reqDetails = req.getRequisitionDetailCollection();
