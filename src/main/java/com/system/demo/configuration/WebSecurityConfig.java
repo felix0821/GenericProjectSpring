@@ -25,7 +25,7 @@ import com.system.demo.service.UserDetailsServiceImplements;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	private String[] resources = new String[]{
 			"/css/**","/icons/**","/img/**","/js/**","/layer/**","/","/index",
-			"/auth/**","/user/register","/","/generate-data", "/favicon.ico","/alert-websocket"
+			"/auth/**","/user/register","/","/generate-data", "/favicon.ico","/alert-websocket/**"
     };
 	
 	//private String[] resourcesAdmin = new String[] {"/user/deleteUser/*","/user/editUser/*","/user"};

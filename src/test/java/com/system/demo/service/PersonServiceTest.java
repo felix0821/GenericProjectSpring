@@ -90,7 +90,6 @@ public class PersonServiceTest {
 		System.out.println("------------"+result1.getName());
 		//Mockito.when(personRepository.save(expected)).thenReturn(result);
 		Assertions.assertEquals(expected1, result1);
-		Assertions.assertEquals(expected1, result1);
 	}
 	
 	//Genera una instancia de repositorio
