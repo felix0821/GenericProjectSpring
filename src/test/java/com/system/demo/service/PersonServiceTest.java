@@ -2,6 +2,7 @@ package com.system.demo.service;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import static org.mockito.AdditionalAnswers.returnsFirstArg;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -80,6 +81,18 @@ public class PersonServiceTest {
 		return persons;
 	}
 	
+	//PRUEBAS DE CONSULTA
+	
+	@Test
+	public void userTestServiceCreatePerson() throws Exception {
+		Person expected1 = generateUser();
+		Person result1 = personService.createPerson(expected1);
+		System.out.println("------------"+result1.getName());
+		//Mockito.when(personRepository.save(expected)).thenReturn(result);
+		Assertions.assertEquals(expected1, result1);
+		Assertions.assertEquals(expected1, result1);
+	}
+	
 	//Genera una instancia de repositorio
 	@BeforeEach
 	public void setup() {
@@ -88,6 +101,8 @@ public class PersonServiceTest {
 		Person person = generateUser();
 		persons.add(person);
 		Mockito.when(personRepository.findAll()).thenReturn(persons);
+		//Mockito.when(personRepository.save(Mockito.any(Person.class))).then(returnsFirstArg());
+		Mockito.when(personRepository.save(Mockito.any(Person.class))).thenReturn(persons.get(0));
 	}
 	
 	//PRUEBAS DE CONSULTA
