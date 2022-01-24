@@ -53,7 +53,7 @@ public class AcademicController {
 						program.getProgramName(),program.getProgramState()));
 			}
 			
-			return new ResponseEntity<List<AcademicProgramListDto>>(academicProgramListDto, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<List<AcademicProgramListDto>>(academicProgramListDto, HttpStatus.OK);
 		}catch(Exception e) {
 			return new ResponseEntity(new Message("BLOQUED"), HttpStatus.BAD_REQUEST);
 		}
