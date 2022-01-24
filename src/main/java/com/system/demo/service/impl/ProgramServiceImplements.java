@@ -18,12 +18,12 @@ public class ProgramServiceImplements implements ProgramService{
 	
 	@Override
 	public Iterable<Program> getAllPrograms() {
-		return null;
+		return programRepository.findAll();
 	}
 
 	@Override
 	public Program createProgram(Program program) throws Exception {
-		return null;
+		return programRepository.save(program);
 	}
 
 }

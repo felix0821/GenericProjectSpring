@@ -156,35 +156,35 @@ public class PersonController {
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@PostMapping(value=URL_PERSON_REGISTER_POST)
-    public ResponseEntity<?> save(@Valid @RequestBody PersonRegisterDto userRegister, BindingResult bindingResult) throws Exception{
+    public ResponseEntity<?> save(@Valid @RequestBody PersonRegisterDto personRegister, BindingResult bindingResult) throws Exception{
 		//Realizamos las validaciones pertinentes
         if(bindingResult.hasErrors())
             return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
-        if(personService.existsByUsername(userRegister.getUsername()))
+        if(personService.existsByUsername(personRegister.getUsername()))
             return new ResponseEntity(new Message("Ese nombre de usuario ya existe"), HttpStatus.BAD_REQUEST);
-        if(personService.existsByEmail(userRegister.getEmail()))
+        if(personService.existsByEmail(personRegister.getEmail()))
             return new ResponseEntity(new Message("Ese email ya existe"), HttpStatus.BAD_REQUEST);
         /*if(personService.existsByDni(userRegister.getDni()))
             return new ResponseEntity(new Message("Ese dni ya existe"), HttpStatus.BAD_REQUEST);*/
         Long idUser = uI.uniqid();
-        String password = bCryptPasswordEncoder.encode(userRegister.getPassword());
+        String password = bCryptPasswordEncoder.encode(personRegister.getPassword());
         //Insertar fecha de registro
 		LocalDate fechaPeru=LocalDate.now(ZoneId.of("America/Lima"));
 		Date dateRegister=Date.from(fechaPeru.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
 		//Insertar nombres por dni
-		String names[] = apiQueries.checkDniApiPeru(userRegister.getDni());
+		String names[] = apiQueries.checkDniApiPeru(personRegister.getDni());
 		Date dateBirth=new SimpleDateFormat("yyyy-MM-dd").parse(names[3]);
-		String emailPerson = userRegister.getEmail();
+		String emailPerson = personRegister.getEmail();
 		
 		//Crear un usuario para persistir
         Person person =
-                new Person(idUser, userRegister.getUsername(), password, names[0], names[1], 
+                new Person(idUser, personRegister.getUsername(), password, names[0], names[1], 
                 		names[2], dateRegister, emailPerson, 'A');
         person.setPersonDateBirth(dateBirth);
         personService.createPerson(person);
         //Agregar documento de identidad a nuevo usuario
         PersonIdentificationDocument personIdentificationDocument = new PersonIdentificationDocument(1L,idUser);
-        personIdentificationDocument.setPersonIdentificationDocumentValue(userRegister.getDni());
+        personIdentificationDocument.setPersonIdentificationDocumentValue(personRegister.getDni());
         personIdentDocService.createPersonIdentificationDocument(personIdentificationDocument);
         //Agregar rol a nuevo usuario
         Long idRole = 2L;

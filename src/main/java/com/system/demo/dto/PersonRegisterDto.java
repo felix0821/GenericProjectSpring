@@ -8,7 +8,6 @@ public class PersonRegisterDto {
 	
 	@NotBlank(message = "Ingrese un nombre de usuario.")
 	@Size(max = 20, min = 3, message = "Ingrese entre 3 a 30 caracteres.")
-	
 	private String username;
 	
 	@NotBlank(message = "Ingrese una contraseña.")

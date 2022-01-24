@@ -26,7 +26,7 @@ public class AcademicProgramListDto {
 		this.name = name;
 		this.state = state;
 	}
-
+	
 	public Long getId() {
 		return id;
 	}
