@@ -1,6 +1,7 @@
 package com.system.demo.dto;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class AcademicProgramRegisterDto {
@@ -17,7 +18,7 @@ public class AcademicProgramRegisterDto {
 	@Size(max = 512, min = 1, message = "Ingrese entre 1 a 512 caracteres.")
 	private String description;
 	
-	@NotBlank(message = "Ingrese un área de programa.")
+	@NotNull(message = "Ingrese un área de programa.")
 	private Character area;
 	
 	private String image;
