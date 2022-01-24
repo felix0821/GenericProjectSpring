@@ -105,15 +105,19 @@ public class PersonController {
 			String userFromToken = usernameFromToken(headers);
 	        Person person = personService.getPersonByUsername(userFromToken).get();
 	        PersonIdentificationDocument dniFromPerson = null;
+	        String dni=null;
 	        try {
 	        	dniFromPerson = personIdentDocService.personIdentificationDocumentById(1L, person.getPersonId());
+	        	dni = dniFromPerson.getPersonIdentificationDocumentValue();
 	        } catch (Exception e) {
 	        	System.out.println(e);
 	        }
+	        
 	        PersonProfileDto personProfileDto = new PersonProfileDto(person.getPersonId(), person.getPersonUsername(), person.getPersonName(),
-	        		person.getPersonLastnameFather(), person.getPersonLastnameMother(), person.getPersonEmail(), dniFromPerson.getPersonIdentificationDocumentValue(), 
+	        		person.getPersonLastnameFather(), person.getPersonLastnameMother(), person.getPersonEmail(), dni, 
 	        		person.getPersonDateBirth(), person.getPersonUrlProfilepicture());
 	        return new ResponseEntity<PersonProfileDto>(personProfileDto, HttpStatus.OK);
+	        //return new ResponseEntity(new Message("BLOQUEDasa"), HttpStatus.OK);
 		}
 		catch (Exception e) {
         	return new ResponseEntity(new Message("BLOQUED"), HttpStatus.BAD_REQUEST);

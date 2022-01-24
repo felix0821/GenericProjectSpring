@@ -29,5 +29,8 @@ public class GenericProjectSystemStatement {
 	public static final String URL_FINANCIAL_MOVEMENT_REQUEST = "/financial-movement";
 	//	Mapeo para el controlador "Control documental"
 	public static final String URL_DOCUMENTARY_REQUEST = "/documentary";
+	
+	public static final String URL_ACADEMIC_REQUEST = "/academic";
+	public static final String URL_ACADEMIC_REGISTER_POST = "/program/register";
 
 }
