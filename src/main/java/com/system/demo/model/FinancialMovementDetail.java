@@ -1,160 +1,155 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.system.demo.model;
 
 import java.io.Serializable;
-import java.util.Date;
-
+import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ *
+ * @author Felix
+ */
 @Entity
 @Table(name = "financial_movement_detail")
-@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "FinancialMovementDetail.findAll", query = "SELECT u FROM FinancialMovementDetail u"),
-    @NamedQuery(name = "FinancialMovementDetail.findByIdFinancialMovement", query = "SELECT u FROM FinancialMovementDetail u WHERE u.financialMovementDetailPK.idFinancialMovement = :idFinancialMovement"),
-    @NamedQuery(name = "FinancialMovementDetail.findByIdRequisitionDetail", query = "SELECT u FROM FinancialMovementDetail u WHERE u.financialMovementDetailPK.idRequisitionDetail = :idRequisitionDetail"),
-    @NamedQuery(name = "FinancialMovementDetail.findByRegistrationDate", query = "SELECT u FROM FinancialMovementDetail u WHERE u.registrationDate = :registrationDate")})
+    @NamedQuery(name = "FinancialMovementDetail.findAll", query = "SELECT f FROM FinancialMovementDetail f"),
+    @NamedQuery(name = "FinancialMovementDetail.findByFinancialMovementDetailId", query = "SELECT f FROM FinancialMovementDetail f WHERE f.financialMovementDetailId = :financialMovementDetailId"),
+    @NamedQuery(name = "FinancialMovementDetail.findByFinancialMovementDetailAmount", query = "SELECT f FROM FinancialMovementDetail f WHERE f.financialMovementDetailAmount = :financialMovementDetailAmount"),
+    @NamedQuery(name = "FinancialMovementDetail.findByFinancialMovementDetailOperationNumber", query = "SELECT f FROM FinancialMovementDetail f WHERE f.financialMovementDetailOperationNumber = :financialMovementDetailOperationNumber"),
+    @NamedQuery(name = "FinancialMovementDetail.findByFinancialMovementDetailRegisterType", query = "SELECT f FROM FinancialMovementDetail f WHERE f.financialMovementDetailRegisterType = :financialMovementDetailRegisterType")})
 public class FinancialMovementDetail implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	@EmbeddedId
-    protected FinancialMovementDetailPK financialMovementDetailPK;
-	
-	@Basic(optional = true)
-    @Column(name = "amount")
-    private Double amount;
-	
-	@Basic(optional = false) 
-    @Column(name = "registration_date")
-    @Temporal(TemporalType.DATE)
-    private Date registrationDate;
-	
-	@JoinColumn(name = "id_financial_movement", referencedColumnName = "id_financial_movement", insertable = false, updatable = false)
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "financial_movement_detail_id", nullable = false)
+    private Long financialMovementDetailId;
+    @Basic(optional = false)
+    @Column(name = "financial_movement_detail_amount", nullable = false)
+    private double financialMovementDetailAmount;
+    @Column(name = "financial_movement_detail_operation_number")
+    private int financialMovementDetailOperationNumber;
+    @Basic(optional = false)
+    @Column(name = "financial_movement_detail_register_type", nullable = false)
+    private Character financialMovementDetailRegisterType;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "financialMovementDetail")
+    private Collection<FinancialMovementRequisition> financialMovementRequisitionCollection;
+    @JoinColumn(name = "financial_movement_id", referencedColumnName = "financial_movement_id", nullable = false)
     @ManyToOne(optional = false)
-    private FinancialMovement financialMovement;
-	
-	@JoinColumn(name = "id_requisition_detail", referencedColumnName = "id_requisition_detail", insertable = false, updatable = false)
+    private FinancialMovement financialMovementId;
+    @JoinColumn(name = "person_registering_id", referencedColumnName = "person_registering_id", nullable = false)
     @ManyToOne(optional = false)
-    private RequisitionDetail requisitionDetail;
+    private PersonRegistering personRegisteringId;
 
-	public FinancialMovementDetail() {};
-	
-	public FinancialMovementDetail(FinancialMovementDetailPK financialMovementDetailPK) {
-		this.financialMovementDetailPK = financialMovementDetailPK;
-	}
-	
-	public FinancialMovementDetail(long idRequisitionDetail, long idFinancialMovement) {
-		this.financialMovementDetailPK = new FinancialMovementDetailPK(idRequisitionDetail,idFinancialMovement);
-	}
+    public FinancialMovementDetail() {
+    }
 
-	public FinancialMovementDetailPK getFinancialMovementDetailPK() {
-		return financialMovementDetailPK;
-	}
+    public FinancialMovementDetail(Long financialMovementDetailId) {
+        this.financialMovementDetailId = financialMovementDetailId;
+    }
 
-	public void setFinancialMovementDetailPK(FinancialMovementDetailPK financialMovementDetailPK) {
-		this.financialMovementDetailPK = financialMovementDetailPK;
-	}
+    public FinancialMovementDetail(Long financialMovementDetailId, double financialMovementDetailAmount, Character financialMovementDetailRegisterType) {
+        this.financialMovementDetailId = financialMovementDetailId;
+        this.financialMovementDetailAmount = financialMovementDetailAmount;
+        this.financialMovementDetailRegisterType = financialMovementDetailRegisterType;
+    }
 
-	public Double getAmount() {
-		return amount;
-	}
+    public Long getFinancialMovementDetailId() {
+        return financialMovementDetailId;
+    }
 
-	public void setAmount(Double amount) {
-		this.amount = amount;
-	}
+    public void setFinancialMovementDetailId(Long financialMovementDetailId) {
+        this.financialMovementDetailId = financialMovementDetailId;
+    }
 
-	public Date getRegistrationDate() {
-		return registrationDate;
-	}
+    public double getFinancialMovementDetailAmount() {
+        return financialMovementDetailAmount;
+    }
 
-	public void setRegistrationDate(Date registrationDate) {
-		this.registrationDate = registrationDate;
-	}
+    public void setFinancialMovementDetailAmount(double financialMovementDetailAmount) {
+        this.financialMovementDetailAmount = financialMovementDetailAmount;
+    }
 
-	public FinancialMovement getFinancialMovement() {
-		return financialMovement;
-	}
+    public int getFinancialMovementDetailOperationNumber() {
+        return financialMovementDetailOperationNumber;
+    }
 
-	public void setFinancialMovement(FinancialMovement financialMovement) {
-		this.financialMovement = financialMovement;
+    public Character getFinancialMovementDetailRegisterType() {
+		return financialMovementDetailRegisterType;
 	}
 
-	public RequisitionDetail getRequisitionDetail() {
-		return requisitionDetail;
+	public void setFinancialMovementDetailRegisterType(Character financialMovementDetailRegisterType) {
+		this.financialMovementDetailRegisterType = financialMovementDetailRegisterType;
 	}
 
-	public void setRequisitionDetail(RequisitionDetail requisitionDetail) {
-		this.requisitionDetail = requisitionDetail;
-	}
+	public void setFinancialMovementDetailOperationNumber(int financialMovementDetailOperationNumber) {
+        this.financialMovementDetailOperationNumber = financialMovementDetailOperationNumber;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((amount == null) ? 0 : amount.hashCode());
-		result = prime * result + ((financialMovement == null) ? 0 : financialMovement.hashCode());
-		result = prime * result + ((financialMovementDetailPK == null) ? 0 : financialMovementDetailPK.hashCode());
-		result = prime * result + ((registrationDate == null) ? 0 : registrationDate.hashCode());
-		result = prime * result + ((requisitionDetail == null) ? 0 : requisitionDetail.hashCode());
-		return result;
-	}
+    public Collection<FinancialMovementRequisition> getFinancialMovementRequisitionCollection() {
+        return financialMovementRequisitionCollection;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		FinancialMovementDetail other = (FinancialMovementDetail) obj;
-		if (amount == null) {
-			if (other.amount != null)
-				return false;
-		} else if (!amount.equals(other.amount))
-			return false;
-		if (financialMovement == null) {
-			if (other.financialMovement != null)
-				return false;
-		} else if (!financialMovement.equals(other.financialMovement))
-			return false;
-		if (financialMovementDetailPK == null) {
-			if (other.financialMovementDetailPK != null)
-				return false;
-		} else if (!financialMovementDetailPK.equals(other.financialMovementDetailPK))
-			return false;
-		if (registrationDate == null) {
-			if (other.registrationDate != null)
-				return false;
-		} else if (!registrationDate.equals(other.registrationDate))
-			return false;
-		if (requisitionDetail == null) {
-			if (other.requisitionDetail != null)
-				return false;
-		} else if (!requisitionDetail.equals(other.requisitionDetail))
-			return false;
-		return true;
-	}
+    public void setFinancialMovementRequisitionCollection(Collection<FinancialMovementRequisition> financialMovementRequisitionCollection) {
+        this.financialMovementRequisitionCollection = financialMovementRequisitionCollection;
+    }
 
-	@Override
-	public String toString() {
-		return "FinancialMovementDetail [financialMovementDetailPK=" + financialMovementDetailPK + ", amount=" + amount
-				+ ", registrationDate=" + registrationDate + ", financialMovement=" + financialMovement
-				+ ", requisitionDetail=" + requisitionDetail + "]";
-	}
+    public FinancialMovement getFinancialMovementId() {
+        return financialMovementId;
+    }
 
+    public void setFinancialMovementId(FinancialMovement financialMovementId) {
+        this.financialMovementId = financialMovementId;
+    }
+
+    public PersonRegistering getPersonRegisteringId() {
+        return personRegisteringId;
+    }
+
+    public void setPersonRegisteringId(PersonRegistering personRegisteringId) {
+        this.personRegisteringId = personRegisteringId;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (financialMovementDetailId != null ? financialMovementDetailId.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof FinancialMovementDetail)) {
+            return false;
+        }
+        FinancialMovementDetail other = (FinancialMovementDetail) object;
+        if ((this.financialMovementDetailId == null && other.financialMovementDetailId != null) || (this.financialMovementDetailId != null && !this.financialMovementDetailId.equals(other.financialMovementDetailId))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "com.system.demo.model.FinancialMovementDetail[ financialMovementDetailId=" + financialMovementDetailId + " ]";
+    }
+    
 }

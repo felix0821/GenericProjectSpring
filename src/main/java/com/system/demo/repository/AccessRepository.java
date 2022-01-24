@@ -10,7 +10,7 @@ import com.system.demo.model.AccessPK;
 
 @Repository
 public interface AccessRepository extends JpaRepository<Access,AccessPK>{
-	public List<Access> findByIdRole(long idRole);
-	public List<Access> findByIdResource(long idResource);
+	public List<Access> findByRoleId(long idRole);
+	public List<Access> findByResourceId(long idResource);
 
 }

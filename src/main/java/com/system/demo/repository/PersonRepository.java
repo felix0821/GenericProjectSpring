@@ -9,12 +9,10 @@ import com.system.demo.model.Person;
 
 @Repository
 public interface PersonRepository extends JpaRepository<Person,Long>{
-	public Optional<Person> findByIdPerson(Long id);
-	public Optional<Person> findByUsername(String username);
-	public Optional<Person> findByEmail(String email);
-	public Optional<Person> findByDni(String dni);
-	public boolean existsByUsername(String username);
-	public boolean existsByEmail(String email);
-	public boolean existsByDni(String dni);
+	public Optional<Person> findByPersonId(Long personId);
+	public Optional<Person> findByPersonUsername(String personUsername);
+	public Optional<Person> findByPersonEmail(String personEmail);
+	public boolean existsByPersonUsername(String personUsername);
+	public boolean existsByPersonEmail(String personEmail);
 
 }

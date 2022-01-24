@@ -17,25 +17,24 @@ public class FinancialMovementListDto {
 	@NotNull(message = "Ingrese una cantidad.")
 	private Double amount;
 	
-	@NotBlank(message = "Ingrese un banco.")
-	private String bank;
-	
-	@NotBlank(message = "Ingrese un documento.")
-	private String document;
+	@NotBlank(message = "Ingrese un tipo de registro.")
+	private String registerType;
 
+	private int operationNumber;
+	
+	
 	public FinancialMovementListDto(@NotNull(message = "Ingrese un id valido") Long id,
 			@NotBlank(message = "Ingrese un nombre.") String name,
 			@NotBlank(message = "Ingrese un simbolo.") String symbol,
 			@NotNull(message = "Ingrese una cantidad.") Double amount,
-			@NotBlank(message = "Ingrese un banco.") String bank,
-			@NotBlank(message = "Ingrese un documento.") String document) {
+			@NotBlank(message = "Ingrese un tipo de registro.") String registerType, int operationNumber) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.symbol = symbol;
 		this.amount = amount;
-		this.bank = bank;
-		this.document = document;
+		this.registerType = registerType;
+		this.operationNumber = operationNumber;
 	}
 
 	public Long getId() {
@@ -70,20 +69,20 @@ public class FinancialMovementListDto {
 		this.amount = amount;
 	}
 
-	public String getBank() {
-		return bank;
+	public String getRegisterType() {
+		return registerType;
 	}
 
-	public void setBank(String bank) {
-		this.bank = bank;
+	public void setRegisterType(String registerType) {
+		this.registerType = registerType;
 	}
 
-	public String getDocument() {
-		return document;
+	public int getOperationNumber() {
+		return operationNumber;
 	}
 
-	public void setDocument(String document) {
-		this.document = document;
+	public void setOperationNumber(int operationNumber) {
+		this.operationNumber = operationNumber;
 	}
 
 }

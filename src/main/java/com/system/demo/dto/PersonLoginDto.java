@@ -11,7 +11,7 @@ public class PersonLoginDto {
     @Size(min = 4, message = "Ingrese al menos 4 caracteres.")
     private String password;
     
-    public String getUsername() {
+	public String getUsername() {
 		return username;
 	}
 	public void setUsername(String username) {
@@ -23,4 +23,5 @@ public class PersonLoginDto {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+    
 }

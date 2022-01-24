@@ -23,6 +23,7 @@ import org.springframework.context.annotation.Bean;
 
 import com.system.demo.model.Person;
 import com.system.demo.repository.PersonRepository;
+import com.system.demo.service.impl.PersonServiceImplements;
 
 @SpringBootTest
 public class PersonServiceTest {
@@ -69,7 +70,7 @@ public class PersonServiceTest {
 		Date dateRegister=Date.from(datePeru.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
 		//Crear usuario
 		Person person = new Person(1L, "felix123", "123", "FELIX", "MONTALICO", "LAQUIHUANACO", 
-	    		"felixmontalico@gmail.com", "77283387", dateBirth, dateRegister, 'A');
+	    		dateRegister, "felixmontalico@gmail.com", 'A');
 		return person;
 	}
 	
@@ -87,7 +88,7 @@ public class PersonServiceTest {
 	public void userTestServiceCreatePerson() throws Exception {
 		Person expected1 = generateUser();
 		Person result1 = personService.createPerson(expected1);
-		System.out.println("------------"+result1.getName());
+		System.out.println("------------"+result1.getPersonName());
 		//Mockito.when(personRepository.save(expected)).thenReturn(result);
 		Assertions.assertEquals(expected1, result1);
 	}

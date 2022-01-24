@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.system.demo.model.Access;
 import com.system.demo.model.Person;
-import com.system.demo.model.PersonRol;
+import com.system.demo.model.PersonRole;
 import com.system.demo.model.Resource;
 import com.system.demo.service.AccessService;
 import com.system.demo.service.PersonService;
@@ -39,8 +39,8 @@ public class AclFilterVerify {
 				System.out.println("Recurso no definido");
 				return false;
 			}
-			for (PersonRol personRol : person.getPersonRolCollection()) {
-				if (this.searchAccess(personRol.getRole().getIdRole(), resource.getIdResource())) {
+			for (PersonRole personRol : person.getPersonRoleCollection()) {
+				if (this.searchAccess(personRol.getRole().getRoleId(), resource.getResourceId())) {
 					logger.info("confirmed access: ["+username+"->"+resourceUrl+"]");
 					return true;
 				}
@@ -67,7 +67,7 @@ public class AclFilterVerify {
 		}
 		
 		if (access!=null) {
-			if (access.getState() == 'A') return true;
+			if (access.getAccessState() == 'A') return true;
 			else System.out.println("Acceso desactivado");	
 		}
 		return false;

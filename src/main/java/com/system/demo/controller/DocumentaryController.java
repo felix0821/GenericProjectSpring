@@ -21,6 +21,7 @@ import com.system.demo.dto.DocumentaryListDto;
 import com.system.demo.dto.Message;
 import com.system.demo.model.RequisitionDetail;
 import com.system.demo.model.RequisitionStatus;
+import com.system.demo.model.RequisitionStatusDetail;
 import com.system.demo.service.RequisitionStatusService;
 
 @RestController
@@ -39,11 +40,11 @@ public class DocumentaryController {
 			Iterable<RequisitionStatus> listRequisitionStatus = requisitionStatusService.getAllRequisitionStatus();
 			List<DocumentaryListDto> documentaryListDto = new ArrayList<>();
 			for (RequisitionStatus reqStatus : listRequisitionStatus) {
-				DocumentaryListDto docDto = new DocumentaryListDto(reqStatus.getName(),reqStatus.getDescription());
+				DocumentaryListDto docDto = new DocumentaryListDto(reqStatus.getRequisitionStatusName(),reqStatus.getRequisitionStatusDescription());
 				List<DocumentaryListDetailDto> docDetailDto = new ArrayList<>();
-				for (RequisitionDetail reqDetail : reqStatus.getRequisitionDetailCollection()) {
-					docDetailDto.add(new DocumentaryListDetailDto(reqDetail.getRequisition().getIdRequisition(),
-							reqDetail.getPerson().getUsername(),reqDetail.getRequisition().getName(), reqDetail.getObservation()));
+				for (RequisitionStatusDetail reqStatusDet : reqStatus.getRequisitionStatusDetailCollection()) {
+					docDetailDto.add(new DocumentaryListDetailDto(reqStatusDet.getRequisitionStatusDetailId(),reqStatusDet.getPersonId().getPersonUsername(),
+							reqStatusDet.getRequisitionDetailId().getRequisitionId().getRequisitionName(), reqStatusDet.getRequisitionStatusDetailDate()));
 				}
 				docDto.setDocumentaries(docDetailDto);
 				documentaryListDto.add(docDto);

@@ -11,16 +11,11 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  *
@@ -28,77 +23,94 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 @Entity
 @Table(name = "resource")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Resource.findAll", query = "SELECT r FROM Resource r"),
-    @NamedQuery(name = "Resource.findByIdResource", query = "SELECT r FROM Resource r WHERE r.idResource = :idResource"),
-    @NamedQuery(name = "Resource.findByUrlName", query = "SELECT r FROM Resource r WHERE r.urlName = :urlName"),
-    @NamedQuery(name = "Resource.findByDescription", query = "SELECT r FROM Resource r WHERE r.description = :description"),
-    @NamedQuery(name = "Resource.findByState", query = "SELECT r FROM Resource r WHERE r.state = :state")})
+    @NamedQuery(name = "Resource.findByResourceId", query = "SELECT r FROM Resource r WHERE r.resourceId = :resourceId"),
+    @NamedQuery(name = "Resource.findByResourceName", query = "SELECT r FROM Resource r WHERE r.resourceName = :resourceName"),
+    @NamedQuery(name = "Resource.findByResourceUrl", query = "SELECT r FROM Resource r WHERE r.resourceUrl = :resourceUrl"),
+    @NamedQuery(name = "Resource.findByResourceType", query = "SELECT r FROM Resource r WHERE r.resourceType = :resourceType"),
+    @NamedQuery(name = "Resource.findByResourceState", query = "SELECT r FROM Resource r WHERE r.resourceState = :resourceState")})
 public class Resource implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "id_resource")
-    private Long idResource;
+    @Column(name = "resource_id", nullable = false)
+    private Long resourceId;
     @Basic(optional = false)
-    @Column(name = "url_name")
-    private String urlName;
-    @Column(name = "description")
-    private String description;
+    @Column(name = "resource_name", nullable = false, length = 64)
+    private String resourceName;
     @Basic(optional = false)
-    @Column(name = "state")
-    private Character state;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "resource", fetch = FetchType.EAGER)
+    @Column(name = "resource_url", nullable = false, length = 128)
+    private String resourceUrl;
+    @Basic(optional = false)
+    @Column(name = "resource_type", nullable = false)
+    private Character resourceType;
+    @Basic(optional = false)
+    @Column(name = "resource_state", nullable = false)
+    private Character resourceState;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "resource")
     private Collection<Access> accessCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "resource")
+    private Collection<ResourceContext> resourceContextCollection;
+    @OneToMany(mappedBy = "resourceId")
+    private Collection<InterfaceView> interfaceViewCollection;
 
     public Resource() {
     }
 
-    public Resource(Long idResource) {
-        this.idResource = idResource;
+    public Resource(Long resourceId) {
+        this.resourceId = resourceId;
     }
 
-    public Resource(Long idResource, String urlName, Character state) {
-        this.idResource = idResource;
-        this.urlName = urlName;
-        this.state = state;
+    public Resource(Long resourceId, String resourceName, String resourceUrl, Character resourceType, Character resourceState) {
+        this.resourceId = resourceId;
+        this.resourceName = resourceName;
+        this.resourceUrl = resourceUrl;
+        this.resourceType = resourceType;
+        this.resourceState = resourceState;
     }
 
-    public Long getIdResource() {
-        return idResource;
+    public Long getResourceId() {
+        return resourceId;
     }
 
-    public void setIdResource(Long idResource) {
-        this.idResource = idResource;
+    public void setResourceId(Long resourceId) {
+        this.resourceId = resourceId;
     }
 
-    public String getUrlName() {
-        return urlName;
+    public String getResourceName() {
+        return resourceName;
     }
 
-    public void setUrlName(String urlName) {
-        this.urlName = urlName;
+    public void setResourceName(String resourceName) {
+        this.resourceName = resourceName;
     }
 
-    public String getDescription() {
-        return description;
+    public String getResourceUrl() {
+        return resourceUrl;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setResourceUrl(String resourceUrl) {
+        this.resourceUrl = resourceUrl;
     }
 
-    public Character getState() {
-        return state;
+    public Character getResourceType() {
+        return resourceType;
     }
 
-    public void setState(Character state) {
-        this.state = state;
+    public void setResourceType(Character resourceType) {
+        this.resourceType = resourceType;
     }
 
-    @XmlTransient
+    public Character getResourceState() {
+        return resourceState;
+    }
+
+    public void setResourceState(Character resourceState) {
+        this.resourceState = resourceState;
+    }
+
     public Collection<Access> getAccessCollection() {
         return accessCollection;
     }
@@ -107,10 +119,26 @@ public class Resource implements Serializable {
         this.accessCollection = accessCollection;
     }
 
+    public Collection<ResourceContext> getResourceContextCollection() {
+        return resourceContextCollection;
+    }
+
+    public void setResourceContextCollection(Collection<ResourceContext> resourceContextCollection) {
+        this.resourceContextCollection = resourceContextCollection;
+    }
+
+    public Collection<InterfaceView> getInterfaceViewCollection() {
+        return interfaceViewCollection;
+    }
+
+    public void setInterfaceViewCollection(Collection<InterfaceView> interfaceViewCollection) {
+        this.interfaceViewCollection = interfaceViewCollection;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idResource != null ? idResource.hashCode() : 0);
+        hash += (resourceId != null ? resourceId.hashCode() : 0);
         return hash;
     }
 
@@ -121,7 +149,7 @@ public class Resource implements Serializable {
             return false;
         }
         Resource other = (Resource) object;
-        if ((this.idResource == null && other.idResource != null) || (this.idResource != null && !this.idResource.equals(other.idResource))) {
+        if ((this.resourceId == null && other.resourceId != null) || (this.resourceId != null && !this.resourceId.equals(other.resourceId))) {
             return false;
         }
         return true;
@@ -129,7 +157,7 @@ public class Resource implements Serializable {
 
     @Override
     public String toString() {
-        return "vacancies_application_system.Resource[ idResource=" + idResource + " ]";
+        return "com.system.demo.model.Resource[ resourceId=" + resourceId + " ]";
     }
     
 }

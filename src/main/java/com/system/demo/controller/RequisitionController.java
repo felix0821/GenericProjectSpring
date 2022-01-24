@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -39,7 +40,7 @@ import com.system.demo.service.PersonService;
 import com.system.demo.service.RequisitionDetailService;
 import com.system.demo.service.RequisitionService;
 import com.system.demo.service.RequisitionStatusService;
-import com.system.demo.util.UniqId;
+import com.system.demo.utility.UniqId;
 
 @RestController
 @RequestMapping(value=URL_REQUISITION_REQUEST)
@@ -75,7 +76,7 @@ public class RequisitionController {
 			Iterable<Requisition> listRequisition = requisitionService.getAllRequisitions();
 			List<RequisitionTypeDto> listRequisitionDto = new ArrayList<>();
 			for(Requisition requisition:listRequisition) {
-				listRequisitionDto.add(new RequisitionTypeDto(requisition.getIdRequisition(),requisition.getName()));
+				listRequisitionDto.add(new RequisitionTypeDto(requisition.getRequisitionId(), requisition.getRequisitionName()));
 			}
 			return new ResponseEntity<List<RequisitionTypeDto>>(listRequisitionDto, HttpStatus.OK);
 		} catch (Exception e) {
@@ -98,18 +99,16 @@ public class RequisitionController {
 			//	Insertar fecha de registro
 			LocalDate fechaPeru=LocalDate.now(ZoneId.of("America/Lima"));
 			Date dateRegister=Date.from(fechaPeru.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+			boolean checking = false;
 			//	Objeto Solicitud
 			Long idReqDetail = uI.uniqid();
-			RequisitionDetail requisitionDetail = new RequisitionDetail(idReqDetail, requisitionRegisterDto.getBank(),
-					requisitionRegisterDto.getDocument(), requisitionRegisterDto.getComment(), requisition, user, requisitionStatus);
+			RequisitionDetail requisitionDetail = new RequisitionDetail(idReqDetail, checking, dateRegister);
 			//	Objeto movimiento financiero
 			Long idMovFin = (requisitionRegisterDto.getIdRegister() == 1L)?1L:2L;
-			FinancialMovementDetail financialMovementDetail = new FinancialMovementDetail(idReqDetail, idMovFin);
-			financialMovementDetail.setAmount(requisitionRegisterDto.getAmount());
-			financialMovementDetail.setRegistrationDate(dateRegister);
+			FinancialMovementDetail financialMovementDetail;
 			//	Consultas
 			requisitionDetailService.createRequisitionDetail(requisitionDetail);
-			financialMovementDetailService.createFinancialMovementDetail(financialMovementDetail);
+			//financialMovementDetailService.createFinancialMovementDetail(financialMovementDetail);
 			
 			return new ResponseEntity(new Message("Solicitud enviado exitosamente"), HttpStatus.OK);
 		} catch (Exception e) {
@@ -131,5 +130,12 @@ public class RequisitionController {
 		String token = authorizationHeaderValue.substring(7, authorizationHeaderValue.length());
 		String usernameFromToken = jwtProvider.getUsernameFromToken(token);
 		return usernameFromToken;
+	}
+	
+	@SuppressWarnings(value = { "rawtypes", "unchecked" })
+	@GetMapping(URL_REQUISITION_REGISTER_GET)
+	public ResponseEntity<?> registerForm(@PathVariable(name ="requisition")String requisition) {
+		
+		return new ResponseEntity(new Message("BLOQUED"), HttpStatus.BAD_REQUEST);
 	}
 }

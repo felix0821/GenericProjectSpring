@@ -24,9 +24,10 @@ public class GenericProjectSystemStatement {
 	//	Mapeo para el controlador "Solicitud"
 	public static final String URL_REQUISITION_REQUEST = "/requisition";
 	public static final String URL_REQUISITION_STATUS_GET = "/status";
-	//	Mapeo para el controlador "Solicitud"
+	public static final String URL_REQUISITION_REGISTER_GET = "/register/{requisition}";
+	//	Mapeo para el controlador "Movimiento financiero"
 	public static final String URL_FINANCIAL_MOVEMENT_REQUEST = "/financial-movement";
-	//	Mapeo para el controlador "Solicitud"
+	//	Mapeo para el controlador "Control documental"
 	public static final String URL_DOCUMENTARY_REQUEST = "/documentary";
 
 }

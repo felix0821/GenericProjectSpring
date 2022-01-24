@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -33,13 +32,15 @@ import com.system.demo.dto.PersonListDto;
 import com.system.demo.dto.PersonProfileDto;
 import com.system.demo.dto.PersonRegisterDto;
 import com.system.demo.model.Person;
-import com.system.demo.model.PersonRol;
+import com.system.demo.model.PersonIdentificationDocument;
+import com.system.demo.model.PersonRole;
 import com.system.demo.security.AclFilterVerify;
 import com.system.demo.security.JwtProvider;
-import com.system.demo.service.PersonRolService;
+import com.system.demo.service.PersonIdentificationDocumentService;
+import com.system.demo.service.PersonRoleService;
 import com.system.demo.service.PersonService;
-import com.system.demo.util.ApiQueries;
-import com.system.demo.util.UniqId;
+import com.system.demo.utility.ApiQueries;
+import com.system.demo.utility.UniqId;
 
 import static com.system.demo.GenericProjectSystemStatement.*;
 
@@ -58,7 +59,10 @@ public class PersonController {
 	PersonService personService;
 	
 	@Autowired
-	PersonRolService personRolService;
+	PersonRoleService personRoleService;
+	
+	@Autowired
+	PersonIdentificationDocumentService personIdentDocService;
 	
 	@Autowired
 	UniqId uI;
@@ -77,15 +81,15 @@ public class PersonController {
 		/*if(!aclFilterVerify.accessRoleForPerson(request.getRequestURI().toString(),userFromToken)) 
 			return new ResponseEntity(new Message("Unauthorized access"), HttpStatus.UNAUTHORIZED);*/
 		try {
-			Iterable<Person> list = personService.getAllPersons();
+			Iterable<Person> listPerson = personService.getAllPersons();
 			List<PersonListDto> listDto = new ArrayList<PersonListDto>();
-			for(Person person: list) {
+			for(Person person: listPerson) {
 				//Verificar mi usuario
 		        Person user = personService.getPersonByUsername(userFromToken).get();
 				//Agregar a lista
-				if (!user.getUsername().equals(person.getUsername()))
-					listDto.add(new PersonListDto(person.getIdPerson(), person.getUsername(),person.getName(),person.getLastnameFather(),
-			        		person.getLastnameMother(),person.getState()));
+				if (!user.getPersonUsername().equals(person.getPersonUsername()))
+					listDto.add(new PersonListDto(person.getPersonId(), person.getPersonUsername(),person.getPersonName(),person.getPersonLastnameFather(),
+			        		person.getPersonLastnameMother(),person.getPersonState()));
 			}
 	        return new ResponseEntity<List<PersonListDto>>(listDto, HttpStatus.OK);
 		}
@@ -99,11 +103,17 @@ public class PersonController {
     public ResponseEntity<?> profile(@RequestHeader HttpHeaders headers){
 		try {
 			String userFromToken = usernameFromToken(headers);
-	        Person user = personService.getPersonByUsername(userFromToken).get();
-	        PersonProfileDto personEditDto = new PersonProfileDto(user.getIdPerson(), user.getUsername(), user.getName(),
-	        		user.getLastnameFather(), user.getLastnameMother(), user.getEmail(), user.getDni(), user.getDateBirth(),
-	        		user.getUrlProfilepicture());
-	        return new ResponseEntity<PersonProfileDto>(personEditDto, HttpStatus.OK);
+	        Person person = personService.getPersonByUsername(userFromToken).get();
+	        PersonIdentificationDocument dniFromPerson = null;
+	        try {
+	        	dniFromPerson = personIdentDocService.personIdentificationDocumentById(1L, person.getPersonId());
+	        } catch (Exception e) {
+	        	System.out.println(e);
+	        }
+	        PersonProfileDto personProfileDto = new PersonProfileDto(person.getPersonId(), person.getPersonUsername(), person.getPersonName(),
+	        		person.getPersonLastnameFather(), person.getPersonLastnameMother(), person.getPersonEmail(), dniFromPerson.getPersonIdentificationDocumentValue(), 
+	        		person.getPersonDateBirth(), person.getPersonUrlProfilepicture());
+	        return new ResponseEntity<PersonProfileDto>(personProfileDto, HttpStatus.OK);
 		}
 		catch (Exception e) {
         	return new ResponseEntity(new Message("BLOQUED"), HttpStatus.BAD_REQUEST);
@@ -116,24 +126,23 @@ public class PersonController {
 		//Realizamos las validaciones pertinentes
         if(bindingResult.hasErrors())
             return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
-        Person userEdit = null;
+        Person personEdit = null;
         try {
-			userEdit = personService.getPersonById(userUpdate.getId());
+			personEdit = personService.getPersonById(userUpdate.getId());
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity(new Message("No existe Id"), HttpStatus.BAD_REQUEST);
 		}
-        userEdit.setUsername(userUpdate.getUsername());
-        userEdit.setEmail(userUpdate.getEmail());
-        userEdit.setName(userUpdate.getName());
-        userEdit.setLastnameFather(userUpdate.getLastnameFather());
-        userEdit.setLastnameMother(userUpdate.getLastnameMother());
-        userEdit.setDateBirth(userUpdate.getDateBirth());
-        userEdit.setDni(userUpdate.getDni());
-        userEdit.setUrlProfilepicture(userUpdate.getUrlProfilepicture());
+        personEdit.setPersonUsername(userUpdate.getUsername());
+        personEdit.setPersonEmail(userUpdate.getEmail());
+        personEdit.setPersonName(userUpdate.getName());
+        personEdit.setPersonLastnameFather(userUpdate.getLastnameFather());
+        personEdit.setPersonLastnameMother(userUpdate.getLastnameMother());
+        personEdit.setPersonDateBirth(userUpdate.getDateBirth());
+        personEdit.setPersonUrlProfilepicture(userUpdate.getUrlProfilepicture());
         
         try {
-			personService.updatePerson(userEdit);
+			personService.updatePerson(personEdit);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity(new Message("No existe Usuario"), HttpStatus.BAD_REQUEST);
@@ -151,8 +160,8 @@ public class PersonController {
             return new ResponseEntity(new Message("Ese nombre de usuario ya existe"), HttpStatus.BAD_REQUEST);
         if(personService.existsByEmail(userRegister.getEmail()))
             return new ResponseEntity(new Message("Ese email ya existe"), HttpStatus.BAD_REQUEST);
-        if(personService.existsByDni(userRegister.getDni()))
-            return new ResponseEntity(new Message("Ese dni ya existe"), HttpStatus.BAD_REQUEST);
+        /*if(personService.existsByDni(userRegister.getDni()))
+            return new ResponseEntity(new Message("Ese dni ya existe"), HttpStatus.BAD_REQUEST);*/
         Long idUser = uI.uniqid();
         String password = bCryptPasswordEncoder.encode(userRegister.getPassword());
         //Insertar fecha de registro
@@ -161,18 +170,23 @@ public class PersonController {
 		//Insertar nombres por dni
 		String names[] = apiQueries.checkDniApiPeru(userRegister.getDni());
 		Date dateBirth=new SimpleDateFormat("yyyy-MM-dd").parse(names[3]);
-		String emailPerson = names[0]+"@"+names[1]+names[2];
+		String emailPerson = userRegister.getEmail();
+		
 		//Crear un usuario para persistir
         Person person =
                 new Person(idUser, userRegister.getUsername(), password, names[0], names[1], 
-                		names[2], emailPerson, userRegister.getDni(),dateBirth, 
-                		dateRegister, 'A');
+                		names[2], dateRegister, emailPerson, 'A');
+        person.setPersonDateBirth(dateBirth);
         personService.createPerson(person);
+        //Agregar documento de identidad a nuevo usuario
+        PersonIdentificationDocument personIdentificationDocument = new PersonIdentificationDocument(1L,idUser);
+        personIdentificationDocument.setPersonIdentificationDocumentValue(userRegister.getDni());
+        personIdentDocService.createPersonIdentificationDocument(personIdentificationDocument);
         //Agregar rol a nuevo usuario
         Long idRole = 2L;
-        PersonRol personRol = new PersonRol(idUser,idRole);
-		personRol.setState('A');
-		personRolService.createPersonRol(personRol);
+        PersonRole personRol = new PersonRole(idUser,idRole);
+		personRol.setPersonRoleState('A');
+		personRoleService.createPersonRol(personRol);
         return new ResponseEntity(new Message("Usted se registro exitosamente"), HttpStatus.CREATED);
     }
 	
@@ -192,15 +206,15 @@ public class PersonController {
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@GetMapping(URL_PERSON_EDIT_GET)
 	public ResponseEntity<?> editForm(@PathVariable(name ="id")Long id) {
-		Person userEdit = null;
+		Person personEdit = null;
 		try {
-			userEdit = personService.getPersonById(id);
+			personEdit = personService.getPersonById(id);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity(new Message("No existe Id"), HttpStatus.BAD_REQUEST);
 		}
-		PersonEditDto result = new PersonEditDto(userEdit.getIdPerson(), userEdit.getName(), userEdit.getLastnameFather(),
-				userEdit.getLastnameMother(), userEdit.getDateBirth(), userEdit.getState());
+		PersonEditDto result = new PersonEditDto(personEdit.getPersonId(), personEdit.getPersonName(), personEdit.getPersonLastnameFather(),
+				personEdit.getPersonLastnameMother(), personEdit.getPersonDateBirth(), personEdit.getPersonState());
 		return new ResponseEntity<PersonEditDto>(result, HttpStatus.OK);
 	}
 	
@@ -217,11 +231,11 @@ public class PersonController {
 			e.printStackTrace();
 			return new ResponseEntity(new Message("No existe Id"), HttpStatus.BAD_REQUEST);
 		}
-        userEdit.setName(userUpdate.getName());
-        userEdit.setLastnameFather(userUpdate.getLastnameFather());
-        userEdit.setLastnameMother(userUpdate.getLastnameMother());
-        userEdit.setDateBirth(userUpdate.getDateBirth());
-        userEdit.setState(userUpdate.getState());
+        userEdit.setPersonName(userUpdate.getName());
+        userEdit.setPersonLastnameFather(userUpdate.getLastnameFather());
+        userEdit.setPersonLastnameMother(userUpdate.getLastnameMother());
+        userEdit.setPersonDateBirth(userUpdate.getDateBirth());
+        userEdit.setPersonState(userUpdate.getState());
         try {
 			personService.updatePerson(userEdit);
 		} catch (Exception e) {

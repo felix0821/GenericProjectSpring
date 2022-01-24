@@ -9,6 +9,6 @@ import com.system.demo.model.Resource;
 
 @Repository
 public interface ResourceRepository extends JpaRepository<Resource,Long>{
-	public Optional<Resource> findByUrlName(String urlName);
+	public Optional<Resource> findByResourceUrl(String urlName);
 
 }

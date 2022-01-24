@@ -9,6 +9,6 @@ public interface FinancialMovementDetailService {
 	public FinancialMovementDetail createFinancialMovementDetail(FinancialMovementDetail financialMovementDetail);
 	public FinancialMovementDetail updateFinancialMovementDetail(FinancialMovementDetail financialMovementDetail);
 	
-	public FinancialMovementDetail FinancialMovementDetailById(long idRequisitionDetail, long idFinancialMovement);
+	public FinancialMovementDetail financialMovementDetailById(long idRequisitionDetail, long idFinancialMovement);
 
 }

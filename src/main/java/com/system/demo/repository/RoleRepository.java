@@ -11,5 +11,5 @@ import com.system.demo.model.Role;
 @Repository
 public interface RoleRepository extends CrudRepository<Role, Long>{
 
-	public Optional<Role> findByNameRole(String nameRole);
+	public Optional<Role> findByRoleName(String roleName);
 }

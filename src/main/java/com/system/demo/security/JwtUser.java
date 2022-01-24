@@ -15,25 +15,21 @@ public class JwtUser implements UserDetails {
 	 * 
 	 */
 	private static final long serialVersionUID = -6250234144260634731L;
-	private String name;
     private String username;
-    private String email;
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public JwtUser(String nombre, String username, String email, String password, Collection<? extends GrantedAuthority> authorities) {
-        this.name = nombre;
-        this.username = username;
-        this.email = email;
+    public JwtUser(String username, String password, Collection<? extends GrantedAuthority> authorities) {
+       this.username = username;
         this.password = password;
         this.authorities = authorities;
     }
 
     public static JwtUser build(Person person){
         List<GrantedAuthority> authorities =
-                person.getPersonRolCollection().stream().map(role -> new SimpleGrantedAuthority(
-                		role.getRole().getNameRole())).collect(Collectors.toList());
-        return new JwtUser(person.getName(), person.getUsername(), person.getEmail(), person.getPassword(), authorities);
+                person.getPersonRoleCollection().stream().map(role -> new SimpleGrantedAuthority(
+                		role.getRole().getRoleName())).collect(Collectors.toList());
+        return new JwtUser(person.getPersonUsername(), person.getPersonPassword(), authorities);
     }
 
     @Override
@@ -69,13 +65,5 @@ public class JwtUser implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    public String getNombre() {
-        return name;
-    }
-
-    public String getEmail() {
-        return email;
     }
 }

@@ -1,161 +1,130 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.system.demo.model;
 
 import java.io.Serializable;
 import java.util.Collection;
-
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
+/**
+ *
+ * @author Felix
+ */
 @Entity
 @Table(name = "requisition_status")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "RequisitionStatus.findAll", query = "SELECT r FROM RequisitionStatus r"),
-    @NamedQuery(name = "RequisitionStatus.findByIdRequisitionStatus", query = "SELECT r FROM RequisitionStatus r WHERE r.idRequisitionStatus = :idRequisitionStatus"),
-    @NamedQuery(name = "RequisitionStatus.findByName", query = "SELECT r FROM RequisitionStatus r WHERE r.name = :name"),
-    @NamedQuery(name = "RequisitionStatus.findByState", query = "SELECT r FROM RequisitionStatus r WHERE r.state = :state"),
-    @NamedQuery(name = "RequisitionStatus.findByDescription", query = "SELECT r FROM RequisitionStatus r WHERE r.description = :description")})
-public class RequisitionStatus implements Serializable{
+    @NamedQuery(name = "RequisitionStatus.findByRequisitionStatusId", query = "SELECT r FROM RequisitionStatus r WHERE r.requisitionStatusId = :requisitionStatusId"),
+    @NamedQuery(name = "RequisitionStatus.findByRequisitionStatusName", query = "SELECT r FROM RequisitionStatus r WHERE r.requisitionStatusName = :requisitionStatusName"),
+    @NamedQuery(name = "RequisitionStatus.findByRequisitionStatusDescription", query = "SELECT r FROM RequisitionStatus r WHERE r.requisitionStatusDescription = :requisitionStatusDescription"),
+    @NamedQuery(name = "RequisitionStatus.findByRequisitionStatusState", query = "SELECT r FROM RequisitionStatus r WHERE r.requisitionStatusState = :requisitionStatusState")})
+public class RequisitionStatus implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	@Id
+    private static final long serialVersionUID = 1L;
+    @Id
     @Basic(optional = false)
-    @Column(name = "id_requisition_status")
-    private Long idRequisitionStatus;
-	
-	@Basic(optional = false)
-    @Column(name = "name")
-    private String name;
-	
-	@Basic(optional = false)
-    @Column(name = "state")
-    private Character state;
-	
-	@Basic(optional = true)
-    @Column(name = "description")
-    private String description;
-	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "requisitionStatus", fetch = FetchType.EAGER)
-    private Collection<RequisitionDetail> requisitionDetailCollection;
+    @Column(name = "requisition_status_id", nullable = false)
+    private Long requisitionStatusId;
+    @Basic(optional = false)
+    @Column(name = "requisition_status_name", nullable = false, length = 64)
+    private String requisitionStatusName;
+    @Basic(optional = false)
+    @Column(name = "requisition_status_description", nullable = false, length = 128)
+    private String requisitionStatusDescription;
+    @Basic(optional = false)
+    @Column(name = "requisition_status_state", nullable = false)
+    private Character requisitionStatusState;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisitionStatusId")
+    private Collection<RequisitionStatusDetail> requisitionStatusDetailCollection;
 
-	public RequisitionStatus() {};
-	
-	public RequisitionStatus(Long idRequisitionStatus, String name, Character state, String description) {
-		super();
-		this.idRequisitionStatus = idRequisitionStatus;
-		this.name = name;
-		this.state = state;
-		this.description = description;
-	}
+    public RequisitionStatus() {
+    }
 
-	public Long getIdRequisitionStatus() {
-		return idRequisitionStatus;
-	}
+    public RequisitionStatus(Long requisitionStatusId) {
+        this.requisitionStatusId = requisitionStatusId;
+    }
 
-	public void setIdRequisitionStatus(Long idRequisitionStatus) {
-		this.idRequisitionStatus = idRequisitionStatus;
-	}
+    public RequisitionStatus(Long requisitionStatusId, String requisitionStatusName, String requisitionStatusDescription, Character requisitionStatusState) {
+        this.requisitionStatusId = requisitionStatusId;
+        this.requisitionStatusName = requisitionStatusName;
+        this.requisitionStatusDescription = requisitionStatusDescription;
+        this.requisitionStatusState = requisitionStatusState;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public Long getRequisitionStatusId() {
+        return requisitionStatusId;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setRequisitionStatusId(Long requisitionStatusId) {
+        this.requisitionStatusId = requisitionStatusId;
+    }
 
-	public Character getState() {
-		return state;
-	}
+    public String getRequisitionStatusName() {
+        return requisitionStatusName;
+    }
 
-	public void setState(Character state) {
-		this.state = state;
-	}
+    public void setRequisitionStatusName(String requisitionStatusName) {
+        this.requisitionStatusName = requisitionStatusName;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getRequisitionStatusDescription() {
+        return requisitionStatusDescription;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setRequisitionStatusDescription(String requisitionStatusDescription) {
+        this.requisitionStatusDescription = requisitionStatusDescription;
+    }
 
-	@XmlTransient
-	public Collection<RequisitionDetail> getRequisitionDetailCollection() {
-		return requisitionDetailCollection;
-	}
+    public Character getRequisitionStatusState() {
+        return requisitionStatusState;
+    }
 
-	public void setRequisitionDetailCollection(Collection<RequisitionDetail> requisitionDetailCollection) {
-		this.requisitionDetailCollection = requisitionDetailCollection;
-	}
+    public void setRequisitionStatusState(Character requisitionStatusState) {
+        this.requisitionStatusState = requisitionStatusState;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((description == null) ? 0 : description.hashCode());
-		result = prime * result + ((idRequisitionStatus == null) ? 0 : idRequisitionStatus.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((requisitionDetailCollection == null) ? 0 : requisitionDetailCollection.hashCode());
-		result = prime * result + ((state == null) ? 0 : state.hashCode());
-		return result;
-	}
+    public Collection<RequisitionStatusDetail> getRequisitionStatusDetailCollection() {
+        return requisitionStatusDetailCollection;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		RequisitionStatus other = (RequisitionStatus) obj;
-		if (description == null) {
-			if (other.description != null)
-				return false;
-		} else if (!description.equals(other.description))
-			return false;
-		if (idRequisitionStatus == null) {
-			if (other.idRequisitionStatus != null)
-				return false;
-		} else if (!idRequisitionStatus.equals(other.idRequisitionStatus))
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (requisitionDetailCollection == null) {
-			if (other.requisitionDetailCollection != null)
-				return false;
-		} else if (!requisitionDetailCollection.equals(other.requisitionDetailCollection))
-			return false;
-		if (state == null) {
-			if (other.state != null)
-				return false;
-		} else if (!state.equals(other.state))
-			return false;
-		return true;
-	}
+    public void setRequisitionStatusDetailCollection(Collection<RequisitionStatusDetail> requisitionStatusDetailCollection) {
+        this.requisitionStatusDetailCollection = requisitionStatusDetailCollection;
+    }
 
-	@Override
-	public String toString() {
-		return "RequisitionStatus [idRequisitionStatus=" + idRequisitionStatus + ", name=" + name + ", state=" + state
-				+ ", description=" + description + ", requisitionDetailCollection=" + requisitionDetailCollection + "]";
-	}
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (requisitionStatusId != null ? requisitionStatusId.hashCode() : 0);
+        return hash;
+    }
 
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof RequisitionStatus)) {
+            return false;
+        }
+        RequisitionStatus other = (RequisitionStatus) object;
+        if ((this.requisitionStatusId == null && other.requisitionStatusId != null) || (this.requisitionStatusId != null && !this.requisitionStatusId.equals(other.requisitionStatusId))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "com.system.demo.model.RequisitionStatus[ requisitionStatusId=" + requisitionStatusId + " ]";
+    }
+    
 }

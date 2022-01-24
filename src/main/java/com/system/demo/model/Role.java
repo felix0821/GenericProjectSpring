@@ -7,25 +7,15 @@ package com.system.demo.model;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Date;
-
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 
 /**
  *
@@ -33,97 +23,110 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 @Entity
 @Table(name = "role")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Role.findAll", query = "SELECT r FROM Role r"),
-    @NamedQuery(name = "Role.findByIdRole", query = "SELECT r FROM Role r WHERE r.idRole = :idRole"),
-    @NamedQuery(name = "Role.findByNameRole", query = "SELECT r FROM Role r WHERE r.nameRole = :nameRole"),
-    @NamedQuery(name = "Role.findByState", query = "SELECT r FROM Role r WHERE r.state = :state"),
-    @NamedQuery(name = "Role.findByDescription", query = "SELECT r FROM Role r WHERE r.description = :description")})
+    @NamedQuery(name = "Role.findByRoleId", query = "SELECT r FROM Role r WHERE r.roleId = :roleId"),
+    @NamedQuery(name = "Role.findByRoleName", query = "SELECT r FROM Role r WHERE r.roleName = :roleName"),
+    @NamedQuery(name = "Role.findByRoleState", query = "SELECT r FROM Role r WHERE r.roleState = :roleState"),
+    @NamedQuery(name = "Role.findByRoleType", query = "SELECT r FROM Role r WHERE r.roleType = :roleType")})
 public class Role implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "id_role")
-    private Long idRole;
+    @Column(name = "role_id", nullable = false)
+    private Long roleId;
     @Basic(optional = false)
-    @Column(name = "name_role")
-    private String nameRole;
+    @Column(name = "role_name", nullable = false, length = 64)
+    private String roleName;
+    @Column(name = "role_description", length = 128)
+    private String roleDescription;
     @Basic(optional = false)
-    @Column(name = "registration_date")
-    @Temporal(TemporalType.DATE)
-    private Date registrationDate;
+    @Column(name = "role_state", nullable = false)
+    private Character roleState;
     @Basic(optional = false)
-    @Column(name = "state")
-    private Character state;
-    @Basic(optional = true)
-    @Column(name = "description")
-    private String description;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "role", fetch = FetchType.EAGER)
+    @Column(name = "role_type", nullable = false)
+    private Character roleType;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "role")
+    private Collection<PersonRole> personRoleCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "role")
     private Collection<Access> accessCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "role")
-    private Collection<PersonRol> userRolCollection;
+    private Collection<RoleView> roleViewCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "role")
+    private Collection<PersonData> personDataCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "role")
+    private Collection<RoleContext> roleContextCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "role")
+    private Collection<RequisitionRole> requisitionRoleCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "role")
+    private Collection<ReportRole> reportRoleCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "roleId")
+    private Collection<Enrollment> enrollmentCollection;
 
     public Role() {
     }
 
-    public Role(Long idRole) {
-        this.idRole = idRole;
-    }
-    
-    
-
-    public Role(Long idRole, String nameRole, Date registrationDate, Character state, String description) {
-		super();
-		this.idRole = idRole;
-		this.nameRole = nameRole;
-		this.registrationDate = registrationDate;
-		this.state = state;
-		this.description = description;
-	}
-    
-    public Long getIdRole() {
-        return idRole;
+    public Role(Long roleId) {
+        this.roleId = roleId;
     }
 
-    public void setIdRole(Long idRole) {
-        this.idRole = idRole;
+    public Role(Long roleId, String roleName, String roleDescription, Character roleState, Character roleType) {
+        this.roleId = roleId;
+        this.roleName = roleName;
+        this.roleDescription = roleDescription;
+        this.roleState = roleState;
+        this.roleType = roleType;
     }
 
-    public String getNameRole() {
-        return nameRole;
+    public Long getRoleId() {
+        return roleId;
     }
 
-    public void setNameRole(String nameRole) {
-        this.nameRole = nameRole;
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
     }
 
-    public Character getState() {
-        return state;
+    public String getRoleName() {
+        return roleName;
     }
 
-    public void setState(Character state) {
-        this.state = state;
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Date getRegistrationDate() {
-		return registrationDate;
+    public String getRoleDescription() {
+		return roleDescription;
 	}
 
-	public void setRegistrationDate(Date registrationDate) {
-		this.registrationDate = registrationDate;
+	public void setRoleDescription(String roleDescription) {
+		this.roleDescription = roleDescription;
 	}
-	
-	@XmlTransient
+
+	public Character getRoleState() {
+        return roleState;
+    }
+
+    public void setRoleState(Character roleState) {
+        this.roleState = roleState;
+    }
+
+    public Character getRoleType() {
+        return roleType;
+    }
+
+    public void setRoleType(Character roleType) {
+        this.roleType = roleType;
+    }
+
+    public Collection<PersonRole> getPersonRoleCollection() {
+        return personRoleCollection;
+    }
+
+    public void setPersonRoleCollection(Collection<PersonRole> personRoleCollection) {
+        this.personRoleCollection = personRoleCollection;
+    }
+
     public Collection<Access> getAccessCollection() {
         return accessCollection;
     }
@@ -132,19 +135,58 @@ public class Role implements Serializable {
         this.accessCollection = accessCollection;
     }
 
-	@XmlTransient
-    public Collection<PersonRol> getUserRolCollection() {
-        return userRolCollection;
+    public Collection<RoleView> getRoleViewCollection() {
+        return roleViewCollection;
     }
 
-    public void setUserRolCollection(Collection<PersonRol> userRolCollection) {
-        this.userRolCollection = userRolCollection;
+    public void setRoleViewCollection(Collection<RoleView> roleViewCollection) {
+        this.roleViewCollection = roleViewCollection;
+    }
+
+    public Collection<PersonData> getPersonDataCollection() {
+        return personDataCollection;
+    }
+
+    public void setPersonDataCollection(Collection<PersonData> personDataCollection) {
+        this.personDataCollection = personDataCollection;
+    }
+
+    public Collection<RoleContext> getRoleContextCollection() {
+        return roleContextCollection;
+    }
+
+    public void setRoleContextCollection(Collection<RoleContext> roleContextCollection) {
+        this.roleContextCollection = roleContextCollection;
+    }
+
+    public Collection<RequisitionRole> getRequisitionRoleCollection() {
+        return requisitionRoleCollection;
+    }
+
+    public void setRequisitionRoleCollection(Collection<RequisitionRole> requisitionRoleCollection) {
+        this.requisitionRoleCollection = requisitionRoleCollection;
+    }
+
+    public Collection<ReportRole> getReportRoleCollection() {
+        return reportRoleCollection;
+    }
+
+    public void setReportRoleCollection(Collection<ReportRole> reportRoleCollection) {
+        this.reportRoleCollection = reportRoleCollection;
+    }
+
+    public Collection<Enrollment> getEnrollmentCollection() {
+        return enrollmentCollection;
+    }
+
+    public void setEnrollmentCollection(Collection<Enrollment> enrollmentCollection) {
+        this.enrollmentCollection = enrollmentCollection;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idRole != null ? idRole.hashCode() : 0);
+        hash += (roleId != null ? roleId.hashCode() : 0);
         return hash;
     }
 
@@ -155,7 +197,7 @@ public class Role implements Serializable {
             return false;
         }
         Role other = (Role) object;
-        if ((this.idRole == null && other.idRole != null) || (this.idRole != null && !this.idRole.equals(other.idRole))) {
+        if ((this.roleId == null && other.roleId != null) || (this.roleId != null && !this.roleId.equals(other.roleId))) {
             return false;
         }
         return true;
@@ -163,7 +205,7 @@ public class Role implements Serializable {
 
     @Override
     public String toString() {
-        return "system.Role[ idRole=" + idRole + " ]";
+        return "com.system.demo.model.Role[ roleId=" + roleId + " ]";
     }
     
 }

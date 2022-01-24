@@ -16,16 +16,16 @@ public class DocumentaryListDetailDto {
 	@NotBlank(message = "Ingrese un tipo de solicitud.")
 	private String typeRequisition;
 	
-	private String observation;
+	private Date date;
 
 	public DocumentaryListDetailDto(@NotNull(message = "Ingrese una id correcto.") Long idRequisition,
 			@NotBlank(message = "Ingrese un nombre de usuario.") String username,
-			@NotBlank(message = "Ingrese un tipo de solicitud.") String typeRequisition, String observation) {
+			@NotBlank(message = "Ingrese un tipo de solicitud.") String typeRequisition, Date date) {
 		super();
 		this.idRequisition = idRequisition;
 		this.username = username;
 		this.typeRequisition = typeRequisition;
-		this.observation = observation;
+		this.date = date;
 	}
 
 	public String getUsername() {
@@ -44,12 +44,12 @@ public class DocumentaryListDetailDto {
 		this.typeRequisition = typeRequisition;
 	}
 
-	public String getObservation() {
-		return observation;
+	public Date getObservation() {
+		return date;
 	}
 
-	public void setObservation(String observation) {
-		this.observation = observation;
+	public void setObservation(Date date) {
+		this.date = date;
 	}
 
 	public Long getIdRequisition() {

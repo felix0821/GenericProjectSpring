@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.system.demo.model;
 
 import java.io.Serializable;
@@ -16,255 +21,332 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-
-import org.springframework.format.annotation.DateTimeFormat;
+import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  *
- * @author Felix,Jose
+ * @author Felix
  */
 @Entity
-@Table(name = "person")
-@XmlRootElement
+@Table(name = "person", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"person_username","person_email"})})
 @NamedQueries({
-    @NamedQuery(name = "Person.findAll", query = "SELECT u FROM Person u"),
-    @NamedQuery(name = "Person.findByIdPerson", query = "SELECT u FROM Person u WHERE u.idPerson = :idPerson"),
-    @NamedQuery(name = "Person.findByUsername", query = "SELECT u FROM Person u WHERE u.username = :username"),
-    @NamedQuery(name = "Person.findByPassword", query = "SELECT u FROM Person u WHERE u.password = :password"),
-    @NamedQuery(name = "Person.findByName", query = "SELECT u FROM Person u WHERE u.name = :name"),
-    @NamedQuery(name = "Person.findByLastnameFather", query = "SELECT u FROM Person u WHERE u.lastnameFather = :lastnameFather"),
-    @NamedQuery(name = "Person.findByLastnameMother", query = "SELECT u FROM Person u WHERE u.lastnameMother = :lastnameMother"),
-    @NamedQuery(name = "Person.findByEmail", query = "SELECT u FROM Person u WHERE u.email = :email"),
-    @NamedQuery(name = "Person.findByDni", query = "SELECT u FROM Person u WHERE u.dni = :dni"),
-    @NamedQuery(name = "Person.findByDateBirth", query = "SELECT u FROM Person u WHERE u.dateBirth = :dateBirth"),
-    @NamedQuery(name = "Person.findByRegistrationDate", query = "SELECT u FROM Person u WHERE u.registrationDate = :registrationDate"),
-    @NamedQuery(name = "Person.findByState", query = "SELECT u FROM Person u WHERE u.state = :state")})
+    @NamedQuery(name = "Person.findAll", query = "SELECT p FROM Person p"),
+    @NamedQuery(name = "Person.findByPersonId", query = "SELECT p FROM Person p WHERE p.personId = :personId"),
+    @NamedQuery(name = "Person.findByPersonUsername", query = "SELECT p FROM Person p WHERE p.personUsername = :personUsername"),
+    @NamedQuery(name = "Person.findByPersonPassword", query = "SELECT p FROM Person p WHERE p.personPassword = :personPassword"),
+    @NamedQuery(name = "Person.findByPersonName", query = "SELECT p FROM Person p WHERE p.personName = :personName"),
+    @NamedQuery(name = "Person.findByPersonLastnameFather", query = "SELECT p FROM Person p WHERE p.personLastnameFather = :personLastnameFather"),
+    @NamedQuery(name = "Person.findByPersonLastnameMother", query = "SELECT p FROM Person p WHERE p.personLastnameMother = :personLastnameMother"),
+    @NamedQuery(name = "Person.findByPersonGender", query = "SELECT p FROM Person p WHERE p.personGender = :personGender"),
+    @NamedQuery(name = "Person.findByPersonDateBirth", query = "SELECT p FROM Person p WHERE p.personDateBirth = :personDateBirth"),
+    @NamedQuery(name = "Person.findByPersonDateRegistration", query = "SELECT p FROM Person p WHERE p.personDateRegistration = :personDateRegistration"),
+    @NamedQuery(name = "Person.findByPersonEmail", query = "SELECT p FROM Person p WHERE p.personEmail = :personEmail"),
+    @NamedQuery(name = "Person.findByPersonUrlProfilepicture", query = "SELECT p FROM Person p WHERE p.personUrlProfilepicture = :personUrlProfilepicture"),
+    @NamedQuery(name = "Person.findByPersonState", query = "SELECT p FROM Person p WHERE p.personState = :personState")})
 public class Person implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	@Id
+    private static final long serialVersionUID = 1L;
+    @Id
     @Basic(optional = false)
-    @Column(name = "id_person")
-    private Long idPerson;
+    @Column(name = "person_id", nullable = false)
+    private Long personId;
     @Basic(optional = false)
-    @Column(name = "username")
-    private String username;
+    @Column(name = "person_username", nullable = false, length = 32)
+    private String personUsername;
     @Basic(optional = false)
-    @Column(name = "password")
-    private String password;
+    @Column(name = "person_password", nullable = false, length = 128)
+    private String personPassword;
     @Basic(optional = false)
-    @Column(name = "name")
-    private String name;
+    @Column(name = "person_name", nullable = false, length = 128)
+    private String personName;
     @Basic(optional = false)
-    @Column(name = "lastname_father")
-    private String lastnameFather;
+    @Column(name = "person_lastname_father", nullable = false, length = 128)
+    private String personLastnameFather;
     @Basic(optional = false)
-    @Column(name = "lastname_mother")
-    private String lastnameMother;
-    @Basic(optional = false)
-    @Column(name = "email")
-    private String email;
-    @Basic(optional = false)
-    @Column(name = "dni")
-    private String dni;
-    @Basic(optional = false)
-    @Column(name = "date_birth")
+    @Column(name = "person_lastname_mother", nullable = false, length = 128)
+    private String personLastnameMother;
+    @Column(name = "person_gender")
+    private Character personGender;
+    @Column(name = "person_date_birth")
     @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date dateBirth;
+    private Date personDateBirth;
     @Basic(optional = false)
-    @Column(name = "registration_date")
+    @Column(name = "person_date_registration", nullable = false)
     @Temporal(TemporalType.DATE)
-    private Date registrationDate;
-    @Column(name = "url_profilepicture")
-    private String urlProfilepicture;
+    private Date personDateRegistration;
     @Basic(optional = false)
-    @Column(name = "state")
-    private Character state;
-    @Column(name = "modifyin_user")
-    private Long modifyingUser;
-    
+    @Column(name = "person_email", nullable = false, length = 128)
+    private String personEmail;
+    @Column(name = "person_url_profilepicture", length = 256)
+    private String personUrlProfilepicture;
+    @Basic(optional = false)
+    @Column(name = "person_state", nullable = false)
+    private Character personState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person", fetch = FetchType.EAGER)
-    @JsonIgnore
-    private Collection<PersonRol> personRolCollection;
-    
+    private Collection<PersonRole> personRoleCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
+    private Collection<PersonDataDetail> personDataDetailCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId")
+    private Collection<CertificateStudies> certificateStudiesCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId")
     private Collection<RequisitionDetail> requisitionDetailCollection;
-    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
+    private Collection<RequisitionPerson> requisitionPersonCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
+    private Collection<PersonIdentificationDocument> identificationDocumentPersonCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
+    private Collection<PersonProgramPeriod> personProgramPeriodCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId")
+    private Collection<PaymentSchedule> paymentScheduleCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId")
+    private Collection<RequisitionRemark> requisitionRemarkCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
+    private Collection<Assistance> assistanceCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId")
+    private Collection<PersonRegistering> personRegisteringCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
+    private Collection<Enrollment> enrollmentCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId")
+    private Collection<RequisitionStatusDetail> requisitionStatusDetailCollection;
+
     @Transient
     @JsonIgnore
 	private String confirmPassword;
-
-    public Person() {}
-
-    public Person(Long idPerson) {
-        this.idPerson = idPerson;
-    }
-
-    public Person(Long idPerson, String username, String password, String name, String lastnameFather,
-			String lastnameMother, String email, String dni, Date dateBirth, Date registrationDate,
-			String urlProfilepicture, Character state, Long modifyingUser) {
-		super();
-		this.idPerson = idPerson;
-		this.username = username;
-		this.password = password;
-		this.name = name;
-		this.lastnameFather = lastnameFather;
-		this.lastnameMother = lastnameMother;
-		this.email = email;
-		this.dni = dni;
-		this.dateBirth = dateBirth;
-		this.registrationDate = registrationDate;
-		this.urlProfilepicture = urlProfilepicture;
-		this.state = state;
-		this.modifyingUser = modifyingUser;
-	}
     
-    public Person(Long idPerson, String username, String password, String name, String lastnameFather, String lastnameMother, 
-    		String email, String dni, Date dateBirth, Date registrationDate, Character state) {
-        this.idPerson = idPerson;
-        this.username = username;
-        this.password = password;
-        this.name = name;
-        this.lastnameFather = lastnameFather;
-        this.lastnameMother = lastnameMother;
-        this.email = email;
-        this.dni = dni;
-        this.dateBirth = dateBirth;
-        this.registrationDate = registrationDate;
-        this.state = state;
+    public Person() {
     }
 
-	public Long getIdPerson() {
-        return idPerson;
+    public Person(Long personId) {
+        this.personId = personId;
     }
 
-    public void setIdPerson(Long idPerson) {
-        this.idPerson = idPerson;
+    public Person(Long personId, String personUsername, String personPassword, String personName, String personLastnameFather, String personLastnameMother, Date personDateRegistration, String personEmail, Character personState) {
+        this.personId = personId;
+        this.personUsername = personUsername;
+        this.personPassword = personPassword;
+        this.personName = personName;
+        this.personLastnameFather = personLastnameFather;
+        this.personLastnameMother = personLastnameMother;
+        this.personDateRegistration = personDateRegistration;
+        this.personEmail = personEmail;
+        this.personState = personState;
     }
 
-    public String getUsername() {
-        return username;
+    public Long getPersonId() {
+        return personId;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setPersonId(Long personId) {
+        this.personId = personId;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPersonUsername() {
+        return personUsername;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPersonUsername(String personUsername) {
+        this.personUsername = personUsername;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLastnameFather() {
-        return lastnameFather;
-    }
-
-    public void setLastnameFather(String lastnameFather) {
-        this.lastnameFather = lastnameFather;
-    }
-
-    public String getLastnameMother() {
-        return lastnameMother;
-    }
-
-    public void setLastnameMother(String lastnameMother) {
-        this.lastnameMother = lastnameMother;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getDni() {
-        return dni;
-    }
-
-    public void setDni(String dni) {
-        this.dni = dni;
-    }
-
-    public Date getDateBirth() {
-        return dateBirth;
-    }
-
-    public void setDateBirth(Date dateBirth) {
-        this.dateBirth = dateBirth;
-    }
-
-    public Date getRegistrationDate() {
-        return registrationDate;
-    }
-
-    public void setRegistrationDate(Date registrationDate) {
-        this.registrationDate = registrationDate;
-    }
-
-    public String getUrlProfilepicture() {
-        return urlProfilepicture;
-    }
-
-    public void setUrlProfilepicture(String urlProfilepicture) {
-        this.urlProfilepicture = urlProfilepicture;
-    }
-
-    public Character getState() {
-        return state;
-    }
-
-    public void setState(Character state) {
-        this.state = state;
-    }
-
-    public Long getModifyingUser() {
-		return modifyingUser;
+    public String getPersonPassword() {
+		return personPassword;
 	}
 
-	public void setModifyingUser(Long modifyingUser) {
-		this.modifyingUser = modifyingUser;
+	public void setPersonPassword(String personPassword) {
+		this.personPassword = personPassword;
 	}
 
-	public String getConfirmPassword() {
+	public String getPersonName() {
+        return personName;
+    }
+
+    public void setPersonName(String personName) {
+        this.personName = personName;
+    }
+
+    public String getPersonLastnameFather() {
+        return personLastnameFather;
+    }
+
+    public void setPersonLastnameFather(String personLastnameFather) {
+        this.personLastnameFather = personLastnameFather;
+    }
+
+    public String getPersonLastnameMother() {
+        return personLastnameMother;
+    }
+
+    public void setPersonLastnameMother(String personLastnameMother) {
+        this.personLastnameMother = personLastnameMother;
+    }
+
+    public Character getPersonGender() {
+		return personGender;
+	}
+
+	public void setPersonGender(Character personGender) {
+		this.personGender = personGender;
+	}
+
+	public Date getPersonDateBirth() {
+        return personDateBirth;
+    }
+
+    public void setPersonDateBirth(Date personDateBirth) {
+        this.personDateBirth = personDateBirth;
+    }
+
+    public Date getPersonDateRegistration() {
+        return personDateRegistration;
+    }
+
+    public void setPersonDateRegistration(Date personDateRegistration) {
+        this.personDateRegistration = personDateRegistration;
+    }
+
+    public String getPersonEmail() {
+        return personEmail;
+    }
+
+    public void setPersonEmail(String personEmail) {
+        this.personEmail = personEmail;
+    }
+
+    public String getPersonUrlProfilepicture() {
+        return personUrlProfilepicture;
+    }
+
+    public void setPersonUrlProfilepicture(String personUrlProfilepicture) {
+        this.personUrlProfilepicture = personUrlProfilepicture;
+    }
+
+    public Character getPersonState() {
+        return personState;
+    }
+
+    public void setPersonState(Character personState) {
+        this.personState = personState;
+    }
+
+    public Collection<PersonRole> getPersonRoleCollection() {
+        return personRoleCollection;
+    }
+
+    public void setPersonRoleCollection(Collection<PersonRole> personRoleCollection) {
+        this.personRoleCollection = personRoleCollection;
+    }
+
+    public Collection<PersonDataDetail> getPersonDataDetailCollection() {
+        return personDataDetailCollection;
+    }
+
+    public void setPersonDataDetailCollection(Collection<PersonDataDetail> personDataDetailCollection) {
+        this.personDataDetailCollection = personDataDetailCollection;
+    }
+
+    public Collection<CertificateStudies> getCertificateStudiesCollection() {
+        return certificateStudiesCollection;
+    }
+
+    public void setCertificateStudiesCollection(Collection<CertificateStudies> certificateStudiesCollection) {
+        this.certificateStudiesCollection = certificateStudiesCollection;
+    }
+
+    public Collection<RequisitionDetail> getRequisitionDetailCollection() {
+        return requisitionDetailCollection;
+    }
+
+    public void setRequisitionDetailCollection(Collection<RequisitionDetail> requisitionDetailCollection) {
+        this.requisitionDetailCollection = requisitionDetailCollection;
+    }
+
+    public Collection<RequisitionPerson> getRequisitionPersonCollection() {
+        return requisitionPersonCollection;
+    }
+
+    public void setRequisitionPersonCollection(Collection<RequisitionPerson> requisitionPersonCollection) {
+        this.requisitionPersonCollection = requisitionPersonCollection;
+    }
+
+    public Collection<PersonIdentificationDocument> getIdentificationDocumentPersonCollection() {
+        return identificationDocumentPersonCollection;
+    }
+
+    public void setIdentificationDocumentPersonCollection(Collection<PersonIdentificationDocument> identificationDocumentPersonCollection) {
+        this.identificationDocumentPersonCollection = identificationDocumentPersonCollection;
+    }
+
+    public Collection<PersonProgramPeriod> getPersonProgramPeriodCollection() {
+        return personProgramPeriodCollection;
+    }
+
+    public void setPersonProgramPeriodCollection(Collection<PersonProgramPeriod> personProgramPeriodCollection) {
+        this.personProgramPeriodCollection = personProgramPeriodCollection;
+    }
+
+    public Collection<PaymentSchedule> getPaymentScheduleCollection() {
+        return paymentScheduleCollection;
+    }
+
+    public void setPaymentScheduleCollection(Collection<PaymentSchedule> paymentScheduleCollection) {
+        this.paymentScheduleCollection = paymentScheduleCollection;
+    }
+
+    public Collection<RequisitionRemark> getRequisitionRemarkCollection() {
+        return requisitionRemarkCollection;
+    }
+
+    public void setRequisitionRemarkCollection(Collection<RequisitionRemark> requisitionRemarkCollection) {
+        this.requisitionRemarkCollection = requisitionRemarkCollection;
+    }
+
+    public Collection<Assistance> getAssistanceCollection() {
+        return assistanceCollection;
+    }
+
+    public void setAssistanceCollection(Collection<Assistance> assistanceCollection) {
+        this.assistanceCollection = assistanceCollection;
+    }
+
+    public Collection<PersonRegistering> getPersonRegisteringCollection() {
+        return personRegisteringCollection;
+    }
+
+    public void setPersonRegisteringCollection(Collection<PersonRegistering> personRegisteringCollection) {
+        this.personRegisteringCollection = personRegisteringCollection;
+    }
+
+    public Collection<Enrollment> getEnrollmentCollection() {
+        return enrollmentCollection;
+    }
+
+    public void setEnrollmentCollection(Collection<Enrollment> enrollmentCollection) {
+        this.enrollmentCollection = enrollmentCollection;
+    }
+
+    public Collection<RequisitionStatusDetail> getRequisitionStatusDetailCollection() {
+        return requisitionStatusDetailCollection;
+    }
+
+    public void setRequisitionStatusDetailCollection(Collection<RequisitionStatusDetail> requisitionStatusDetailCollection) {
+        this.requisitionStatusDetailCollection = requisitionStatusDetailCollection;
+    }
+    
+    public String getConfirmPassword() {
 		return confirmPassword;
 	}
 
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
 	}
-	
-	@XmlTransient
-    public Collection<PersonRol> getPersonRolCollection() {
-        return personRolCollection;
-    }
-
-    public void setPersonRolCollection(Collection<PersonRol> userRolCollection) {
-        this.personRolCollection = userRolCollection;
-    }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idPerson != null ? idPerson.hashCode() : 0);
+        hash += (personId != null ? personId.hashCode() : 0);
         return hash;
     }
 
@@ -275,7 +357,7 @@ public class Person implements Serializable {
             return false;
         }
         Person other = (Person) object;
-        if ((this.idPerson == null && other.idPerson != null) || (this.idPerson != null && !this.idPerson.equals(other.idPerson))) {
+        if ((this.personId == null && other.personId != null) || (this.personId != null && !this.personId.equals(other.personId))) {
             return false;
         }
         return true;
@@ -283,7 +365,7 @@ public class Person implements Serializable {
 
     @Override
     public String toString() {
-        return "system.Person[ idPerson=" + idPerson + " ]";
+        return "com.system.demo.model.Person[ personId=" + personId + " ]";
     }
-
+    
 }

@@ -17,46 +17,42 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class AccessPK implements Serializable {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -2419963967840252135L;
-	@Basic(optional = false)
-    @Column(name = "id_role")
-    private long idRole;
     @Basic(optional = false)
-    @Column(name = "id_resource")
-    private long idResource;
+    @Column(name = "role_id", nullable = false)
+    private long roleId;
+    @Basic(optional = false)
+    @Column(name = "resource_id", nullable = false)
+    private long resourceId;
 
     public AccessPK() {
     }
 
-    public AccessPK(long idRole, long idResource) {
-        this.idRole = idRole;
-        this.idResource = idResource;
+    public AccessPK(long roleId, long resourceId) {
+        this.roleId = roleId;
+        this.resourceId = resourceId;
     }
 
-    public long getIdRole() {
-        return idRole;
+    public long getRoleId() {
+        return roleId;
     }
 
-    public void setIdRole(long idRole) {
-        this.idRole = idRole;
+    public void setRoleId(long roleId) {
+        this.roleId = roleId;
     }
 
-    public long getIdResource() {
-        return idResource;
+    public long getResourceId() {
+        return resourceId;
     }
 
-    public void setIdResource(long idResource) {
-        this.idResource = idResource;
+    public void setResourceId(long resourceId) {
+        this.resourceId = resourceId;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (int) idRole;
-        hash += (int) idResource;
+        hash += (int) roleId;
+        hash += (int) resourceId;
         return hash;
     }
 
@@ -67,10 +63,10 @@ public class AccessPK implements Serializable {
             return false;
         }
         AccessPK other = (AccessPK) object;
-        if (this.idRole != other.idRole) {
+        if (this.roleId != other.roleId) {
             return false;
         }
-        if (this.idResource != other.idResource) {
+        if (this.resourceId != other.resourceId) {
             return false;
         }
         return true;
@@ -78,7 +74,7 @@ public class AccessPK implements Serializable {
 
     @Override
     public String toString() {
-        return "system.AccessPK[ idRole=" + idRole + ", idResource=" + idResource + " ]";
+        return "com.system.demo.model.AccessPK[ roleId=" + roleId + ", resourceId=" + resourceId + " ]";
     }
     
 }

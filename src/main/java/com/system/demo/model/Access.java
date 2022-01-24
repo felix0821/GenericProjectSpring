@@ -10,13 +10,11 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -24,24 +22,23 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "access")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Access.findAll", query = "SELECT a FROM Access a"),
-    @NamedQuery(name = "Access.findByIdRole", query = "SELECT a FROM Access a WHERE a.accessPK.idRole = :idRole"),
-    @NamedQuery(name = "Access.findByIdResource", query = "SELECT a FROM Access a WHERE a.accessPK.idResource = :idResource"),
-    @NamedQuery(name = "Access.findByState", query = "SELECT a FROM Access a WHERE a.state = :state")})
+    @NamedQuery(name = "Access.findByRoleId", query = "SELECT a FROM Access a WHERE a.accessPK.roleId = :roleId"),
+    @NamedQuery(name = "Access.findByResourceId", query = "SELECT a FROM Access a WHERE a.accessPK.resourceId = :resourceId"),
+    @NamedQuery(name = "Access.findByAccessState", query = "SELECT a FROM Access a WHERE a.accessState = :accessState")})
 public class Access implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected AccessPK accessPK;
     @Basic(optional = false)
-    @Column(name = "state")
-    private Character state;
-    @JoinColumn(name = "id_resource", referencedColumnName = "id_resource", insertable = false, updatable = false)
+    @Column(name = "access_state", nullable = false)
+    private Character accessState;
+    @JoinColumn(name = "resource_id", referencedColumnName = "resource_id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Resource resource;
-    @JoinColumn(name = "id_role", referencedColumnName = "id_role", insertable = false, updatable = false)
+    @JoinColumn(name = "role_id", referencedColumnName = "role_id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Role role;
 
@@ -52,13 +49,13 @@ public class Access implements Serializable {
         this.accessPK = accessPK;
     }
 
-    public Access(AccessPK accessPK, Character state) {
+    public Access(AccessPK accessPK, Character accessState) {
         this.accessPK = accessPK;
-        this.state = state;
+        this.accessState = accessState;
     }
 
-    public Access(long idRole, long idResource) {
-        this.accessPK = new AccessPK(idRole, idResource);
+    public Access(long roleId, long resourceId) {
+        this.accessPK = new AccessPK(roleId, resourceId);
     }
 
     public AccessPK getAccessPK() {
@@ -69,12 +66,12 @@ public class Access implements Serializable {
         this.accessPK = accessPK;
     }
 
-    public Character getState() {
-        return state;
+    public Character getAccessState() {
+        return accessState;
     }
 
-    public void setState(Character state) {
-        this.state = state;
+    public void setAccessState(Character accessState) {
+        this.accessState = accessState;
     }
 
     public Resource getResource() {
@@ -115,7 +112,7 @@ public class Access implements Serializable {
 
     @Override
     public String toString() {
-        return "system.Access[ accessPK=" + accessPK + " ]";
+        return "com.system.demo.model.Access[ accessPK=" + accessPK + " ]";
     }
     
 }

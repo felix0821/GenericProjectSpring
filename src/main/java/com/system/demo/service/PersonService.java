@@ -10,18 +10,16 @@ public interface PersonService {
 
 	//Iteradores
 	Iterable<Person> getAllPersons();
-	//Consultas
+	//Consultas CRUD
 	public Person createPerson(Person person) throws Exception;
 	public Person updatePerson(Person person) throws Exception;
 	public void deletePerson(Long id) throws UsernameOrIdNotFound;
-	//Envios
+	//Consultas Operaciones
 	public Person getPersonById(Long id) throws Exception;
 	public Optional<Person> getPersonByUsername(String username);
 	public Optional<Person> getPersonByEmail(String email);
-	public Optional<Person> getPersonByDni(String dni);
 	public boolean existsByUsername(String username);
 	public boolean existsByEmail(String email);
-	public boolean existsByDni(String dni);
 	//Utilerias
 	public Person changePassword(ChangePasswordDto form) throws Exception;
 

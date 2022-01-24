@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.system.demo.dto.FinancialMovementListDto;
 import com.system.demo.dto.Message;
 import com.system.demo.model.FinancialMovementDetail;
+import com.system.demo.model.FinancialMovementRequisition;
 import com.system.demo.service.FinancialMovementDetailService;
 import com.system.demo.service.FinancialMovementService;
 
@@ -43,9 +44,9 @@ public class FinancialMovementController {
 			Iterable<FinancialMovementDetail> financialMovDetailList = financialMovementDetailService.getAllFinancialMovementDetail();
 			List<FinancialMovementListDto> financialMovDetailListDto = new ArrayList<>();
 			for (FinancialMovementDetail fMovDetail : financialMovDetailList) {
-				financialMovDetailListDto.add(new FinancialMovementListDto(fMovDetail.getRequisitionDetail().getIdRequisitionDetail(),
-						fMovDetail.getFinancialMovement().getName(), fMovDetail.getFinancialMovement().getSymbol(),fMovDetail.getAmount(),
-						fMovDetail.getRequisitionDetail().getBank(), fMovDetail.getRequisitionDetail().getDocument()));
+				financialMovDetailListDto.add(new FinancialMovementListDto(fMovDetail.getFinancialMovementDetailId(),
+						fMovDetail.getFinancialMovementId().getFinancialMovementName(), fMovDetail.getFinancialMovementId().getFinancialMovementSymbol(),
+						fMovDetail.getFinancialMovementDetailAmount(),"Registro por solicitud", fMovDetail.getFinancialMovementDetailOperationNumber()));
 			}
 			return new ResponseEntity<List<FinancialMovementListDto>>(financialMovDetailListDto, HttpStatus.OK);
 		} catch (Exception e) {

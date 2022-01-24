@@ -1,181 +1,153 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.system.demo.model;
 
 import java.io.Serializable;
 import java.util.Collection;
-
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
+/**
+ *
+ * @author Felix
+ */
 @Entity
 @Table(name = "financial_movement")
-@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "FinancialMovement.findAll", query = "SELECT r FROM FinancialMovement r"),
-    @NamedQuery(name = "FinancialMovement.findByIdFinancialMovement", query = "SELECT r FROM FinancialMovement r WHERE r.idFinancialMovement = :idFinancialMovement"),
-    @NamedQuery(name = "FinancialMovement.findByName", query = "SELECT r FROM FinancialMovement r WHERE r.name = :name"),
-    @NamedQuery(name = "FinancialMovement.findByState", query = "SELECT r FROM FinancialMovement r WHERE r.state = :state"),
-    @NamedQuery(name = "FinancialMovement.findBySymbol", query = "SELECT r FROM FinancialMovement r WHERE r.symbol = :symbol"),
-    @NamedQuery(name = "FinancialMovement.findByType", query = "SELECT r FROM FinancialMovement r WHERE r.type = :type")})
-public class FinancialMovement implements Serializable{
+    @NamedQuery(name = "FinancialMovement.findAll", query = "SELECT f FROM FinancialMovement f"),
+    @NamedQuery(name = "FinancialMovement.findByFinancialMovementId", query = "SELECT f FROM FinancialMovement f WHERE f.financialMovementId = :financialMovementId"),
+    @NamedQuery(name = "FinancialMovement.findByFinancialMovementName", query = "SELECT f FROM FinancialMovement f WHERE f.financialMovementName = :financialMovementName"),
+    @NamedQuery(name = "FinancialMovement.findByFinancialMovementSymbol", query = "SELECT f FROM FinancialMovement f WHERE f.financialMovementSymbol = :financialMovementSymbol"),
+    @NamedQuery(name = "FinancialMovement.findByFinancialMovementState", query = "SELECT f FROM FinancialMovement f WHERE f.financialMovementState = :financialMovementState"),
+    @NamedQuery(name = "FinancialMovement.findByFinancialMovementType", query = "SELECT f FROM FinancialMovement f WHERE f.financialMovementType = :financialMovementType")})
+public class FinancialMovement implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	@Id
+    private static final long serialVersionUID = 1L;
+    @Id
     @Basic(optional = false)
-    @Column(name = "id_financial_movement")
-    private Long idFinancialMovement;
-	
-	@Basic(optional = false)
-    @Column(name = "name")
-    private String name;
-	
-	@Basic(optional = false)
-    @Column(name = "symbol")
-    private String symbol;
-	
-	@Basic(optional = false)
-    @Column(name = "type")
-    private Character type;
-	
-	@Basic(optional = false)
-    @Column(name = "state")
-    private Character state;
-	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "financialMovement", fetch = FetchType.EAGER)
+    @Column(name = "financial_movement_id", nullable = false)
+    private Long financialMovementId;
+    @Basic(optional = false)
+    @Column(name = "financial_movement_name", nullable = false, length = 64)
+    private String financialMovementName;
+    @Basic(optional = false)
+    @Column(name = "financial_movement_symbol", nullable = false, length = 16)
+    private String financialMovementSymbol;
+    @Basic(optional = false)
+    @Column(name = "financial_movement_state", nullable = false)
+    private Character financialMovementState;
+    @Basic(optional = false)
+    @Column(name = "financial_movement_type", nullable = false)
+    private Character financialMovementType;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "financialMovement")
+    private Collection<FinancialMovementData> financialMovementDataCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "financialMovementId")
     private Collection<FinancialMovementDetail> financialMovementDetailCollection;
 
-	public FinancialMovement() {}
+    public FinancialMovement() {
+    }
 
-	public FinancialMovement(Long idFinancialMovement, String name, String symbol, Character type, Character state) {
-		super();
-		this.idFinancialMovement = idFinancialMovement;
-		this.name = name;
-		this.symbol = symbol;
-		this.type = type;
-		this.state = state;
+    public FinancialMovement(Long financialMovementId) {
+        this.financialMovementId = financialMovementId;
+    }
+
+    public FinancialMovement(Long financialMovementId, String financialMovementName, String financialMovementSymbol, Character financialMovementState, Character financialMovementType) {
+        this.financialMovementId = financialMovementId;
+        this.financialMovementName = financialMovementName;
+        this.financialMovementSymbol = financialMovementSymbol;
+        this.financialMovementState = financialMovementState;
+        this.financialMovementType = financialMovementType;
+    }
+
+    public Long getFinancialMovementId() {
+        return financialMovementId;
+    }
+
+    public void setFinancialMovementId(Long financialMovementId) {
+        this.financialMovementId = financialMovementId;
+    }
+
+    public String getFinancialMovementName() {
+        return financialMovementName;
+    }
+
+    public void setFinancialMovementName(String financialMovementName) {
+        this.financialMovementName = financialMovementName;
+    }
+
+    public String getFinancialMovementSymbol() {
+		return financialMovementSymbol;
 	}
 
-	public Long getIdFinancialMovement() {
-		return idFinancialMovement;
+	public void setFinancialMovementSymbol(String financialMovementSymbol) {
+		this.financialMovementSymbol = financialMovementSymbol;
 	}
 
-	public void setIdFinancialMovement(Long idFinancialMovement) {
-		this.idFinancialMovement = idFinancialMovement;
-	}
+	public Character getFinancialMovementState() {
+        return financialMovementState;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setFinancialMovementState(Character financialMovementState) {
+        this.financialMovementState = financialMovementState;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public Character getFinancialMovementType() {
+        return financialMovementType;
+    }
 
-	public String getSymbol() {
-		return symbol;
-	}
+    public void setFinancialMovementType(Character financialMovementType) {
+        this.financialMovementType = financialMovementType;
+    }
 
-	public void setSymbol(String symbol) {
-		this.symbol = symbol;
-	}
+    public Collection<FinancialMovementData> getFinancialMovementDataCollection() {
+        return financialMovementDataCollection;
+    }
 
-	public Character getType() {
-		return type;
-	}
+    public void setFinancialMovementDataCollection(Collection<FinancialMovementData> financialMovementDataCollection) {
+        this.financialMovementDataCollection = financialMovementDataCollection;
+    }
 
-	public void setType(Character type) {
-		this.type = type;
-	}
+    public Collection<FinancialMovementDetail> getFinancialMovementDetailCollection() {
+        return financialMovementDetailCollection;
+    }
 
-	public Character getState() {
-		return state;
-	}
+    public void setFinancialMovementDetailCollection(Collection<FinancialMovementDetail> financialMovementDetailCollection) {
+        this.financialMovementDetailCollection = financialMovementDetailCollection;
+    }
 
-	public void setState(Character state) {
-		this.state = state;
-	}
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (financialMovementId != null ? financialMovementId.hashCode() : 0);
+        return hash;
+    }
 
-	@XmlTransient
-	public Collection<FinancialMovementDetail> getFinancialMovementDetail() {
-		return financialMovementDetailCollection;
-	}
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof FinancialMovement)) {
+            return false;
+        }
+        FinancialMovement other = (FinancialMovement) object;
+        if ((this.financialMovementId == null && other.financialMovementId != null) || (this.financialMovementId != null && !this.financialMovementId.equals(other.financialMovementId))) {
+            return false;
+        }
+        return true;
+    }
 
-	public void setFinancialMovementDetail(Collection<FinancialMovementDetail> financialMovementDetailCollection) {
-		this.financialMovementDetailCollection = financialMovementDetailCollection;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((financialMovementDetailCollection == null) ? 0 : financialMovementDetailCollection.hashCode());
-		result = prime * result + ((idFinancialMovement == null) ? 0 : idFinancialMovement.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((state == null) ? 0 : state.hashCode());
-		result = prime * result + ((symbol == null) ? 0 : symbol.hashCode());
-		result = prime * result + ((type == null) ? 0 : type.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		FinancialMovement other = (FinancialMovement) obj;
-		if (financialMovementDetailCollection == null) {
-			if (other.financialMovementDetailCollection != null)
-				return false;
-		} else if (!financialMovementDetailCollection.equals(other.financialMovementDetailCollection))
-			return false;
-		if (idFinancialMovement == null) {
-			if (other.idFinancialMovement != null)
-				return false;
-		} else if (!idFinancialMovement.equals(other.idFinancialMovement))
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (state == null) {
-			if (other.state != null)
-				return false;
-		} else if (!state.equals(other.state))
-			return false;
-		if (symbol == null) {
-			if (other.symbol != null)
-				return false;
-		} else if (!symbol.equals(other.symbol))
-			return false;
-		if (type == null) {
-			if (other.type != null)
-				return false;
-		} else if (!type.equals(other.type))
-			return false;
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "FinancialMovement [idFinancialMovement=" + idFinancialMovement + ", name=" + name + ", symbol=" + symbol
-				+ ", type=" + type + ", state=" + state + ", financialMovementDetail=" + financialMovementDetailCollection + "]";
-	};
-	
+    @Override
+    public String toString() {
+        return "com.system.demo.model.FinancialMovement[ financialMovementId=" + financialMovementId + " ]";
+    }
+    
 }

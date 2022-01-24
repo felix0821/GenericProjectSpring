@@ -27,7 +27,6 @@ public class PersonProfileDto {
 	@Email(message = "Ingrese un correo electronico.")
 	private String email;
 	
-	@NotBlank(message = "Ingrese una documento de identidad.")
 	private String dni;
 	
 	@NotNull(message = "Ingrese una fecha de nacimiento.")
@@ -41,7 +40,7 @@ public class PersonProfileDto {
 			@NotBlank(message = "Ingrese un apellido paterno.") String lastnameFather,
 			@NotBlank(message = "Ingrese un apellido materno.") String lastnameMother,
 			@Email(message = "Ingrese un correo electronico.") String email,
-			@NotBlank(message = "Ingrese una documento de identidad.") String dni,
+			String dni,
 			@NotNull(message = "Ingrese una fecha de nacimiento.") Date dateBirth, String urlProfilepicture) {
 		super();
 		this.id = id;
