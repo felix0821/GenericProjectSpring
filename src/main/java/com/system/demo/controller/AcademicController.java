@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.system.demo.dto.AcademicProgramListDto;
+import com.system.demo.dto.AcademicProgramDto;
 import com.system.demo.dto.AcademicProgramRegisterDto;
 import com.system.demo.dto.Message;
 import com.system.demo.model.Program;
@@ -47,13 +47,13 @@ public class AcademicController {
 	 public ResponseEntity<?> list(@RequestHeader HttpHeaders headers, HttpServletRequest request){
 		try {
 			Iterable<Program> programs = programService.getAllPrograms();
-			List<AcademicProgramListDto> academicProgramListDto = new ArrayList<>();
+			List<AcademicProgramDto> academicProgramDto = new ArrayList<>();
 			for(Program program:programs) {
-				academicProgramListDto.add(new AcademicProgramListDto(program.getProgramId(),program.getProgramIndex(),
-						program.getProgramName(),program.getProgramState()));
+				academicProgramDto.add(new AcademicProgramDto(program.getProgramId(),program.getProgramIndex(),
+						program.getProgramName(),program.getProgramAcronym(),program.getProgramState()));
 			}
 			
-			return new ResponseEntity<List<AcademicProgramListDto>>(academicProgramListDto, HttpStatus.OK);
+			return new ResponseEntity<List<AcademicProgramDto>>(academicProgramDto, HttpStatus.OK);
 		}catch(Exception e) {
 			return new ResponseEntity(new Message("BLOQUED"), HttpStatus.BAD_REQUEST);
 		}
