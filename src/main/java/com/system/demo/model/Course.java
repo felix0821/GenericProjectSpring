@@ -60,11 +60,11 @@ public class Course implements Serializable {
     private long courseTeachingCode;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "courseId")
     private Collection<CertificateStudiesDetail> certificateStudiesDetailCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "course")
-    private Collection<CourseGroupTeaching> courseGroupTeachingCollection;
-    @JoinColumn(name = "module_id", referencedColumnName = "module_id", nullable = false)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "courseId")
+    private Collection<CourseDetail> courseDetailCollection;
+    @JoinColumn(name = "modulus_id", referencedColumnName = "modulus_id", nullable = false)
     @ManyToOne(optional = false)
-    private Modulus moduleId;
+    private Modulus modulusId;
 
     public Course() {
     }
@@ -146,20 +146,20 @@ public class Course implements Serializable {
         this.certificateStudiesDetailCollection = certificateStudiesDetailCollection;
     }
 
-    public Collection<CourseGroupTeaching> getCourseGroupTeachingCollection() {
-        return courseGroupTeachingCollection;
+    public Collection<CourseDetail> getCourseDetailCollection() {
+        return courseDetailCollection;
     }
 
-    public void setCourseGroupTeachingCollection(Collection<CourseGroupTeaching> courseGroupTeachingCollection) {
-        this.courseGroupTeachingCollection = courseGroupTeachingCollection;
+    public void setCourseDetailCollection(Collection<CourseDetail> courseDetailCollection) {
+        this.courseDetailCollection = courseDetailCollection;
     }
 
-    public Modulus getModuleId() {
-        return moduleId;
+    public Modulus getModulusId() {
+        return modulusId;
     }
 
-    public void setModuleId(Modulus moduleId) {
-        this.moduleId = moduleId;
+    public void setModulusId(Modulus modulusId) {
+        this.modulusId = modulusId;
     }
 
     @Override

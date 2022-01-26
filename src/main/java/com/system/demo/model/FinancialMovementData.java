@@ -26,15 +26,15 @@ import javax.persistence.Table;
     @NamedQuery(name = "FinancialMovementData.findAll", query = "SELECT f FROM FinancialMovementData f"),
     @NamedQuery(name = "FinancialMovementData.findByFinancialMovementId", query = "SELECT f FROM FinancialMovementData f WHERE f.financialMovementDataPK.financialMovementId = :financialMovementId"),
     @NamedQuery(name = "FinancialMovementData.findByDataId", query = "SELECT f FROM FinancialMovementData f WHERE f.financialMovementDataPK.dataId = :dataId"),
-    @NamedQuery(name = "FinancialMovementData.findByFinancialMovementDataStatus", query = "SELECT f FROM FinancialMovementData f WHERE f.financialMovementDataStatus = :financialMovementDataStatus")})
+    @NamedQuery(name = "FinancialMovementData.findByFinancialMovementDataState", query = "SELECT f FROM FinancialMovementData f WHERE f.financialMovementDataState = :financialMovementDataState")})
 public class FinancialMovementData implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected FinancialMovementDataPK financialMovementDataPK;
     @Basic(optional = false)
-    @Column(name = "financial_movement_data_status", nullable = false)
-    private Character financialMovementDataStatus;
+    @Column(name = "financial_movement_data_state", nullable = false)
+    private Character financialMovementDataState;
     @JoinColumn(name = "data_id", referencedColumnName = "data_id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Data data;
@@ -49,9 +49,9 @@ public class FinancialMovementData implements Serializable {
         this.financialMovementDataPK = financialMovementDataPK;
     }
 
-    public FinancialMovementData(FinancialMovementDataPK financialMovementDataPK, Character financialMovementDataStatus) {
+    public FinancialMovementData(FinancialMovementDataPK financialMovementDataPK, Character financialMovementDataState) {
         this.financialMovementDataPK = financialMovementDataPK;
-        this.financialMovementDataStatus = financialMovementDataStatus;
+        this.financialMovementDataState = financialMovementDataState;
     }
 
     public FinancialMovementData(long financialMovementId, long dataId) {
@@ -66,12 +66,12 @@ public class FinancialMovementData implements Serializable {
         this.financialMovementDataPK = financialMovementDataPK;
     }
 
-    public Character getFinancialMovementDataStatus() {
-        return financialMovementDataStatus;
+    public Character getFinancialMovementDataState() {
+        return financialMovementDataState;
     }
 
-    public void setFinancialMovementDataStatus(Character financialMovementDataStatus) {
-        this.financialMovementDataStatus = financialMovementDataStatus;
+    public void setFinancialMovementDataState(Character financialMovementDataState) {
+        this.financialMovementDataState = financialMovementDataState;
     }
 
     public Data getData() {

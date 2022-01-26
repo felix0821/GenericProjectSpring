@@ -7,6 +7,7 @@ package com.system.demo.model;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -20,6 +21,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -32,7 +35,9 @@ import javax.persistence.Table;
     @NamedQuery(name = "FinancialMovementDetail.findByFinancialMovementDetailId", query = "SELECT f FROM FinancialMovementDetail f WHERE f.financialMovementDetailId = :financialMovementDetailId"),
     @NamedQuery(name = "FinancialMovementDetail.findByFinancialMovementDetailAmount", query = "SELECT f FROM FinancialMovementDetail f WHERE f.financialMovementDetailAmount = :financialMovementDetailAmount"),
     @NamedQuery(name = "FinancialMovementDetail.findByFinancialMovementDetailOperationNumber", query = "SELECT f FROM FinancialMovementDetail f WHERE f.financialMovementDetailOperationNumber = :financialMovementDetailOperationNumber"),
-    @NamedQuery(name = "FinancialMovementDetail.findByFinancialMovementDetailRegisterType", query = "SELECT f FROM FinancialMovementDetail f WHERE f.financialMovementDetailRegisterType = :financialMovementDetailRegisterType")})
+    @NamedQuery(name = "FinancialMovementDetail.findByFinancialMovementDetailDate", query = "SELECT f FROM FinancialMovementDetail f WHERE f.financialMovementDetailDate = :financialMovementDetailDate"),
+    @NamedQuery(name = "FinancialMovementDetail.findByFinancialMovementDetailRegisterType", query = "SELECT f FROM FinancialMovementDetail f WHERE f.financialMovementDetailRegisterType = :financialMovementDetailRegisterType"),
+    @NamedQuery(name = "FinancialMovementDetail.findByFinancialMovementDetailState", query = "SELECT f FROM FinancialMovementDetail f WHERE f.financialMovementDetailState = :financialMovementDetailState")})
 public class FinancialMovementDetail implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,10 +50,17 @@ public class FinancialMovementDetail implements Serializable {
     @Column(name = "financial_movement_detail_amount", nullable = false)
     private double financialMovementDetailAmount;
     @Column(name = "financial_movement_detail_operation_number")
-    private int financialMovementDetailOperationNumber;
+    private Integer financialMovementDetailOperationNumber;
+    @Basic(optional = false)
+    @Column(name = "financial_movement_detail_date", nullable = false)
+    @Temporal(TemporalType.DATE)
+    private Date financialMovementDetailDate;
     @Basic(optional = false)
     @Column(name = "financial_movement_detail_register_type", nullable = false)
     private Character financialMovementDetailRegisterType;
+    @Basic(optional = false)
+    @Column(name = "financial_movement_detail_state", nullable = false)
+    private Character financialMovementDetailState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "financialMovementDetail")
     private Collection<FinancialMovementRequisition> financialMovementRequisitionCollection;
     @JoinColumn(name = "financial_movement_id", referencedColumnName = "financial_movement_id", nullable = false)
@@ -65,10 +77,12 @@ public class FinancialMovementDetail implements Serializable {
         this.financialMovementDetailId = financialMovementDetailId;
     }
 
-    public FinancialMovementDetail(Long financialMovementDetailId, double financialMovementDetailAmount, Character financialMovementDetailRegisterType) {
+    public FinancialMovementDetail(Long financialMovementDetailId, double financialMovementDetailAmount, Date financialMovementDetailDate, Character financialMovementDetailRegisterType, Character financialMovementDetailState) {
         this.financialMovementDetailId = financialMovementDetailId;
         this.financialMovementDetailAmount = financialMovementDetailAmount;
+        this.financialMovementDetailDate = financialMovementDetailDate;
         this.financialMovementDetailRegisterType = financialMovementDetailRegisterType;
+        this.financialMovementDetailState = financialMovementDetailState;
     }
 
     public Long getFinancialMovementDetailId() {
@@ -87,20 +101,36 @@ public class FinancialMovementDetail implements Serializable {
         this.financialMovementDetailAmount = financialMovementDetailAmount;
     }
 
-    public int getFinancialMovementDetailOperationNumber() {
+    public Integer getFinancialMovementDetailOperationNumber() {
         return financialMovementDetailOperationNumber;
     }
 
-    public Character getFinancialMovementDetailRegisterType() {
-		return financialMovementDetailRegisterType;
-	}
-
-	public void setFinancialMovementDetailRegisterType(Character financialMovementDetailRegisterType) {
-		this.financialMovementDetailRegisterType = financialMovementDetailRegisterType;
-	}
-
-	public void setFinancialMovementDetailOperationNumber(int financialMovementDetailOperationNumber) {
+    public void setFinancialMovementDetailOperationNumber(Integer financialMovementDetailOperationNumber) {
         this.financialMovementDetailOperationNumber = financialMovementDetailOperationNumber;
+    }
+
+    public Date getFinancialMovementDetailDate() {
+        return financialMovementDetailDate;
+    }
+
+    public void setFinancialMovementDetailDate(Date financialMovementDetailDate) {
+        this.financialMovementDetailDate = financialMovementDetailDate;
+    }
+
+    public Character getFinancialMovementDetailRegisterType() {
+        return financialMovementDetailRegisterType;
+    }
+
+    public void setFinancialMovementDetailRegisterType(Character financialMovementDetailRegisterType) {
+        this.financialMovementDetailRegisterType = financialMovementDetailRegisterType;
+    }
+
+    public Character getFinancialMovementDetailState() {
+        return financialMovementDetailState;
+    }
+
+    public void setFinancialMovementDetailState(Character financialMovementDetailState) {
+        this.financialMovementDetailState = financialMovementDetailState;
     }
 
     public Collection<FinancialMovementRequisition> getFinancialMovementRequisitionCollection() {

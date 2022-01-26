@@ -13,7 +13,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -50,13 +49,9 @@ public class QualificationCriteria implements Serializable {
     private double qualificationCriteriaPorcentual;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "qualificationCriteria")
     private Collection<EnrollmentQualification> enrollmentQualificationCollection;
-    @JoinColumns({
-        @JoinColumn(name = "group_id", referencedColumnName = "group_id", nullable = false),
-        @JoinColumn(name = "module_id", referencedColumnName = "module_id", nullable = false),
-        @JoinColumn(name = "program_period_id", referencedColumnName = "program_period_id", nullable = false),
-        @JoinColumn(name = "course_id", referencedColumnName = "course_id", nullable = false)})
-    @ManyToOne(optional = false)
-    private CourseGroupTeaching courseGroupTeaching;
+    @JoinColumn(name = "course_detail_id", referencedColumnName = "course_detail_id")
+    @ManyToOne
+    private CourseDetail courseDetailId;
 
     public QualificationCriteria() {
     }
@@ -112,12 +107,12 @@ public class QualificationCriteria implements Serializable {
         this.enrollmentQualificationCollection = enrollmentQualificationCollection;
     }
 
-    public CourseGroupTeaching getCourseGroupTeaching() {
-        return courseGroupTeaching;
+    public CourseDetail getCourseDetailId() {
+        return courseDetailId;
     }
 
-    public void setCourseGroupTeaching(CourseGroupTeaching courseGroupTeaching) {
-        this.courseGroupTeaching = courseGroupTeaching;
+    public void setCourseDetailId(CourseDetail courseDetailId) {
+        this.courseDetailId = courseDetailId;
     }
 
     @Override

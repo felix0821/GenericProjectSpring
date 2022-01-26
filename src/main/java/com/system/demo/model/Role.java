@@ -27,6 +27,7 @@ import javax.persistence.Table;
     @NamedQuery(name = "Role.findAll", query = "SELECT r FROM Role r"),
     @NamedQuery(name = "Role.findByRoleId", query = "SELECT r FROM Role r WHERE r.roleId = :roleId"),
     @NamedQuery(name = "Role.findByRoleName", query = "SELECT r FROM Role r WHERE r.roleName = :roleName"),
+    @NamedQuery(name = "Role.findByRoleDescription", query = "SELECT r FROM Role r WHERE r.roleDescription = :roleDescription"),
     @NamedQuery(name = "Role.findByRoleState", query = "SELECT r FROM Role r WHERE r.roleState = :roleState"),
     @NamedQuery(name = "Role.findByRoleType", query = "SELECT r FROM Role r WHERE r.roleType = :roleType")})
 public class Role implements Serializable {
@@ -50,19 +51,21 @@ public class Role implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "role")
     private Collection<PersonRole> personRoleCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "role")
+    private Collection<RequisitionAccessRole> requisitionAccessRoleCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "role")
     private Collection<Access> accessCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "role")
     private Collection<RoleView> roleViewCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "role")
     private Collection<PersonData> personDataCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "role")
-    private Collection<RoleContext> roleContextCollection;
+    private Collection<RequisitionNotificationRole> requisitionNotificationRoleCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "role")
-    private Collection<RequisitionRole> requisitionRoleCollection;
+    private Collection<RoleContext> roleContextCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "role")
     private Collection<ReportRole> reportRoleCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "roleId")
-    private Collection<Enrollment> enrollmentCollection;
+    private Collection<EnrollmentCourse> enrollmentCourseCollection;
 
     public Role() {
     }
@@ -71,10 +74,9 @@ public class Role implements Serializable {
         this.roleId = roleId;
     }
 
-    public Role(Long roleId, String roleName, String roleDescription, Character roleState, Character roleType) {
+    public Role(Long roleId, String roleName, Character roleState, Character roleType) {
         this.roleId = roleId;
         this.roleName = roleName;
-        this.roleDescription = roleDescription;
         this.roleState = roleState;
         this.roleType = roleType;
     }
@@ -96,14 +98,14 @@ public class Role implements Serializable {
     }
 
     public String getRoleDescription() {
-		return roleDescription;
-	}
+        return roleDescription;
+    }
 
-	public void setRoleDescription(String roleDescription) {
-		this.roleDescription = roleDescription;
-	}
+    public void setRoleDescription(String roleDescription) {
+        this.roleDescription = roleDescription;
+    }
 
-	public Character getRoleState() {
+    public Character getRoleState() {
         return roleState;
     }
 
@@ -125,6 +127,14 @@ public class Role implements Serializable {
 
     public void setPersonRoleCollection(Collection<PersonRole> personRoleCollection) {
         this.personRoleCollection = personRoleCollection;
+    }
+
+    public Collection<RequisitionAccessRole> getRequisitionAccessRoleCollection() {
+        return requisitionAccessRoleCollection;
+    }
+
+    public void setRequisitionAccessRoleCollection(Collection<RequisitionAccessRole> requisitionAccessRoleCollection) {
+        this.requisitionAccessRoleCollection = requisitionAccessRoleCollection;
     }
 
     public Collection<Access> getAccessCollection() {
@@ -151,20 +161,20 @@ public class Role implements Serializable {
         this.personDataCollection = personDataCollection;
     }
 
+    public Collection<RequisitionNotificationRole> getRequisitionNotificationRoleCollection() {
+        return requisitionNotificationRoleCollection;
+    }
+
+    public void setRequisitionNotificationRoleCollection(Collection<RequisitionNotificationRole> requisitionNotificationRoleCollection) {
+        this.requisitionNotificationRoleCollection = requisitionNotificationRoleCollection;
+    }
+
     public Collection<RoleContext> getRoleContextCollection() {
         return roleContextCollection;
     }
 
     public void setRoleContextCollection(Collection<RoleContext> roleContextCollection) {
         this.roleContextCollection = roleContextCollection;
-    }
-
-    public Collection<RequisitionRole> getRequisitionRoleCollection() {
-        return requisitionRoleCollection;
-    }
-
-    public void setRequisitionRoleCollection(Collection<RequisitionRole> requisitionRoleCollection) {
-        this.requisitionRoleCollection = requisitionRoleCollection;
     }
 
     public Collection<ReportRole> getReportRoleCollection() {
@@ -175,12 +185,12 @@ public class Role implements Serializable {
         this.reportRoleCollection = reportRoleCollection;
     }
 
-    public Collection<Enrollment> getEnrollmentCollection() {
-        return enrollmentCollection;
+    public Collection<EnrollmentCourse> getEnrollmentCourseCollection() {
+        return enrollmentCourseCollection;
     }
 
-    public void setEnrollmentCollection(Collection<Enrollment> enrollmentCollection) {
-        this.enrollmentCollection = enrollmentCollection;
+    public void setEnrollmentCourseCollection(Collection<EnrollmentCourse> enrollmentCourseCollection) {
+        this.enrollmentCourseCollection = enrollmentCourseCollection;
     }
 
     @Override

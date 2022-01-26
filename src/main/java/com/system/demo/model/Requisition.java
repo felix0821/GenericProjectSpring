@@ -24,7 +24,7 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(name = "requisition", uniqueConstraints = {
-	    @UniqueConstraint(columnNames = {"requisition_name"})})
+    @UniqueConstraint(columnNames = {"requisition_name"})})
 @NamedQueries({
     @NamedQuery(name = "Requisition.findAll", query = "SELECT r FROM Requisition r"),
     @NamedQuery(name = "Requisition.findByRequisitionId", query = "SELECT r FROM Requisition r WHERE r.requisitionId = :requisitionId"),
@@ -49,11 +49,13 @@ public class Requisition implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisitionId")
     private Collection<RequisitionDetail> requisitionDetailCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisition")
+    private Collection<RequisitionAccessRole> requisitionAccessRoleCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisition")
     private Collection<RequisitionData> requisitionDataCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisition")
+    private Collection<RequisitionNotificationRole> requisitionNotificationRoleCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisitionId")
     private Collection<RequisitionUses> requisitionUsesCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisition")
-    private Collection<RequisitionRole> requisitionRoleCollection;
 
     public Requisition() {
     }
@@ -91,7 +93,7 @@ public class Requisition implements Serializable {
     public void setRequisitionDescription(String requisitionDescription) {
         this.requisitionDescription = requisitionDescription;
     }
-    
+
     public Character getRequisitionState() {
         return requisitionState;
     }
@@ -108,6 +110,14 @@ public class Requisition implements Serializable {
         this.requisitionDetailCollection = requisitionDetailCollection;
     }
 
+    public Collection<RequisitionAccessRole> getRequisitionAccessRoleCollection() {
+        return requisitionAccessRoleCollection;
+    }
+
+    public void setRequisitionAccessRoleCollection(Collection<RequisitionAccessRole> requisitionAccessRoleCollection) {
+        this.requisitionAccessRoleCollection = requisitionAccessRoleCollection;
+    }
+
     public Collection<RequisitionData> getRequisitionDataCollection() {
         return requisitionDataCollection;
     }
@@ -116,20 +126,20 @@ public class Requisition implements Serializable {
         this.requisitionDataCollection = requisitionDataCollection;
     }
 
+    public Collection<RequisitionNotificationRole> getRequisitionNotificationRoleCollection() {
+        return requisitionNotificationRoleCollection;
+    }
+
+    public void setRequisitionNotificationRoleCollection(Collection<RequisitionNotificationRole> requisitionNotificationRoleCollection) {
+        this.requisitionNotificationRoleCollection = requisitionNotificationRoleCollection;
+    }
+
     public Collection<RequisitionUses> getRequisitionUsesCollection() {
         return requisitionUsesCollection;
     }
 
     public void setRequisitionUsesCollection(Collection<RequisitionUses> requisitionUsesCollection) {
         this.requisitionUsesCollection = requisitionUsesCollection;
-    }
-
-    public Collection<RequisitionRole> getRequisitionRoleCollection() {
-        return requisitionRoleCollection;
-    }
-
-    public void setRequisitionRoleCollection(Collection<RequisitionRole> requisitionRoleCollection) {
-        this.requisitionRoleCollection = requisitionRoleCollection;
     }
 
     @Override

@@ -26,12 +26,9 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(name = "EnrollmentQualification.findAll", query = "SELECT e FROM EnrollmentQualification e"),
     @NamedQuery(name = "EnrollmentQualification.findByQualificationCriteriaId", query = "SELECT e FROM EnrollmentQualification e WHERE e.enrollmentQualificationPK.qualificationCriteriaId = :qualificationCriteriaId"),
-    @NamedQuery(name = "EnrollmentQualification.findByUserId", query = "SELECT e FROM EnrollmentQualification e WHERE e.enrollmentQualificationPK.userId = :userId"),
-    @NamedQuery(name = "EnrollmentQualification.findByGroupId", query = "SELECT e FROM EnrollmentQualification e WHERE e.enrollmentQualificationPK.groupId = :groupId"),
-    @NamedQuery(name = "EnrollmentQualification.findByEnrollmentQualificationValue", query = "SELECT e FROM EnrollmentQualification e WHERE e.enrollmentQualificationValue = :enrollmentQualificationValue"),
-    @NamedQuery(name = "EnrollmentQualification.findByModuleId", query = "SELECT e FROM EnrollmentQualification e WHERE e.enrollmentQualificationPK.moduleId = :moduleId"),
-    @NamedQuery(name = "EnrollmentQualification.findByProgramPeriodId", query = "SELECT e FROM EnrollmentQualification e WHERE e.enrollmentQualificationPK.programPeriodId = :programPeriodId"),
-    @NamedQuery(name = "EnrollmentQualification.findByCourseId", query = "SELECT e FROM EnrollmentQualification e WHERE e.enrollmentQualificationPK.courseId = :courseId")})
+    @NamedQuery(name = "EnrollmentQualification.findByPersonId", query = "SELECT e FROM EnrollmentQualification e WHERE e.enrollmentQualificationPK.personId = :personId"),
+    @NamedQuery(name = "EnrollmentQualification.findByCourseDetailId", query = "SELECT e FROM EnrollmentQualification e WHERE e.enrollmentQualificationPK.courseDetailId = :courseDetailId"),
+    @NamedQuery(name = "EnrollmentQualification.findByEnrollmentQualificationValue", query = "SELECT e FROM EnrollmentQualification e WHERE e.enrollmentQualificationValue = :enrollmentQualificationValue")})
 public class EnrollmentQualification implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -41,13 +38,10 @@ public class EnrollmentQualification implements Serializable {
     @Column(name = "enrollment_qualification_value", nullable = false)
     private double enrollmentQualificationValue;
     @JoinColumns({
-        @JoinColumn(name = "user_id", referencedColumnName = "person_id", nullable = false, insertable = false, updatable = false),
-        @JoinColumn(name = "group_id", referencedColumnName = "group_id", nullable = false, insertable = false, updatable = false),
-        @JoinColumn(name = "module_id", referencedColumnName = "module_id", nullable = false, insertable = false, updatable = false),
-        @JoinColumn(name = "program_period_id", referencedColumnName = "program_period_id", nullable = false, insertable = false, updatable = false),
-        @JoinColumn(name = "course_id", referencedColumnName = "course_id", nullable = false, insertable = false, updatable = false)})
+        @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false, insertable = false, updatable = false),
+        @JoinColumn(name = "course_detail_id", referencedColumnName = "course_detail_id", nullable = false, insertable = false, updatable = false)})
     @ManyToOne(optional = false)
-    private Enrollment enrollment;
+    private EnrollmentCourse enrollmentCourse;
     @JoinColumn(name = "evaluated_status_id", referencedColumnName = "evaluated_status_id", nullable = false)
     @ManyToOne(optional = false)
     private EvaluatedStatus evaluatedStatusId;
@@ -70,8 +64,8 @@ public class EnrollmentQualification implements Serializable {
         this.enrollmentQualificationValue = enrollmentQualificationValue;
     }
 
-    public EnrollmentQualification(long qualificationCriteriaId, long userId, long groupId, long moduleId, long programPeriodId, long courseId) {
-        this.enrollmentQualificationPK = new EnrollmentQualificationPK(qualificationCriteriaId, userId, groupId, moduleId, programPeriodId, courseId);
+    public EnrollmentQualification(long qualificationCriteriaId, long personId, long courseDetailId) {
+        this.enrollmentQualificationPK = new EnrollmentQualificationPK(qualificationCriteriaId, personId, courseDetailId);
     }
 
     public EnrollmentQualificationPK getEnrollmentQualificationPK() {
@@ -90,12 +84,12 @@ public class EnrollmentQualification implements Serializable {
         this.enrollmentQualificationValue = enrollmentQualificationValue;
     }
 
-    public Enrollment getEnrollment() {
-        return enrollment;
+    public EnrollmentCourse getEnrollmentCourse() {
+        return enrollmentCourse;
     }
 
-    public void setEnrollment(Enrollment enrollment) {
-        this.enrollment = enrollment;
+    public void setEnrollmentCourse(EnrollmentCourse enrollmentCourse) {
+        this.enrollmentCourse = enrollmentCourse;
     }
 
     public EvaluatedStatus getEvaluatedStatusId() {

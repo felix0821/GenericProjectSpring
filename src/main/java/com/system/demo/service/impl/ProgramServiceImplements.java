@@ -1,5 +1,7 @@
 package com.system.demo.service.impl;
 
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,11 @@ public class ProgramServiceImplements implements ProgramService{
 	@Override
 	public Program createProgram(Program program) throws Exception {
 		return programRepository.save(program);
+	}
+
+	@Override
+	public Program getProgramById(Long id) throws Exception{
+		return programRepository.findById(id).orElseThrow();
 	}
 
 }

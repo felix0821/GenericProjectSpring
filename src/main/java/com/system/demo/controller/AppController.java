@@ -147,13 +147,13 @@ public class AppController {
 		// Crear objetos iniciales
 		LocalDate datePeru=LocalDate.now(ZoneId.of("America/Lima"));
 		Date dateRegister=Date.from(datePeru.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-		admin = new Role(1L,"Administrador", "Adminitrador de pagina",'A', 'A');
-		user = new Role(2L,"Usuario", "Usuario de pagina",'A', 'A');
-		invited = new Role(3L,"Invitado", "Invitado de pagina",'A', 'A');
+		admin = new Role(1L,"Administrador",'A', 'A');
+		user = new Role(2L,"Usuario",'A', 'A');
+		invited = new Role(3L,"Invitado",'A', 'A');
 		//Roles ingresados por el usuario
-		coordinador_academico = new Role(1641872943917859L,"Coordinador Academico", "Invitado de pagina",'A', 'D');
-		finanzas = new Role(1641872943917970L,"Finanzas", "Invitado de pagina",'A', 'D');
-		apoyo_academico = new Role(1641872943917998L,"Apoyo Academico", "Invitado de pagina",'A', 'D');
+		coordinador_academico = new Role(1641872943917859L,"Coordinador Academico",'A', 'D');
+		finanzas = new Role(1641872943917970L,"Finanzas",'A', 'D');
+		apoyo_academico = new Role(1641872943917998L,"Apoyo Academico",'A', 'D');
 		// Generar cosulta
 		roleService.createRole(admin);
 		roleService.createRole(user);
@@ -182,7 +182,7 @@ public class AppController {
 			Date dateRegister=Date.from(datePeru.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
 			// SuperAdmin
 			superadmin = new Person(idPerson, "admin", password, "ADMIN", "Sin apellido paterno", "Sin apellido materno",
-					  dateRegister, "admin@ucps", 'A');
+					  'X', dateRegister, "admin@ucps", 'A');
 			personService.createPerson(superadmin);
 	        //Agregar rol a nuevo usuario
 	        Long idRoleAdmin = 1L;
@@ -196,7 +196,7 @@ public class AppController {
 		    Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(sDate1);  
 		    String password1 = "$2a$10$SRg8z0g.h3HcdMItix2XUuszgDUZPAtL/0M/.JyJnuSvyRDFXgAza";
 			laura = new Person(idPerson1, "Laura", password1, "LAURA CECILIA", "LAROTA", "COAGUILA",
-					  dateRegister, "LAURA_CECILIA@LAROTACOAGUILA", 'A');
+					  'F', dateRegister, "LAURA_CECILIA@LAROTACOAGUILA", 'A');
 			laura.setPersonDateBirth(date1);
 			personService.createPerson(laura);
 			//DNI

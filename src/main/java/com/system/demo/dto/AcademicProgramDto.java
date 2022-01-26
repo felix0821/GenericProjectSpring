@@ -17,7 +17,7 @@ public class AcademicProgramDto {
 	@NotBlank(message = "Ingrese un acrónimo.")
 	private String acronym;
 	
-	@NotBlank(message = "Ingrese un acrónimo.")
+	@NotBlank(message = "Ingrese una descripción.")
 	private String description;
 	
 	@NotNull

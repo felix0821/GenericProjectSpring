@@ -54,15 +54,15 @@ public class RequisitionDetail implements Serializable {
     @ManyToOne(optional = false)
     private Requisition requisitionId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisitionDetail")
-    private Collection<RequisitionPerson> requisitionPersonCollection;
-    @OneToMany(mappedBy = "requisitionDetailId")
-    private Collection<PersonProgramPeriod> personProgramPeriodCollection;
+    private Collection<RequisitionDetailPerson> requisitionDetailPersonCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisitionDetail")
     private Collection<FinancialMovementRequisition> financialMovementRequisitionCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisitionDetailId")
     private Collection<RequisitionRemark> requisitionRemarkCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisitionDetail")
     private Collection<RequisitionDataDetail> requisitionDataDetailCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisitionDetail")
+    private Collection<RequisitionEnrollmentProgram> requisitionEnrollmentProgramCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisitionDetailId")
     private Collection<RequisitionStatusDetail> requisitionStatusDetailCollection;
 
@@ -119,20 +119,12 @@ public class RequisitionDetail implements Serializable {
         this.requisitionId = requisitionId;
     }
 
-    public Collection<RequisitionPerson> getRequisitionPersonCollection() {
-        return requisitionPersonCollection;
+    public Collection<RequisitionDetailPerson> getRequisitionDetailPersonCollection() {
+        return requisitionDetailPersonCollection;
     }
 
-    public void setRequisitionPersonCollection(Collection<RequisitionPerson> requisitionPersonCollection) {
-        this.requisitionPersonCollection = requisitionPersonCollection;
-    }
-
-    public Collection<PersonProgramPeriod> getPersonProgramPeriodCollection() {
-        return personProgramPeriodCollection;
-    }
-
-    public void setPersonProgramPeriodCollection(Collection<PersonProgramPeriod> personProgramPeriodCollection) {
-        this.personProgramPeriodCollection = personProgramPeriodCollection;
+    public void setRequisitionDetailPersonCollection(Collection<RequisitionDetailPerson> requisitionDetailPersonCollection) {
+        this.requisitionDetailPersonCollection = requisitionDetailPersonCollection;
     }
 
     public Collection<FinancialMovementRequisition> getFinancialMovementRequisitionCollection() {
@@ -157,6 +149,14 @@ public class RequisitionDetail implements Serializable {
 
     public void setRequisitionDataDetailCollection(Collection<RequisitionDataDetail> requisitionDataDetailCollection) {
         this.requisitionDataDetailCollection = requisitionDataDetailCollection;
+    }
+
+    public Collection<RequisitionEnrollmentProgram> getRequisitionEnrollmentProgramCollection() {
+        return requisitionEnrollmentProgramCollection;
+    }
+
+    public void setRequisitionEnrollmentProgramCollection(Collection<RequisitionEnrollmentProgram> requisitionEnrollmentProgramCollection) {
+        this.requisitionEnrollmentProgramCollection = requisitionEnrollmentProgramCollection;
     }
 
     public Collection<RequisitionStatusDetail> getRequisitionStatusDetailCollection() {

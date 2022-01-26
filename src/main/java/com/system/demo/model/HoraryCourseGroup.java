@@ -13,7 +13,6 @@ import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -29,10 +28,7 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(name = "HoraryCourseGroup.findAll", query = "SELECT h FROM HoraryCourseGroup h"),
     @NamedQuery(name = "HoraryCourseGroup.findByHoraryId", query = "SELECT h FROM HoraryCourseGroup h WHERE h.horaryCourseGroupPK.horaryId = :horaryId"),
-    @NamedQuery(name = "HoraryCourseGroup.findByGroupId", query = "SELECT h FROM HoraryCourseGroup h WHERE h.horaryCourseGroupPK.groupId = :groupId"),
-    @NamedQuery(name = "HoraryCourseGroup.findByModuleId", query = "SELECT h FROM HoraryCourseGroup h WHERE h.horaryCourseGroupPK.moduleId = :moduleId"),
-    @NamedQuery(name = "HoraryCourseGroup.findByProgramPeriodId", query = "SELECT h FROM HoraryCourseGroup h WHERE h.horaryCourseGroupPK.programPeriodId = :programPeriodId"),
-    @NamedQuery(name = "HoraryCourseGroup.findByCourseId", query = "SELECT h FROM HoraryCourseGroup h WHERE h.horaryCourseGroupPK.courseId = :courseId"),
+    @NamedQuery(name = "HoraryCourseGroup.findByCourseDetailId", query = "SELECT h FROM HoraryCourseGroup h WHERE h.horaryCourseGroupPK.courseDetailId = :courseDetailId"),
     @NamedQuery(name = "HoraryCourseGroup.findByHoraryCourseGroupState", query = "SELECT h FROM HoraryCourseGroup h WHERE h.horaryCourseGroupState = :horaryCourseGroupState")})
 public class HoraryCourseGroup implements Serializable {
 
@@ -44,13 +40,9 @@ public class HoraryCourseGroup implements Serializable {
     private Character horaryCourseGroupState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "horaryCourseGroup")
     private Collection<Assistance> assistanceCollection;
-    @JoinColumns({
-        @JoinColumn(name = "group_id", referencedColumnName = "group_id", nullable = false, insertable = false, updatable = false),
-        @JoinColumn(name = "module_id", referencedColumnName = "module_id", nullable = false, insertable = false, updatable = false),
-        @JoinColumn(name = "program_period_id", referencedColumnName = "program_period_id", nullable = false, insertable = false, updatable = false),
-        @JoinColumn(name = "course_id", referencedColumnName = "course_id", nullable = false, insertable = false, updatable = false)})
+    @JoinColumn(name = "course_detail_id", referencedColumnName = "course_detail_id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
-    private CourseGroupTeaching courseGroupTeaching;
+    private CourseDetail courseDetail;
     @JoinColumn(name = "horary_id", referencedColumnName = "horary_id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Horary horary;
@@ -67,8 +59,8 @@ public class HoraryCourseGroup implements Serializable {
         this.horaryCourseGroupState = horaryCourseGroupState;
     }
 
-    public HoraryCourseGroup(long horaryId, long groupId, long moduleId, long programPeriodId, long courseId) {
-        this.horaryCourseGroupPK = new HoraryCourseGroupPK(horaryId, groupId, moduleId, programPeriodId, courseId);
+    public HoraryCourseGroup(long horaryId, long courseDetailId) {
+        this.horaryCourseGroupPK = new HoraryCourseGroupPK(horaryId, courseDetailId);
     }
 
     public HoraryCourseGroupPK getHoraryCourseGroupPK() {
@@ -95,12 +87,12 @@ public class HoraryCourseGroup implements Serializable {
         this.assistanceCollection = assistanceCollection;
     }
 
-    public CourseGroupTeaching getCourseGroupTeaching() {
-        return courseGroupTeaching;
+    public CourseDetail getCourseDetail() {
+        return courseDetail;
     }
 
-    public void setCourseGroupTeaching(CourseGroupTeaching courseGroupTeaching) {
-        this.courseGroupTeaching = courseGroupTeaching;
+    public void setCourseDetail(CourseDetail courseDetail) {
+        this.courseDetail = courseDetail;
     }
 
     public Horary getHorary() {

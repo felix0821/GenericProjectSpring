@@ -3,7 +3,19 @@ package com.system.demo;
 public class GenericProjectSystemStatement {
 	
 	/**
-	 *	predefined resources for the system
+	 *	Global response for the system
+	 **/
+	//	Respuestas concretadas
+	public static String SYSTEM_SUCCESS_REGISTER_PROGRAM = "Programa registrado exitosamente";
+	public static String SYSTEM_SUCCESS_EDIT_PROGRAM = "Programa modificado exitosamente";
+	
+	//	Respuestas de error
+	public static String SYSTEM_ERROR = "Error general de sistema";
+	public static String SYSTEM_ERROR_REGISTER = "Error de registro";
+	public static String SYSTEM_ERROR_NO_ID = "No existe Id";
+	
+	/**
+	 *	Predefined resources for the system
 	 **/
 	//public static final
 	
@@ -31,6 +43,8 @@ public class GenericProjectSystemStatement {
 	public static final String URL_DOCUMENTARY_REQUEST = "/documentary";
 	
 	public static final String URL_ACADEMIC_REQUEST = "/academic";
-	public static final String URL_ACADEMIC_REGISTER_POST = "/program/register";
+	public static final String URL_ACADEMIC_EDITxPROGRAM_GET = "/edit-program/{id}";
+	public static final String URL_ACADEMIC_EDITxPROGRAM_POST = "/edit-program";
+	public static final String URL_ACADEMIC_PROGRAM_REGISTER_POST = "/program/register";
 
 }

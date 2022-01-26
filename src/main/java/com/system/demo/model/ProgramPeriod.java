@@ -31,9 +31,13 @@ import javax.persistence.TemporalType;
 @NamedQueries({
     @NamedQuery(name = "ProgramPeriod.findAll", query = "SELECT p FROM ProgramPeriod p"),
     @NamedQuery(name = "ProgramPeriod.findByProgramPeriodId", query = "SELECT p FROM ProgramPeriod p WHERE p.programPeriodId = :programPeriodId"),
-    @NamedQuery(name = "ProgramPeriod.findByProgramPeriodNumber", query = "SELECT p FROM ProgramPeriod p WHERE p.programPeriodNumber = :programPeriodNumber"),
+    @NamedQuery(name = "ProgramPeriod.findByProgramPeriodDescription", query = "SELECT p FROM ProgramPeriod p WHERE p.programPeriodDescription = :programPeriodDescription"),
+    @NamedQuery(name = "ProgramPeriod.findByProgramPeriodIndex", query = "SELECT p FROM ProgramPeriod p WHERE p.programPeriodIndex = :programPeriodIndex"),
+    @NamedQuery(name = "ProgramPeriod.findByProgramPeriodPayEnrollment", query = "SELECT p FROM ProgramPeriod p WHERE p.programPeriodPayEnrollment = :programPeriodPayEnrollment"),
+    @NamedQuery(name = "ProgramPeriod.findByProgramPeriodPayPension", query = "SELECT p FROM ProgramPeriod p WHERE p.programPeriodPayPension = :programPeriodPayPension"),
     @NamedQuery(name = "ProgramPeriod.findByProgramPeriodOpening", query = "SELECT p FROM ProgramPeriod p WHERE p.programPeriodOpening = :programPeriodOpening"),
-    @NamedQuery(name = "ProgramPeriod.findByProgramPeriodClosing", query = "SELECT p FROM ProgramPeriod p WHERE p.programPeriodClosing = :programPeriodClosing")})
+    @NamedQuery(name = "ProgramPeriod.findByProgramPeriodClosing", query = "SELECT p FROM ProgramPeriod p WHERE p.programPeriodClosing = :programPeriodClosing"),
+    @NamedQuery(name = "ProgramPeriod.findByProgramPeriodState", query = "SELECT p FROM ProgramPeriod p WHERE p.programPeriodState = :programPeriodState")})
 public class ProgramPeriod implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -41,22 +45,38 @@ public class ProgramPeriod implements Serializable {
     @Basic(optional = false)
     @Column(name = "program_period_id", nullable = false)
     private Long programPeriodId;
+    @Column(name = "program_period_description", length = 64)
+    private String programPeriodDescription;
     @Basic(optional = false)
-    @Column(name = "program_period_number", nullable = false)
-    private int programPeriodNumber;
-    @Column(name = "program_period_opening")
+    @Column(name = "program_period_index", nullable = false)
+    private int programPeriodIndex;
+    @Basic(optional = false)
+    @Column(name = "program_period_pay_enrollment", nullable = false)
+    private double programPeriodPayEnrollment;
+    @Basic(optional = false)
+    @Column(name = "program_period_pay_pension", nullable = false)
+    private double programPeriodPayPension;
+    @Basic(optional = false)
+    @Column(name = "program_period_opening", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date programPeriodOpening;
-    @Column(name = "program_period_closing")
+    @Basic(optional = false)
+    @Column(name = "program_period_closing", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date programPeriodClosing;
-    @JoinColumn(name = "program_id", referencedColumnName = "program_id")
-    @ManyToOne
+    @Basic(optional = false)
+    @Column(name = "program_period_state", nullable = false)
+    private Character programPeriodState;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "programPeriod")
+    private Collection<EnrollmentProgramPeriod> enrollmentProgramPeriodCollection;
+    @JoinColumn(name = "pedagogical_period_id", referencedColumnName = "pedagogical_period_id", nullable = false)
+    @ManyToOne(optional = false)
+    private PedagogicalPeriod pedagogicalPeriodId;
+    @JoinColumn(name = "program_id", referencedColumnName = "program_id", nullable = false)
+    @ManyToOne(optional = false)
     private Program programId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "programPeriod")
-    private Collection<PersonProgramPeriod> personProgramPeriodCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "programPeriod")
-    private Collection<Schedule> scheduleCollection;
+    private Collection<ModulusSchedule> modulusScheduleCollection;
 
     public ProgramPeriod() {
     }
@@ -65,9 +85,14 @@ public class ProgramPeriod implements Serializable {
         this.programPeriodId = programPeriodId;
     }
 
-    public ProgramPeriod(Long programPeriodId, int programPeriodNumber) {
+    public ProgramPeriod(Long programPeriodId, int programPeriodIndex, double programPeriodPayEnrollment, double programPeriodPayPension, Date programPeriodOpening, Date programPeriodClosing, Character programPeriodState) {
         this.programPeriodId = programPeriodId;
-        this.programPeriodNumber = programPeriodNumber;
+        this.programPeriodIndex = programPeriodIndex;
+        this.programPeriodPayEnrollment = programPeriodPayEnrollment;
+        this.programPeriodPayPension = programPeriodPayPension;
+        this.programPeriodOpening = programPeriodOpening;
+        this.programPeriodClosing = programPeriodClosing;
+        this.programPeriodState = programPeriodState;
     }
 
     public Long getProgramPeriodId() {
@@ -78,12 +103,36 @@ public class ProgramPeriod implements Serializable {
         this.programPeriodId = programPeriodId;
     }
 
-    public int getProgramPeriodNumber() {
-        return programPeriodNumber;
+    public String getProgramPeriodDescription() {
+        return programPeriodDescription;
     }
 
-    public void setProgramPeriodNumber(int programPeriodNumber) {
-        this.programPeriodNumber = programPeriodNumber;
+    public void setProgramPeriodDescription(String programPeriodDescription) {
+        this.programPeriodDescription = programPeriodDescription;
+    }
+
+    public int getProgramPeriodIndex() {
+        return programPeriodIndex;
+    }
+
+    public void setProgramPeriodIndex(int programPeriodIndex) {
+        this.programPeriodIndex = programPeriodIndex;
+    }
+
+    public double getProgramPeriodPayEnrollment() {
+        return programPeriodPayEnrollment;
+    }
+
+    public void setProgramPeriodPayEnrollment(double programPeriodPayEnrollment) {
+        this.programPeriodPayEnrollment = programPeriodPayEnrollment;
+    }
+
+    public double getProgramPeriodPayPension() {
+        return programPeriodPayPension;
+    }
+
+    public void setProgramPeriodPayPension(double programPeriodPayPension) {
+        this.programPeriodPayPension = programPeriodPayPension;
     }
 
     public Date getProgramPeriodOpening() {
@@ -102,6 +151,30 @@ public class ProgramPeriod implements Serializable {
         this.programPeriodClosing = programPeriodClosing;
     }
 
+    public Character getProgramPeriodState() {
+        return programPeriodState;
+    }
+
+    public void setProgramPeriodState(Character programPeriodState) {
+        this.programPeriodState = programPeriodState;
+    }
+
+    public Collection<EnrollmentProgramPeriod> getEnrollmentProgramPeriodCollection() {
+        return enrollmentProgramPeriodCollection;
+    }
+
+    public void setEnrollmentProgramPeriodCollection(Collection<EnrollmentProgramPeriod> enrollmentProgramPeriodCollection) {
+        this.enrollmentProgramPeriodCollection = enrollmentProgramPeriodCollection;
+    }
+
+    public PedagogicalPeriod getPedagogicalPeriodId() {
+        return pedagogicalPeriodId;
+    }
+
+    public void setPedagogicalPeriodId(PedagogicalPeriod pedagogicalPeriodId) {
+        this.pedagogicalPeriodId = pedagogicalPeriodId;
+    }
+
     public Program getProgramId() {
         return programId;
     }
@@ -110,20 +183,12 @@ public class ProgramPeriod implements Serializable {
         this.programId = programId;
     }
 
-    public Collection<PersonProgramPeriod> getPersonProgramPeriodCollection() {
-        return personProgramPeriodCollection;
+    public Collection<ModulusSchedule> getModulusScheduleCollection() {
+        return modulusScheduleCollection;
     }
 
-    public void setPersonProgramPeriodCollection(Collection<PersonProgramPeriod> personProgramPeriodCollection) {
-        this.personProgramPeriodCollection = personProgramPeriodCollection;
-    }
-
-    public Collection<Schedule> getScheduleCollection() {
-        return scheduleCollection;
-    }
-
-    public void setScheduleCollection(Collection<Schedule> scheduleCollection) {
-        this.scheduleCollection = scheduleCollection;
+    public void setModulusScheduleCollection(Collection<ModulusSchedule> modulusScheduleCollection) {
+        this.modulusScheduleCollection = modulusScheduleCollection;
     }
 
     @Override

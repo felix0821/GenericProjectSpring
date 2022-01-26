@@ -28,8 +28,8 @@ import javax.persistence.TemporalType;
 @NamedQueries({
     @NamedQuery(name = "RequisitionStatusDetail.findAll", query = "SELECT r FROM RequisitionStatusDetail r"),
     @NamedQuery(name = "RequisitionStatusDetail.findByRequisitionStatusDetailId", query = "SELECT r FROM RequisitionStatusDetail r WHERE r.requisitionStatusDetailId = :requisitionStatusDetailId"),
-    @NamedQuery(name = "RequisitionStatusDetail.findByRequisitionStatusDetailDate", query = "SELECT r FROM RequisitionStatusDetail r WHERE r.requisitionStatusDetailDate = :requisitionStatusDetailDate"),
-    @NamedQuery(name = "RequisitionStatusDetail.findByRequisitionStatusDetailIndex", query = "SELECT r FROM RequisitionStatusDetail r WHERE r.requisitionStatusDetailIndex = :requisitionStatusDetailIndex")})
+    @NamedQuery(name = "RequisitionStatusDetail.findByRequisitionStatusDetailIndex", query = "SELECT r FROM RequisitionStatusDetail r WHERE r.requisitionStatusDetailIndex = :requisitionStatusDetailIndex"),
+    @NamedQuery(name = "RequisitionStatusDetail.findByRequisitionStatusDetailDate", query = "SELECT r FROM RequisitionStatusDetail r WHERE r.requisitionStatusDetailDate = :requisitionStatusDetailDate")})
 public class RequisitionStatusDetail implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,12 +38,12 @@ public class RequisitionStatusDetail implements Serializable {
     @Column(name = "requisition_status_detail_id", nullable = false)
     private Long requisitionStatusDetailId;
     @Basic(optional = false)
+    @Column(name = "requisition_status_detail_index", nullable = false)
+    private int requisitionStatusDetailIndex;
+    @Basic(optional = false)
     @Column(name = "requisition_status_detail_date", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date requisitionStatusDetailDate;
-    @Basic(optional = false)
-    @Column(name = "requisition_status_detail_index", nullable = false)
-    private int requisitionStatusDetailIndex;
     @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false)
     @ManyToOne(optional = false)
     private Person personId;
@@ -61,10 +61,10 @@ public class RequisitionStatusDetail implements Serializable {
         this.requisitionStatusDetailId = requisitionStatusDetailId;
     }
 
-    public RequisitionStatusDetail(Long requisitionStatusDetailId, Date requisitionStatusDetailDate, int requisitionStatusDetailIndex) {
+    public RequisitionStatusDetail(Long requisitionStatusDetailId, int requisitionStatusDetailIndex, Date requisitionStatusDetailDate) {
         this.requisitionStatusDetailId = requisitionStatusDetailId;
-        this.requisitionStatusDetailDate = requisitionStatusDetailDate;
         this.requisitionStatusDetailIndex = requisitionStatusDetailIndex;
+        this.requisitionStatusDetailDate = requisitionStatusDetailDate;
     }
 
     public Long getRequisitionStatusDetailId() {
@@ -75,20 +75,20 @@ public class RequisitionStatusDetail implements Serializable {
         this.requisitionStatusDetailId = requisitionStatusDetailId;
     }
 
-    public Date getRequisitionStatusDetailDate() {
-        return requisitionStatusDetailDate;
-    }
-
-    public void setRequisitionStatusDetailDate(Date requisitionStatusDetailDate) {
-        this.requisitionStatusDetailDate = requisitionStatusDetailDate;
-    }
-
     public int getRequisitionStatusDetailIndex() {
         return requisitionStatusDetailIndex;
     }
 
     public void setRequisitionStatusDetailIndex(int requisitionStatusDetailIndex) {
         this.requisitionStatusDetailIndex = requisitionStatusDetailIndex;
+    }
+
+    public Date getRequisitionStatusDetailDate() {
+        return requisitionStatusDetailDate;
+    }
+
+    public void setRequisitionStatusDetailDate(Date requisitionStatusDetailDate) {
+        this.requisitionStatusDetailDate = requisitionStatusDetailDate;
     }
 
     public Person getPersonId() {

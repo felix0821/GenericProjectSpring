@@ -23,10 +23,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "person_identification_document")
 @NamedQueries({
-    @NamedQuery(name = "PersonIdentificationDocument.findAll", query = "SELECT i FROM PersonIdentificationDocument i"),
-    @NamedQuery(name = "PersonIdentificationDocument.findByIdentificationDocumentId", query = "SELECT i FROM PersonIdentificationDocument i WHERE i.personIdentificationDocumentPK.identificationDocumentId = :identificationDocumentId"),
-    @NamedQuery(name = "PersonIdentificationDocument.findByPersonId", query = "SELECT i FROM PersonIdentificationDocument i WHERE i.personIdentificationDocumentPK.personId = :personId"),
-    @NamedQuery(name = "PersonIdentificationDocument.findByPersonIdentificationDocumentValue", query = "SELECT i FROM PersonIdentificationDocument i WHERE i.personIdentificationDocumentValue = :personIdentificationDocumentValue")})
+    @NamedQuery(name = "PersonIdentificationDocument.findAll", query = "SELECT p FROM PersonIdentificationDocument p"),
+    @NamedQuery(name = "PersonIdentificationDocument.findByIdentificationDocumentId", query = "SELECT p FROM PersonIdentificationDocument p WHERE p.personIdentificationDocumentPK.identificationDocumentId = :identificationDocumentId"),
+    @NamedQuery(name = "PersonIdentificationDocument.findByPersonId", query = "SELECT p FROM PersonIdentificationDocument p WHERE p.personIdentificationDocumentPK.personId = :personId"),
+    @NamedQuery(name = "PersonIdentificationDocument.findByPersonIdentificationDocumentValue", query = "SELECT p FROM PersonIdentificationDocument p WHERE p.personIdentificationDocumentValue = :personIdentificationDocumentValue")})
 public class PersonIdentificationDocument implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -49,20 +49,20 @@ public class PersonIdentificationDocument implements Serializable {
         this.personIdentificationDocumentPK = personIdentificationDocumentPK;
     }
 
-    public PersonIdentificationDocument(PersonIdentificationDocumentPK personIdentificationDocumentPK, String identificationDocumentUserValue) {
+    public PersonIdentificationDocument(PersonIdentificationDocumentPK personIdentificationDocumentPK, String personIdentificationDocumentValue) {
         this.personIdentificationDocumentPK = personIdentificationDocumentPK;
-        this.personIdentificationDocumentValue = identificationDocumentUserValue;
+        this.personIdentificationDocumentValue = personIdentificationDocumentValue;
     }
 
     public PersonIdentificationDocument(long identificationDocumentId, long personId) {
         this.personIdentificationDocumentPK = new PersonIdentificationDocumentPK(identificationDocumentId, personId);
     }
 
-    public PersonIdentificationDocumentPK getIdentificationDocumentPersonPK() {
+    public PersonIdentificationDocumentPK getPersonIdentificationDocumentPK() {
         return personIdentificationDocumentPK;
     }
 
-    public void setIdentificationDocumentPersonPK(PersonIdentificationDocumentPK personIdentificationDocumentPK) {
+    public void setPersonIdentificationDocumentPK(PersonIdentificationDocumentPK personIdentificationDocumentPK) {
         this.personIdentificationDocumentPK = personIdentificationDocumentPK;
     }
 

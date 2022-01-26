@@ -28,8 +28,8 @@ import javax.persistence.Table;
     @NamedQuery(name = "FinancialMovement.findByFinancialMovementId", query = "SELECT f FROM FinancialMovement f WHERE f.financialMovementId = :financialMovementId"),
     @NamedQuery(name = "FinancialMovement.findByFinancialMovementName", query = "SELECT f FROM FinancialMovement f WHERE f.financialMovementName = :financialMovementName"),
     @NamedQuery(name = "FinancialMovement.findByFinancialMovementSymbol", query = "SELECT f FROM FinancialMovement f WHERE f.financialMovementSymbol = :financialMovementSymbol"),
-    @NamedQuery(name = "FinancialMovement.findByFinancialMovementState", query = "SELECT f FROM FinancialMovement f WHERE f.financialMovementState = :financialMovementState"),
-    @NamedQuery(name = "FinancialMovement.findByFinancialMovementType", query = "SELECT f FROM FinancialMovement f WHERE f.financialMovementType = :financialMovementType")})
+    @NamedQuery(name = "FinancialMovement.findByFinancialMovementType", query = "SELECT f FROM FinancialMovement f WHERE f.financialMovementType = :financialMovementType"),
+    @NamedQuery(name = "FinancialMovement.findByFinancialMovementState", query = "SELECT f FROM FinancialMovement f WHERE f.financialMovementState = :financialMovementState")})
 public class FinancialMovement implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -44,11 +44,11 @@ public class FinancialMovement implements Serializable {
     @Column(name = "financial_movement_symbol", nullable = false, length = 16)
     private String financialMovementSymbol;
     @Basic(optional = false)
-    @Column(name = "financial_movement_state", nullable = false)
-    private Character financialMovementState;
-    @Basic(optional = false)
     @Column(name = "financial_movement_type", nullable = false)
     private Character financialMovementType;
+    @Basic(optional = false)
+    @Column(name = "financial_movement_state", nullable = false)
+    private Character financialMovementState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "financialMovement")
     private Collection<FinancialMovementData> financialMovementDataCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "financialMovementId")
@@ -61,12 +61,12 @@ public class FinancialMovement implements Serializable {
         this.financialMovementId = financialMovementId;
     }
 
-    public FinancialMovement(Long financialMovementId, String financialMovementName, String financialMovementSymbol, Character financialMovementState, Character financialMovementType) {
+    public FinancialMovement(Long financialMovementId, String financialMovementName, String financialMovementSymbol, Character financialMovementType, Character financialMovementState) {
         this.financialMovementId = financialMovementId;
         this.financialMovementName = financialMovementName;
         this.financialMovementSymbol = financialMovementSymbol;
-        this.financialMovementState = financialMovementState;
         this.financialMovementType = financialMovementType;
+        this.financialMovementState = financialMovementState;
     }
 
     public Long getFinancialMovementId() {
@@ -86,19 +86,11 @@ public class FinancialMovement implements Serializable {
     }
 
     public String getFinancialMovementSymbol() {
-		return financialMovementSymbol;
-	}
-
-	public void setFinancialMovementSymbol(String financialMovementSymbol) {
-		this.financialMovementSymbol = financialMovementSymbol;
-	}
-
-	public Character getFinancialMovementState() {
-        return financialMovementState;
+        return financialMovementSymbol;
     }
 
-    public void setFinancialMovementState(Character financialMovementState) {
-        this.financialMovementState = financialMovementState;
+    public void setFinancialMovementSymbol(String financialMovementSymbol) {
+        this.financialMovementSymbol = financialMovementSymbol;
     }
 
     public Character getFinancialMovementType() {
@@ -107,6 +99,14 @@ public class FinancialMovement implements Serializable {
 
     public void setFinancialMovementType(Character financialMovementType) {
         this.financialMovementType = financialMovementType;
+    }
+
+    public Character getFinancialMovementState() {
+        return financialMovementState;
+    }
+
+    public void setFinancialMovementState(Character financialMovementState) {
+        this.financialMovementState = financialMovementState;
     }
 
     public Collection<FinancialMovementData> getFinancialMovementDataCollection() {

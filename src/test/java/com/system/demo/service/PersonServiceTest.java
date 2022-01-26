@@ -70,7 +70,7 @@ public class PersonServiceTest {
 		Date dateRegister=Date.from(datePeru.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
 		//Crear usuario
 		Person person = new Person(1L, "felix123", "123", "FELIX", "MONTALICO", "LAQUIHUANACO", 
-	    		dateRegister, "felixmontalico@gmail.com", 'A');
+	    		'M', dateRegister, "felixmontalico@gmail.com", 'A');
 		return person;
 	}
 	

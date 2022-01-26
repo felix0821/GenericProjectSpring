@@ -27,110 +27,102 @@ import javax.persistence.Table;
 @Table(name = "modulus")
 @NamedQueries({
     @NamedQuery(name = "Modulus.findAll", query = "SELECT m FROM Modulus m"),
-    @NamedQuery(name = "Modulus.findByModuleId", query = "SELECT m FROM Modulus m WHERE m.moduleId = :moduleId"),
-    @NamedQuery(name = "Modulus.findByModuleIndex", query = "SELECT m FROM Modulus m WHERE m.moduleIndex = :moduleIndex"),
-    @NamedQuery(name = "Modulus.findByModuleName", query = "SELECT m FROM Modulus m WHERE m.moduleName = :moduleName"),
-    @NamedQuery(name = "Modulus.findByModuleAcronym", query = "SELECT m FROM Modulus m WHERE m.moduleAcronym = :moduleAcronym"),
-    @NamedQuery(name = "Modulus.findByModuleDescription", query = "SELECT m FROM Modulus m WHERE m.moduleDescription = :moduleDescription"),
-    @NamedQuery(name = "Modulus.findByModuleState", query = "SELECT m FROM Modulus m WHERE m.moduleState = :moduleState")})
+    @NamedQuery(name = "Modulus.findByModulusId", query = "SELECT m FROM Modulus m WHERE m.modulusId = :modulusId"),
+    @NamedQuery(name = "Modulus.findByModulusIndex", query = "SELECT m FROM Modulus m WHERE m.modulusIndex = :modulusIndex"),
+    @NamedQuery(name = "Modulus.findByModulusName", query = "SELECT m FROM Modulus m WHERE m.modulusName = :modulusName"),
+    @NamedQuery(name = "Modulus.findByModulusAcronym", query = "SELECT m FROM Modulus m WHERE m.modulusAcronym = :modulusAcronym"),
+    @NamedQuery(name = "Modulus.findByModulusDescription", query = "SELECT m FROM Modulus m WHERE m.modulusDescription = :modulusDescription"),
+    @NamedQuery(name = "Modulus.findByModulusState", query = "SELECT m FROM Modulus m WHERE m.modulusState = :modulusState")})
 public class Modulus implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "module_id", nullable = false)
-    private Long moduleId;
+    @Column(name = "modulus_id", nullable = false)
+    private Long modulusId;
     @Basic(optional = false)
-    @Column(name = "module_index", nullable = false)
-    private int moduleIndex;
+    @Column(name = "modulus_index", nullable = false)
+    private int modulusIndex;
     @Basic(optional = false)
-    @Column(name = "module_name", nullable = false, length = 64)
-    private String moduleName;
+    @Column(name = "modulus_name", nullable = false, length = 64)
+    private String modulusName;
     @Basic(optional = false)
-    @Column(name = "module_acronym", nullable = false, length = 4)
-    private String moduleAcronym;
-    @Column(name = "module_description", length = 512)
-    private String moduleDescription;
+    @Column(name = "modulus_acronym", nullable = false, length = 4)
+    private String modulusAcronym;
+    @Column(name = "modulus_description", length = 512)
+    private String modulusDescription;
     @Basic(optional = false)
-    @Column(name = "module_state", nullable = false)
-    private Character moduleState;
+    @Column(name = "modulus_state", nullable = false)
+    private Character modulusState;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "modulusId")
+    private Collection<Course> courseCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "modulus")
+    private Collection<ModulusSchedule> modulusScheduleCollection;
     @JoinColumn(name = "program_id", referencedColumnName = "program_id", nullable = false)
     @ManyToOne(optional = false)
     private Program programId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "moduleId")
-    private Collection<Course> courseCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "modulus")
-    private Collection<Schedule> scheduleCollection;
 
     public Modulus() {
     }
 
-    public Modulus(Long moduleId) {
-        this.moduleId = moduleId;
+    public Modulus(Long modulusId) {
+        this.modulusId = modulusId;
     }
 
-    public Modulus(Long moduleId, int moduleIndex, String moduleName, String moduleAcronym, Character moduleState) {
-        this.moduleId = moduleId;
-        this.moduleIndex = moduleIndex;
-        this.moduleName = moduleName;
-        this.moduleAcronym = moduleAcronym;
-        this.moduleState = moduleState;
+    public Modulus(Long modulusId, int modulusIndex, String modulusName, String modulusAcronym, Character modulusState) {
+        this.modulusId = modulusId;
+        this.modulusIndex = modulusIndex;
+        this.modulusName = modulusName;
+        this.modulusAcronym = modulusAcronym;
+        this.modulusState = modulusState;
     }
 
-    public Long getModuleId() {
-        return moduleId;
+    public Long getModulusId() {
+        return modulusId;
     }
 
-    public void setModuleId(Long moduleId) {
-        this.moduleId = moduleId;
+    public void setModulusId(Long modulusId) {
+        this.modulusId = modulusId;
     }
 
-    public int getModuleIndex() {
-        return moduleIndex;
+    public int getModulusIndex() {
+        return modulusIndex;
     }
 
-    public void setModuleIndex(int moduleIndex) {
-        this.moduleIndex = moduleIndex;
+    public void setModulusIndex(int modulusIndex) {
+        this.modulusIndex = modulusIndex;
     }
 
-    public String getModuleName() {
-        return moduleName;
+    public String getModulusName() {
+        return modulusName;
     }
 
-    public void setModuleName(String moduleName) {
-        this.moduleName = moduleName;
+    public void setModulusName(String modulusName) {
+        this.modulusName = modulusName;
     }
 
-    public String getModuleAcronym() {
-        return moduleAcronym;
+    public String getModulusAcronym() {
+        return modulusAcronym;
     }
 
-    public void setModuleAcronym(String moduleAcronym) {
-        this.moduleAcronym = moduleAcronym;
+    public void setModulusAcronym(String modulusAcronym) {
+        this.modulusAcronym = modulusAcronym;
     }
 
-    public String getModuleDescription() {
-        return moduleDescription;
+    public String getModulusDescription() {
+        return modulusDescription;
     }
 
-    public void setModuleDescription(String moduleDescription) {
-        this.moduleDescription = moduleDescription;
+    public void setModulusDescription(String modulusDescription) {
+        this.modulusDescription = modulusDescription;
     }
 
-    public Character getModuleState() {
-        return moduleState;
+    public Character getModulusState() {
+        return modulusState;
     }
 
-    public void setModuleState(Character moduleState) {
-        this.moduleState = moduleState;
-    }
-
-    public Program getProgramId() {
-        return programId;
-    }
-
-    public void setProgramId(Program programId) {
-        this.programId = programId;
+    public void setModulusState(Character modulusState) {
+        this.modulusState = modulusState;
     }
 
     public Collection<Course> getCourseCollection() {
@@ -141,18 +133,26 @@ public class Modulus implements Serializable {
         this.courseCollection = courseCollection;
     }
 
-    public Collection<Schedule> getScheduleCollection() {
-        return scheduleCollection;
+    public Collection<ModulusSchedule> getModulusScheduleCollection() {
+        return modulusScheduleCollection;
     }
 
-    public void setScheduleCollection(Collection<Schedule> scheduleCollection) {
-        this.scheduleCollection = scheduleCollection;
+    public void setModulusScheduleCollection(Collection<ModulusSchedule> modulusScheduleCollection) {
+        this.modulusScheduleCollection = modulusScheduleCollection;
+    }
+
+    public Program getProgramId() {
+        return programId;
+    }
+
+    public void setProgramId(Program programId) {
+        this.programId = programId;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (moduleId != null ? moduleId.hashCode() : 0);
+        hash += (modulusId != null ? modulusId.hashCode() : 0);
         return hash;
     }
 
@@ -163,7 +163,7 @@ public class Modulus implements Serializable {
             return false;
         }
         Modulus other = (Modulus) object;
-        if ((this.moduleId == null && other.moduleId != null) || (this.moduleId != null && !this.moduleId.equals(other.moduleId))) {
+        if ((this.modulusId == null && other.modulusId != null) || (this.modulusId != null && !this.modulusId.equals(other.modulusId))) {
             return false;
         }
         return true;
@@ -171,7 +171,7 @@ public class Modulus implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.Modulus[ moduleId=" + moduleId + " ]";
+        return "com.system.demo.model.Modulus[ modulusId=" + modulusId + " ]";
     }
     
 }

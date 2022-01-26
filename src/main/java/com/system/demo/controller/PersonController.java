@@ -172,14 +172,17 @@ public class PersonController {
 		LocalDate fechaPeru=LocalDate.now(ZoneId.of("America/Lima"));
 		Date dateRegister=Date.from(fechaPeru.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
 		//Insertar nombres por dni
-		String names[] = apiQueries.checkDniApiPeru(personRegister.getDni());
-		Date dateBirth=new SimpleDateFormat("yyyy-MM-dd").parse(names[3]);
+		String dniQuery[] = apiQueries.checkDniApiPeru(personRegister.getDni());
+		Date dateBirth=new SimpleDateFormat("yyyy-MM-dd").parse(dniQuery[3]);
 		String emailPerson = personRegister.getEmail();
+		char gender = 'X';
+		if (dniQuery[4].equals("")) gender = 'M';
+		else gender = 'F';
 		
 		//Crear un usuario para persistir
         Person person =
-                new Person(idUser, personRegister.getUsername(), password, names[0], names[1], 
-                		names[2], dateRegister, emailPerson, 'A');
+                new Person(idUser, personRegister.getUsername(), password, dniQuery[0], dniQuery[1], 
+                		dniQuery[2], gender, dateRegister, emailPerson, 'A');
         person.setPersonDateBirth(dateBirth);
         personService.createPerson(person);
         //Agregar documento de identidad a nuevo usuario

@@ -38,13 +38,10 @@ public class QualificationRecovery implements Serializable {
     @Column(name = "qualification_recovery_value", nullable = false)
     private double qualificationRecoveryValue;
     @JoinColumns({
-        @JoinColumn(name = "user_id", referencedColumnName = "person_id", nullable = false),
-        @JoinColumn(name = "group_id", referencedColumnName = "group_id", nullable = false),
-        @JoinColumn(name = "module_id", referencedColumnName = "module_id", nullable = false),
-        @JoinColumn(name = "program_period_id", referencedColumnName = "program_period_id", nullable = false),
-        @JoinColumn(name = "course_id", referencedColumnName = "course_id", nullable = false)})
+        @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false),
+        @JoinColumn(name = "course_detail_id", referencedColumnName = "course_detail_id")})
     @ManyToOne(optional = false)
-    private Enrollment enrollment;
+    private EnrollmentCourse enrollmentCourse;
     @JoinColumn(name = "evaluated_status_id", referencedColumnName = "evaluated_status_id", nullable = false)
     @ManyToOne(optional = false)
     private EvaluatedStatus evaluatedStatusId;
@@ -80,12 +77,12 @@ public class QualificationRecovery implements Serializable {
         this.qualificationRecoveryValue = qualificationRecoveryValue;
     }
 
-    public Enrollment getEnrollment() {
-        return enrollment;
+    public EnrollmentCourse getEnrollmentCourse() {
+        return enrollmentCourse;
     }
 
-    public void setEnrollment(Enrollment enrollment) {
-        this.enrollment = enrollment;
+    public void setEnrollmentCourse(EnrollmentCourse enrollmentCourse) {
+        this.enrollmentCourse = enrollmentCourse;
     }
 
     public EvaluatedStatus getEvaluatedStatusId() {

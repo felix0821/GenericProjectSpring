@@ -47,6 +47,8 @@ public class PersonRegistering implements Serializable {
     @Basic(optional = false)
     @Column(name = "person_registering_type", nullable = false)
     private Character personRegisteringType;
+    @OneToMany(mappedBy = "personRegisteringId")
+    private Collection<PaymentDiscountPerson> paymentDiscountPersonCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "personRegisteringId")
     private Collection<EnrollmentQualification> enrollmentQualificationCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "personRegisteringId")
@@ -55,7 +57,7 @@ public class PersonRegistering implements Serializable {
     @ManyToOne(optional = false)
     private Person personId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "personRegisteringId")
-    private Collection<Enrollment> enrollmentCollection;
+    private Collection<EnrollmentCourse> enrollmentCourseCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "personRegisteringId")
     private Collection<QualificationRecovery> qualificationRecoveryCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "personRegisteringId")
@@ -98,6 +100,14 @@ public class PersonRegistering implements Serializable {
         this.personRegisteringType = personRegisteringType;
     }
 
+    public Collection<PaymentDiscountPerson> getPaymentDiscountPersonCollection() {
+        return paymentDiscountPersonCollection;
+    }
+
+    public void setPaymentDiscountPersonCollection(Collection<PaymentDiscountPerson> paymentDiscountPersonCollection) {
+        this.paymentDiscountPersonCollection = paymentDiscountPersonCollection;
+    }
+
     public Collection<EnrollmentQualification> getEnrollmentQualificationCollection() {
         return enrollmentQualificationCollection;
     }
@@ -122,12 +132,12 @@ public class PersonRegistering implements Serializable {
         this.personId = personId;
     }
 
-    public Collection<Enrollment> getEnrollmentCollection() {
-        return enrollmentCollection;
+    public Collection<EnrollmentCourse> getEnrollmentCourseCollection() {
+        return enrollmentCourseCollection;
     }
 
-    public void setEnrollmentCollection(Collection<Enrollment> enrollmentCollection) {
-        this.enrollmentCollection = enrollmentCollection;
+    public void setEnrollmentCourseCollection(Collection<EnrollmentCourse> enrollmentCourseCollection) {
+        this.enrollmentCourseCollection = enrollmentCourseCollection;
     }
 
     public Collection<QualificationRecovery> getQualificationRecoveryCollection() {

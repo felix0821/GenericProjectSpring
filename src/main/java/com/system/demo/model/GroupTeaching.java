@@ -45,8 +45,8 @@ public class GroupTeaching implements Serializable {
     @Basic(optional = false)
     @Column(name = "group_state", nullable = false)
     private Character groupState;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "groupTeaching")
-    private Collection<CourseGroupTeaching> courseGroupTeachingCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "groupId")
+    private Collection<CourseDetail> courseDetailCollection;
 
     public GroupTeaching() {
     }
@@ -94,12 +94,12 @@ public class GroupTeaching implements Serializable {
         this.groupState = groupState;
     }
 
-    public Collection<CourseGroupTeaching> getCourseGroupTeachingCollection() {
-        return courseGroupTeachingCollection;
+    public Collection<CourseDetail> getCourseDetailCollection() {
+        return courseDetailCollection;
     }
 
-    public void setCourseGroupTeachingCollection(Collection<CourseGroupTeaching> courseGroupTeachingCollection) {
-        this.courseGroupTeachingCollection = courseGroupTeachingCollection;
+    public void setCourseDetailCollection(Collection<CourseDetail> courseDetailCollection) {
+        this.courseDetailCollection = courseDetailCollection;
     }
 
     @Override

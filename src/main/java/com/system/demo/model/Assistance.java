@@ -24,11 +24,8 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(name = "Assistance.findAll", query = "SELECT a FROM Assistance a"),
     @NamedQuery(name = "Assistance.findByHoraryId", query = "SELECT a FROM Assistance a WHERE a.assistancePK.horaryId = :horaryId"),
-    @NamedQuery(name = "Assistance.findByGroupId", query = "SELECT a FROM Assistance a WHERE a.assistancePK.groupId = :groupId"),
-    @NamedQuery(name = "Assistance.findByModuleId", query = "SELECT a FROM Assistance a WHERE a.assistancePK.moduleId = :moduleId"),
-    @NamedQuery(name = "Assistance.findByProgramPeriodId", query = "SELECT a FROM Assistance a WHERE a.assistancePK.programPeriodId = :programPeriodId"),
-    @NamedQuery(name = "Assistance.findByCourseId", query = "SELECT a FROM Assistance a WHERE a.assistancePK.courseId = :courseId"),
-    @NamedQuery(name = "Assistance.findByPersonId", query = "SELECT a FROM Assistance a WHERE a.assistancePK.personId = :personId")})
+    @NamedQuery(name = "Assistance.findByPersonId", query = "SELECT a FROM Assistance a WHERE a.assistancePK.personId = :personId"),
+    @NamedQuery(name = "Assistance.findByCourseDetailId", query = "SELECT a FROM Assistance a WHERE a.assistancePK.courseDetailId = :courseDetailId")})
 public class Assistance implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -39,10 +36,7 @@ public class Assistance implements Serializable {
     private AssistanceStatus assistanceStatusId;
     @JoinColumns({
         @JoinColumn(name = "horary_id", referencedColumnName = "horary_id", nullable = false, insertable = false, updatable = false),
-        @JoinColumn(name = "group_id", referencedColumnName = "group_id", nullable = false, insertable = false, updatable = false),
-        @JoinColumn(name = "module_id", referencedColumnName = "module_id", nullable = false, insertable = false, updatable = false),
-        @JoinColumn(name = "program_period_id", referencedColumnName = "program_period_id", nullable = false, insertable = false, updatable = false),
-        @JoinColumn(name = "course_id", referencedColumnName = "course_id", nullable = false, insertable = false, updatable = false)})
+        @JoinColumn(name = "course_detail_id", referencedColumnName = "course_detail_id", nullable = false, insertable = false, updatable = false)})
     @ManyToOne(optional = false)
     private HoraryCourseGroup horaryCourseGroup;
     @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false, insertable = false, updatable = false)
@@ -59,8 +53,8 @@ public class Assistance implements Serializable {
         this.assistancePK = assistancePK;
     }
 
-    public Assistance(long horaryId, long groupId, long moduleId, long programPeriodId, long courseId, long personId) {
-        this.assistancePK = new AssistancePK(horaryId, groupId, moduleId, programPeriodId, courseId, personId);
+    public Assistance(long horaryId, long personId, long courseDetailId) {
+        this.assistancePK = new AssistancePK(horaryId, personId, courseDetailId);
     }
 
     public AssistancePK getAssistancePK() {

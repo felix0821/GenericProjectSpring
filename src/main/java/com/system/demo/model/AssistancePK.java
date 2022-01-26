@@ -21,31 +21,19 @@ public class AssistancePK implements Serializable {
     @Column(name = "horary_id", nullable = false)
     private long horaryId;
     @Basic(optional = false)
-    @Column(name = "group_id", nullable = false)
-    private long groupId;
-    @Basic(optional = false)
-    @Column(name = "module_id", nullable = false)
-    private long moduleId;
-    @Basic(optional = false)
-    @Column(name = "program_period_id", nullable = false)
-    private long programPeriodId;
-    @Basic(optional = false)
-    @Column(name = "course_id", nullable = false)
-    private long courseId;
-    @Basic(optional = false)
     @Column(name = "person_id", nullable = false)
     private long personId;
+    @Basic(optional = false)
+    @Column(name = "course_detail_id", nullable = false)
+    private long courseDetailId;
 
     public AssistancePK() {
     }
 
-    public AssistancePK(long horaryId, long groupId, long moduleId, long programPeriodId, long courseId, long personId) {
+    public AssistancePK(long horaryId, long personId, long courseDetailId) {
         this.horaryId = horaryId;
-        this.groupId = groupId;
-        this.moduleId = moduleId;
-        this.programPeriodId = programPeriodId;
-        this.courseId = courseId;
         this.personId = personId;
+        this.courseDetailId = courseDetailId;
     }
 
     public long getHoraryId() {
@@ -56,38 +44,6 @@ public class AssistancePK implements Serializable {
         this.horaryId = horaryId;
     }
 
-    public long getGroupId() {
-        return groupId;
-    }
-
-    public void setGroupId(long groupId) {
-        this.groupId = groupId;
-    }
-
-    public long getModuleId() {
-        return moduleId;
-    }
-
-    public void setModuleId(long moduleId) {
-        this.moduleId = moduleId;
-    }
-
-    public long getProgramPeriodId() {
-        return programPeriodId;
-    }
-
-    public void setProgramPeriodId(long programPeriodId) {
-        this.programPeriodId = programPeriodId;
-    }
-
-    public long getCourseId() {
-        return courseId;
-    }
-
-    public void setCourseId(long courseId) {
-        this.courseId = courseId;
-    }
-
     public long getPersonId() {
         return personId;
     }
@@ -96,15 +52,20 @@ public class AssistancePK implements Serializable {
         this.personId = personId;
     }
 
+    public long getCourseDetailId() {
+        return courseDetailId;
+    }
+
+    public void setCourseDetailId(long courseDetailId) {
+        this.courseDetailId = courseDetailId;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
         hash += (int) horaryId;
-        hash += (int) groupId;
-        hash += (int) moduleId;
-        hash += (int) programPeriodId;
-        hash += (int) courseId;
         hash += (int) personId;
+        hash += (int) courseDetailId;
         return hash;
     }
 
@@ -118,19 +79,10 @@ public class AssistancePK implements Serializable {
         if (this.horaryId != other.horaryId) {
             return false;
         }
-        if (this.groupId != other.groupId) {
-            return false;
-        }
-        if (this.moduleId != other.moduleId) {
-            return false;
-        }
-        if (this.programPeriodId != other.programPeriodId) {
-            return false;
-        }
-        if (this.courseId != other.courseId) {
-            return false;
-        }
         if (this.personId != other.personId) {
+            return false;
+        }
+        if (this.courseDetailId != other.courseDetailId) {
             return false;
         }
         return true;
@@ -138,7 +90,7 @@ public class AssistancePK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.AssistancePK[ horaryId=" + horaryId + ", groupId=" + groupId + ", moduleId=" + moduleId + ", programPeriodId=" + programPeriodId + ", courseId=" + courseId + ", personId=" + personId + " ]";
+        return "com.system.demo.model.AssistancePK[ horaryId=" + horaryId + ", personId=" + personId + ", courseDetailId=" + courseDetailId + " ]";
     }
     
 }

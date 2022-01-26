@@ -39,8 +39,8 @@ public class Report implements Serializable {
     @Column(name = "report_name", nullable = false, length = 64)
     private String reportName;
     @Basic(optional = false)
-    @Column(name = "report_state", nullable = false, length = 1)
-    private String reportState;
+    @Column(name = "report_state", nullable = false)
+    private Character reportState;
     @OneToMany(mappedBy = "reportId")
     private Collection<ReportDetail> reportDetailCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "report")
@@ -55,7 +55,7 @@ public class Report implements Serializable {
         this.reportId = reportId;
     }
 
-    public Report(Long reportId, String reportName, String reportState) {
+    public Report(Long reportId, String reportName, Character reportState) {
         this.reportId = reportId;
         this.reportName = reportName;
         this.reportState = reportState;
@@ -77,11 +77,11 @@ public class Report implements Serializable {
         this.reportName = reportName;
     }
 
-    public String getReportState() {
+    public Character getReportState() {
         return reportState;
     }
 
-    public void setReportState(String reportState) {
+    public void setReportState(Character reportState) {
         this.reportState = reportState;
     }
 

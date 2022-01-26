@@ -25,8 +25,9 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(name = "OccupationalField.findAll", query = "SELECT o FROM OccupationalField o"),
     @NamedQuery(name = "OccupationalField.findByOccupationalFieldId", query = "SELECT o FROM OccupationalField o WHERE o.occupationalFieldId = :occupationalFieldId"),
+    @NamedQuery(name = "OccupationalField.findByOccupationalFieldIndex", query = "SELECT o FROM OccupationalField o WHERE o.occupationalFieldIndex = :occupationalFieldIndex"),
     @NamedQuery(name = "OccupationalField.findByOccupationalFieldName", query = "SELECT o FROM OccupationalField o WHERE o.occupationalFieldName = :occupationalFieldName"),
-    @NamedQuery(name = "OccupationalField.findByOccupationalFieldIndex", query = "SELECT o FROM OccupationalField o WHERE o.occupationalFieldIndex = :occupationalFieldIndex")})
+    @NamedQuery(name = "OccupationalField.findByOccupationalFieldState", query = "SELECT o FROM OccupationalField o WHERE o.occupationalFieldState = :occupationalFieldState")})
 public class OccupationalField implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -35,11 +36,14 @@ public class OccupationalField implements Serializable {
     @Column(name = "occupational_field_id", nullable = false)
     private Long occupationalFieldId;
     @Basic(optional = false)
+    @Column(name = "occupational_field_index", nullable = false)
+    private int occupationalFieldIndex;
+    @Basic(optional = false)
     @Column(name = "occupational_field_name", nullable = false, length = 64)
     private String occupationalFieldName;
     @Basic(optional = false)
-    @Column(name = "occupational_field_index", nullable = false)
-    private int occupationalFieldIndex;
+    @Column(name = "occupational_field_state", nullable = false)
+    private Character occupationalFieldState;
     @JoinColumn(name = "program_id", referencedColumnName = "program_id", nullable = false)
     @ManyToOne(optional = false)
     private Program programId;
@@ -51,10 +55,11 @@ public class OccupationalField implements Serializable {
         this.occupationalFieldId = occupationalFieldId;
     }
 
-    public OccupationalField(Long occupationalFieldId, String occupationalFieldName, int occupationalFieldIndex) {
+    public OccupationalField(Long occupationalFieldId, int occupationalFieldIndex, String occupationalFieldName, Character occupationalFieldState) {
         this.occupationalFieldId = occupationalFieldId;
-        this.occupationalFieldName = occupationalFieldName;
         this.occupationalFieldIndex = occupationalFieldIndex;
+        this.occupationalFieldName = occupationalFieldName;
+        this.occupationalFieldState = occupationalFieldState;
     }
 
     public Long getOccupationalFieldId() {
@@ -65,6 +70,14 @@ public class OccupationalField implements Serializable {
         this.occupationalFieldId = occupationalFieldId;
     }
 
+    public int getOccupationalFieldIndex() {
+        return occupationalFieldIndex;
+    }
+
+    public void setOccupationalFieldIndex(int occupationalFieldIndex) {
+        this.occupationalFieldIndex = occupationalFieldIndex;
+    }
+
     public String getOccupationalFieldName() {
         return occupationalFieldName;
     }
@@ -73,12 +86,12 @@ public class OccupationalField implements Serializable {
         this.occupationalFieldName = occupationalFieldName;
     }
 
-    public int getOccupationalFieldIndex() {
-        return occupationalFieldIndex;
+    public Character getOccupationalFieldState() {
+        return occupationalFieldState;
     }
 
-    public void setOccupationalFieldIndex(int occupationalFieldIndex) {
-        this.occupationalFieldIndex = occupationalFieldIndex;
+    public void setOccupationalFieldState(Character occupationalFieldState) {
+        this.occupationalFieldState = occupationalFieldState;
     }
 
     public Program getProgramId() {

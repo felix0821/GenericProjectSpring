@@ -38,8 +38,8 @@ public class ReportDetail implements Serializable {
     @Column(name = "report_detail_id", nullable = false)
     private Long reportDetailId;
     @Basic(optional = false)
-    @Column(name = "report_detail_state", nullable = false, length = 1)
-    private String reportDetailState;
+    @Column(name = "report_detail_state", nullable = false)
+    private Character reportDetailState;
     @Basic(optional = false)
     @Column(name = "report_detail_date", nullable = false)
     @Temporal(TemporalType.DATE)
@@ -55,7 +55,7 @@ public class ReportDetail implements Serializable {
         this.reportDetailId = reportDetailId;
     }
 
-    public ReportDetail(Long reportDetailId, String reportDetailState, Date reportDetailDate) {
+    public ReportDetail(Long reportDetailId, Character reportDetailState, Date reportDetailDate) {
         this.reportDetailId = reportDetailId;
         this.reportDetailState = reportDetailState;
         this.reportDetailDate = reportDetailDate;
@@ -69,11 +69,11 @@ public class ReportDetail implements Serializable {
         this.reportDetailId = reportDetailId;
     }
 
-    public String getReportDetailState() {
+    public Character getReportDetailState() {
         return reportDetailState;
     }
 
-    public void setReportDetailState(String reportDetailState) {
+    public void setReportDetailState(Character reportDetailState) {
         this.reportDetailState = reportDetailState;
     }
 

@@ -46,7 +46,7 @@ public class IdentificationDocument implements Serializable {
     @Column(name = "identification_document_validation", nullable = false)
     private Character identificationDocumentValidation;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "identificationDocument")
-    private Collection<PersonIdentificationDocument> identificationDocumentPersonCollection;
+    private Collection<PersonIdentificationDocument> personIdentificationDocumentCollection;
 
     public IdentificationDocument() {
     }
@@ -94,12 +94,12 @@ public class IdentificationDocument implements Serializable {
         this.identificationDocumentValidation = identificationDocumentValidation;
     }
 
-    public Collection<PersonIdentificationDocument> getIdentificationDocumentPersonCollection() {
-        return identificationDocumentPersonCollection;
+    public Collection<PersonIdentificationDocument> getPersonIdentificationDocumentCollection() {
+        return personIdentificationDocumentCollection;
     }
 
-    public void setIdentificationDocumentPersonCollection(Collection<PersonIdentificationDocument> identificationDocumentPersonCollection) {
-        this.identificationDocumentPersonCollection = identificationDocumentPersonCollection;
+    public void setPersonIdentificationDocumentCollection(Collection<PersonIdentificationDocument> personIdentificationDocumentCollection) {
+        this.personIdentificationDocumentCollection = personIdentificationDocumentCollection;
     }
 
     @Override

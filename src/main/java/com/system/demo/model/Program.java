@@ -33,8 +33,8 @@ import javax.persistence.Table;
     @NamedQuery(name = "Program.findByProgramRequirement", query = "SELECT p FROM Program p WHERE p.programRequirement = :programRequirement"),
     @NamedQuery(name = "Program.findByProgramCurriculum", query = "SELECT p FROM Program p WHERE p.programCurriculum = :programCurriculum"),
     @NamedQuery(name = "Program.findByProgramImage", query = "SELECT p FROM Program p WHERE p.programImage = :programImage"),
-    @NamedQuery(name = "Program.findByProgramState", query = "SELECT p FROM Program p WHERE p.programState = :programState"),
-    @NamedQuery(name = "Program.findByProgramArea", query = "SELECT p FROM Program p WHERE p.programArea = :programArea")})
+    @NamedQuery(name = "Program.findByProgramArea", query = "SELECT p FROM Program p WHERE p.programArea = :programArea"),
+    @NamedQuery(name = "Program.findByProgramState", query = "SELECT p FROM Program p WHERE p.programState = :programState")})
 public class Program implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -61,19 +61,19 @@ public class Program implements Serializable {
     @Column(name = "program_image", length = 256)
     private String programImage;
     @Basic(optional = false)
-    @Column(name = "program_state", nullable = false)
-    private Character programState;
-    @Basic(optional = false)
     @Column(name = "program_area", nullable = false)
     private Character programArea;
+    @Basic(optional = false)
+    @Column(name = "program_state", nullable = false)
+    private Character programState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "programId")
     private Collection<CertificateStudies> certificateStudiesCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "programId")
     private Collection<OccupationalField> occupationalFieldCollection;
-    @OneToMany(mappedBy = "programId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "programId")
     private Collection<ProgramPeriod> programPeriodCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "programId")
-    private Collection<Modulus> moduleCollection;
+    private Collection<Modulus> modulusCollection;
 
     public Program() {
     }
@@ -82,14 +82,14 @@ public class Program implements Serializable {
         this.programId = programId;
     }
 
-    public Program(Long programId, int programIndex, String programName, String programAcronym, String programDescription, Character programState, Character programArea) {
+    public Program(Long programId, int programIndex, String programName, String programAcronym, String programDescription, Character programArea, Character programState) {
         this.programId = programId;
         this.programIndex = programIndex;
         this.programName = programName;
         this.programAcronym = programAcronym;
         this.programDescription = programDescription;
-        this.programState = programState;
         this.programArea = programArea;
+        this.programState = programState;
     }
 
     public Long getProgramId() {
@@ -156,20 +156,20 @@ public class Program implements Serializable {
         this.programImage = programImage;
     }
 
-    public Character getProgramState() {
-        return programState;
-    }
-
-    public void setProgramState(Character programState) {
-        this.programState = programState;
-    }
-
     public Character getProgramArea() {
         return programArea;
     }
 
     public void setProgramArea(Character programArea) {
         this.programArea = programArea;
+    }
+
+    public Character getProgramState() {
+        return programState;
+    }
+
+    public void setProgramState(Character programState) {
+        this.programState = programState;
     }
 
     public Collection<CertificateStudies> getCertificateStudiesCollection() {
@@ -196,12 +196,12 @@ public class Program implements Serializable {
         this.programPeriodCollection = programPeriodCollection;
     }
 
-    public Collection<Modulus> getModuleCollection() {
-        return moduleCollection;
+    public Collection<Modulus> getModulusCollection() {
+        return modulusCollection;
     }
 
-    public void setModuleCollection(Collection<Modulus> moduleCollection) {
-        this.moduleCollection = moduleCollection;
+    public void setModulusCollection(Collection<Modulus> modulusCollection) {
+        this.modulusCollection = modulusCollection;
     }
 
     @Override
