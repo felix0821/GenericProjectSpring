@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 public class RequisitionRegisterDto {
 	
 	@NotNull(message = "Ingrese un id valido.")
-	private Long idRegister;
+	private Long idProgram;
 	
 	@NotNull(message = "Ingrese una cantidad.")
 	private Double amount;
@@ -14,29 +14,34 @@ public class RequisitionRegisterDto {
 	@NotBlank(message = "Ingrese un banco.")
 	private String bank;
 	
-	@NotBlank(message = "Ingrese un documento.")
-	private String document;
+	@NotNull(message = "Ingrese un numero de operación.")
+	private int operation;
+	
+	@NotBlank(message = "Ingrese una imagen")
+	private String image;
 	
 	private String comment;
 
-	public RequisitionRegisterDto(@NotNull(message = "Ingrese un id valido.") Long idRegister,
+	public RequisitionRegisterDto(@NotNull(message = "Ingrese un id valido.") Long idProgram,
 			@NotNull(message = "Ingrese una cantidad.") Double amount,
 			@NotBlank(message = "Ingrese un banco.") String bank,
-			@NotBlank(message = "Ingrese un documento.") String document, String comment) {
+			@NotNull(message = "Ingrese un numero de operación.") int operation,
+			@NotBlank(message = "Ingrese una imagen") String image, String comment) {
 		super();
-		this.idRegister = idRegister;
+		this.idProgram = idProgram;
 		this.amount = amount;
 		this.bank = bank;
-		this.document = document;
+		this.operation = operation;
+		this.image = image;
 		this.comment = comment;
 	}
 
-	public Long getIdRegister() {
-		return idRegister;
+	public Long getIdProgram() {
+		return idProgram;
 	}
 
-	public void setIdRegister(Long idRegister) {
-		this.idRegister = idRegister;
+	public void setIdProgram(Long idProgram) {
+		this.idProgram = idProgram;
 	}
 
 	public Double getAmount() {
@@ -51,16 +56,24 @@ public class RequisitionRegisterDto {
 		return bank;
 	}
 
-	public void setBank(String banck) {
-		this.bank = banck;
+	public void setBank(String bank) {
+		this.bank = bank;
 	}
 
-	public String getDocument() {
-		return document;
+	public int getOperation() {
+		return operation;
 	}
 
-	public void setDocument(String document) {
-		this.document = document;
+	public void setOperation(int operation) {
+		this.operation = operation;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	public String getComment() {
@@ -70,5 +83,6 @@ public class RequisitionRegisterDto {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
+
 
 }
