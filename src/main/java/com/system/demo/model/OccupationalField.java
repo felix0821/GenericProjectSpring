@@ -27,7 +27,8 @@ import javax.persistence.Table;
     @NamedQuery(name = "OccupationalField.findByOccupationalFieldId", query = "SELECT o FROM OccupationalField o WHERE o.occupationalFieldId = :occupationalFieldId"),
     @NamedQuery(name = "OccupationalField.findByOccupationalFieldIndex", query = "SELECT o FROM OccupationalField o WHERE o.occupationalFieldIndex = :occupationalFieldIndex"),
     @NamedQuery(name = "OccupationalField.findByOccupationalFieldName", query = "SELECT o FROM OccupationalField o WHERE o.occupationalFieldName = :occupationalFieldName"),
-    @NamedQuery(name = "OccupationalField.findByOccupationalFieldState", query = "SELECT o FROM OccupationalField o WHERE o.occupationalFieldState = :occupationalFieldState")})
+    @NamedQuery(name = "OccupationalField.findByOccupationalFieldState", query = "SELECT o FROM OccupationalField o WHERE o.occupationalFieldState = :occupationalFieldState"),
+    @NamedQuery(name = "OccupationalField.findByProgramId", query = "SELECT o FROM OccupationalField o WHERE o.programId.programId = :programId")})
 public class OccupationalField implements Serializable {
 
     private static final long serialVersionUID = 1L;

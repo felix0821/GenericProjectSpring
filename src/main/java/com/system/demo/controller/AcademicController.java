@@ -161,7 +161,7 @@ public class AcademicController {
 				programEdit.getProgramAcronym(), programEdit.getProgramDescription(), programEdit.getProgramRequirement(), 
 				programEdit.getProgramCurriculum(), programEdit.getProgramImage(), programEdit.getProgramArea(), programEdit.getProgramState());
 		List<ProgramDetailedOccupationalDto> occupationalsDto = new ArrayList<>();
-		for(OccupationalField occupational:programEdit.getOccupationalFieldCollection()) {
+		for(OccupationalField occupational:occupationalFieldService.getOccupationalFieldByProgramId(id)) {
 			occupationalsDto.add(new ProgramDetailedOccupationalDto(occupational.getOccupationalFieldId(),
 					occupational.getOccupationalFieldIndex(), occupational.getOccupationalFieldName(), occupational.getOccupationalFieldState()));
 		}

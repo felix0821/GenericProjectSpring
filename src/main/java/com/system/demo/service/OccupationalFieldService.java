@@ -1,5 +1,7 @@
 package com.system.demo.service;
 
+import java.util.List;
+
 import com.system.demo.model.OccupationalField;
 
 public interface OccupationalFieldService {
@@ -8,5 +10,7 @@ public interface OccupationalFieldService {
 	public void deleteOccupationalField(Long occupationalFieldId) throws Exception;
 	
 	public OccupationalField getOccupationalFieldById(Long occupationalFieldId) throws Exception;
+	
+	public List<OccupationalField> getOccupationalFieldByProgramId(Long programId);
 
 }

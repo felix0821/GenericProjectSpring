@@ -1,5 +1,7 @@
 package com.system.demo.service.impl;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,11 @@ public class OccupationalFieldServiceImplements implements OccupationalFieldServ
 	public OccupationalField getOccupationalFieldById(Long occupationalFieldId) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public List<OccupationalField> getOccupationalFieldByProgramId(Long programId) {
+		return occupationalFieldRepository.findByProgramId(programId);
 	}
 
 }
