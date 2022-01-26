@@ -269,6 +269,7 @@ public class AcademicController {
 		        	progPeriod.setPedagogicalPeriodId(pedPeriod);
 		        	progPeriod.setProgramId(program);
 		        	programPeriodService.createProgramPeriod(progPeriod);
+		        	i++;
 		        }
 	       }
 	        return new ResponseEntity(new Message(SYSTEM_SUCCESS_REGISTER_PROGRAM), HttpStatus.CREATED);
@@ -291,7 +292,8 @@ public class AcademicController {
 		}
 		ProgramPeriodHeaderDto progPeriodHeaderDto = new ProgramPeriodHeaderDto(program.getProgramName());
 		List<ProgramPeriodDto> progPeriodDtoList = new ArrayList<>();
-		for(ProgramPeriod progPeriod:programPeriodService.getProgramPeriodByProgramId(id)) {
+		List<ProgramPeriod> progPeriods = programPeriodService.getProgramPeriodByProgramId(id);
+		for(ProgramPeriod progPeriod:progPeriods) {
 			progPeriodDtoList.add(new ProgramPeriodDto(progPeriod.getProgramPeriodId(), progPeriod.getProgramPeriodIndex(), 
 					progPeriod.getProgramPeriodDescription(), progPeriod.getProgramPeriodOpening(), progPeriod.getProgramPeriodClosing(), 
 					progPeriod.getProgramPeriodState()));

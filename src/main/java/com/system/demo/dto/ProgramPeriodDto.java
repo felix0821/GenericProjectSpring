@@ -33,6 +33,54 @@ public class ProgramPeriodDto {
 		this.dateClosing = dateClosing;
 		this.state = state;
 	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public int getIndex() {
+		return index;
+	}
+
+	public void setIndex(int index) {
+		this.index = index;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Date getDateOpening() {
+		return dateOpening;
+	}
+
+	public void setDateOpening(Date dateOpening) {
+		this.dateOpening = dateOpening;
+	}
+
+	public Date getDateClosing() {
+		return dateClosing;
+	}
+
+	public void setDateClosing(Date dateClosing) {
+		this.dateClosing = dateClosing;
+	}
+
+	public Character getState() {
+		return state;
+	}
+
+	public void setState(Character state) {
+		this.state = state;
+	}
 	
 
 	
