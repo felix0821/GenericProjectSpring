@@ -12,6 +12,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -86,7 +87,7 @@ public class Person implements Serializable {
     private Character personState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
     private Collection<EnrollmentProgramPeriod> enrollmentProgramPeriodCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person", fetch = FetchType.EAGER)
     private Collection<PersonRole> personRoleCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
     private Collection<PersonDataDetail> personDataDetailCollection;
