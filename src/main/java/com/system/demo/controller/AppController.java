@@ -21,22 +21,32 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.system.demo.dto.AlertRequisitionDto;
 import com.system.demo.dto.Message;
 import com.system.demo.dto.RequisitionRegisterDto;
+import com.system.demo.model.Data;
+import com.system.demo.model.DataCategory;
+import com.system.demo.model.DataDetail;
+import com.system.demo.model.DataEntry;
 import com.system.demo.model.FinancialMovement;
 import com.system.demo.model.IdentificationDocument;
 import com.system.demo.model.Person;
 import com.system.demo.model.PersonIdentificationDocument;
 import com.system.demo.model.PersonRole;
 import com.system.demo.model.Requisition;
+import com.system.demo.model.RequisitionData;
 import com.system.demo.model.RequisitionDetail;
 import com.system.demo.model.RequisitionStatus;
 import com.system.demo.model.Role;
 import com.system.demo.service.RoleService;
 import com.system.demo.utility.UniqId;
+import com.system.demo.service.DataCategoryService;
+import com.system.demo.service.DataDetailService;
+import com.system.demo.service.DataEntryService;
+import com.system.demo.service.DataService;
 import com.system.demo.service.FinancialMovementService;
 import com.system.demo.service.IdentificationDocumentService;
 import com.system.demo.service.PersonIdentificationDocumentService;
 import com.system.demo.service.PersonRoleService;
 import com.system.demo.service.PersonService;
+import com.system.demo.service.RequisitionDataService;
 import com.system.demo.service.RequisitionDetailService;
 import com.system.demo.service.RequisitionService;
 import com.system.demo.service.RequisitionStatusService;
@@ -46,6 +56,18 @@ public class AppController {
 	
 	@Autowired
 	UniqId uI;
+	
+	// Gestion de datos
+	@Autowired
+	DataCategoryService dataCategoryService;
+	@Autowired
+	DataEntryService dataEntryService;
+	@Autowired
+	DataService dataService;
+	@Autowired
+	DataDetailService dataDetailService;
+	@Autowired
+	RequisitionDataService requisitionDataService;
 	
 	// Gestion de ACL
 	@Autowired
@@ -96,18 +118,106 @@ public class AppController {
 	@PostMapping("/generate-data")
 	public String createUser(ModelMap model) {
 		try {
-			generateFinancialMovement();
-			generateRequisitionStatus();
-			generateRequisition();
-			generateRole();
-			generateDocument();
-			generatePerson();
+			generateData();
+			//generateFinancialMovement();
+			//generateRequisitionStatus();
+			//generateRequisition();
+			//generateRole();
+			//generateDocument();
+			//generatePerson();
 			model.addAttribute("page", "completed.html");
 		} catch (Exception e) {
 			model.addAttribute("page", "error.html");
 			e.printStackTrace();
 		}
 		return "display-page";
+	}
+	
+	private void generateData()throws Exception {
+		DataCategory requisition;
+		DataEntry image, document, numberInteger, numberReal, text, multioptions;
+		Data program, amount, bank, numOperation, imageVoucher, observation;
+		DataDetail bank01, bank02, program01, program02, program03, program04;
+		//	Crear objetos categoria de datos
+		requisition = new DataCategory(1L,"Solicitudes",'A');
+		dataCategoryService.createDataCategory(requisition);
+		//	Crear objetos entrada de datos
+		image = new DataEntry(1L,'I',false);
+		dataEntryService.createDataEntry(image);
+		document = new DataEntry(2L,'D',false); 
+		dataEntryService.createDataEntry(document);
+		numberInteger = new DataEntry(3L,'N',false);
+		dataEntryService.createDataEntry(numberInteger);
+		numberReal = new DataEntry(4L,'R',false); 
+		dataEntryService.createDataEntry(numberReal);
+		text = new DataEntry(5L,'T',false); 
+		dataEntryService.createDataEntry(text);
+		multioptions = new DataEntry(10L,'M',true); 
+		dataEntryService.createDataEntry(multioptions);
+		//	Crear objetos datos
+		program = new Data(1L,"Programa",'A');
+		program.setDataCategoryId(requisition);
+		program.setDataEntryId(multioptions);
+		dataService.createData(program);
+		amount = new Data(2L,"Monto",'A');
+		amount.setDataCategoryId(requisition);
+		amount.setDataEntryId(numberReal);
+		dataService.createData(amount);
+		bank = new Data(3L,"Banco",'A');
+		bank.setDataCategoryId(requisition);
+		bank.setDataEntryId(multioptions);
+		dataService.createData(bank);
+		numOperation = new Data(4L,"Numero de Operación",'A');
+		numOperation.setDataCategoryId(requisition);
+		numOperation.setDataEntryId(numberInteger);
+		dataService.createData(numOperation);
+		imageVoucher = new Data(5L,"Imagen de Voucher",'A');
+		imageVoucher.setDataCategoryId(requisition);
+		imageVoucher.setDataEntryId(image);
+		dataService.createData(imageVoucher);
+		observation = new Data(6L,"Observación",'A');
+		observation.setDataCategoryId(requisition);
+		observation.setDataEntryId(text);
+		dataService.createData(observation);
+		//	Crear objetos datos detalle
+		bank01 = new DataDetail(1L,"BCP",'A');
+		bank01.setDataId(bank);
+		dataDetailService.createDataDetail(bank01);
+		bank02 = new DataDetail(2L,"Banco de la Nación",'A');
+		bank02.setDataId(bank);
+		dataDetailService.createDataDetail(bank02);
+		program01 = new DataDetail(3L,"Seguridad Industrial y Minera-2022",'A');
+		program01.setDataId(program);
+		dataDetailService.createDataDetail(program01);
+		program03 = new DataDetail(4L,"Marketing y Diseño Publicitario-2022",'A');
+		program03.setDataId(program);
+		dataDetailService.createDataDetail(program03);
+		program02 = new DataDetail(5L,"Computación e Informática-2022",'A');
+		program02.setDataId(program);
+		dataDetailService.createDataDetail(program02);
+		program04 = new DataDetail(6L,"Contabilidad Financiera Computarizada-2022",'A');
+		program04.setDataId(program);
+		dataDetailService.createDataDetail(program04);
+		//Relacionar data con solicitud matricula
+		RequisitionData reqData01,reqData02,reqData03,reqData04,reqData05,reqData06;
+		reqData01 = new RequisitionData(1L,1L);
+		reqData01.setRequisitionDataState('A');
+		requisitionDataService.createRequisitionData(reqData01);
+		reqData02 = new RequisitionData(1L,2L);
+		reqData02.setRequisitionDataState('A');
+		requisitionDataService.createRequisitionData(reqData02);
+		reqData03 = new RequisitionData(1L,3L);
+		reqData03.setRequisitionDataState('A');
+		requisitionDataService.createRequisitionData(reqData03);
+		reqData04 = new RequisitionData(1L,4L);
+		reqData04.setRequisitionDataState('A');
+		requisitionDataService.createRequisitionData(reqData04);
+		reqData05 = new RequisitionData(1L,5L);
+		reqData05.setRequisitionDataState('A');
+		requisitionDataService.createRequisitionData(reqData05);
+		reqData06 = new RequisitionData(1L,6L);
+		reqData06.setRequisitionDataState('A');
+		requisitionDataService.createRequisitionData(reqData06);
 	}
 	
 	private void generateFinancialMovement() throws Exception {

@@ -42,8 +42,8 @@ public class DataCategory implements Serializable {
     @Column(name = "data_category_description", length = 128)
     private String dataCategoryDescription;
     @Basic(optional = false)
-    @Column(name = "data_category_state", nullable = false, length = 1)
-    private String dataCategoryState;
+    @Column(name = "data_category_state", nullable = false)
+    private Character dataCategoryState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "dataCategoryId")
     private Collection<Data> dataCollection;
 
@@ -54,7 +54,7 @@ public class DataCategory implements Serializable {
         this.dataCategoryId = dataCategoryId;
     }
 
-    public DataCategory(Long dataCategoryId, String dataCategoryName, String dataCategoryState) {
+    public DataCategory(Long dataCategoryId, String dataCategoryName, Character dataCategoryState) {
         this.dataCategoryId = dataCategoryId;
         this.dataCategoryName = dataCategoryName;
         this.dataCategoryState = dataCategoryState;
@@ -84,11 +84,11 @@ public class DataCategory implements Serializable {
         this.dataCategoryDescription = dataCategoryDescription;
     }
 
-    public String getDataCategoryState() {
+    public Character getDataCategoryState() {
         return dataCategoryState;
     }
 
-    public void setDataCategoryState(String dataCategoryState) {
+    public void setDataCategoryState(Character dataCategoryState) {
         this.dataCategoryState = dataCategoryState;
     }
 

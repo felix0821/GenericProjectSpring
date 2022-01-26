@@ -44,8 +44,8 @@ public class Data implements Serializable {
     @Column(name = "data_description", length = 128)
     private String dataDescription;
     @Basic(optional = false)
-    @Column(name = "data_state", nullable = false, length = 1)
-    private String dataState;
+    @Column(name = "data_state", nullable = false)
+    private Character dataState;
     @JoinColumn(name = "data_category_id", referencedColumnName = "data_category_id", nullable = false)
     @ManyToOne(optional = false)
     private DataCategory dataCategoryId;
@@ -70,7 +70,7 @@ public class Data implements Serializable {
         this.dataId = dataId;
     }
 
-    public Data(Long dataId, String dataName, String dataState) {
+    public Data(Long dataId, String dataName, Character dataState) {
         this.dataId = dataId;
         this.dataName = dataName;
         this.dataState = dataState;
@@ -100,11 +100,11 @@ public class Data implements Serializable {
         this.dataDescription = dataDescription;
     }
 
-    public String getDataState() {
+    public Character getDataState() {
         return dataState;
     }
 
-    public void setDataState(String dataState) {
+    public void setDataState(Character dataState) {
         this.dataState = dataState;
     }
 
