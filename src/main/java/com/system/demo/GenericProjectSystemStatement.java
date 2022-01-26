@@ -58,5 +58,6 @@ public class GenericProjectSystemStatement {
 	public static final String URL_ACADEMIC_PROGRAM_DELETE_GET = "/program/delete/{id}";
 	public static final String URL_ACADEMIC_PROGRAMxOCCUPATIONAL_REGISTER_POST = "/program-occupational/register";
 	public static final String URL_ACADEMIC_PEDAGOGICALxPERIOD_REGISTER_POST = "/pedagogical-period/register";
+	public static final String URL_ACADEMIC_PROGRAMxPERIOD_GET = "/program-period/{id}";
 
 }

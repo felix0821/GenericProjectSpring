@@ -1,0 +1,37 @@
+package com.system.demo.dto;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.validation.constraints.NotBlank;
+
+public class ProgramPeriodHeaderDto {
+	
+	@NotBlank(message = "Ingrese un nombre de programa.")
+	private String name;
+	
+	List<ProgramPeriodDto> programPeriods;
+
+	public ProgramPeriodHeaderDto(@NotBlank(message = "Ingrese un nombre de programa.") String name) {
+		super();
+		this.name = name;
+		this.programPeriods = new ArrayList<>();
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public List<ProgramPeriodDto> getProgramPeriods() {
+		return programPeriods;
+	}
+
+	public void setProgramPeriods(List<ProgramPeriodDto> programPeriods) {
+		this.programPeriods = programPeriods;
+	}
+
+}

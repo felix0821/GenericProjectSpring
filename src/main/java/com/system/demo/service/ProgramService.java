@@ -1,5 +1,6 @@
 package com.system.demo.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.system.demo.model.Program;
@@ -12,5 +13,5 @@ public interface ProgramService {
 	public void deleteProgram(Long programId) throws Exception;
 	
 	public Program getProgramById(Long programId) throws Exception;
-	
+	public List<Program> getProgramByState(Character programState);
 }

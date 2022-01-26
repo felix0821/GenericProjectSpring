@@ -37,7 +37,8 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "ProgramPeriod.findByProgramPeriodPayPension", query = "SELECT p FROM ProgramPeriod p WHERE p.programPeriodPayPension = :programPeriodPayPension"),
     @NamedQuery(name = "ProgramPeriod.findByProgramPeriodOpening", query = "SELECT p FROM ProgramPeriod p WHERE p.programPeriodOpening = :programPeriodOpening"),
     @NamedQuery(name = "ProgramPeriod.findByProgramPeriodClosing", query = "SELECT p FROM ProgramPeriod p WHERE p.programPeriodClosing = :programPeriodClosing"),
-    @NamedQuery(name = "ProgramPeriod.findByProgramPeriodState", query = "SELECT p FROM ProgramPeriod p WHERE p.programPeriodState = :programPeriodState")})
+    @NamedQuery(name = "ProgramPeriod.findByProgramPeriodState", query = "SELECT p FROM ProgramPeriod p WHERE p.programPeriodState = :programPeriodState"),
+    @NamedQuery(name = "ProgramPeriod.findByProgramId", query = "SELECT p FROM ProgramPeriod p WHERE p.programId.programId = :programId")})
 public class ProgramPeriod implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,6 +46,7 @@ public class ProgramPeriod implements Serializable {
     @Basic(optional = false)
     @Column(name = "program_period_id", nullable = false)
     private Long programPeriodId;
+    @Basic(optional = false)
     @Column(name = "program_period_description", length = 64)
     private String programPeriodDescription;
     @Basic(optional = false)
@@ -85,8 +87,9 @@ public class ProgramPeriod implements Serializable {
         this.programPeriodId = programPeriodId;
     }
 
-    public ProgramPeriod(Long programPeriodId, int programPeriodIndex, double programPeriodPayEnrollment, double programPeriodPayPension, Date programPeriodOpening, Date programPeriodClosing, Character programPeriodState) {
+    public ProgramPeriod(Long programPeriodId, String programPeriodDescription, int programPeriodIndex, double programPeriodPayEnrollment, double programPeriodPayPension, Date programPeriodOpening, Date programPeriodClosing, Character programPeriodState) {
         this.programPeriodId = programPeriodId;
+        this.programPeriodDescription = programPeriodDescription;
         this.programPeriodIndex = programPeriodIndex;
         this.programPeriodPayEnrollment = programPeriodPayEnrollment;
         this.programPeriodPayPension = programPeriodPayPension;

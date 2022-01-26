@@ -30,10 +30,15 @@ import com.system.demo.dto.Message;
 import com.system.demo.dto.ProgramDetailedDto;
 import com.system.demo.dto.ProgramDetailedOccupationalDto;
 import com.system.demo.dto.ProgramOccupationalRegisterDto;
+import com.system.demo.dto.ProgramPeriodDto;
+import com.system.demo.dto.ProgramPeriodHeaderDto;
 import com.system.demo.model.OccupationalField;
+import com.system.demo.model.PedagogicalPeriod;
 import com.system.demo.model.Program;
+import com.system.demo.model.ProgramPeriod;
 import com.system.demo.service.OccupationalFieldService;
 import com.system.demo.service.PedagogicalPeriodService;
+import com.system.demo.service.ProgramPeriodService;
 import com.system.demo.service.ProgramService;
 import com.system.demo.utility.UniqId;
 
@@ -48,6 +53,9 @@ public class AcademicController {
 	
 	@Autowired
 	ProgramService programService;
+	
+	@Autowired
+	ProgramPeriodService programPeriodService;
 	
 	@Autowired
 	OccupationalFieldService occupationalFieldService;
@@ -247,27 +255,47 @@ public class AcademicController {
 			//Realizamos las validaciones pertinentes
 	        if(bindingResult.hasErrors())
 	            return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
-	        System.out.println("---------> "+periodRegister.isBlockRegistration());
-	        System.out.println("---------> "+periodRegister.getPayEnrollmet());
-	        /*Long idProgram = uI.uniqid();
-	        int index = this.index;
-	        this.index++;
-	        char state = 'A';
-	        Program program = new Program(idProgram,index,programRegister.getName(),programRegister.getAcronym(),
-	        		programRegister.getDescription(), state, programRegister.getArea());
-	        if(programRegister.getImage()!=null) program.setProgramImage(programRegister.getImage());
-	        try {
-				programService.createProgram(program);
-				return new ResponseEntity(new Message(SYSTEM_SUCCESS_REGISTER_PROGRAM), HttpStatus.CREATED);
-			} catch (Exception e) {
-				e.printStackTrace();
-				return new ResponseEntity(new Message(SYSTEM_ERROR_REGISTER), HttpStatus.BAD_REQUEST);
-			}*/
+	        Long idPedPeriod = uI.uniqid();
+	        PedagogicalPeriod pedPeriod = pedagogicalPeriodService.createPedagogicalPeriod(new PedagogicalPeriod(idPedPeriod,
+	        		periodRegister.getName(), periodRegister.getModality(), periodRegister.getYear(), 'A'));
+	        List<Program> programs = programService.getProgramByState('A');
+	        int i=1;
+	        for(Program program:programs) {
+	        	Long idProgPeriod = uI.uniqid();
+	        	String description = program.getProgramName()+"-"+periodRegister.getYear();
+	        	ProgramPeriod progPeriod = new ProgramPeriod(idProgPeriod, description, i, periodRegister.getPayEnrollmet(), 
+	        			periodRegister.getPayPension(), periodRegister.getDateOpening(), periodRegister.getDateClosing(), 'A');
+	        	progPeriod.setPedagogicalPeriodId(pedPeriod);
+	        	progPeriod.setProgramId(program);
+	        	programPeriodService.createProgramPeriod(progPeriod);
+	        }
 	        return new ResponseEntity(new Message(SYSTEM_SUCCESS_REGISTER_PROGRAM), HttpStatus.CREATED);
 		} catch (Exception e) {
 			System.out.println(e);
 			return new ResponseEntity(new Message(SYSTEM_ERROR), HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	@SuppressWarnings(value = { "rawtypes", "unchecked" })
+	@GetMapping(value=URL_ACADEMIC_PROGRAMxPERIOD_GET)
+	public ResponseEntity<?> academicProgramPeriod(@PathVariable(name ="id")Long id){
+		//	Buscamos programa por id
+		Program program = null;
+		try {
+			program = programService.getProgramById(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
+		}
+		ProgramPeriodHeaderDto progPeriodHeaderDto = new ProgramPeriodHeaderDto(program.getProgramName());
+		List<ProgramPeriodDto> progPeriodDtoList = new ArrayList<>();
+		for(ProgramPeriod progPeriod:programPeriodService.getProgramPeriodByProgramId(id)) {
+			progPeriodDtoList.add(new ProgramPeriodDto(progPeriod.getProgramPeriodId(), progPeriod.getProgramPeriodIndex(), 
+					progPeriod.getProgramPeriodDescription(), progPeriod.getProgramPeriodOpening(), progPeriod.getProgramPeriodClosing(), 
+					progPeriod.getProgramPeriodState()));
+		}
+		progPeriodHeaderDto.setProgramPeriods(progPeriodDtoList);
+		return new ResponseEntity<ProgramPeriodHeaderDto>(progPeriodHeaderDto, HttpStatus.OK);
 	}
 
 }

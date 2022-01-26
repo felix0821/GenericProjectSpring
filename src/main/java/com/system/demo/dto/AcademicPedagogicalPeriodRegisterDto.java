@@ -23,9 +23,9 @@ public class AcademicPedagogicalPeriodRegisterDto {
 	private Date dateOpening;
 	private Date dateClosing;
 	@DecimalMin(value = "-1", message = "Ingrese un número mayor a 0")
-	private double payEnrollmet=-1;
+	private double payEnrollmet=0;
 	@DecimalMin(value = "-1", message = "Ingrese un número mayor a 0")
-	private double payPension=-1;
+	private double payPension=0;
 	
 	public String getName() {
 		return name;

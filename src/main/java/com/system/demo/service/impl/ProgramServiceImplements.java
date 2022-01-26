@@ -1,5 +1,6 @@
 package com.system.demo.service.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -45,6 +46,11 @@ public class ProgramServiceImplements implements ProgramService{
 	public Program getProgramById(Long id) throws Exception {
 		return programRepository.findById(id).orElseThrow();
 	}
+	
+	@Override
+	public List<Program> getProgramByState(Character programState) {
+		return programRepository.findByProgramState(programState);
+	}
 
 	//----------------------------------Methods Complements----------------------------------//
 	
@@ -59,6 +65,8 @@ public class ProgramServiceImplements implements ProgramService{
 		to.setProgramArea(from.getProgramArea());
 		to.setProgramState(from.getProgramState());
 	}
+
+	
 
 	
 
