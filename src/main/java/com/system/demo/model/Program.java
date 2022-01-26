@@ -69,7 +69,7 @@ public class Program implements Serializable {
     private Character programState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "programId")
     private Collection<CertificateStudies> certificateStudiesCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "programId", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "programId")
     private Collection<OccupationalField> occupationalFieldCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "programId")
     private Collection<ProgramPeriod> programPeriodCollection;
