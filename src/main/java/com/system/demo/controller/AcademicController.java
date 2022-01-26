@@ -258,17 +258,19 @@ public class AcademicController {
 	        Long idPedPeriod = uI.uniqid();
 	        PedagogicalPeriod pedPeriod = pedagogicalPeriodService.createPedagogicalPeriod(new PedagogicalPeriod(idPedPeriod,
 	        		periodRegister.getName(), periodRegister.getModality(), periodRegister.getYear(), 'A'));
-	        List<Program> programs = programService.getProgramByState('A');
-	        int i=1;
-	        for(Program program:programs) {
-	        	Long idProgPeriod = uI.uniqid();
-	        	String description = program.getProgramName()+"-"+periodRegister.getYear();
-	        	ProgramPeriod progPeriod = new ProgramPeriod(idProgPeriod, description, i, periodRegister.getPayEnrollmet(), 
-	        			periodRegister.getPayPension(), periodRegister.getDateOpening(), periodRegister.getDateClosing(), 'A');
-	        	progPeriod.setPedagogicalPeriodId(pedPeriod);
-	        	progPeriod.setProgramId(program);
-	        	programPeriodService.createProgramPeriod(progPeriod);
-	        }
+	       if(periodRegister.isBlockRegistration()) {
+	    	   	List<Program> programs = programService.getProgramByState('A');
+		        int i=1;
+		        for(Program program:programs) {
+		        	Long idProgPeriod = uI.uniqid();
+		        	String description = program.getProgramName()+"-"+periodRegister.getYear();
+		        	ProgramPeriod progPeriod = new ProgramPeriod(idProgPeriod, description, i, periodRegister.getPayEnrollmet(), 
+		        			periodRegister.getPayPension(), periodRegister.getDateOpening(), periodRegister.getDateClosing(), 'A');
+		        	progPeriod.setPedagogicalPeriodId(pedPeriod);
+		        	progPeriod.setProgramId(program);
+		        	programPeriodService.createProgramPeriod(progPeriod);
+		        }
+	       }
 	        return new ResponseEntity(new Message(SYSTEM_SUCCESS_REGISTER_PROGRAM), HttpStatus.CREATED);
 		} catch (Exception e) {
 			System.out.println(e);
@@ -296,6 +298,12 @@ public class AcademicController {
 		}
 		progPeriodHeaderDto.setProgramPeriods(progPeriodDtoList);
 		return new ResponseEntity<ProgramPeriodHeaderDto>(progPeriodHeaderDto, HttpStatus.OK);
+	}
+	
+	@SuppressWarnings(value = { "rawtypes", "unchecked" })
+	@GetMapping(value=URL_ACADEMIC_PROGRAMxPERIOD_GET)
+	public ResponseEntity<?> academicProgramPeriodView() {
+		return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
 	}
 
 }
