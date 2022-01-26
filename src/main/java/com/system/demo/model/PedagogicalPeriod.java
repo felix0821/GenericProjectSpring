@@ -16,13 +16,15 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /**
  *
  * @author Felix
  */
 @Entity
-@Table(name = "pedagogical_period")
+@Table(name = "pedagogical_period", uniqueConstraints = {
+	    @UniqueConstraint(columnNames = {"pedagogical_period_year"})})
 @NamedQueries({
     @NamedQuery(name = "PedagogicalPeriod.findAll", query = "SELECT p FROM PedagogicalPeriod p"),
     @NamedQuery(name = "PedagogicalPeriod.findByPedagogicalPeriodId", query = "SELECT p FROM PedagogicalPeriod p WHERE p.pedagogicalPeriodId = :pedagogicalPeriodId"),
