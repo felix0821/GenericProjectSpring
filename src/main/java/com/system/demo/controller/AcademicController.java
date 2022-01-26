@@ -301,7 +301,7 @@ public class AcademicController {
 	}
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
-	@GetMapping(value=URL_ACADEMIC_PROGRAMxPERIOD_GET)
+	@GetMapping(value=URL_ACADEMIC_PROGRAMxPERIOD_VIEW_GET)
 	public ResponseEntity<?> academicProgramPeriodView() {
 		return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
 	}
