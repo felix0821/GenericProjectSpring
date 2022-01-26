@@ -17,7 +17,7 @@ public class RequisitionRegisterDto {
 	@NotNull(message = "Ingrese un numero de operación.")
 	private int operation;
 	
-	@NotBlank(message = "Ingrese una imagen")
+	
 	private String image;
 	
 	private String comment;
@@ -26,7 +26,7 @@ public class RequisitionRegisterDto {
 			@NotNull(message = "Ingrese una cantidad.") Double amount,
 			@NotBlank(message = "Ingrese un banco.") String bank,
 			@NotNull(message = "Ingrese un numero de operación.") int operation,
-			@NotBlank(message = "Ingrese una imagen") String image, String comment) {
+			 String image, String comment) {
 		super();
 		this.idProgram = idProgram;
 		this.amount = amount;
