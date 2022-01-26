@@ -95,7 +95,7 @@ public class RequisitionController {
 			return new ResponseEntity(new Message("BLOQUED"), HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+	/*
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@PostMapping
 	@ResponseBody
@@ -123,7 +123,7 @@ public class RequisitionController {
 					dateRegister, 'A','A');
 			financialMovementDetail.setFinancialMovementId(f);*/
 			//financialMovementDetailService.createFinancialMovementDetail(financialMovementDetail);
-			RequisitionDataDetail program = new RequisitionDataDetail(1L,1L,idReqDetail);
+			/*RequisitionDataDetail program = new RequisitionDataDetail(1L,1L,idReqDetail);
 			program.setRequisitionDataDetailValue(requisitionRegisterDto.getIdProgram().toString());
 			requisitionDataDetailService.createRequisitionDataDetail(program);
 			RequisitionDataDetail amount = new RequisitionDataDetail(1L,2L,idReqDetail);
@@ -148,7 +148,7 @@ public class RequisitionController {
 		} catch (Exception e) {
 			return new ResponseEntity(new Message("BLOQUED"), HttpStatus.BAD_REQUEST);
 		}
-	}
+	}*/
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@GetMapping(value=URL_REQUISITION_STATUS_GET)
