@@ -31,11 +31,15 @@ import com.system.demo.dto.ProgramDetailedDto;
 import com.system.demo.dto.ProgramDetailedOccupationalDto;
 import com.system.demo.dto.ProgramOccupationalRegisterDto;
 import com.system.demo.dto.ProgramPeriodDto;
+import com.system.demo.dto.ProgramPeriodEnrollmentDto;
 import com.system.demo.dto.ProgramPeriodHeaderDto;
+import com.system.demo.model.EnrollmentProgramPeriod;
 import com.system.demo.model.OccupationalField;
 import com.system.demo.model.PedagogicalPeriod;
+import com.system.demo.model.Person;
 import com.system.demo.model.Program;
 import com.system.demo.model.ProgramPeriod;
+import com.system.demo.service.EnrollmentProgramPeriodService;
 import com.system.demo.service.OccupationalFieldService;
 import com.system.demo.service.PedagogicalPeriodService;
 import com.system.demo.service.ProgramPeriodService;
@@ -62,6 +66,9 @@ public class AcademicController {
 	
 	@Autowired
 	PedagogicalPeriodService pedagogicalPeriodService;
+	
+	@Autowired
+	EnrollmentProgramPeriodService enrollmentProgramPeriodService;
 	
 	/*
 	 * GESTION DE PROGRAMAS
@@ -304,8 +311,20 @@ public class AcademicController {
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@GetMapping(value=URL_ACADEMIC_PROGRAMxPERIOD_VIEW_GET)
-	public ResponseEntity<?> academicProgramPeriodView() {
-		return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
+	public ResponseEntity<?> academicProgramPeriodView(@PathVariable(name ="id")Long id) {
+		try {
+			List<EnrollmentProgramPeriod> enrollProgList = enrollmentProgramPeriodService.getEnrollmentProgramPeriodByProgramPeriodId(id);
+			List<ProgramPeriodEnrollmentDto> progEnrollDto = new ArrayList<>();
+			for(EnrollmentProgramPeriod enrollProg:enrollProgList) {
+				Person person = enrollProg.getPerson();
+				progEnrollDto.add(new ProgramPeriodEnrollmentDto(person.getPersonName(), person.getPersonLastnameFather(),
+						person.getPersonLastnameMother(), enrollProg.getPersonProgramPeriodDate()));
+			}
+			return new ResponseEntity<List<ProgramPeriodEnrollmentDto>>(progEnrollDto, HttpStatus.OK);
+		} catch(Exception e) {
+			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
+		}
+		
 	}
 
 }
