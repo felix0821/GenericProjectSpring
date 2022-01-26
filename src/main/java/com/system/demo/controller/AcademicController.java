@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.system.demo.dto.AcademicPedagogicalPeriodRegisterDto;
 import com.system.demo.dto.AcademicProgramDto;
 import com.system.demo.dto.AcademicProgramRegisterDto;
 import com.system.demo.dto.Message;
@@ -32,6 +33,7 @@ import com.system.demo.dto.ProgramOccupationalRegisterDto;
 import com.system.demo.model.OccupationalField;
 import com.system.demo.model.Program;
 import com.system.demo.service.OccupationalFieldService;
+import com.system.demo.service.PedagogicalPeriodService;
 import com.system.demo.service.ProgramService;
 import com.system.demo.utility.UniqId;
 
@@ -49,6 +51,9 @@ public class AcademicController {
 	
 	@Autowired
 	OccupationalFieldService occupationalFieldService;
+	
+	@Autowired
+	PedagogicalPeriodService pedagogicalPeriodService;
 	
 	/*
 	 * GESTION DE PROGRAMAS
@@ -126,7 +131,7 @@ public class AcademicController {
 	        this.index++;
 	        char state = 'A';
 	        Program program = new Program(idProgram,index,programRegister.getName(),programRegister.getAcronym(),
-	        		programRegister.getDescription(), state, programRegister.getArea());
+	        		programRegister.getDescription(), programRegister.getArea(), state);
 	        if(programRegister.getImage()!=null) program.setProgramImage(programRegister.getImage());
 	        try {
 				programService.createProgram(program);
@@ -230,6 +235,36 @@ public class AcademicController {
 				return new ResponseEntity(new Message(SYSTEM_ERROR_REGISTER), HttpStatus.BAD_REQUEST);
 			}
 		} catch(Exception e) {
+			System.out.println(e);
+			return new ResponseEntity(new Message(SYSTEM_ERROR), HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@SuppressWarnings(value = { "rawtypes", "unchecked" })
+	@PostMapping(value=URL_ACADEMIC_PEDAGOGICALxPERIOD_REGISTER_POST)
+    public ResponseEntity<?> pedagogicalPeriodRegister(@Valid @RequestBody AcademicPedagogicalPeriodRegisterDto periodRegister, BindingResult bindingResult){
+		try {
+			//Realizamos las validaciones pertinentes
+	        if(bindingResult.hasErrors())
+	            return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
+	        System.out.println("---------> "+periodRegister.isBlockRegistration());
+	        System.out.println("---------> "+periodRegister.getPayEnrollmet());
+	        /*Long idProgram = uI.uniqid();
+	        int index = this.index;
+	        this.index++;
+	        char state = 'A';
+	        Program program = new Program(idProgram,index,programRegister.getName(),programRegister.getAcronym(),
+	        		programRegister.getDescription(), state, programRegister.getArea());
+	        if(programRegister.getImage()!=null) program.setProgramImage(programRegister.getImage());
+	        try {
+				programService.createProgram(program);
+				return new ResponseEntity(new Message(SYSTEM_SUCCESS_REGISTER_PROGRAM), HttpStatus.CREATED);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return new ResponseEntity(new Message(SYSTEM_ERROR_REGISTER), HttpStatus.BAD_REQUEST);
+			}*/
+	        return new ResponseEntity(new Message(SYSTEM_SUCCESS_REGISTER_PROGRAM), HttpStatus.CREATED);
+		} catch (Exception e) {
 			System.out.println(e);
 			return new ResponseEntity(new Message(SYSTEM_ERROR), HttpStatus.BAD_REQUEST);
 		}

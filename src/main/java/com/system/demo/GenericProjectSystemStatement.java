@@ -48,7 +48,7 @@ public class GenericProjectSystemStatement {
 	public static final String URL_FINANCIAL_MOVEMENT_REQUEST = "/financial-movement";
 	//	Mapeo para el controlador "Control documental"
 	public static final String URL_DOCUMENTARY_REQUEST = "/documentary";
-	
+	//	Mapeo para el controlador "Gestion academica"
 	public static final String URL_ACADEMIC_REQUEST = "/academic";
 	public static final String URL_ACADEMIC_EDITxPROGRAM_GET = "/edit-program/{id}";
 	public static final String URL_ACADEMIC_EDITxPROGRAM_POST = "/edit-program";
@@ -57,5 +57,6 @@ public class GenericProjectSystemStatement {
 	public static final String URL_ACADEMIC_PROGRAM_EDIT_POST = "/program/edit";
 	public static final String URL_ACADEMIC_PROGRAM_DELETE_GET = "/program/delete/{id}";
 	public static final String URL_ACADEMIC_PROGRAMxOCCUPATIONAL_REGISTER_POST = "/program-occupational/register";
+	public static final String URL_ACADEMIC_PEDAGOGICALxPERIOD_REGISTER_POST = "/pedagogical-period/register";
 
 }
