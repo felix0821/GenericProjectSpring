@@ -26,7 +26,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.system.demo.dto.AcademicProgramDto;
 import com.system.demo.dto.AcademicProgramRegisterDto;
 import com.system.demo.dto.Message;
+import com.system.demo.dto.ProgramDetailedDto;
+import com.system.demo.dto.ProgramDetailedOccupationalDto;
+import com.system.demo.dto.ProgramOccupationalRegisterDto;
+import com.system.demo.model.OccupationalField;
 import com.system.demo.model.Program;
+import com.system.demo.service.OccupationalFieldService;
 import com.system.demo.service.ProgramService;
 import com.system.demo.utility.UniqId;
 
@@ -42,6 +47,9 @@ public class AcademicController {
 	@Autowired
 	ProgramService programService;
 	
+	@Autowired
+	OccupationalFieldService occupationalFieldService;
+	
 	/*
 	 * GESTION DE PROGRAMAS
 	 */
@@ -49,7 +57,7 @@ public class AcademicController {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@GetMapping
 	@ResponseBody
-	 public ResponseEntity<?> list(@RequestHeader HttpHeaders headers, HttpServletRequest request){
+	public ResponseEntity<?> academicManagement(@RequestHeader HttpHeaders headers, HttpServletRequest request){
 		try {
 			Iterable<Program> programs = programService.getAllPrograms();
 			List<AcademicProgramDto> academicProgramDto = new ArrayList<>();
@@ -66,7 +74,8 @@ public class AcademicController {
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@GetMapping(value=URL_ACADEMIC_EDITxPROGRAM_GET)
-	public ResponseEntity<?> viewProgram(@PathVariable(name ="id")Long id){
+	public ResponseEntity<?> academicProgramForm(@PathVariable(name ="id")Long id){
+		//	Buscamos programa por id
 		Program programEdit = null;
 		try {
 			programEdit = programService.getProgramById(id);
@@ -81,17 +90,33 @@ public class AcademicController {
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@PostMapping(URL_ACADEMIC_EDITxPROGRAM_POST)
-	public ResponseEntity<?> editData(@Valid @RequestBody AcademicProgramDto programEdit, BindingResult bindingResult) {
-		//Realizamos las validaciones pertinentes
+	public ResponseEntity<?> academicProgramEdit(@Valid @RequestBody AcademicProgramDto programEditDto, BindingResult bindingResult) {
+		//	Realizamos las validaciones pertinentes
         if(bindingResult.hasErrors())
             return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
-        
+        //	Buscamos programa por id
+        Program programEdit = null;
+		try {
+			programEdit = programService.getProgramById(programEditDto.getId());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
+		}
+		programEdit.setProgramName(programEditDto.getName());
+		programEdit.setProgramAcronym(programEditDto.getAcronym());
+		programEdit.setProgramDescription(programEditDto.getDescription());
+		programEdit.setProgramState(programEditDto.getState());
+		try {
+			programService.updateProgram(programEdit);
+		} catch(Exception e) {
+			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_PROGRAM), HttpStatus.BAD_REQUEST);
+		}
 		return new ResponseEntity(new Message(SYSTEM_SUCCESS_EDIT_PROGRAM), HttpStatus.CREATED);
 	}
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@PostMapping(value=URL_ACADEMIC_PROGRAM_REGISTER_POST)
-    public ResponseEntity<?> save(@Valid @RequestBody AcademicProgramRegisterDto programRegister, BindingResult bindingResult){
+    public ResponseEntity<?> programRegister(@Valid @RequestBody AcademicProgramRegisterDto programRegister, BindingResult bindingResult){
 		try {
 			//Realizamos las validaciones pertinentes
 	        if(bindingResult.hasErrors())
@@ -116,6 +141,98 @@ public class AcademicController {
 		}
 	}
 	
+	@SuppressWarnings(value = { "rawtypes", "unchecked" })
+	@GetMapping(value=URL_ACADEMIC_PROGRAM_VIEW_GET)
+	public ResponseEntity<?> programView(@PathVariable(name ="id")Long id) {
+		//		Buscamos programa por id
+		Program programEdit = null;
+		try {
+			programEdit = programService.getProgramById(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
+		}
+		ProgramDetailedDto result = new ProgramDetailedDto(programEdit.getProgramId(), programEdit.getProgramName(), 
+				programEdit.getProgramAcronym(), programEdit.getProgramDescription(), programEdit.getProgramRequirement(), 
+				programEdit.getProgramCurriculum(), programEdit.getProgramImage(), programEdit.getProgramArea(), programEdit.getProgramState());
+		List<ProgramDetailedOccupationalDto> occupationalsDto = new ArrayList<>();
+		for(OccupationalField occupational:programEdit.getOccupationalFieldCollection()) {
+			occupationalsDto.add(new ProgramDetailedOccupationalDto(occupational.getOccupationalFieldId(),
+					occupational.getOccupationalFieldIndex(), occupational.getOccupationalFieldName(), occupational.getOccupationalFieldState()));
+		}
+		result.setOccupationals(occupationalsDto);
+		return new ResponseEntity<ProgramDetailedDto>(result, HttpStatus.OK);
+	}
 	
+	@SuppressWarnings(value = { "rawtypes", "unchecked" })
+	@PostMapping(URL_ACADEMIC_PROGRAM_EDIT_POST)
+	public ResponseEntity<?> programEdit(@Valid @RequestBody ProgramDetailedDto programEditDto, BindingResult bindingResult) {
+		//	Realizamos las validaciones pertinentes
+        if(bindingResult.hasErrors())
+            return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
+        //	Buscamos programa por id
+        Program programEdit = null;
+		try {
+			programEdit = programService.getProgramById(programEditDto.getId());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
+		}
+		programEdit.setProgramName(programEditDto.getName());
+		programEdit.setProgramAcronym(programEditDto.getAcronym());
+		programEdit.setProgramDescription(programEditDto.getDescription());
+		programEdit.setProgramRequirement(programEditDto.getRequirement());
+		programEdit.setProgramCurriculum(programEditDto.getCurriculum());
+		programEdit.setProgramImage(programEditDto.getImage());
+		programEdit.setProgramArea(programEditDto.getArea());
+		programEdit.setProgramState(programEditDto.getState());
+		try {
+			programService.updateProgram(programEdit);
+		} catch(Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_PROGRAM), HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity(new Message(SYSTEM_SUCCESS_EDIT_PROGRAM), HttpStatus.CREATED);
+	}
+	
+	@SuppressWarnings(value = { "rawtypes", "unchecked" })
+	@GetMapping(URL_ACADEMIC_PROGRAM_DELETE_GET)
+	public ResponseEntity<?> programDelete(@PathVariable(name="id")Long id) {
+		try {
+			programService.deleteProgram(id);
+		} catch(Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity(new Message(SYSTEM_SUCCESS_DELETE_PROGRAM), HttpStatus.OK);
+	}
+	
+	@SuppressWarnings(value = { "rawtypes", "unchecked" })
+	@PostMapping(value=URL_ACADEMIC_PROGRAMxOCCUPATIONAL_REGISTER_POST)
+    public ResponseEntity<?> programOccupationalRegister(@Valid @RequestBody ProgramOccupationalRegisterDto programOccupationalRegister, BindingResult bindingResult) {
+		try {
+			//Realizamos las validaciones pertinentes
+	        if(bindingResult.hasErrors())
+	            return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
+	        Long idOccupationalField = uI.uniqid();
+	        int index = this.index;
+	        this.index++;
+	        char state = 'A';
+	        Program programId = programService.getProgramById(programOccupationalRegister.getIdProgram());
+	        OccupationalField occupationalField = new OccupationalField(idOccupationalField, index, programOccupationalRegister.getName(), 
+	        		state);
+	        occupationalField.setProgramId(programId);
+	        try {
+	        	occupationalFieldService.createOccupationalField(occupationalField);
+				return new ResponseEntity(new Message(SYSTEM_SUCCESS_REGISTER_PROGRAM), HttpStatus.CREATED);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return new ResponseEntity(new Message(SYSTEM_ERROR_REGISTER), HttpStatus.BAD_REQUEST);
+			}
+		} catch(Exception e) {
+			System.out.println(e);
+			return new ResponseEntity(new Message(SYSTEM_ERROR), HttpStatus.BAD_REQUEST);
+		}
+	}
 
 }

@@ -27,10 +27,39 @@ public class ProgramServiceImplements implements ProgramService{
 	public Program createProgram(Program program) throws Exception {
 		return programRepository.save(program);
 	}
+	
+	@Override
+	public Program updateProgram(Program fromProgram) throws Exception {
+		Program toProgram = getProgramById(fromProgram.getProgramId());
+		mapProgram(fromProgram, toProgram);
+		return programRepository.save(toProgram);
+	}
 
 	@Override
-	public Program getProgramById(Long id) throws Exception{
+	public void deleteProgram(Long programId) throws Exception {
+		Program program = getProgramById(programId);
+		programRepository.delete(program);
+	}
+	
+	@Override
+	public Program getProgramById(Long id) throws Exception {
 		return programRepository.findById(id).orElseThrow();
 	}
+
+	//----------------------------------Methods Complements----------------------------------//
+	
+	protected void mapProgram(Program from, Program to) {
+		to.setProgramIndex(from.getProgramIndex());
+		to.setProgramName(from.getProgramName());
+		to.setProgramAcronym(from.getProgramAcronym());
+		to.setProgramDescription(from.getProgramDescription());
+		to.setProgramRequirement(from.getProgramRequirement());
+		to.setProgramCurriculum(from.getProgramCurriculum());
+		to.setProgramImage(from.getProgramImage());
+		to.setProgramArea(from.getProgramArea());
+		to.setProgramState(from.getProgramState());
+	}
+
+	
 
 }

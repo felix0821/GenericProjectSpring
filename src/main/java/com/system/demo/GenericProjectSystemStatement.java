@@ -5,14 +5,21 @@ public class GenericProjectSystemStatement {
 	/**
 	 *	Global response for the system
 	 **/
+	//	Respuestas generales
+	//	Respuesta de error
+	public static String SYSTEM_ERROR = "Error general de sistema";
+	public static String SYSTEM_ERROR_NO_ID = "No existe Id";
+	public static String SYSTEM_ERROR_REGISTER = "Error de registro";
+	
+	//	Respuestas Controlador de gestion académica
 	//	Respuestas concretadas
 	public static String SYSTEM_SUCCESS_REGISTER_PROGRAM = "Programa registrado exitosamente";
 	public static String SYSTEM_SUCCESS_EDIT_PROGRAM = "Programa modificado exitosamente";
-	
+	public static String SYSTEM_SUCCESS_DELETE_PROGRAM = "Programa eliminado exitosamente";
 	//	Respuestas de error
-	public static String SYSTEM_ERROR = "Error general de sistema";
-	public static String SYSTEM_ERROR_REGISTER = "Error de registro";
-	public static String SYSTEM_ERROR_NO_ID = "No existe Id";
+	public static String SYSTEM_ERROR_NO_PROGRAM = "Programa no encontrado";
+	
+	
 	
 	/**
 	 *	Predefined resources for the system
@@ -46,5 +53,9 @@ public class GenericProjectSystemStatement {
 	public static final String URL_ACADEMIC_EDITxPROGRAM_GET = "/edit-program/{id}";
 	public static final String URL_ACADEMIC_EDITxPROGRAM_POST = "/edit-program";
 	public static final String URL_ACADEMIC_PROGRAM_REGISTER_POST = "/program/register";
+	public static final String URL_ACADEMIC_PROGRAM_VIEW_GET = "/program/view/{id}";
+	public static final String URL_ACADEMIC_PROGRAM_EDIT_POST = "/program/edit";
+	public static final String URL_ACADEMIC_PROGRAM_DELETE_GET = "/program/delete/{id}";
+	public static final String URL_ACADEMIC_PROGRAMxOCCUPATIONAL_REGISTER_POST = "/program-occupational/register";
 
 }

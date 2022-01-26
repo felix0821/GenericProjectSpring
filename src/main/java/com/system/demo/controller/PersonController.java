@@ -176,9 +176,8 @@ public class PersonController {
 		Date dateBirth=new SimpleDateFormat("yyyy-MM-dd").parse(dniQuery[3]);
 		String emailPerson = personRegister.getEmail();
 		char gender = 'X';
-		if (dniQuery[4].equals("")) gender = 'M';
+		if (dniQuery[4].equals("MASCULINO")) gender = 'M';
 		else gender = 'F';
-		
 		//Crear un usuario para persistir
         Person person =
                 new Person(idUser, personRegister.getUsername(), password, dniQuery[0], dniQuery[1], 
