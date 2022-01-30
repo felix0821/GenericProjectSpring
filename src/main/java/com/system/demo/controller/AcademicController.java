@@ -111,6 +111,33 @@ public class AcademicController {
 	}
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
+	@PostMapping(URL_ACADEMIC_EDITxPERIOD_POST)
+	public ResponseEntity<?> academicPeriodEdit(@Valid @RequestBody AcademicPeriodDto periodEditDto, BindingResult bindingResult) {
+		//	Realizamos las validaciones pertinentes
+        if(bindingResult.hasErrors())
+            return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
+        //	Buscamos programa por id
+        PedagogicalPeriod periodEdit = null;
+		try {
+			periodEdit = pedagogicalPeriodService.getPedagogicalPeriodById(periodEditDto.getId());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
+		}
+		periodEdit.setPedagogicalPeriodName(periodEditDto.getName());
+		periodEdit.setPedagogicalPeriodYear(periodEditDto.getYear());
+		periodEdit.setPedagogicalPeriodDescription(periodEditDto.getDescription());
+		periodEdit.setPedagogicalPeriodModality(periodEditDto.getModality());
+		periodEdit.setPedagogicalPeriodState(periodEditDto.getState());
+		try {
+			pedagogicalPeriodService.updatePedagogicalPeriod(periodEdit);
+		} catch(Exception e) {
+			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_PERIOD), HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity(new Message(SYSTEM_SUCCESS_EDIT_PERIOD), HttpStatus.CREATED);
+	}
+	
+	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@GetMapping(value=URL_ACADEMIC_EDITxPROGRAM_GET)
 	public ResponseEntity<?> academicProgramForm(@PathVariable(name ="id")Long id){
 		//	Buscamos programa por id

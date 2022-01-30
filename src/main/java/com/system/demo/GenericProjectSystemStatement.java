@@ -20,8 +20,10 @@ public class GenericProjectSystemStatement {
 	public static String SYSTEM_SUCCESS_REGISTER_PROGRAM = "Programa registrado exitosamente";
 	public static String SYSTEM_SUCCESS_EDIT_PROGRAM = "Programa modificado exitosamente";
 	public static String SYSTEM_SUCCESS_DELETE_PROGRAM = "Programa eliminado exitosamente";
+	public static String SYSTEM_SUCCESS_EDIT_PERIOD = "Periodo modificado exitosamente";
 	//	Respuestas de error
 	public static String SYSTEM_ERROR_NO_PROGRAM = "Programa no encontrado";
+	public static String SYSTEM_ERROR_NO_PERIOD = "Periodo no encontrado";
 	
 	
 	
