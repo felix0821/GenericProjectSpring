@@ -34,4 +34,9 @@ public class ProgramPeriodServiceImplements implements ProgramPeriodService {
 		return programPeriodRepository.findByProgramId(programId);
 	}
 
+	@Override
+	public List<ProgramPeriod> getProgramPeriodByPedagogicalPeriodId(Long pedagogicalPeriodId) {
+		return programPeriodRepository.findByPedagogicalPeriodId(pedagogicalPeriodId);
+	}
+
 }

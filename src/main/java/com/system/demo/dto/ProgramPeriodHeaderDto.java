@@ -7,12 +7,12 @@ import javax.validation.constraints.NotBlank;
 
 public class ProgramPeriodHeaderDto {
 	
-	@NotBlank(message = "Ingrese un nombre de programa.")
+	@NotBlank(message = "Ingrese un nombre de encabezado.")
 	private String name;
 	
 	List<ProgramPeriodDto> programPeriods;
 
-	public ProgramPeriodHeaderDto(@NotBlank(message = "Ingrese un nombre de programa.") String name) {
+	public ProgramPeriodHeaderDto(@NotBlank(message = "Ingrese un nombre de encabezado.") String name) {
 		super();
 		this.name = name;
 		this.programPeriods = new ArrayList<>();

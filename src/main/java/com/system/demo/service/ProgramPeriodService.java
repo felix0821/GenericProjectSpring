@@ -10,5 +10,6 @@ public interface ProgramPeriodService {
 	
 	public ProgramPeriod createProgramPeriod(ProgramPeriod programPeriod) throws Exception;
 	public List<ProgramPeriod> getProgramPeriodByProgramId(Long programId);
+	public List<ProgramPeriod> getProgramPeriodByPedagogicalPeriodId(Long pedagogicalPeriodId);
 
 }

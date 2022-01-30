@@ -90,7 +90,6 @@ public class AcademicController {
 		}catch(Exception e) {
 			return new ResponseEntity(new Message(SYSTEM_ERROR), HttpStatus.BAD_REQUEST);
 		}
-		
 	}
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
@@ -344,8 +343,31 @@ public class AcademicController {
 	}
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
-	@GetMapping(value=URL_ACADEMIC_PROGRAMxPERIOD_GET)
-	public ResponseEntity<?> academicProgramPeriod(@PathVariable(name ="id")Long id){
+	@GetMapping(value=URL_ACADEMIC_PROGRAMSxPERIOD_GET)
+	public ResponseEntity<?> academicProgramsPeriod(@PathVariable(name ="idPeriod")Long id){
+		//	Buscamos programa por id
+		PedagogicalPeriod period = null;
+		try {
+			period = pedagogicalPeriodService.getPedagogicalPeriodById(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
+		}
+		ProgramPeriodHeaderDto progPeriodHeaderDto = new ProgramPeriodHeaderDto(period.getPedagogicalPeriodName());
+		List<ProgramPeriodDto> progPeriodDtoList = new ArrayList<>();
+		List<ProgramPeriod> progPeriods = programPeriodService.getProgramPeriodByPedagogicalPeriodId(id);
+		for(ProgramPeriod progPeriod:progPeriods) {
+			progPeriodDtoList.add(new ProgramPeriodDto(progPeriod.getProgramPeriodId(), progPeriod.getProgramPeriodIndex(), 
+					progPeriod.getProgramPeriodDescription(), progPeriod.getProgramPeriodOpening(), progPeriod.getProgramPeriodClosing(), 
+					progPeriod.getProgramPeriodState()));
+		}
+		progPeriodHeaderDto.setProgramPeriods(progPeriodDtoList);
+		return new ResponseEntity<ProgramPeriodHeaderDto>(progPeriodHeaderDto, HttpStatus.OK);
+	}
+	
+	@SuppressWarnings(value = { "rawtypes", "unchecked" })
+	@GetMapping(value=URL_ACADEMIC_PROGRAMxPERIODS_GET)
+	public ResponseEntity<?> academicProgramPeriods(@PathVariable(name ="idProgram")Long id){
 		//	Buscamos programa por id
 		Program program = null;
 		try {

@@ -11,5 +11,6 @@ import com.system.demo.persistence.entity.ProgramPeriod;
 public interface ProgramPeriodRepository extends JpaRepository<ProgramPeriod,Long> {
 	
 	public List<ProgramPeriod> findByProgramId(Long programId);
+	public List<ProgramPeriod> findByPedagogicalPeriodId(Long pedagogicalPeriodId);
 
 }

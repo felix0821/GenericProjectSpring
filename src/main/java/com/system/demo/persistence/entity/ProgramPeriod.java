@@ -38,7 +38,8 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "ProgramPeriod.findByProgramPeriodOpening", query = "SELECT p FROM ProgramPeriod p WHERE p.programPeriodOpening = :programPeriodOpening"),
     @NamedQuery(name = "ProgramPeriod.findByProgramPeriodClosing", query = "SELECT p FROM ProgramPeriod p WHERE p.programPeriodClosing = :programPeriodClosing"),
     @NamedQuery(name = "ProgramPeriod.findByProgramPeriodState", query = "SELECT p FROM ProgramPeriod p WHERE p.programPeriodState = :programPeriodState"),
-    @NamedQuery(name = "ProgramPeriod.findByProgramId", query = "SELECT p FROM ProgramPeriod p WHERE p.programId.programId = :programId")})
+    @NamedQuery(name = "ProgramPeriod.findByProgramId", query = "SELECT p FROM ProgramPeriod p WHERE p.programId.programId = :programId"),
+    @NamedQuery(name = "ProgramPeriod.findByPedagogicalPeriodId", query = "SELECT p FROM ProgramPeriod p WHERE p.pedagogicalPeriodId.pedagogicalPeriodId = :pedagogicalPeriodId")})
 public class ProgramPeriod implements Serializable {
 
     private static final long serialVersionUID = 1L;

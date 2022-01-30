@@ -52,4 +52,9 @@ public class PedagogicalPeriodServiceImplements implements PedagogicalPeriodServ
 		to.setPedagogicalPeriodState(from.getPedagogicalPeriodState());
 	}
 
+	@Override
+	public boolean existsPedagogicalPeriodById(Long pedagogicalPeriodId) {
+		return pedagogicalPeriodRepository.existsById(pedagogicalPeriodId);
+	}
+
 }
