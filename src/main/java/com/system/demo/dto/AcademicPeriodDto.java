@@ -14,7 +14,6 @@ public class AcademicPeriodDto {
 	@NotBlank(message = "Ingrese un nombre.")
 	private String name;
 	
-	@NotBlank(message = "Ingrese una descripción.")
 	private String description;
 	
 	@NotNull(message = "Ingrese una modalidad.")
@@ -38,8 +37,7 @@ public class AcademicPeriodDto {
 	
 	public AcademicPeriodDto(@NotNull(message = "Ingrese un id valido") Long id,
 			@NotNull(message = "Ingrese un año valido") int year, @NotBlank(message = "Ingrese un nombre.") String name,
-			@NotBlank(message = "Ingrese una descripción.") String description,
-			@NotNull(message = "Ingrese una modalidad.") Character modality,
+			String description, @NotNull(message = "Ingrese una modalidad.") Character modality,
 			@NotNull(message = "Ingrese un estado.") Character state) {
 		super();
 		this.id = id;
@@ -49,7 +47,6 @@ public class AcademicPeriodDto {
 		this.modality = modality;
 		this.state = state;
 	}
-
 
 	public Long getId() {
 		return id;
@@ -98,5 +95,6 @@ public class AcademicPeriodDto {
 	public void setState(Character state) {
 		this.state = state;
 	}
+
 
 }
