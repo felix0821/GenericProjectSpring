@@ -1,6 +1,6 @@
 package com.system.demo.service;
 
-import com.system.demo.model.Data;
+import com.system.demo.persistence.entity.Data;
 
 public interface DataService {
 	

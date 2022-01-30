@@ -8,7 +8,7 @@ public class AcademicProgramDto {
 	@NotNull(message = "Ingrese un id valido")
 	private Long id;
 	
-	@NotNull(message = "Ingrese un id valido")
+	@NotNull(message = "Ingrese un indice valido")
 	private int index;
 	
 	@NotBlank(message = "Ingrese un nombre.")

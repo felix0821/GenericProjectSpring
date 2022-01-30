@@ -1,6 +1,6 @@
 package com.system.demo.service;
 
-import com.system.demo.model.DataDetail;
+import com.system.demo.persistence.entity.DataDetail;
 
 public interface DataDetailService {
 	

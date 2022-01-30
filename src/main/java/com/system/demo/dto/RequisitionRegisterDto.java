@@ -17,7 +17,6 @@ public class RequisitionRegisterDto {
 	@NotNull(message = "Ingrese un numero de operación.")
 	private int operation;
 	
-	
 	private String image;
 	
 	private String comment;

@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import com.system.demo.dto.ChangePasswordDto;
 import com.system.demo.exception.UsernameOrIdNotFound;
-import com.system.demo.model.Person;
+import com.system.demo.persistence.entity.Person;
 
 public interface PersonService {
 

@@ -1,6 +1,6 @@
 package com.system.demo.service;
 
-import com.system.demo.model.Role;
+import com.system.demo.persistence.entity.Role;
 
 public interface RoleService {
 

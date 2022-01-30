@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import com.system.demo.dto.JwtDto;
 import com.system.demo.dto.Message;
 import com.system.demo.dto.PersonLoginDto;
-import com.system.demo.model.Person;
+import com.system.demo.persistence.entity.Person;
 import com.system.demo.security.JwtProvider;
 import com.system.demo.service.PersonService;
 import com.system.demo.utility.EncripId;

@@ -4,7 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.system.demo.model.Person;
+import com.system.demo.persistence.entity.Person;
 
 import java.util.Collection;
 import java.util.List;
@@ -20,7 +20,7 @@ public class JwtUser implements UserDetails {
     private Collection<? extends GrantedAuthority> authorities;
 
     public JwtUser(String username, String password, Collection<? extends GrantedAuthority> authorities) {
-       this.username = username;
+        this.username = username;
         this.password = password;
         this.authorities = authorities;
     }

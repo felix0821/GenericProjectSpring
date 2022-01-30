@@ -1,6 +1,6 @@
  package com.system.demo.service;
 
-import com.system.demo.model.PersonRole;
+import com.system.demo.persistence.entity.PersonRole;
 
 public interface PersonRoleService {
 	public PersonRole createPersonRol(PersonRole personRol) throws Exception;

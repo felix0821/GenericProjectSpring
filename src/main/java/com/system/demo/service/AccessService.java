@@ -1,6 +1,6 @@
 package com.system.demo.service;
 
-import com.system.demo.model.Access;
+import com.system.demo.persistence.entity.Access;
 
 public interface AccessService {
 	

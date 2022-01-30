@@ -2,7 +2,7 @@ package com.system.demo.service;
 
 import java.util.List;
 
-import com.system.demo.model.OccupationalField;
+import com.system.demo.persistence.entity.OccupationalField;
 
 public interface OccupationalFieldService {
 	

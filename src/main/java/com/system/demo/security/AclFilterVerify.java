@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.system.demo.model.Access;
-import com.system.demo.model.Person;
-import com.system.demo.model.PersonRole;
-import com.system.demo.model.Resource;
+import com.system.demo.persistence.entity.Access;
+import com.system.demo.persistence.entity.Person;
+import com.system.demo.persistence.entity.PersonRole;
+import com.system.demo.persistence.entity.Resource;
 import com.system.demo.service.AccessService;
 import com.system.demo.service.PersonService;
 import com.system.demo.service.ResourceService;

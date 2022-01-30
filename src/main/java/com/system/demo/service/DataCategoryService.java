@@ -1,6 +1,6 @@
 package com.system.demo.service;
 
-import com.system.demo.model.DataCategory;
+import com.system.demo.persistence.entity.DataCategory;
 
 public interface DataCategoryService {
 	

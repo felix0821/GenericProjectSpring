@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.system.demo.dto.AcademicPedagogicalPeriodDto;
 import com.system.demo.dto.AcademicPedagogicalPeriodRegisterDto;
 import com.system.demo.dto.AcademicProgramDto;
 import com.system.demo.dto.AcademicProgramRegisterDto;
@@ -33,12 +34,12 @@ import com.system.demo.dto.ProgramOccupationalRegisterDto;
 import com.system.demo.dto.ProgramPeriodDto;
 import com.system.demo.dto.ProgramPeriodEnrollmentDto;
 import com.system.demo.dto.ProgramPeriodHeaderDto;
-import com.system.demo.model.EnrollmentProgramPeriod;
-import com.system.demo.model.OccupationalField;
-import com.system.demo.model.PedagogicalPeriod;
-import com.system.demo.model.Person;
-import com.system.demo.model.Program;
-import com.system.demo.model.ProgramPeriod;
+import com.system.demo.persistence.entity.EnrollmentProgramPeriod;
+import com.system.demo.persistence.entity.OccupationalField;
+import com.system.demo.persistence.entity.PedagogicalPeriod;
+import com.system.demo.persistence.entity.Person;
+import com.system.demo.persistence.entity.Program;
+import com.system.demo.persistence.entity.ProgramPeriod;
 import com.system.demo.service.EnrollmentProgramPeriodService;
 import com.system.demo.service.OccupationalFieldService;
 import com.system.demo.service.PedagogicalPeriodService;
@@ -79,13 +80,13 @@ public class AcademicController {
 	@ResponseBody
 	public ResponseEntity<?> academicManagement(@RequestHeader HttpHeaders headers, HttpServletRequest request){
 		try {
-			Iterable<Program> programs = programService.getAllPrograms();
-			List<AcademicProgramDto> academicProgramDto = new ArrayList<>();
-			for(Program program:programs) {
-				academicProgramDto.add(new AcademicProgramDto(program.getProgramId(),program.getProgramIndex(),
-						program.getProgramName(),program.getProgramAcronym(),program.getProgramState()));
+			Iterable<PedagogicalPeriod> pedagogicalPeriods = pedagogicalPeriodService.getAllPedagogicalPeriods();
+			List<AcademicPedagogicalPeriodDto> academicPedPeriodDto = new ArrayList<>();
+			for(PedagogicalPeriod pedPeriod:pedagogicalPeriods) {
+				academicPedPeriodDto.add(new AcademicPedagogicalPeriodDto(pedPeriod.getPedagogicalPeriodId(), pedPeriod.getPedagogicalPeriodYear(),
+						pedPeriod.getPedagogicalPeriodName(), pedPeriod.getPedagogicalPeriodModality(), pedPeriod.getPedagogicalPeriodState()));
 			}
-			return new ResponseEntity<List<AcademicProgramDto>>(academicProgramDto, HttpStatus.OK);
+			return new ResponseEntity<List<AcademicPedagogicalPeriodDto>>(academicPedPeriodDto, HttpStatus.OK);
 		}catch(Exception e) {
 			return new ResponseEntity(new Message(SYSTEM_ERROR), HttpStatus.BAD_REQUEST);
 		}

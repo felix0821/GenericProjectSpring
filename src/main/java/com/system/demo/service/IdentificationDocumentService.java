@@ -1,6 +1,6 @@
 package com.system.demo.service;
 
-import com.system.demo.model.IdentificationDocument;
+import com.system.demo.persistence.entity.IdentificationDocument;
 
 public interface IdentificationDocumentService {
 	

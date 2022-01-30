@@ -21,9 +21,9 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 
-import com.system.demo.model.Person;
-import com.system.demo.repository.PersonRepository;
-import com.system.demo.service.impl.PersonServiceImplements;
+import com.system.demo.persistence.entity.Person;
+import com.system.demo.persistence.repository.PersonRepository;
+import com.system.demo.service.implementation.PersonServiceImplements;
 
 @SpringBootTest
 public class PersonServiceTest {

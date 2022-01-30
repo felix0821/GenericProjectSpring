@@ -1,6 +1,6 @@
 package com.system.demo.service;
 
-import com.system.demo.model.PersonIdentificationDocument;
+import com.system.demo.persistence.entity.PersonIdentificationDocument;
 
 public interface PersonIdentificationDocumentService {
 	

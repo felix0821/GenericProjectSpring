@@ -1,6 +1,6 @@
 package com.system.demo.service;
 
-import com.system.demo.model.FinancialMovement;
+import com.system.demo.persistence.entity.FinancialMovement;
 
 public interface FinancialMovementDataService {
 	

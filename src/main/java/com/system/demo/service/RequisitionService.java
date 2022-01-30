@@ -2,7 +2,7 @@ package com.system.demo.service;
 
 import java.util.Optional;
 
-import com.system.demo.model.Requisition;
+import com.system.demo.persistence.entity.Requisition;
 
 public interface RequisitionService {
 	

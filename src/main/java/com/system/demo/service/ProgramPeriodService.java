@@ -2,7 +2,7 @@ package com.system.demo.service;
 
 import java.util.List;
 
-import com.system.demo.model.ProgramPeriod;
+import com.system.demo.persistence.entity.ProgramPeriod;
 
 public interface ProgramPeriodService {
 	

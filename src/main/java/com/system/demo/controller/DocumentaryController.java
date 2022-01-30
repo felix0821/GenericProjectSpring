@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.system.demo.dto.DocumentaryListDetailDto;
 import com.system.demo.dto.DocumentaryListDto;
 import com.system.demo.dto.Message;
-import com.system.demo.model.RequisitionDetail;
-import com.system.demo.model.RequisitionStatus;
-import com.system.demo.model.RequisitionStatusDetail;
+import com.system.demo.persistence.entity.RequisitionDetail;
+import com.system.demo.persistence.entity.RequisitionStatus;
+import com.system.demo.persistence.entity.RequisitionStatusDetail;
 import com.system.demo.service.RequisitionStatusService;
 
 @RestController

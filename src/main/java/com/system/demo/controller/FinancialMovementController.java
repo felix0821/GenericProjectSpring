@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.system.demo.dto.FinancialMovementListDto;
 import com.system.demo.dto.Message;
-import com.system.demo.model.FinancialMovementDetail;
-import com.system.demo.model.FinancialMovementRequisition;
+import com.system.demo.persistence.entity.FinancialMovementDetail;
+import com.system.demo.persistence.entity.FinancialMovementRequisition;
 import com.system.demo.service.FinancialMovementDetailService;
 import com.system.demo.service.FinancialMovementService;
 

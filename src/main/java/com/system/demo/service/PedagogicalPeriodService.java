@@ -1,6 +1,6 @@
 package com.system.demo.service;
 
-import com.system.demo.model.PedagogicalPeriod;
+import com.system.demo.persistence.entity.PedagogicalPeriod;
 
 public interface PedagogicalPeriodService {
 	//Iteradores

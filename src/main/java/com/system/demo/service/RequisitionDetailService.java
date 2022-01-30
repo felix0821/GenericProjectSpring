@@ -1,6 +1,6 @@
 package com.system.demo.service;
 
-import com.system.demo.model.RequisitionDetail;
+import com.system.demo.persistence.entity.RequisitionDetail;
 
 public interface RequisitionDetailService {
 	
