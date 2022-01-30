@@ -21,6 +21,7 @@ public class GenericProjectSystemStatement {
 	public static String SYSTEM_SUCCESS_EDIT_PROGRAM = "Programa modificado exitosamente";
 	public static String SYSTEM_SUCCESS_DELETE_PROGRAM = "Programa eliminado exitosamente";
 	public static String SYSTEM_SUCCESS_EDIT_PERIOD = "Periodo modificado exitosamente";
+	public static String SYSTEM_SUCCESS_DELETE_PERIOD = "Periodo eliminado exitosamente";
 	//	Respuestas de error
 	public static String SYSTEM_ERROR_NO_PROGRAM = "Programa no encontrado";
 	public static String SYSTEM_ERROR_NO_PERIOD = "Periodo no encontrado";
@@ -61,6 +62,7 @@ public class GenericProjectSystemStatement {
 	public static final String URL_ACADEMIC_EDITxPERIOD_POST = "/edit-period";
 	public static final String URL_ACADEMIC_EDITxPROGRAM_GET = "/edit-program/{id}";
 	public static final String URL_ACADEMIC_EDITxPROGRAM_POST = "/edit-program";
+	public static final String URL_ACADEMIC_PERIOD_DELETE_GET = "/period/delete/{id}";
 	public static final String URL_ACADEMIC_PROGRAM_REGISTER_POST = "/program/register";
 	public static final String URL_ACADEMIC_PROGRAM_VIEW_GET = "/program/view/{id}";
 	public static final String URL_ACADEMIC_PROGRAM_EDIT_POST = "/program/edit";

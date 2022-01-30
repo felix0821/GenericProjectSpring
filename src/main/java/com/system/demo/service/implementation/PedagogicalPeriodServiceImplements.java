@@ -35,8 +35,8 @@ public class PedagogicalPeriodServiceImplements implements PedagogicalPeriodServ
 
 	@Override
 	public void deletePedagogicalPeriod(Long pedagogicalPeriodId) throws Exception {
-		// TODO Auto-generated method stub
-		
+		PedagogicalPeriod pedagogicalPeriod = getPedagogicalPeriodById(pedagogicalPeriodId);
+		pedagogicalPeriodRepository.delete(pedagogicalPeriod);
 	}
 
 	@Override

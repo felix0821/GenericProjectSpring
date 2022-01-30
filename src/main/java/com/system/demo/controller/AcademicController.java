@@ -138,6 +138,18 @@ public class AcademicController {
 	}
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
+	@GetMapping(URL_ACADEMIC_PERIOD_DELETE_GET)
+	public ResponseEntity<?> periodDelete(@PathVariable(name="id")Long id) {
+		try {
+			pedagogicalPeriodService.deletePedagogicalPeriod(id);
+		} catch(Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity(new Message(SYSTEM_SUCCESS_DELETE_PERIOD), HttpStatus.OK);
+	}
+	
+	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@GetMapping(value=URL_ACADEMIC_EDITxPROGRAM_GET)
 	public ResponseEntity<?> academicProgramForm(@PathVariable(name ="id")Long id){
 		//	Buscamos programa por id
