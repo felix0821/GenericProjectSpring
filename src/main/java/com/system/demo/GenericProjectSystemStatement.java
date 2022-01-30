@@ -11,6 +11,10 @@ public class GenericProjectSystemStatement {
 	public static String SYSTEM_ERROR_NO_ID = "No existe Id";
 	public static String SYSTEM_ERROR_REGISTER = "Error de registro";
 	
+	//	Respuestas controlador de autenticación
+	public static String SYSTEM_ERROR_AUTH = "Error de login";
+	public static String SYSTEM_ERROR_TOKEN = "Error de token";
+	
 	//	Respuestas Controlador de gestion académica
 	//	Respuestas concretadas
 	public static String SYSTEM_SUCCESS_REGISTER_PROGRAM = "Programa registrado exitosamente";
@@ -32,6 +36,7 @@ public class GenericProjectSystemStatement {
 	//	Mapeo para el controlador "Autenticación"
 	public static final String URL_AUTH_REQUEST = "/auth";
 	public static final String URL_AUTH_LOGIN_POST = "/login";
+	public static final String URL_AUTH_ERROR_GET = "/error";
 	//	Mapeo para el controlador "Persona"
 	public static final String URL_PERSON_REQUEST = "/user";
 	public static final String URL_PERSON_PROFILE_GET = "/profile";

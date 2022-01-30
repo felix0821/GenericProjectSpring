@@ -46,7 +46,7 @@ public class AuthenticationController {
     
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@PostMapping(URL_AUTH_LOGIN_POST)
-    public ResponseEntity<?> login(@Valid @RequestBody PersonLoginDto userLogin, BindingResult bindingResult) throws Exception{
+    public ResponseEntity<?> login(@Valid @RequestBody PersonLoginDto userLogin, BindingResult bindingResult) throws Exception {
         try {
         	if(bindingResult.hasErrors())
                 return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
@@ -67,4 +67,11 @@ public class AuthenticationController {
         	return new ResponseEntity(new Message("BLOQUED"), HttpStatus.BAD_REQUEST);
         }
     }
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@GetMapping(URL_AUTH_ERROR_GET)
+    public ResponseEntity<?> error() {
+		System.out.println("-----------------------------------------------------------");
+		return new ResponseEntity(new Message(SYSTEM_ERROR_TOKEN), HttpStatus.UNAUTHORIZED);
+	}
 }

@@ -5,10 +5,13 @@ import com.system.demo.exception.AppBadRequestException;
 import com.system.demo.exception.AppNotAuthorizedException;
 import com.system.demo.exception.AppNotFoundException;
 
+import io.jsonwebtoken.MalformedJwtException;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.transaction.TransactionSystemException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -23,12 +26,6 @@ import java.util.List;
 
 import static com.system.demo.dto.ErrorDto.DetailError;
 
-
-/**
- * A simple exception mapper for exceptions that also provides the error messages as part of the response. Gathers
- * all @ExceptionHandler methods in a single class so that exceptions from all controllers are handled consistently in
- * one place.
- */
 @RestControllerAdvice
 public class CustomExceptionMapper extends ResponseEntityExceptionHandler {
 
@@ -48,6 +45,12 @@ public class CustomExceptionMapper extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(apiError, new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
+    
+    @ExceptionHandler(value = { MalformedJwtException.class, InsufficientAuthenticationException.class })
+	protected ResponseEntity<Object> handleConflict(RuntimeException ex, WebRequest request) {
+		    String bodyOfResponse = "This should be application specific";
+		    return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.CONFLICT, request);
+	}
 
     @ExceptionHandler
     public ResponseEntity<Object> handleWrappedConstraintViolationException(TransactionSystemException exception,

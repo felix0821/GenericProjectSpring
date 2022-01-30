@@ -13,7 +13,6 @@ import com.system.demo.persistence.entity.Person;
 @Repository
 public interface PersonRepository extends JpaRepository<Person,Long>{
 	
-	@PostFilter("hasPermission(filterObject, 'READ')")
 	public List<Person> findAll();
 	
 	public Optional<Person> findByPersonId(Long personId);
