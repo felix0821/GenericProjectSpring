@@ -23,8 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.system.demo.dto.AcademicPedagogicalPeriodDto;
-import com.system.demo.dto.AcademicPedagogicalPeriodRegisterDto;
+import com.system.demo.dto.AcademicPeriodDto;
+import com.system.demo.dto.AcademicPeriodRegisterDto;
 import com.system.demo.dto.AcademicProgramDto;
 import com.system.demo.dto.AcademicProgramRegisterDto;
 import com.system.demo.dto.Message;
@@ -81,16 +81,33 @@ public class AcademicController {
 	public ResponseEntity<?> academicManagement(@RequestHeader HttpHeaders headers, HttpServletRequest request){
 		try {
 			Iterable<PedagogicalPeriod> pedagogicalPeriods = pedagogicalPeriodService.getAllPedagogicalPeriods();
-			List<AcademicPedagogicalPeriodDto> academicPedPeriodDto = new ArrayList<>();
+			List<AcademicPeriodDto> academicPedPeriodDto = new ArrayList<>();
 			for(PedagogicalPeriod pedPeriod:pedagogicalPeriods) {
-				academicPedPeriodDto.add(new AcademicPedagogicalPeriodDto(pedPeriod.getPedagogicalPeriodId(), pedPeriod.getPedagogicalPeriodYear(),
+				academicPedPeriodDto.add(new AcademicPeriodDto(pedPeriod.getPedagogicalPeriodId(), pedPeriod.getPedagogicalPeriodYear(),
 						pedPeriod.getPedagogicalPeriodName(), pedPeriod.getPedagogicalPeriodModality(), pedPeriod.getPedagogicalPeriodState()));
 			}
-			return new ResponseEntity<List<AcademicPedagogicalPeriodDto>>(academicPedPeriodDto, HttpStatus.OK);
+			return new ResponseEntity<List<AcademicPeriodDto>>(academicPedPeriodDto, HttpStatus.OK);
 		}catch(Exception e) {
 			return new ResponseEntity(new Message(SYSTEM_ERROR), HttpStatus.BAD_REQUEST);
 		}
 		
+	}
+	
+	@SuppressWarnings(value = { "rawtypes", "unchecked" })
+	@GetMapping(value=URL_ACADEMIC_EDITxPERIOD_GET)
+	public ResponseEntity<?> academicPeriodForm(@PathVariable(name ="id")Long id){
+		//	Buscamos programa por id
+		PedagogicalPeriod periodEdit = null;
+		try {
+			periodEdit = pedagogicalPeriodService.getPedagogicalPeriodById(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
+		}
+		AcademicPeriodDto resultDto = new AcademicPeriodDto(periodEdit.getPedagogicalPeriodId(), periodEdit.getPedagogicalPeriodYear(),
+				periodEdit.getPedagogicalPeriodName(), periodEdit.getPedagogicalPeriodDescription(), periodEdit.getPedagogicalPeriodModality(), 
+				periodEdit.getPedagogicalPeriodState());
+		return new ResponseEntity<AcademicPeriodDto>(resultDto, HttpStatus.OK);
 	}
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
@@ -258,7 +275,7 @@ public class AcademicController {
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@PostMapping(value=URL_ACADEMIC_PEDAGOGICALxPERIOD_REGISTER_POST)
-    public ResponseEntity<?> pedagogicalPeriodRegister(@Valid @RequestBody AcademicPedagogicalPeriodRegisterDto periodRegister, BindingResult bindingResult){
+    public ResponseEntity<?> pedagogicalPeriodRegister(@Valid @RequestBody AcademicPeriodRegisterDto periodRegister, BindingResult bindingResult){
 		try {
 			//Realizamos las validaciones pertinentes
 	        if(bindingResult.hasErrors())

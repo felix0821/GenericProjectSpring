@@ -8,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class AcademicPedagogicalPeriodRegisterDto {
+public class AcademicPeriodRegisterDto {
 	
 	@NotBlank(message = "Ingrese un nombre de período pedagógico.")
 	@Size(max = 64, min = 3, message = "Ingrese entre 3 a 32 caracteres.")

@@ -3,7 +3,7 @@ package com.system.demo.dto;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-public class AcademicPedagogicalPeriodDto {
+public class AcademicPeriodDto {
 	
 	@NotNull(message = "Ingrese un id valido")
 	private Long id;
@@ -14,13 +14,16 @@ public class AcademicPedagogicalPeriodDto {
 	@NotBlank(message = "Ingrese un nombre.")
 	private String name;
 	
+	@NotBlank(message = "Ingrese una descripción.")
+	private String description;
+	
 	@NotNull(message = "Ingrese una modalidad.")
 	private Character modality;
 	
 	@NotNull(message = "Ingrese un estado.")
 	private Character state;
 
-	public AcademicPedagogicalPeriodDto(@NotNull(message = "Ingrese un id valido") Long id,
+	public AcademicPeriodDto(@NotNull(message = "Ingrese un id valido") Long id,
 			@NotNull(message = "Ingrese un año valido") int year, @NotBlank(message = "Ingrese un nombre.") String name,
 			@NotNull(message = "Ingrese una modalidad.") Character modality,
 			@NotNull(message = "Ingrese un estado.") Character state) {
@@ -30,7 +33,23 @@ public class AcademicPedagogicalPeriodDto {
 		this.name = name;
 		this.modality = modality;
 		this.state = state;
+		this.description = "Ciclo pedagógico de enseñanza";
 	}
+	
+	public AcademicPeriodDto(@NotNull(message = "Ingrese un id valido") Long id,
+			@NotNull(message = "Ingrese un año valido") int year, @NotBlank(message = "Ingrese un nombre.") String name,
+			@NotBlank(message = "Ingrese una descripción.") String description,
+			@NotNull(message = "Ingrese una modalidad.") Character modality,
+			@NotNull(message = "Ingrese un estado.") Character state) {
+		super();
+		this.id = id;
+		this.year = year;
+		this.name = name;
+		this.description = description;
+		this.modality = modality;
+		this.state = state;
+	}
+
 
 	public Long getId() {
 		return id;

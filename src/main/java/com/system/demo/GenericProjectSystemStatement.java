@@ -55,6 +55,8 @@ public class GenericProjectSystemStatement {
 	public static final String URL_DOCUMENTARY_REQUEST = "/documentary";
 	//	Mapeo para el controlador "Gestion academica"
 	public static final String URL_ACADEMIC_REQUEST = "/academic";
+	public static final String URL_ACADEMIC_EDITxPERIOD_GET = "/edit-period/{id}";
+	public static final String URL_ACADEMIC_EDITxPERIOD_POST = "/edit-period";
 	public static final String URL_ACADEMIC_EDITxPROGRAM_GET = "/edit-program/{id}";
 	public static final String URL_ACADEMIC_EDITxPROGRAM_POST = "/edit-program";
 	public static final String URL_ACADEMIC_PROGRAM_REGISTER_POST = "/program/register";

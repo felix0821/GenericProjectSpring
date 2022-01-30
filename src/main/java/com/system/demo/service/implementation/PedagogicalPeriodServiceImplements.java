@@ -26,4 +26,30 @@ public class PedagogicalPeriodServiceImplements implements PedagogicalPeriodServ
 		return pedagogicalPeriodRepository.save(pedagogicalPeriod);
 	}
 
+	@Override
+	public PedagogicalPeriod updatePedagogicalPeriod(PedagogicalPeriod fromPedagogicalPeriod) throws Exception {
+		PedagogicalPeriod toPedagogicalPeriod = getPedagogicalPeriodById(fromPedagogicalPeriod.getPedagogicalPeriodId());
+		mapPedagogicalPeriod(fromPedagogicalPeriod, toPedagogicalPeriod);
+		return pedagogicalPeriodRepository.save(toPedagogicalPeriod);
+	}
+
+	@Override
+	public void deletePedagogicalPeriod(Long pedagogicalPeriodId) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public PedagogicalPeriod getPedagogicalPeriodById(Long pedagogicalPeriodId) throws Exception {
+		return pedagogicalPeriodRepository.findById(pedagogicalPeriodId).orElseThrow();
+	}
+	
+	protected void mapPedagogicalPeriod(PedagogicalPeriod from, PedagogicalPeriod to) {
+		to.setPedagogicalPeriodName(from.getPedagogicalPeriodName());
+		to.setPedagogicalPeriodDescription(from.getPedagogicalPeriodDescription());
+		to.setPedagogicalPeriodYear(from.getPedagogicalPeriodYear());
+		to.setPedagogicalPeriodModality(from.getPedagogicalPeriodModality());
+		to.setPedagogicalPeriodState(from.getPedagogicalPeriodState());
+	}
+
 }
