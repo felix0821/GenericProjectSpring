@@ -113,7 +113,6 @@ public class AcademicController {
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@PostMapping(URL_ACADEMIC_EDITxPERIOD_POST)
 	public ResponseEntity<?> academicPeriodEdit(@Valid @RequestBody AcademicPeriodDto periodEditDto, BindingResult bindingResult) {
-		System.out.println("ERRORRRRRRRRRRRRRRRRRRRRRRRR");
 		//	Realizamos las validaciones pertinentes
         if(bindingResult.hasErrors())
             return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);

@@ -37,8 +37,7 @@ public class AcademicPeriodDto {
 	
 	public AcademicPeriodDto(@NotNull(message = "Ingrese un id valido") Long id,
 			@NotNull(message = "Ingrese un año valido") int year, @NotBlank(message = "Ingrese un nombre.") String name,
-			String description, @NotNull(message = "Ingrese una modalidad.") Character modality,
-			@NotNull(message = "Ingrese un estado.") Character state) {
+			String description, @NotNull Character modality, @NotNull Character state) {
 		super();
 		this.id = id;
 		this.year = year;
