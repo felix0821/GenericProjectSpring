@@ -84,7 +84,7 @@ public class AcademicController {
 			List<AcademicPeriodDto> academicPedPeriodDto = new ArrayList<>();
 			for(PedagogicalPeriod pedPeriod:pedagogicalPeriods) {
 				academicPedPeriodDto.add(new AcademicPeriodDto(pedPeriod.getPedagogicalPeriodId(), pedPeriod.getPedagogicalPeriodYear(),
-						pedPeriod.getPedagogicalPeriodName(), pedPeriod.getPedagogicalPeriodModality(), pedPeriod.getPedagogicalPeriodState()));
+						pedPeriod.getPedagogicalPeriodName(), "",pedPeriod.getPedagogicalPeriodModality(), pedPeriod.getPedagogicalPeriodState()));
 			}
 			return new ResponseEntity<List<AcademicPeriodDto>>(academicPedPeriodDto, HttpStatus.OK);
 		}catch(Exception e) {

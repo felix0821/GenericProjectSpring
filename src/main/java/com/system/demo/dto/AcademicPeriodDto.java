@@ -21,7 +21,7 @@ public class AcademicPeriodDto {
 	
 	@NotNull
 	private Character state;
-
+/*
 	public AcademicPeriodDto(@NotNull(message = "Ingrese un id valido") Long id,
 			@NotNull(message = "Ingrese un año valido") int year, @NotBlank(message = "Ingrese un nombre.") String name,
 			@NotNull Character modality,
@@ -34,7 +34,7 @@ public class AcademicPeriodDto {
 		this.state = state;
 		this.description = "Ciclo pedagógico de enseñanza";
 	}
-	
+	*/
 	public AcademicPeriodDto(@NotNull(message = "Ingrese un id valido") Long id,
 			@NotNull(message = "Ingrese un año valido") int year, @NotBlank(message = "Ingrese un nombre.") String name,
 			String description, @NotNull Character modality, @NotNull Character state) {
