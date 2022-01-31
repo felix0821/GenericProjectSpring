@@ -30,4 +30,9 @@ public class PersonRoleServiceImplements implements PersonRoleService {
 		repository.deleteById(personRolPk);
 	}
 
+	@Override
+	public Iterable<PersonRole> getPersonRoleByPersonId(long personId) {
+		return repository.findByPersonId(personId);
+	}
+
 }

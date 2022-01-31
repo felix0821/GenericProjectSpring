@@ -31,6 +31,8 @@ import com.system.demo.dto.PersonEditDto;
 import com.system.demo.dto.PersonListDto;
 import com.system.demo.dto.PersonProfileDto;
 import com.system.demo.dto.PersonRegisterDto;
+import com.system.demo.dto.PersonRolesDetailDto;
+import com.system.demo.dto.PersonRolesHeaderDto;
 import com.system.demo.persistence.entity.Person;
 import com.system.demo.persistence.entity.PersonIdentificationDocument;
 import com.system.demo.persistence.entity.PersonRole;
@@ -43,6 +45,7 @@ import com.system.demo.utility.ApiQueries;
 import com.system.demo.utility.UniqId;
 
 import static com.system.demo.GenericProjectSystemStatement.*;
+import static com.system.demo.GenericProjectSystemDefinition.*;
 
 @RestController
 @RequestMapping(value=URL_PERSON_REQUEST)
@@ -248,6 +251,28 @@ public class PersonController {
 			return new ResponseEntity(new Message("No existe Usuario"), HttpStatus.BAD_REQUEST);
 		}
         return new ResponseEntity(new Message("Usuario modificado exitosamente"), HttpStatus.CREATED);
+	}
+	
+	//	Gestion de Roles para usuario
+	@SuppressWarnings(value = { "rawtypes", "unchecked" })
+	@GetMapping(URL_PERSONxROLES_GET)
+	public ResponseEntity<?> personRoles(@PathVariable(name ="personId")Long id) {
+		Person person = null;
+		try {
+			person = personService.getPersonById(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
+		}
+		PersonRolesHeaderDto personRolesHeaderDto = new PersonRolesHeaderDto(person.getPersonUsername());
+		List<PersonRolesDetailDto> personRoleDetailsDto = new ArrayList<>();
+		Iterable<PersonRole> personRoles = personRoleService.getPersonRoleByPersonId(id);
+		for(PersonRole personRole: personRoles) {
+			personRoleDetailsDto.add(new PersonRolesDetailDto(personRole.getPersonRolePK().getRoleId(), 
+					personRole.getRole().getRoleName(),personRole.getPersonRoleState()));
+		}
+		personRolesHeaderDto.setRoles(personRoleDetailsDto);
+		return new ResponseEntity<PersonRolesHeaderDto>(personRolesHeaderDto, HttpStatus.OK);
 	}
 	
 	//---------------------------JWT_UTIL--------------------------------------------------------
