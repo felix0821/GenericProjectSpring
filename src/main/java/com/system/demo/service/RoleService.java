@@ -14,4 +14,8 @@ public interface RoleService {
 	
 	public void deleteRole(Long id) throws Exception;
 	
+	public Iterable<Role> getRolesByType(Character roleType); 
+	
+	public Iterable<Role> getRolesByState(Character roleState);
+	
 }

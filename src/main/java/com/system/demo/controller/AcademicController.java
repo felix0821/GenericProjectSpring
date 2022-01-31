@@ -1,6 +1,7 @@
 package com.system.demo.controller;
 
 import static com.system.demo.GenericProjectSystemStatement.*;
+import static com.system.demo.GenericProjectSystemDefinition.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +73,7 @@ public class AcademicController {
 	EnrollmentProgramPeriodService enrollmentProgramPeriodService;
 	
 	/*
-	 * GESTION DE PROGRAMAS
+	 * GESTION DE ACADÉMICAS
 	 */
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -185,6 +186,7 @@ public class AcademicController {
 		try {
 			programService.updateProgram(programEdit);
 		} catch(Exception e) {
+			e.printStackTrace();
 			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_PROGRAM), HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity(new Message(SYSTEM_SUCCESS_EDIT_PROGRAM), HttpStatus.CREATED);
@@ -200,7 +202,7 @@ public class AcademicController {
 	        Long idProgram = uI.uniqid();
 	        int index = this.index;
 	        this.index++;
-	        char state = 'A';
+	        char state = SYSTEM_STATE_ACTIVE;
 	        Program program = new Program(idProgram,index,programRegister.getName(),programRegister.getAcronym(),
 	        		programRegister.getDescription(), programRegister.getArea(), state);
 	        if(programRegister.getImage()!=null) program.setProgramImage(programRegister.getImage());
@@ -209,7 +211,7 @@ public class AcademicController {
 				return new ResponseEntity(new Message(SYSTEM_SUCCESS_REGISTER_PROGRAM), HttpStatus.CREATED);
 			} catch (Exception e) {
 				e.printStackTrace();
-				return new ResponseEntity(new Message(SYSTEM_ERROR_REGISTER), HttpStatus.BAD_REQUEST);
+				return new ResponseEntity(new Message(SYSTEM_ERROR_REGISTER_PROGRAM), HttpStatus.BAD_REQUEST);
 			}
 		} catch (Exception e) {
 			System.out.println(e);
@@ -218,7 +220,7 @@ public class AcademicController {
 	}
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
-	@GetMapping(value=URL_ACADEMIC_PROGRAM_VIEW_GET)
+	@GetMapping(value = URL_ACADEMIC_PROGRAM_VIEW_GET)
 	public ResponseEntity<?> programView(@PathVariable(name ="id")Long id) {
 		//		Buscamos programa por id
 		Program programEdit = null;
@@ -241,7 +243,7 @@ public class AcademicController {
 	}
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
-	@PostMapping(URL_ACADEMIC_PROGRAM_EDIT_POST)
+	@PostMapping(value = URL_ACADEMIC_PROGRAM_EDIT_POST)
 	public ResponseEntity<?> programEdit(@Valid @RequestBody ProgramDetailedDto programEditDto, BindingResult bindingResult) {
 		//	Realizamos las validaciones pertinentes
         if(bindingResult.hasErrors())
@@ -272,7 +274,7 @@ public class AcademicController {
 	}
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
-	@GetMapping(URL_ACADEMIC_PROGRAM_DELETE_GET)
+	@GetMapping(value = URL_ACADEMIC_PROGRAM_DELETE_GET)
 	public ResponseEntity<?> programDelete(@PathVariable(name="id")Long id) {
 		try {
 			programService.deleteProgram(id);
@@ -284,7 +286,7 @@ public class AcademicController {
 	}
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
-	@PostMapping(value=URL_ACADEMIC_PROGRAMxOCCUPATIONAL_REGISTER_POST)
+	@PostMapping(value = URL_ACADEMIC_PROGRAMxOCCUPATIONAL_REGISTER_POST)
     public ResponseEntity<?> programOccupationalRegister(@Valid @RequestBody ProgramOccupationalRegisterDto programOccupationalRegister, BindingResult bindingResult) {
 		try {
 			//Realizamos las validaciones pertinentes
@@ -312,7 +314,7 @@ public class AcademicController {
 	}
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
-	@PostMapping(value=URL_ACADEMIC_PEDAGOGICALxPERIOD_REGISTER_POST)
+	@PostMapping(value = URL_ACADEMIC_PEDAGOGICALxPERIOD_REGISTER_POST)
     public ResponseEntity<?> pedagogicalPeriodRegister(@Valid @RequestBody AcademicPeriodRegisterDto periodRegister, BindingResult bindingResult){
 		try {
 			//Realizamos las validaciones pertinentes
@@ -343,7 +345,7 @@ public class AcademicController {
 	}
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
-	@GetMapping(value=URL_ACADEMIC_PROGRAMSxPERIOD_GET)
+	@GetMapping(value = URL_ACADEMIC_PROGRAMSxPERIOD_GET)
 	public ResponseEntity<?> academicProgramsPeriod(@PathVariable(name ="idPeriod")Long id){
 		//	Buscamos programa por id
 		PedagogicalPeriod period = null;
@@ -366,7 +368,7 @@ public class AcademicController {
 	}
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
-	@GetMapping(value=URL_ACADEMIC_PROGRAMxPERIODS_GET)
+	@GetMapping(value = URL_ACADEMIC_PROGRAMxPERIODS_GET)
 	public ResponseEntity<?> academicProgramPeriods(@PathVariable(name ="idProgram")Long id){
 		//	Buscamos programa por id
 		Program program = null;
@@ -389,7 +391,7 @@ public class AcademicController {
 	}
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
-	@GetMapping(value=URL_ACADEMIC_PROGRAMxPERIOD_VIEW_GET)
+	@GetMapping(value = URL_ACADEMIC_PROGRAMxPERIOD_VIEW_GET)
 	public ResponseEntity<?> academicProgramPeriodView(@PathVariable(name ="id")Long id) {
 		try {
 			List<EnrollmentProgramPeriod> enrollProgList = enrollmentProgramPeriodService.getEnrollmentProgramPeriodByProgramPeriodId(id);

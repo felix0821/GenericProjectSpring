@@ -21,6 +21,7 @@ import com.system.demo.service.PersonService;
 import com.system.demo.utility.EncripId;
 
 import static com.system.demo.GenericProjectSystemStatement.*;
+import static com.system.demo.GenericProjectSystemDefinition.*;
 
 import javax.validation.Valid;
 
@@ -59,12 +60,10 @@ public class AuthenticationController {
             Person person = personService.getPersonByUsername(userDetails.getUsername()).get();
             JwtDto jwtDto = new JwtDto(jwt, userDetails.getUsername(), key, userDetails.getAuthorities(), person.getPersonUrlProfilepicture());
             return new ResponseEntity<JwtDto>(jwtDto, HttpStatus.OK);
-            //return new ResponseEntity(new Message("ACCEPT"), HttpStatus.OK);
         }
-        
         catch (Exception e) {
         	System.out.println(e);
-        	return new ResponseEntity(new Message("BLOQUED"), HttpStatus.BAD_REQUEST);
+        	return new ResponseEntity(new Message(SYSTEM_ERROR_AUTH), HttpStatus.BAD_REQUEST);
         }
     }
 	

@@ -166,7 +166,7 @@ public class PersonController {
             return new ResponseEntity(new Message("Ese email ya existe"), HttpStatus.BAD_REQUEST);
         /*if(personService.existsByDni(userRegister.getDni()))
             return new ResponseEntity(new Message("Ese dni ya existe"), HttpStatus.BAD_REQUEST);*/
-        Long idUser = uI.uniqid();
+        Long personId = uI.uniqid();
         String password = bCryptPasswordEncoder.encode(personRegister.getPassword());
         //Insertar fecha de registro
 		LocalDate fechaPeru=LocalDate.now(ZoneId.of("America/Lima"));
@@ -175,23 +175,22 @@ public class PersonController {
 		String dniQuery[] = apiQueries.checkDniApiPeru(personRegister.getDni());
 		Date dateBirth=new SimpleDateFormat("yyyy-MM-dd").parse(dniQuery[3]);
 		String emailPerson = personRegister.getEmail();
-		char gender = 'X';
-		if (dniQuery[4].equals("MASCULINO")) gender = 'M';
-		else gender = 'F';
+		char gender = SYSTEM_GENDER_UNDEFINED;
+		if (dniQuery[4].equals("MASCULINO")) gender = SYSTEM_GENDER_MALE;
+		else gender = SYSTEM_GENDER_FEMALE;
 		//Crear un usuario para persistir
         Person person =
-                new Person(idUser, personRegister.getUsername(), password, dniQuery[0], dniQuery[1], 
-                		dniQuery[2], gender, dateRegister, emailPerson, 'A');
+                new Person(personId, personRegister.getUsername(), password, dniQuery[0], dniQuery[1], 
+                		dniQuery[2], gender, dateRegister, emailPerson, SYSTEM_STATE_ACTIVE);
         person.setPersonDateBirth(dateBirth);
         personService.createPerson(person);
         //Agregar documento de identidad a nuevo usuario
-        PersonIdentificationDocument personIdentificationDocument = new PersonIdentificationDocument(1L,idUser);
+        PersonIdentificationDocument personIdentificationDocument = new PersonIdentificationDocument(1L,personId);
         personIdentificationDocument.setPersonIdentificationDocumentValue(personRegister.getDni());
         personIdentDocService.createPersonIdentificationDocument(personIdentificationDocument);
         //Agregar rol a nuevo usuario
-        Long idRole = 2L;
-        PersonRole personRol = new PersonRole(idUser,idRole);
-		personRol.setPersonRoleState('A');
+        PersonRole personRol = new PersonRole(personId,SYSTEM_ID_USER);
+		personRol.setPersonRoleState(SYSTEM_STATE_ACTIVE);
 		personRoleService.createPersonRol(personRol);
         return new ResponseEntity(new Message("Usted se registro exitosamente"), HttpStatus.CREATED);
     }

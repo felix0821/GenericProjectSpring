@@ -10,7 +10,7 @@ public class ProgramPeriodHeaderDto {
 	@NotBlank(message = "Ingrese un nombre de encabezado.")
 	private String name;
 	
-	List<ProgramPeriodDto> programPeriods;
+	private List<ProgramPeriodDto> programPeriods;
 
 	public ProgramPeriodHeaderDto(@NotBlank(message = "Ingrese un nombre de encabezado.") String name) {
 		super();

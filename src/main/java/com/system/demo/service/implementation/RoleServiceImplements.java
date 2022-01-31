@@ -62,6 +62,15 @@ public class RoleServiceImplements implements RoleService{
 		Role role = getRoleById(id);
 		repository.delete(role);
 	}
+	@Override
+	public Iterable<Role> getRolesByType(Character roleType) {
+		return repository.findByRoleType(roleType);
+	}
+	@Override
+	public Iterable<Role> getRolesByState(Character roleState) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
 
