@@ -4,18 +4,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class PersonRolesHeaderDto {
+	
+	@NotNull(message = "Ingrese un id valido")
+	private Long personId;
 	
 	@NotBlank(message = "Ingrese un nombre.")
 	private String name;
 	
 	private List<PersonRolesDetailDto> roles;
-
-	public PersonRolesHeaderDto(@NotBlank(message = "Ingrese un nombre.") String name) {
+	
+	public PersonRolesHeaderDto(@NotNull(message = "Ingrese un id valido") Long personId,
+			@NotBlank(message = "Ingrese un nombre.") String name) {
 		super();
+		this.personId = personId;
 		this.name = name;
 		this.roles = new ArrayList<>();
+	}
+
+	public Long getPersonId() {
+		return personId;
+	}
+
+	public void setPersonId(Long personId) {
+		this.personId = personId;
 	}
 
 	public String getName() {

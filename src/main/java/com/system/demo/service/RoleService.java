@@ -18,4 +18,6 @@ public interface RoleService {
 	
 	public Iterable<Role> getRolesByState(Character roleState);
 	
+	public Iterable<Role> getRolesByNotPersonId(Long personId);
+	
 }

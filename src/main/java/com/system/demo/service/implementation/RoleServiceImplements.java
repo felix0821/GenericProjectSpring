@@ -71,6 +71,10 @@ public class RoleServiceImplements implements RoleService{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	@Override
+	public Iterable<Role> getRolesByNotPersonId(Long personId) {
+		return repository.findByRoleNotPersonId(personId);
+	}
 
 }
 

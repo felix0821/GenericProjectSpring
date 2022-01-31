@@ -23,24 +23,29 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.system.demo.dto.DropdownDataDto;
 import com.system.demo.dto.Message;
 import com.system.demo.dto.PersonEditDto;
 import com.system.demo.dto.PersonListDto;
 import com.system.demo.dto.PersonProfileDto;
 import com.system.demo.dto.PersonRegisterDto;
+import com.system.demo.dto.PersonRoleRegisterDto;
 import com.system.demo.dto.PersonRolesDetailDto;
 import com.system.demo.dto.PersonRolesHeaderDto;
 import com.system.demo.persistence.entity.Person;
 import com.system.demo.persistence.entity.PersonIdentificationDocument;
 import com.system.demo.persistence.entity.PersonRole;
+import com.system.demo.persistence.entity.Role;
 import com.system.demo.security.AclFilterVerify;
 import com.system.demo.security.JwtProvider;
 import com.system.demo.service.PersonIdentificationDocumentService;
 import com.system.demo.service.PersonRoleService;
 import com.system.demo.service.PersonService;
+import com.system.demo.service.RoleService;
 import com.system.demo.utility.ApiQueries;
 import com.system.demo.utility.UniqId;
 
@@ -63,6 +68,9 @@ public class PersonController {
 	
 	@Autowired
 	PersonRoleService personRoleService;
+	
+	@Autowired
+	RoleService roleService;
 	
 	@Autowired
 	PersonIdentificationDocumentService personIdentDocService;
@@ -208,7 +216,7 @@ public class PersonController {
 			uoin.printStackTrace();
 			return new ResponseEntity(new Message("No existe Id"), HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity(new Message("Información eliminada exitosamente"), HttpStatus.CREATED);
+		return new ResponseEntity(new Message("Información eliminada exitosamente"), HttpStatus.OK);
 	}
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
@@ -264,7 +272,7 @@ public class PersonController {
 			e.printStackTrace();
 			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
 		}
-		PersonRolesHeaderDto personRolesHeaderDto = new PersonRolesHeaderDto(person.getPersonUsername());
+		PersonRolesHeaderDto personRolesHeaderDto = new PersonRolesHeaderDto(person.getPersonId(), person.getPersonUsername());
 		List<PersonRolesDetailDto> personRoleDetailsDto = new ArrayList<>();
 		Iterable<PersonRole> personRoles = personRoleService.getPersonRoleByPersonId(id);
 		for(PersonRole personRole: personRoles) {
@@ -273,6 +281,48 @@ public class PersonController {
 		}
 		personRolesHeaderDto.setRoles(personRoleDetailsDto);
 		return new ResponseEntity<PersonRolesHeaderDto>(personRolesHeaderDto, HttpStatus.OK);
+	}
+	
+	@SuppressWarnings(value = { "rawtypes", "unchecked" })
+	@GetMapping(URL_PERSONxROLES_REGISTER_GET)
+	public ResponseEntity<?> personRolesRegisterForm(@PathVariable(name ="personId")Long id) {
+		List<DropdownDataDto> rolesDto = new ArrayList<>();
+		Iterable<Role> rolesNotPerson = roleService.getRolesByNotPersonId(id);
+		for(Role role: rolesNotPerson) {
+			rolesDto.add(new DropdownDataDto(role.getRoleId(), role.getRoleName()));
+		}
+		return new ResponseEntity<List<DropdownDataDto>>(rolesDto, HttpStatus.OK);
+	}
+	
+	@SuppressWarnings(value = { "rawtypes", "unchecked" })
+	@PostMapping(value = URL_PERSONxROLE_REGISTER_POST)
+    public ResponseEntity<?> personRoleRegister(@Valid @RequestBody PersonRoleRegisterDto personRoleRegDto, BindingResult bindingResult) {
+		//Realizamos las validaciones pertinentes
+        if(bindingResult.hasErrors())
+            return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
+		try {
+			PersonRole personRol = new PersonRole(personRoleRegDto.getPersonId(), personRoleRegDto.getRoleId());
+			personRol.setPersonRoleState(SYSTEM_STATE_ACTIVE);
+			personRoleService.createPersonRol(personRol);
+			return new ResponseEntity(new Message(SYSTEM_SUCCESS_REGISTER_PERSONxROLE), HttpStatus.CREATED);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity(new Message(SYSTEM_ERROR), HttpStatus.BAD_REQUEST);
+		}
+		
+	}
+	
+	@SuppressWarnings(value = { "rawtypes", "unchecked" })
+	@GetMapping(URL_PERSONxROLE_DELETE_GET)
+	public ResponseEntity<?> deletePersonRole(@RequestParam(name="personId")long personId, @RequestParam(name="roleId")long roleId){
+		try {
+			personRoleService.deletePersonRol(personId, roleId);
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity(new Message(SYSTEM_SUCCESS_DELETE_PERSONxROLE), HttpStatus.OK);
 	}
 	
 	//---------------------------JWT_UTIL--------------------------------------------------------

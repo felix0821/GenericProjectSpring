@@ -16,6 +16,11 @@ public class GenericProjectSystemDefinition {
 	public static String SYSTEM_ERROR_AUTH = "Error de login";
 	public static String SYSTEM_ERROR_TOKEN = "Error de token";
 	
+	//	Respuestas controldaro de gestion de usuarios
+	//	Respustas concretadas
+	public static String SYSTEM_SUCCESS_REGISTER_PERSONxROLE = "Relación registrado exitosamente";
+	public static String SYSTEM_SUCCESS_DELETE_PERSONxROLE = "Relación eliminada exitosamente";
+	
 	//	Respuestas Controlador de gestion académica
 	//	Respuestas concretadas
 	public static String SYSTEM_SUCCESS_REGISTER_PROGRAM = "Programa registrado exitosamente";

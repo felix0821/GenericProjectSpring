@@ -18,6 +18,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  *
  * @author Felix
@@ -31,7 +33,8 @@ import javax.persistence.UniqueConstraint;
     @NamedQuery(name = "Role.findByRoleName", query = "SELECT r FROM Role r WHERE r.roleName = :roleName"),
     @NamedQuery(name = "Role.findByRoleDescription", query = "SELECT r FROM Role r WHERE r.roleDescription = :roleDescription"),
     @NamedQuery(name = "Role.findByRoleState", query = "SELECT r FROM Role r WHERE r.roleState = :roleState"),
-    @NamedQuery(name = "Role.findByRoleType", query = "SELECT r FROM Role r WHERE r.roleType = :roleType")})
+    @NamedQuery(name = "Role.findByRoleType", query = "SELECT r FROM Role r WHERE r.roleType = :roleType"),
+    @NamedQuery(name = "Role.findByRoleNotPersonId", query = "SELECT r FROM Role r WHERE r.roleId NOT IN (SELECT p.personRolePK.roleId FROM PersonRole p WHERE p.personRolePK.personId = :personId)")})
 public class Role implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -51,22 +54,31 @@ public class Role implements Serializable {
     @Column(name = "role_type", nullable = false)
     private Character roleType;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "role")
+    @JsonIgnore
     private Collection<PersonRole> personRoleCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "role")
+    @JsonIgnore
     private Collection<RequisitionAccessRole> requisitionAccessRoleCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "role")
+    @JsonIgnore
     private Collection<Access> accessCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "role")
+    @JsonIgnore
     private Collection<RoleView> roleViewCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "role")
+    @JsonIgnore
     private Collection<PersonData> personDataCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "role")
+    @JsonIgnore
     private Collection<RequisitionNotificationRole> requisitionNotificationRoleCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "role")
+    @JsonIgnore
     private Collection<RoleContext> roleContextCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "role")
+    @JsonIgnore
     private Collection<ReportRole> reportRoleCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "roleId")
+    @JsonIgnore
     private Collection<EnrollmentCourse> enrollmentCourseCollection;
 
     public Role() {

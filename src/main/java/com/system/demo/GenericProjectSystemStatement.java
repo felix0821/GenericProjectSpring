@@ -41,6 +41,9 @@ public class GenericProjectSystemStatement {
 	public static final String URL_PERSON_EDIT_GET = "/editUser/{id}";
 	public static final String URL_PERSON_EDIT_POST = "/editUser";
 	public static final String URL_PERSONxROLES_GET = "/person-roles/{personId}";
+	public static final String URL_PERSONxROLE_DELETE_GET = "/person-role/delete";
+	public static final String URL_PERSONxROLES_REGISTER_GET = "/person-roles/register/{personId}";
+	public static final String URL_PERSONxROLE_REGISTER_POST = "/person-role/register";
 	//	Mapeo para el controlador "Solicitud"
 	public static final String URL_REQUISITION_REQUEST = "/requisition";
 	public static final String URL_REQUISITION_STATUS_GET = "/status";

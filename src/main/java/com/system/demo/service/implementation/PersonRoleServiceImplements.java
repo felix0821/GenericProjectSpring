@@ -25,9 +25,11 @@ public class PersonRoleServiceImplements implements PersonRoleService {
 	}
 
 	@Override
-	public void deletePersonRol(Long idPerson, long idRole) throws Exception {
-		PersonRolePK personRolPk = new PersonRolePK(idPerson,idRole);
-		repository.deleteById(personRolPk);
+	public void deletePersonRol(long personId, long roleId) throws Exception {
+		PersonRolePK personRolPk = new PersonRolePK(personId, roleId);
+		PersonRole personRole = repository.getById(personRolPk);
+		repository.delete(personRole);
+		//repository.deleteById(personRolPk);
 	}
 
 	@Override
