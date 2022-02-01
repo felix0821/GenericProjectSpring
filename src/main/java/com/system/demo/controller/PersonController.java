@@ -314,7 +314,7 @@ public class PersonController {
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@GetMapping(URL_PERSONxROLE_DELETE_GET)
-	public ResponseEntity<?> deletePersonRole(@RequestParam(name="personId")long personId, @RequestParam(name="roleId")long roleId){
+	public ResponseEntity<?> deletePersonRole(@RequestParam(name="personId")Long personId, @RequestParam(name="roleId")Long roleId){
 		try {
 			personRoleService.deletePersonRol(personId, roleId);
 		} 

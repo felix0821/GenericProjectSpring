@@ -17,7 +17,8 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class PersonRolePK implements Serializable {
 
-    @Basic(optional = false)
+	private static final long serialVersionUID = 1294446539466016377L;
+	@Basic(optional = false)
     @Column(name = "person_id", nullable = false)
     private long personId;
     @Basic(optional = false)

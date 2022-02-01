@@ -26,7 +26,8 @@ import javax.persistence.Table;
     @NamedQuery(name = "PersonRole.findAll", query = "SELECT p FROM PersonRole p"),
     @NamedQuery(name = "PersonRole.findByPersonId", query = "SELECT p FROM PersonRole p WHERE p.personRolePK.personId = :personId"),
     @NamedQuery(name = "PersonRole.findByRoleId", query = "SELECT p FROM PersonRole p WHERE p.personRolePK.roleId = :roleId"),
-    @NamedQuery(name = "PersonRole.findByPersonRoleState", query = "SELECT p FROM PersonRole p WHERE p.personRoleState = :personRoleState")})
+    @NamedQuery(name = "PersonRole.findByPersonRoleState", query = "SELECT p FROM PersonRole p WHERE p.personRoleState = :personRoleState"),
+    @NamedQuery(name = "PersonRole.deletePersonRole", query = "DELETE FROM PersonRole p WHERE (p.personRolePK.personId = :personId) AND (p.personRolePK.roleId = :roleId)")})
 public class PersonRole implements Serializable {
 
     private static final long serialVersionUID = 1L;
