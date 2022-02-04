@@ -1,6 +1,8 @@
 package com.system.demo.service.implementation;
 
 
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +28,12 @@ public class PersonRoleServiceImplements implements PersonRoleService {
 
 	@Override
 	public void deletePersonRol(long personId, long roleId){
-		//PersonRolePK personRolPk = new PersonRolePK(personId, roleId);
-		//PersonRole personRole = repository.findById(personRolPk).orElseThrow();
-		//repository.delete(personRole);
-		repository.deletePersonRole(personId, roleId);
+		PersonRole personRole = getPersonRoleById(personId, roleId).get();
+		repository.delete(personRole);
+	}
+	
+	private Optional<PersonRole> getPersonRoleById(long personId, long roleId) {
+		return repository.findById(new PersonRolePK(personId, roleId));
 	}
 
 	@Override

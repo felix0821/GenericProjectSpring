@@ -90,7 +90,7 @@ public class AssistancePK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.AssistancePK[ horaryId=" + horaryId + ", personId=" + personId + ", courseDetailId=" + courseDetailId + " ]";
+        return "com.system.demo.persistence.entity.AssistancePK[ horaryId=" + horaryId + ", personId=" + personId + ", courseDetailId=" + courseDetailId + " ]";
     }
     
 }

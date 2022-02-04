@@ -74,7 +74,7 @@ public class HoraryCourseGroupPK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.HoraryCourseGroupPK[ horaryId=" + horaryId + ", courseDetailId=" + courseDetailId + " ]";
+        return "com.system.demo.persistence.entity.HoraryCourseGroupPK[ horaryId=" + horaryId + ", courseDetailId=" + courseDetailId + " ]";
     }
     
 }

@@ -119,7 +119,7 @@ public class Assistance implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.Assistance[ assistancePK=" + assistancePK + " ]";
+        return "com.system.demo.persistence.entity.Assistance[ assistancePK=" + assistancePK + " ]";
     }
     
 }

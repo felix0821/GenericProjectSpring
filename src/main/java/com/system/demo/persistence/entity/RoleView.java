@@ -125,7 +125,7 @@ public class RoleView implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.RoleView[ roleViewPK=" + roleViewPK + " ]";
+        return "com.system.demo.persistence.entity.RoleView[ roleViewPK=" + roleViewPK + " ]";
     }
     
 }

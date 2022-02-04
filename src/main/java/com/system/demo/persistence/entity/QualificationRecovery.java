@@ -123,7 +123,7 @@ public class QualificationRecovery implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.QualificationRecovery[ qualificationRecoveryId=" + qualificationRecoveryId + " ]";
+        return "com.system.demo.persistence.entity.QualificationRecovery[ qualificationRecoveryId=" + qualificationRecoveryId + " ]";
     }
     
 }

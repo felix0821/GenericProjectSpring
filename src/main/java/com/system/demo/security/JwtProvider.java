@@ -21,11 +21,17 @@ public class JwtProvider {
 
     public String generateToken(Authentication authentication){
         JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
-        return Jwts.builder().setSubject(jwtUser.getUsername())
+        return Jwts.builder()
+        		.setId(jwtUser.getId().toString())
+        		.setSubject(jwtUser.getUsername())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(new Date().getTime() + expiration * 1000))
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
+    }
+    
+    public Long getIdFromToken(String token) {
+    	return Long.parseLong(Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getId());
     }
 
     public String getUsernameFromToken(String token){

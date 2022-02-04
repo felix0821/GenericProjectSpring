@@ -50,9 +50,9 @@ public class PedagogicalSchedulePayment implements Serializable {
     @Column(name = "payment_schedule_final_payday", nullable = false)
     private int paymentScheduleFinalPayday;
     @JoinColumns({
-        @JoinColumn(name = "modulus_id", referencedColumnName = "modulus_id", nullable = false),
-        @JoinColumn(name = "program_period_id", referencedColumnName = "program_period_id")})
-    @ManyToOne(optional = false)
+        @JoinColumn(name = "program_period_id", referencedColumnName = "program_period_id"),
+        @JoinColumn(name = "modulus_id", referencedColumnName = "modulus_id")})
+    @ManyToOne
     private ModulusSchedule modulusSchedule;
     @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false)
     @ManyToOne(optional = false)
@@ -151,7 +151,7 @@ public class PedagogicalSchedulePayment implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.PedagogicalSchedulePayment[ paymentScheduleId=" + paymentScheduleId + " ]";
+        return "com.system.demo.persistence.entity.PedagogicalSchedulePayment[ paymentScheduleId=" + paymentScheduleId + " ]";
     }
     
 }

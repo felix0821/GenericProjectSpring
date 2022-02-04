@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -30,10 +29,10 @@ import javax.persistence.TemporalType;
 @Table(name = "modulus_schedule")
 @NamedQueries({
     @NamedQuery(name = "ModulusSchedule.findAll", query = "SELECT m FROM ModulusSchedule m"),
-    @NamedQuery(name = "ModulusSchedule.findByModulusId", query = "SELECT m FROM ModulusSchedule m WHERE m.modulusSchedulePK.modulusId = :modulusId"),
     @NamedQuery(name = "ModulusSchedule.findByProgramPeriodId", query = "SELECT m FROM ModulusSchedule m WHERE m.modulusSchedulePK.programPeriodId = :programPeriodId"),
-    @NamedQuery(name = "ModulusSchedule.findByModulusScheduleStartMonth", query = "SELECT m FROM ModulusSchedule m WHERE m.modulusScheduleStartMonth = :modulusScheduleStartMonth"),
-    @NamedQuery(name = "ModulusSchedule.findByModulusScheduleFinalMonth", query = "SELECT m FROM ModulusSchedule m WHERE m.modulusScheduleFinalMonth = :modulusScheduleFinalMonth"),
+    @NamedQuery(name = "ModulusSchedule.findByModulusId", query = "SELECT m FROM ModulusSchedule m WHERE m.modulusSchedulePK.modulusId = :modulusId"),
+    @NamedQuery(name = "ModulusSchedule.findByModulusScheduleStartDate", query = "SELECT m FROM ModulusSchedule m WHERE m.modulusScheduleStartDate = :modulusScheduleStartDate"),
+    @NamedQuery(name = "ModulusSchedule.findByModulusScheduleFinalDate", query = "SELECT m FROM ModulusSchedule m WHERE m.modulusScheduleFinalDate = :modulusScheduleFinalDate"),
     @NamedQuery(name = "ModulusSchedule.findByModulusScheduleInterestArrears", query = "SELECT m FROM ModulusSchedule m WHERE m.modulusScheduleInterestArrears = :modulusScheduleInterestArrears"),
     @NamedQuery(name = "ModulusSchedule.findByModulusScheduleState", query = "SELECT m FROM ModulusSchedule m WHERE m.modulusScheduleState = :modulusScheduleState")})
 public class ModulusSchedule implements Serializable {
@@ -42,28 +41,26 @@ public class ModulusSchedule implements Serializable {
     @EmbeddedId
     protected ModulusSchedulePK modulusSchedulePK;
     @Basic(optional = false)
-    @Column(name = "modulus_schedule_start_month", nullable = false)
+    @Column(name = "modulus_schedule_start_date", nullable = false)
     @Temporal(TemporalType.DATE)
-    private Date modulusScheduleStartMonth;
+    private Date modulusScheduleStartDate;
     @Basic(optional = false)
-    @Column(name = "modulus_schedule_final_month", nullable = false)
+    @Column(name = "modulus_schedule_final_date", nullable = false)
     @Temporal(TemporalType.DATE)
-    private Date modulusScheduleFinalMonth;
+    private Date modulusScheduleFinalDate;
     @Basic(optional = false)
     @Column(name = "modulus_schedule_interest_arrears", nullable = false)
     private double modulusScheduleInterestArrears;
     @Basic(optional = false)
     @Column(name = "modulus_schedule_state", nullable = false)
     private Character modulusScheduleState;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "modulusSchedule")
-    private Collection<CourseDetail> courseDetailCollection;
     @JoinColumn(name = "modulus_id", referencedColumnName = "modulus_id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Modulus modulus;
     @JoinColumn(name = "program_period_id", referencedColumnName = "program_period_id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private ProgramPeriod programPeriod;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "modulusSchedule")
+    @OneToMany(mappedBy = "modulusSchedule")
     private Collection<PedagogicalSchedulePayment> pedagogicalSchedulePaymentCollection;
 
     public ModulusSchedule() {
@@ -73,16 +70,16 @@ public class ModulusSchedule implements Serializable {
         this.modulusSchedulePK = modulusSchedulePK;
     }
 
-    public ModulusSchedule(ModulusSchedulePK modulusSchedulePK, Date modulusScheduleStartMonth, Date modulusScheduleFinalMonth, double modulusScheduleInterestArrears, Character modulusScheduleState) {
+    public ModulusSchedule(ModulusSchedulePK modulusSchedulePK, Date modulusScheduleStartDate, Date modulusScheduleFinalDate, double modulusScheduleInterestArrears, Character modulusScheduleState) {
         this.modulusSchedulePK = modulusSchedulePK;
-        this.modulusScheduleStartMonth = modulusScheduleStartMonth;
-        this.modulusScheduleFinalMonth = modulusScheduleFinalMonth;
+        this.modulusScheduleStartDate = modulusScheduleStartDate;
+        this.modulusScheduleFinalDate = modulusScheduleFinalDate;
         this.modulusScheduleInterestArrears = modulusScheduleInterestArrears;
         this.modulusScheduleState = modulusScheduleState;
     }
 
-    public ModulusSchedule(long modulusId, long programPeriodId) {
-        this.modulusSchedulePK = new ModulusSchedulePK(modulusId, programPeriodId);
+    public ModulusSchedule(long programPeriodId, long modulusId) {
+        this.modulusSchedulePK = new ModulusSchedulePK(programPeriodId, modulusId);
     }
 
     public ModulusSchedulePK getModulusSchedulePK() {
@@ -93,20 +90,20 @@ public class ModulusSchedule implements Serializable {
         this.modulusSchedulePK = modulusSchedulePK;
     }
 
-    public Date getModulusScheduleStartMonth() {
-        return modulusScheduleStartMonth;
+    public Date getModulusScheduleStartDate() {
+        return modulusScheduleStartDate;
     }
 
-    public void setModulusScheduleStartMonth(Date modulusScheduleStartMonth) {
-        this.modulusScheduleStartMonth = modulusScheduleStartMonth;
+    public void setModulusScheduleStartDate(Date modulusScheduleStartDate) {
+        this.modulusScheduleStartDate = modulusScheduleStartDate;
     }
 
-    public Date getModulusScheduleFinalMonth() {
-        return modulusScheduleFinalMonth;
+    public Date getModulusScheduleFinalDate() {
+        return modulusScheduleFinalDate;
     }
 
-    public void setModulusScheduleFinalMonth(Date modulusScheduleFinalMonth) {
-        this.modulusScheduleFinalMonth = modulusScheduleFinalMonth;
+    public void setModulusScheduleFinalDate(Date modulusScheduleFinalDate) {
+        this.modulusScheduleFinalDate = modulusScheduleFinalDate;
     }
 
     public double getModulusScheduleInterestArrears() {
@@ -123,14 +120,6 @@ public class ModulusSchedule implements Serializable {
 
     public void setModulusScheduleState(Character modulusScheduleState) {
         this.modulusScheduleState = modulusScheduleState;
-    }
-
-    public Collection<CourseDetail> getCourseDetailCollection() {
-        return courseDetailCollection;
-    }
-
-    public void setCourseDetailCollection(Collection<CourseDetail> courseDetailCollection) {
-        this.courseDetailCollection = courseDetailCollection;
     }
 
     public Modulus getModulus() {
@@ -179,7 +168,7 @@ public class ModulusSchedule implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.ModulusSchedule[ modulusSchedulePK=" + modulusSchedulePK + " ]";
+        return "com.system.demo.persistence.entity.ModulusSchedule[ modulusSchedulePK=" + modulusSchedulePK + " ]";
     }
     
 }

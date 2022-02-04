@@ -124,7 +124,7 @@ public class IdentificationDocument implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.IdentificationDocument[ identificationDocumentId=" + identificationDocumentId + " ]";
+        return "com.system.demo.persistence.entity.IdentificationDocument[ identificationDocumentId=" + identificationDocumentId + " ]";
     }
     
 }

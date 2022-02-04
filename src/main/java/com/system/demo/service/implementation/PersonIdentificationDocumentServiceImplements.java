@@ -1,5 +1,7 @@
 package com.system.demo.service.implementation;
 
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +26,8 @@ public class PersonIdentificationDocumentServiceImplements implements PersonIden
 	}
 
 	@Override
-	public PersonIdentificationDocument personIdentificationDocumentById(long identificationDocumentId, long personId) {
-		PersonIdentificationDocumentPK PersonIdentificationDocumentPK = new PersonIdentificationDocumentPK(identificationDocumentId,
-				personId);
-		return personIdentificationDocumentRepository.getById(PersonIdentificationDocumentPK);
+	public Optional<PersonIdentificationDocument> getPersonIdentificationDocumentById(long identificationDocumentId, long personId) {
+		return personIdentificationDocumentRepository.findById(new PersonIdentificationDocumentPK(identificationDocumentId, personId));
 	}
 
 }

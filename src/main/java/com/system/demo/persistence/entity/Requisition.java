@@ -164,7 +164,7 @@ public class Requisition implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.Requisition[ requisitionId=" + requisitionId + " ]";
+        return "com.system.demo.persistence.entity.Requisition[ requisitionId=" + requisitionId + " ]";
     }
     
 }

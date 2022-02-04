@@ -178,7 +178,7 @@ public class PersonRegistering implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.PersonRegistering[ personRegisteringId=" + personRegisteringId + " ]";
+        return "com.system.demo.persistence.entity.PersonRegistering[ personRegisteringId=" + personRegisteringId + " ]";
     }
     
 }

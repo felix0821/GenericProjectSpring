@@ -109,7 +109,7 @@ public class CertificateStudiesDetail implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.CertificateStudiesDetail[ certificateStudiesDetailId=" + certificateStudiesDetailId + " ]";
+        return "com.system.demo.persistence.entity.CertificateStudiesDetail[ certificateStudiesDetailId=" + certificateStudiesDetailId + " ]";
     }
     
 }

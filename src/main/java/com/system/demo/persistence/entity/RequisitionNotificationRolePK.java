@@ -74,7 +74,7 @@ public class RequisitionNotificationRolePK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.RequisitionNotificationRolePK[ requisitionId=" + requisitionId + ", roleId=" + roleId + " ]";
+        return "com.system.demo.persistence.entity.RequisitionNotificationRolePK[ requisitionId=" + requisitionId + ", roleId=" + roleId + " ]";
     }
     
 }

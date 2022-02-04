@@ -74,7 +74,7 @@ public class ResourceContextPK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.ResourceContextPK[ contextId=" + contextId + ", resourceId=" + resourceId + " ]";
+        return "com.system.demo.persistence.entity.ResourceContextPK[ contextId=" + contextId + ", resourceId=" + resourceId + " ]";
     }
     
 }

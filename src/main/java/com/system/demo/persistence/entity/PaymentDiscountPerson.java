@@ -136,7 +136,7 @@ public class PaymentDiscountPerson implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.PaymentDiscountPerson[ paymentDiscountPersonPK=" + paymentDiscountPersonPK + " ]";
+        return "com.system.demo.persistence.entity.PaymentDiscountPerson[ paymentDiscountPersonPK=" + paymentDiscountPersonPK + " ]";
     }
     
 }

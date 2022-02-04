@@ -138,7 +138,7 @@ public class PersonData implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.PersonData[ personDataPK=" + personDataPK + " ]";
+        return "com.system.demo.persistence.entity.PersonData[ personDataPK=" + personDataPK + " ]";
     }
     
 }

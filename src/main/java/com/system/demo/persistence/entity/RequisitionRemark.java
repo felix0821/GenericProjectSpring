@@ -139,7 +139,7 @@ public class RequisitionRemark implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.RequisitionRemark[ requisitionRemarkId=" + requisitionRemarkId + " ]";
+        return "com.system.demo.persistence.entity.RequisitionRemark[ requisitionRemarkId=" + requisitionRemarkId + " ]";
     }
     
 }

@@ -15,29 +15,29 @@ import javax.persistence.Embeddable;
  * @author Felix
  */
 @Embeddable
-public class PersonDataPK implements Serializable {
+public class CourseRolePK implements Serializable {
 
     @Basic(optional = false)
-    @Column(name = "data_id", nullable = false)
-    private long dataId;
+    @Column(name = "course_detail_id", nullable = false)
+    private long courseDetailId;
     @Basic(optional = false)
     @Column(name = "role_id", nullable = false)
     private long roleId;
 
-    public PersonDataPK() {
+    public CourseRolePK() {
     }
 
-    public PersonDataPK(long dataId, long roleId) {
-        this.dataId = dataId;
+    public CourseRolePK(long courseDetailId, long roleId) {
+        this.courseDetailId = courseDetailId;
         this.roleId = roleId;
     }
 
-    public long getDataId() {
-        return dataId;
+    public long getCourseDetailId() {
+        return courseDetailId;
     }
 
-    public void setDataId(long dataId) {
-        this.dataId = dataId;
+    public void setCourseDetailId(long courseDetailId) {
+        this.courseDetailId = courseDetailId;
     }
 
     public long getRoleId() {
@@ -51,7 +51,7 @@ public class PersonDataPK implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (int) dataId;
+        hash += (int) courseDetailId;
         hash += (int) roleId;
         return hash;
     }
@@ -59,11 +59,11 @@ public class PersonDataPK implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof PersonDataPK)) {
+        if (!(object instanceof CourseRolePK)) {
             return false;
         }
-        PersonDataPK other = (PersonDataPK) object;
-        if (this.dataId != other.dataId) {
+        CourseRolePK other = (CourseRolePK) object;
+        if (this.courseDetailId != other.courseDetailId) {
             return false;
         }
         if (this.roleId != other.roleId) {
@@ -74,7 +74,7 @@ public class PersonDataPK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.persistence.entity.PersonDataPK[ dataId=" + dataId + ", roleId=" + roleId + " ]";
+        return "com.system.demo.persistence.entity.CourseRolePK[ courseDetailId=" + courseDetailId + ", roleId=" + roleId + " ]";
     }
     
 }

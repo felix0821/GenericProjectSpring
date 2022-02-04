@@ -112,7 +112,7 @@ public class Access implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.Access[ accessPK=" + accessPK + " ]";
+        return "com.system.demo.persistence.entity.Access[ accessPK=" + accessPK + " ]";
     }
     
 }

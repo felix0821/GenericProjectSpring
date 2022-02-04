@@ -129,7 +129,7 @@ public class Horary implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.Horary[ horaryId=" + horaryId + " ]";
+        return "com.system.demo.persistence.entity.Horary[ horaryId=" + horaryId + " ]";
     }
     
 }

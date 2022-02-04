@@ -111,7 +111,7 @@ public class DataEntry implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.DataEntry[ dataEntryId=" + dataEntryId + " ]";
+        return "com.system.demo.persistence.entity.DataEntry[ dataEntryId=" + dataEntryId + " ]";
     }
     
 }

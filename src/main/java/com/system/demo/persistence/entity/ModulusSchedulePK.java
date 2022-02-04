@@ -18,25 +18,17 @@ import javax.persistence.Embeddable;
 public class ModulusSchedulePK implements Serializable {
 
     @Basic(optional = false)
-    @Column(name = "modulus_id", nullable = false)
-    private long modulusId;
-    @Basic(optional = false)
     @Column(name = "program_period_id", nullable = false)
     private long programPeriodId;
+    @Basic(optional = false)
+    @Column(name = "modulus_id", nullable = false)
+    private long modulusId;
 
     public ModulusSchedulePK() {
     }
 
-    public ModulusSchedulePK(long modulusId, long programPeriodId) {
-        this.modulusId = modulusId;
+    public ModulusSchedulePK(long programPeriodId, long modulusId) {
         this.programPeriodId = programPeriodId;
-    }
-
-    public long getModulusId() {
-        return modulusId;
-    }
-
-    public void setModulusId(long modulusId) {
         this.modulusId = modulusId;
     }
 
@@ -48,11 +40,19 @@ public class ModulusSchedulePK implements Serializable {
         this.programPeriodId = programPeriodId;
     }
 
+    public long getModulusId() {
+        return modulusId;
+    }
+
+    public void setModulusId(long modulusId) {
+        this.modulusId = modulusId;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (int) modulusId;
         hash += (int) programPeriodId;
+        hash += (int) modulusId;
         return hash;
     }
 
@@ -63,10 +63,10 @@ public class ModulusSchedulePK implements Serializable {
             return false;
         }
         ModulusSchedulePK other = (ModulusSchedulePK) object;
-        if (this.modulusId != other.modulusId) {
+        if (this.programPeriodId != other.programPeriodId) {
             return false;
         }
-        if (this.programPeriodId != other.programPeriodId) {
+        if (this.modulusId != other.modulusId) {
             return false;
         }
         return true;
@@ -74,7 +74,7 @@ public class ModulusSchedulePK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.ModulusSchedulePK[ modulusId=" + modulusId + ", programPeriodId=" + programPeriodId + " ]";
+        return "com.system.demo.persistence.entity.ModulusSchedulePK[ programPeriodId=" + programPeriodId + ", modulusId=" + modulusId + " ]";
     }
     
 }

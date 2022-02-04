@@ -111,7 +111,7 @@ public class AssistanceStatus implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.AssistanceStatus[ assistanceStatusId=" + assistanceStatusId + " ]";
+        return "com.system.demo.persistence.entity.AssistanceStatus[ assistanceStatusId=" + assistanceStatusId + " ]";
     }
     
 }

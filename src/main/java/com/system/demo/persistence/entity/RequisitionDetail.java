@@ -189,7 +189,7 @@ public class RequisitionDetail implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.RequisitionDetail[ requisitionDetailId=" + requisitionDetailId + " ]";
+        return "com.system.demo.persistence.entity.RequisitionDetail[ requisitionDetailId=" + requisitionDetailId + " ]";
     }
     
 }

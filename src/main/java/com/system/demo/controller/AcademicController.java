@@ -204,7 +204,8 @@ public class AcademicController {
 	        this.index++;
 	        char state = SYSTEM_STATE_ACTIVE;
 	        Program program = new Program(idProgram,index,programRegister.getName(),programRegister.getAcronym(),
-	        		programRegister.getDescription(), programRegister.getArea(), state);
+	        		programRegister.getArea(), state);
+	        program.setProgramDescription(programRegister.getDescription());
 	        if(programRegister.getImage()!=null) program.setProgramImage(programRegister.getImage());
 	        try {
 				programService.createProgram(program);
@@ -321,7 +322,8 @@ public class AcademicController {
 	        if(bindingResult.hasErrors())
 	            return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
 	        Long idPedPeriod = uI.uniqid();
-	        PedagogicalPeriod pedPeriod = pedagogicalPeriodService.createPedagogicalPeriod(new PedagogicalPeriod(idPedPeriod,
+	        int index = 1;
+	        PedagogicalPeriod pedPeriod = pedagogicalPeriodService.createPedagogicalPeriod(new PedagogicalPeriod(idPedPeriod, index,
 	        		periodRegister.getName(), periodRegister.getModality(), periodRegister.getYear(), 'A'));
 	       if(periodRegister.isBlockRegistration()) {
 	    	   	List<Program> programs = programService.getProgramByState('A');
@@ -329,8 +331,10 @@ public class AcademicController {
 		        for(Program program:programs) {
 		        	Long idProgPeriod = uI.uniqid();
 		        	String description = program.getProgramName()+"-"+periodRegister.getYear();
-		        	ProgramPeriod progPeriod = new ProgramPeriod(idProgPeriod, description, i, periodRegister.getPayEnrollmet(), 
-		        			periodRegister.getPayPension(), periodRegister.getDateOpening(), periodRegister.getDateClosing(), 'A');
+		        	ProgramPeriod progPeriod = new ProgramPeriod(idProgPeriod, i, description, periodRegister.getPayEnrollmet(), 
+		        			periodRegister.getPayPension(), periodRegister.getDateOpening(), periodRegister.getDateClosingEnrollmet(), 
+		        			periodRegister.getDateClosing(), 'A');
+		        	progPeriod.setProgramPeriodDescription(description);
 		        	progPeriod.setPedagogicalPeriodId(pedPeriod);
 		        	progPeriod.setProgramId(program);
 		        	programPeriodService.createProgramPeriod(progPeriod);

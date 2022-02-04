@@ -74,7 +74,7 @@ public class RoleViewPK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.RoleViewPK[ interfaceViewId=" + interfaceViewId + ", roleId=" + roleId + " ]";
+        return "com.system.demo.persistence.entity.RoleViewPK[ interfaceViewId=" + interfaceViewId + ", roleId=" + roleId + " ]";
     }
     
 }

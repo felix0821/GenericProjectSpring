@@ -16,7 +16,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -25,16 +24,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * @author Felix
  */
 @Entity
-@Table(name = "role", uniqueConstraints = {
-	    @UniqueConstraint(columnNames = {"role_name"})})
+@Table(name = "role")
 @NamedQueries({
     @NamedQuery(name = "Role.findAll", query = "SELECT r FROM Role r"),
     @NamedQuery(name = "Role.findByRoleId", query = "SELECT r FROM Role r WHERE r.roleId = :roleId"),
     @NamedQuery(name = "Role.findByRoleName", query = "SELECT r FROM Role r WHERE r.roleName = :roleName"),
     @NamedQuery(name = "Role.findByRoleDescription", query = "SELECT r FROM Role r WHERE r.roleDescription = :roleDescription"),
-    @NamedQuery(name = "Role.findByRoleState", query = "SELECT r FROM Role r WHERE r.roleState = :roleState"),
     @NamedQuery(name = "Role.findByRoleType", query = "SELECT r FROM Role r WHERE r.roleType = :roleType"),
-    @NamedQuery(name = "Role.findByRoleNotPersonId", query = "SELECT r FROM Role r WHERE r.roleId NOT IN (SELECT p.personRolePK.roleId FROM PersonRole p WHERE p.personRolePK.personId = :personId)")})
+    @NamedQuery(name = "Role.findByRoleState", query = "SELECT r FROM Role r WHERE r.roleState = :roleState")})
 public class Role implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -48,17 +45,20 @@ public class Role implements Serializable {
     @Column(name = "role_description", length = 128)
     private String roleDescription;
     @Basic(optional = false)
-    @Column(name = "role_state", nullable = false)
-    private Character roleState;
-    @Basic(optional = false)
     @Column(name = "role_type", nullable = false)
     private Character roleType;
+    @Basic(optional = false)
+    @Column(name = "role_state", nullable = false)
+    private Character roleState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "role")
     @JsonIgnore
     private Collection<PersonRole> personRoleCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "role")
     @JsonIgnore
     private Collection<RequisitionAccessRole> requisitionAccessRoleCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "role")
+    @JsonIgnore
+    private Collection<CourseRole> courseRoleCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "role")
     @JsonIgnore
     private Collection<Access> accessCollection;
@@ -88,11 +88,11 @@ public class Role implements Serializable {
         this.roleId = roleId;
     }
 
-    public Role(Long roleId, String roleName, Character roleState, Character roleType) {
+    public Role(Long roleId, String roleName, Character roleType, Character roleState) {
         this.roleId = roleId;
         this.roleName = roleName;
-        this.roleState = roleState;
         this.roleType = roleType;
+        this.roleState = roleState;
     }
 
     public Long getRoleId() {
@@ -119,20 +119,20 @@ public class Role implements Serializable {
         this.roleDescription = roleDescription;
     }
 
-    public Character getRoleState() {
-        return roleState;
-    }
-
-    public void setRoleState(Character roleState) {
-        this.roleState = roleState;
-    }
-
     public Character getRoleType() {
         return roleType;
     }
 
     public void setRoleType(Character roleType) {
         this.roleType = roleType;
+    }
+
+    public Character getRoleState() {
+        return roleState;
+    }
+
+    public void setRoleState(Character roleState) {
+        this.roleState = roleState;
     }
 
     public Collection<PersonRole> getPersonRoleCollection() {
@@ -149,6 +149,14 @@ public class Role implements Serializable {
 
     public void setRequisitionAccessRoleCollection(Collection<RequisitionAccessRole> requisitionAccessRoleCollection) {
         this.requisitionAccessRoleCollection = requisitionAccessRoleCollection;
+    }
+
+    public Collection<CourseRole> getCourseRoleCollection() {
+        return courseRoleCollection;
+    }
+
+    public void setCourseRoleCollection(Collection<CourseRole> courseRoleCollection) {
+        this.courseRoleCollection = courseRoleCollection;
     }
 
     public Collection<Access> getAccessCollection() {
@@ -229,7 +237,7 @@ public class Role implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.Role[ roleId=" + roleId + " ]";
+        return "com.system.demo.persistence.entity.Role[ roleId=" + roleId + " ]";
     }
     
 }

@@ -115,7 +115,7 @@ public class ReportDetail implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.ReportDetail[ reportDetailId=" + reportDetailId + " ]";
+        return "com.system.demo.persistence.entity.ReportDetail[ reportDetailId=" + reportDetailId + " ]";
     }
     
 }

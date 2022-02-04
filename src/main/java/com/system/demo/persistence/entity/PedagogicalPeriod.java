@@ -26,6 +26,7 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(name = "PedagogicalPeriod.findAll", query = "SELECT p FROM PedagogicalPeriod p"),
     @NamedQuery(name = "PedagogicalPeriod.findByPedagogicalPeriodId", query = "SELECT p FROM PedagogicalPeriod p WHERE p.pedagogicalPeriodId = :pedagogicalPeriodId"),
+    @NamedQuery(name = "PedagogicalPeriod.findByPedagogicalPeriodIndex", query = "SELECT p FROM PedagogicalPeriod p WHERE p.pedagogicalPeriodIndex = :pedagogicalPeriodIndex"),
     @NamedQuery(name = "PedagogicalPeriod.findByPedagogicalPeriodName", query = "SELECT p FROM PedagogicalPeriod p WHERE p.pedagogicalPeriodName = :pedagogicalPeriodName"),
     @NamedQuery(name = "PedagogicalPeriod.findByPedagogicalPeriodDescription", query = "SELECT p FROM PedagogicalPeriod p WHERE p.pedagogicalPeriodDescription = :pedagogicalPeriodDescription"),
     @NamedQuery(name = "PedagogicalPeriod.findByPedagogicalPeriodModality", query = "SELECT p FROM PedagogicalPeriod p WHERE p.pedagogicalPeriodModality = :pedagogicalPeriodModality"),
@@ -38,6 +39,9 @@ public class PedagogicalPeriod implements Serializable {
     @Basic(optional = false)
     @Column(name = "pedagogical_period_id", nullable = false)
     private Long pedagogicalPeriodId;
+    @Basic(optional = false)
+    @Column(name = "pedagogical_period_index", nullable = false)
+    private int pedagogicalPeriodIndex;
     @Basic(optional = false)
     @Column(name = "pedagogical_period_name", nullable = false, length = 32)
     private String pedagogicalPeriodName;
@@ -62,8 +66,9 @@ public class PedagogicalPeriod implements Serializable {
         this.pedagogicalPeriodId = pedagogicalPeriodId;
     }
 
-    public PedagogicalPeriod(Long pedagogicalPeriodId, String pedagogicalPeriodName, Character pedagogicalPeriodModality, int pedagogicalPeriodYear, Character pedagogicalPeriodState) {
+    public PedagogicalPeriod(Long pedagogicalPeriodId, int pedagogicalPeriodIndex, String pedagogicalPeriodName, Character pedagogicalPeriodModality, int pedagogicalPeriodYear, Character pedagogicalPeriodState) {
         this.pedagogicalPeriodId = pedagogicalPeriodId;
+        this.pedagogicalPeriodIndex = pedagogicalPeriodIndex;
         this.pedagogicalPeriodName = pedagogicalPeriodName;
         this.pedagogicalPeriodModality = pedagogicalPeriodModality;
         this.pedagogicalPeriodYear = pedagogicalPeriodYear;
@@ -76,6 +81,14 @@ public class PedagogicalPeriod implements Serializable {
 
     public void setPedagogicalPeriodId(Long pedagogicalPeriodId) {
         this.pedagogicalPeriodId = pedagogicalPeriodId;
+    }
+
+    public int getPedagogicalPeriodIndex() {
+        return pedagogicalPeriodIndex;
+    }
+
+    public void setPedagogicalPeriodIndex(int pedagogicalPeriodIndex) {
+        this.pedagogicalPeriodIndex = pedagogicalPeriodIndex;
     }
 
     public String getPedagogicalPeriodName() {
@@ -148,7 +161,7 @@ public class PedagogicalPeriod implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.PedagogicalPeriod[ pedagogicalPeriodId=" + pedagogicalPeriodId + " ]";
+        return "com.system.demo.persistence.entity.PedagogicalPeriod[ pedagogicalPeriodId=" + pedagogicalPeriodId + " ]";
     }
     
 }

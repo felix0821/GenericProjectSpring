@@ -74,7 +74,7 @@ public class AccessPK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.AccessPK[ roleId=" + roleId + ", resourceId=" + resourceId + " ]";
+        return "com.system.demo.persistence.entity.AccessPK[ roleId=" + roleId + ", resourceId=" + resourceId + " ]";
     }
     
 }

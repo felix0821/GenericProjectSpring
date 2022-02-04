@@ -74,7 +74,7 @@ public class ReportDataPK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.ReportDataPK[ dataId=" + dataId + ", reportId=" + reportId + " ]";
+        return "com.system.demo.persistence.entity.ReportDataPK[ dataId=" + dataId + ", reportId=" + reportId + " ]";
     }
     
 }

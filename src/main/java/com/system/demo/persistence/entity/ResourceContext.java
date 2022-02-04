@@ -112,7 +112,7 @@ public class ResourceContext implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.ResourceContext[ resourceContextPK=" + resourceContextPK + " ]";
+        return "com.system.demo.persistence.entity.ResourceContext[ resourceContextPK=" + resourceContextPK + " ]";
     }
     
 }

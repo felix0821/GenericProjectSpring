@@ -12,7 +12,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -22,6 +21,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  *
@@ -87,7 +88,7 @@ public class Person implements Serializable {
     private Character personState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
     private Collection<EnrollmentProgramPeriod> enrollmentProgramPeriodCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
     private Collection<PersonRole> personRoleCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
     private Collection<PersonDataDetail> personDataDetailCollection;
@@ -113,10 +114,11 @@ public class Person implements Serializable {
     private Collection<EnrollmentCourse> enrollmentCourseCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId")
     private Collection<RequisitionStatusDetail> requisitionStatusDetailCollection;
-
-    @Transient
-	private String confirmPassword;
     
+    @Transient
+    @JsonIgnore
+	private String confirmPassword;
+
     public Person() {
     }
 
@@ -375,7 +377,7 @@ public class Person implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.Person[ personId=" + personId + " ]";
+        return "com.system.demo.persistence.entity.Person[ personId=" + personId + " ]";
     }
     
 }

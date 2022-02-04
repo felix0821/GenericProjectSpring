@@ -118,17 +118,16 @@ public class PersonController {
 	        PersonIdentificationDocument dniFromPerson = null;
 	        String dni=null;
 	        try {
-	        	dniFromPerson = personIdentDocService.personIdentificationDocumentById(1L, person.getPersonId());
+	        	dniFromPerson = personIdentDocService.getPersonIdentificationDocumentById(SYSTEM_IDENTIFICATION_DNI, 
+	        			person.getPersonId()).get();
 	        	dni = dniFromPerson.getPersonIdentificationDocumentValue();
 	        } catch (Exception e) {
 	        	System.out.println(e);
 	        }
-	        
 	        PersonProfileDto personProfileDto = new PersonProfileDto(person.getPersonId(), person.getPersonUsername(), person.getPersonName(),
 	        		person.getPersonLastnameFather(), person.getPersonLastnameMother(), person.getPersonEmail(), dni, 
 	        		person.getPersonDateBirth(), person.getPersonUrlProfilepicture());
 	        return new ResponseEntity<PersonProfileDto>(personProfileDto, HttpStatus.OK);
-	        //return new ResponseEntity(new Message("BLOQUEDasa"), HttpStatus.OK);
 		}
 		catch (Exception e) {
         	return new ResponseEntity(new Message("BLOQUED"), HttpStatus.BAD_REQUEST);
@@ -286,12 +285,17 @@ public class PersonController {
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@GetMapping(URL_PERSONxROLES_REGISTER_GET)
 	public ResponseEntity<?> personRolesRegisterForm(@PathVariable(name ="personId")Long id) {
-		List<DropdownDataDto> rolesDto = new ArrayList<>();
-		Iterable<Role> rolesNotPerson = roleService.getRolesByNotPersonId(id);
-		for(Role role: rolesNotPerson) {
-			rolesDto.add(new DropdownDataDto(role.getRoleId(), role.getRoleName()));
+		try {
+			List<DropdownDataDto> rolesDto = new ArrayList<>();
+			Iterable<Role> rolesNotPerson = roleService.getRolesByNotPersonId(id);
+			for(Role role: rolesNotPerson) {
+				rolesDto.add(new DropdownDataDto(role.getRoleId(), role.getRoleName()));
+			}
+			return new ResponseEntity<List<DropdownDataDto>>(rolesDto, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity(new Message(SYSTEM_ERROR), HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<List<DropdownDataDto>>(rolesDto, HttpStatus.OK);
 	}
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
@@ -329,6 +333,7 @@ public class PersonController {
 	public String usernameFromToken(HttpHeaders headers) {
 		final String authorizationHeaderValue = headers.getFirst(HttpHeaders.AUTHORIZATION);
 		String token = authorizationHeaderValue.substring(7, authorizationHeaderValue.length());
+		//System.out.println("----------------"+jwtProvider.getIdFromToken(token));
 		String usernameFromToken = jwtProvider.getUsernameFromToken(token);
 		return usernameFromToken;
 	}

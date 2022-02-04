@@ -16,20 +16,24 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /**
  *
  * @author Felix
  */
 @Entity
-@Table(name = "resource")
+@Table(name = "resource", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"resource_url"}),
+    @UniqueConstraint(columnNames = {"resource_name"})})
 @NamedQueries({
     @NamedQuery(name = "Resource.findAll", query = "SELECT r FROM Resource r"),
     @NamedQuery(name = "Resource.findByResourceId", query = "SELECT r FROM Resource r WHERE r.resourceId = :resourceId"),
     @NamedQuery(name = "Resource.findByResourceName", query = "SELECT r FROM Resource r WHERE r.resourceName = :resourceName"),
     @NamedQuery(name = "Resource.findByResourceUrl", query = "SELECT r FROM Resource r WHERE r.resourceUrl = :resourceUrl"),
     @NamedQuery(name = "Resource.findByResourceType", query = "SELECT r FROM Resource r WHERE r.resourceType = :resourceType"),
-    @NamedQuery(name = "Resource.findByResourceState", query = "SELECT r FROM Resource r WHERE r.resourceState = :resourceState")})
+    @NamedQuery(name = "Resource.findByResourceState", query = "SELECT r FROM Resource r WHERE r.resourceState = :resourceState"),
+    @NamedQuery(name = "Resource.findByResourceIndex", query = "SELECT r FROM Resource r WHERE r.resourceIndex = :resourceIndex")})
 public class Resource implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -49,11 +53,14 @@ public class Resource implements Serializable {
     @Basic(optional = false)
     @Column(name = "resource_state", nullable = false)
     private Character resourceState;
+    @Basic(optional = false)
+    @Column(name = "resource_index", nullable = false)
+    private int resourceIndex;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "resource")
     private Collection<Access> accessCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "resource")
     private Collection<ResourceContext> resourceContextCollection;
-    @OneToMany(mappedBy = "resourceId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "resourceId")
     private Collection<InterfaceView> interfaceViewCollection;
 
     public Resource() {
@@ -63,12 +70,13 @@ public class Resource implements Serializable {
         this.resourceId = resourceId;
     }
 
-    public Resource(Long resourceId, String resourceName, String resourceUrl, Character resourceType, Character resourceState) {
+    public Resource(Long resourceId, String resourceName, String resourceUrl, Character resourceType, Character resourceState, int resourceIndex) {
         this.resourceId = resourceId;
         this.resourceName = resourceName;
         this.resourceUrl = resourceUrl;
         this.resourceType = resourceType;
         this.resourceState = resourceState;
+        this.resourceIndex = resourceIndex;
     }
 
     public Long getResourceId() {
@@ -109,6 +117,14 @@ public class Resource implements Serializable {
 
     public void setResourceState(Character resourceState) {
         this.resourceState = resourceState;
+    }
+
+    public int getResourceIndex() {
+        return resourceIndex;
+    }
+
+    public void setResourceIndex(int resourceIndex) {
+        this.resourceIndex = resourceIndex;
     }
 
     public Collection<Access> getAccessCollection() {
@@ -157,7 +173,7 @@ public class Resource implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.Resource[ resourceId=" + resourceId + " ]";
+        return "com.system.demo.persistence.entity.Resource[ resourceId=" + resourceId + " ]";
     }
     
 }

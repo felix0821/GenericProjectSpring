@@ -53,7 +53,7 @@ public class AuthenticationController {
                 return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
             Authentication authentication =
                     authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userLogin.getUsername(), userLogin.getPassword()));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+        	SecurityContextHolder.getContext().setAuthentication(authentication);
             String jwt = jwtProvider.generateToken(authentication);
             UserDetails userDetails = (UserDetails)authentication.getPrincipal();
             String key = encripId.encript(userDetails.getUsername());

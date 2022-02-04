@@ -13,7 +13,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -51,17 +50,17 @@ public class CourseDetail implements Serializable {
     private Character courseGroupState;
     @Column(name = "course_group_teaching_curriculum", length = 256)
     private String courseGroupTeachingCurriculum;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "courseDetail")
+    private Collection<CourseRole> courseRoleCollection;
     @JoinColumn(name = "course_id", referencedColumnName = "course_id", nullable = false)
     @ManyToOne(optional = false)
     private Course courseId;
     @JoinColumn(name = "group_id", referencedColumnName = "group_id", nullable = false)
     @ManyToOne(optional = false)
     private GroupTeaching groupId;
-    @JoinColumns({
-        @JoinColumn(name = "modulus_id", referencedColumnName = "modulus_id", nullable = false),
-        @JoinColumn(name = "program_period_id", referencedColumnName = "program_period_id", nullable = false)})
-    @ManyToOne(optional = false)
-    private ModulusSchedule modulusSchedule;
+    @JoinColumn(name = "program_period_id", referencedColumnName = "program_period_id")
+    @ManyToOne
+    private ProgramPeriod programPeriodId;
     @OneToMany(mappedBy = "courseDetailId")
     private Collection<QualificationCriteria> qualificationCriteriaCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "courseDetail")
@@ -123,6 +122,14 @@ public class CourseDetail implements Serializable {
         this.courseGroupTeachingCurriculum = courseGroupTeachingCurriculum;
     }
 
+    public Collection<CourseRole> getCourseRoleCollection() {
+        return courseRoleCollection;
+    }
+
+    public void setCourseRoleCollection(Collection<CourseRole> courseRoleCollection) {
+        this.courseRoleCollection = courseRoleCollection;
+    }
+
     public Course getCourseId() {
         return courseId;
     }
@@ -139,12 +146,12 @@ public class CourseDetail implements Serializable {
         this.groupId = groupId;
     }
 
-    public ModulusSchedule getModulusSchedule() {
-        return modulusSchedule;
+    public ProgramPeriod getProgramPeriodId() {
+        return programPeriodId;
     }
 
-    public void setModulusSchedule(ModulusSchedule modulusSchedule) {
-        this.modulusSchedule = modulusSchedule;
+    public void setProgramPeriodId(ProgramPeriod programPeriodId) {
+        this.programPeriodId = programPeriodId;
     }
 
     public Collection<QualificationCriteria> getQualificationCriteriaCollection() {
@@ -193,7 +200,7 @@ public class CourseDetail implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.CourseDetail[ courseDetailId=" + courseDetailId + " ]";
+        return "com.system.demo.persistence.entity.CourseDetail[ courseDetailId=" + courseDetailId + " ]";
     }
     
 }

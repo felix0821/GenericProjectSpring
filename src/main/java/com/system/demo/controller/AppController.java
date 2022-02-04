@@ -125,13 +125,22 @@ public class AppController {
 			//generateRole();
 			//generateDocument();
 			//generatePerson();
-			model.addAttribute("page", "completed.html");
+			//model.addAttribute("page", "completed.html");
 		} catch (Exception e) {
 			model.addAttribute("page", "error.html");
 			e.printStackTrace();
 		}
 		return "display-page";
 	}
+	
+	/*private void editPerson() {
+		Person personEdit = null;
+        try {
+			personEdit = personService.getPersonById(userUpdate.getId());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}*/
 	
 	private void generateData()throws Exception {
 		DataCategory requisition;

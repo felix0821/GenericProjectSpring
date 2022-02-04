@@ -28,9 +28,9 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(name = "InterfaceView.findAll", query = "SELECT i FROM InterfaceView i"),
     @NamedQuery(name = "InterfaceView.findByInterfaceViewId", query = "SELECT i FROM InterfaceView i WHERE i.interfaceViewId = :interfaceViewId"),
+    @NamedQuery(name = "InterfaceView.findByInterfaceViewIndex", query = "SELECT i FROM InterfaceView i WHERE i.interfaceViewIndex = :interfaceViewIndex"),
     @NamedQuery(name = "InterfaceView.findByInterfaceViewName", query = "SELECT i FROM InterfaceView i WHERE i.interfaceViewName = :interfaceViewName"),
-    @NamedQuery(name = "InterfaceView.findByInterfaceViewSite", query = "SELECT i FROM InterfaceView i WHERE i.interfaceViewSite = :interfaceViewSite"),
-    @NamedQuery(name = "InterfaceView.findByInterfaceViewIndex", query = "SELECT i FROM InterfaceView i WHERE i.interfaceViewIndex = :interfaceViewIndex")})
+    @NamedQuery(name = "InterfaceView.findByInterfaceViewSite", query = "SELECT i FROM InterfaceView i WHERE i.interfaceViewSite = :interfaceViewSite")})
 public class InterfaceView implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -39,18 +39,23 @@ public class InterfaceView implements Serializable {
     @Column(name = "interface_view_id", nullable = false)
     private Long interfaceViewId;
     @Basic(optional = false)
+    @Column(name = "interface_view_index", nullable = false)
+    private int interfaceViewIndex;
+    @Basic(optional = false)
     @Column(name = "interface_view_name", nullable = false, length = 64)
     private String interfaceViewName;
     @Basic(optional = false)
     @Column(name = "interface_view_site", nullable = false)
     private Character interfaceViewSite;
-    @Basic(optional = false)
-    @Column(name = "interface_view_index", nullable = false)
-    private int interfaceViewIndex;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "interfaceView")
     private Collection<RoleView> roleViewCollection;
-    @JoinColumn(name = "resource_id", referencedColumnName = "resource_id")
+    @OneToMany(mappedBy = "parentInterfaceViewId")
+    private Collection<InterfaceView> interfaceViewCollection;
+    @JoinColumn(name = "parent_interface_view_id", referencedColumnName = "interface_view_id")
     @ManyToOne
+    private InterfaceView parentInterfaceViewId;
+    @JoinColumn(name = "resource_id", referencedColumnName = "resource_id", nullable = false)
+    @ManyToOne(optional = false)
     private Resource resourceId;
 
     public InterfaceView() {
@@ -60,11 +65,11 @@ public class InterfaceView implements Serializable {
         this.interfaceViewId = interfaceViewId;
     }
 
-    public InterfaceView(Long interfaceViewId, String interfaceViewName, Character interfaceViewSite, int interfaceViewIndex) {
+    public InterfaceView(Long interfaceViewId, int interfaceViewIndex, String interfaceViewName, Character interfaceViewSite) {
         this.interfaceViewId = interfaceViewId;
+        this.interfaceViewIndex = interfaceViewIndex;
         this.interfaceViewName = interfaceViewName;
         this.interfaceViewSite = interfaceViewSite;
-        this.interfaceViewIndex = interfaceViewIndex;
     }
 
     public Long getInterfaceViewId() {
@@ -73,6 +78,14 @@ public class InterfaceView implements Serializable {
 
     public void setInterfaceViewId(Long interfaceViewId) {
         this.interfaceViewId = interfaceViewId;
+    }
+
+    public int getInterfaceViewIndex() {
+        return interfaceViewIndex;
+    }
+
+    public void setInterfaceViewIndex(int interfaceViewIndex) {
+        this.interfaceViewIndex = interfaceViewIndex;
     }
 
     public String getInterfaceViewName() {
@@ -91,20 +104,28 @@ public class InterfaceView implements Serializable {
         this.interfaceViewSite = interfaceViewSite;
     }
 
-    public int getInterfaceViewIndex() {
-        return interfaceViewIndex;
-    }
-
-    public void setInterfaceViewIndex(int interfaceViewIndex) {
-        this.interfaceViewIndex = interfaceViewIndex;
-    }
-
     public Collection<RoleView> getRoleViewCollection() {
         return roleViewCollection;
     }
 
     public void setRoleViewCollection(Collection<RoleView> roleViewCollection) {
         this.roleViewCollection = roleViewCollection;
+    }
+
+    public Collection<InterfaceView> getInterfaceViewCollection() {
+        return interfaceViewCollection;
+    }
+
+    public void setInterfaceViewCollection(Collection<InterfaceView> interfaceViewCollection) {
+        this.interfaceViewCollection = interfaceViewCollection;
+    }
+
+    public InterfaceView getParentInterfaceViewId() {
+        return parentInterfaceViewId;
+    }
+
+    public void setParentInterfaceViewId(InterfaceView parentInterfaceViewId) {
+        this.parentInterfaceViewId = parentInterfaceViewId;
     }
 
     public Resource getResourceId() {
@@ -137,7 +158,7 @@ public class InterfaceView implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.InterfaceView[ interfaceViewId=" + interfaceViewId + " ]";
+        return "com.system.demo.persistence.entity.InterfaceView[ interfaceViewId=" + interfaceViewId + " ]";
     }
     
 }

@@ -186,7 +186,7 @@ public class Data implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.Data[ dataId=" + dataId + " ]";
+        return "com.system.demo.persistence.entity.Data[ dataId=" + dataId + " ]";
     }
     
 }

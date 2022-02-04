@@ -117,11 +117,11 @@ public class RequisitionController {
 			RequisitionDetail requisitionDetail = new RequisitionDetail(idReqDetail, checking, dateRegister);
 			//	Objeto movimiento financiero
 			Long idMovFin = 1L;
-			/*FinancialMovement f = financialMovementService.getById(idMovFin);
+			FinancialMovement f = financialMovementService.getById(idMovFin);
 			Long idFinDetail = uI.uniqid();
 			FinancialMovementDetail financialMovementDetail = new FinancialMovementDetail(idFinDetail, requisitionRegisterDto.getAmount(),
 					dateRegister, 'A','A');
-			financialMovementDetail.setFinancialMovementId(f);*/
+			financialMovementDetail.setFinancialMovementId(f);
 			//financialMovementDetailService.createFinancialMovementDetail(financialMovementDetail);
 			RequisitionDataDetail program = new RequisitionDataDetail(1L,1L,idReqDetail);
 			program.setRequisitionDataDetailValue(requisitionRegisterDto.getIdProgram().toString());

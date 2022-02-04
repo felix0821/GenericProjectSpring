@@ -30,7 +30,6 @@ import javax.persistence.Table;
     @NamedQuery(name = "Modulus.findByModulusId", query = "SELECT m FROM Modulus m WHERE m.modulusId = :modulusId"),
     @NamedQuery(name = "Modulus.findByModulusIndex", query = "SELECT m FROM Modulus m WHERE m.modulusIndex = :modulusIndex"),
     @NamedQuery(name = "Modulus.findByModulusName", query = "SELECT m FROM Modulus m WHERE m.modulusName = :modulusName"),
-    @NamedQuery(name = "Modulus.findByModulusAcronym", query = "SELECT m FROM Modulus m WHERE m.modulusAcronym = :modulusAcronym"),
     @NamedQuery(name = "Modulus.findByModulusDescription", query = "SELECT m FROM Modulus m WHERE m.modulusDescription = :modulusDescription"),
     @NamedQuery(name = "Modulus.findByModulusState", query = "SELECT m FROM Modulus m WHERE m.modulusState = :modulusState")})
 public class Modulus implements Serializable {
@@ -46,9 +45,6 @@ public class Modulus implements Serializable {
     @Basic(optional = false)
     @Column(name = "modulus_name", nullable = false, length = 64)
     private String modulusName;
-    @Basic(optional = false)
-    @Column(name = "modulus_acronym", nullable = false, length = 4)
-    private String modulusAcronym;
     @Column(name = "modulus_description", length = 512)
     private String modulusDescription;
     @Basic(optional = false)
@@ -58,8 +54,8 @@ public class Modulus implements Serializable {
     private Collection<Course> courseCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "modulus")
     private Collection<ModulusSchedule> modulusScheduleCollection;
-    @JoinColumn(name = "program_id", referencedColumnName = "program_id", nullable = false)
-    @ManyToOne(optional = false)
+    @JoinColumn(name = "program_id", referencedColumnName = "program_id")
+    @ManyToOne
     private Program programId;
 
     public Modulus() {
@@ -69,11 +65,10 @@ public class Modulus implements Serializable {
         this.modulusId = modulusId;
     }
 
-    public Modulus(Long modulusId, int modulusIndex, String modulusName, String modulusAcronym, Character modulusState) {
+    public Modulus(Long modulusId, int modulusIndex, String modulusName, Character modulusState) {
         this.modulusId = modulusId;
         this.modulusIndex = modulusIndex;
         this.modulusName = modulusName;
-        this.modulusAcronym = modulusAcronym;
         this.modulusState = modulusState;
     }
 
@@ -99,14 +94,6 @@ public class Modulus implements Serializable {
 
     public void setModulusName(String modulusName) {
         this.modulusName = modulusName;
-    }
-
-    public String getModulusAcronym() {
-        return modulusAcronym;
-    }
-
-    public void setModulusAcronym(String modulusAcronym) {
-        this.modulusAcronym = modulusAcronym;
     }
 
     public String getModulusDescription() {
@@ -171,7 +158,7 @@ public class Modulus implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.Modulus[ modulusId=" + modulusId + " ]";
+        return "com.system.demo.persistence.entity.Modulus[ modulusId=" + modulusId + " ]";
     }
     
 }

@@ -98,7 +98,7 @@ public class RequisitionUses implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.RequisitionUses[ requisitionUsesId=" + requisitionUsesId + " ]";
+        return "com.system.demo.persistence.entity.RequisitionUses[ requisitionUsesId=" + requisitionUsesId + " ]";
     }
     
 }

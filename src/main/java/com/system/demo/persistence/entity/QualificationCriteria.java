@@ -137,7 +137,7 @@ public class QualificationCriteria implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.QualificationCriteria[ qualificationCriteriaId=" + qualificationCriteriaId + " ]";
+        return "com.system.demo.persistence.entity.QualificationCriteria[ qualificationCriteriaId=" + qualificationCriteriaId + " ]";
     }
     
 }

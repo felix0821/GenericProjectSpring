@@ -138,7 +138,7 @@ public class EnrollmentQualification implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.EnrollmentQualification[ enrollmentQualificationPK=" + enrollmentQualificationPK + " ]";
+        return "com.system.demo.persistence.entity.EnrollmentQualification[ enrollmentQualificationPK=" + enrollmentQualificationPK + " ]";
     }
     
 }

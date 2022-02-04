@@ -124,7 +124,7 @@ public class GroupTeaching implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.GroupTeaching[ groupId=" + groupId + " ]";
+        return "com.system.demo.persistence.entity.GroupTeaching[ groupId=" + groupId + " ]";
     }
     
 }

@@ -122,7 +122,7 @@ public class DataCategory implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.DataCategory[ dataCategoryId=" + dataCategoryId + " ]";
+        return "com.system.demo.persistence.entity.DataCategory[ dataCategoryId=" + dataCategoryId + " ]";
     }
     
 }

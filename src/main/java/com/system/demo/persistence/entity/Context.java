@@ -134,7 +134,7 @@ public class Context implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.Context[ contextId=" + contextId + " ]";
+        return "com.system.demo.persistence.entity.Context[ contextId=" + contextId + " ]";
     }
     
 }

@@ -5,9 +5,11 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.system.demo.persistence.entity.Person;
+import com.system.demo.persistence.entity.PersonRole;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class JwtUser implements UserDetails {
@@ -15,36 +17,47 @@ public class JwtUser implements UserDetails {
 	 * 
 	 */
 	private static final long serialVersionUID = -6250234144260634731L;
+	private Long id;
     private String username;
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public JwtUser(String username, String password, Collection<? extends GrantedAuthority> authorities) {
+    public JwtUser(Long id, String username, String password, 
+    		Collection<? extends GrantedAuthority> authorities) {
+    	this.id = id;
         this.username = username;
         this.password = password;
         this.authorities = authorities;
     }
 
-    public static JwtUser build(Person person){
+    public static JwtUser build(Person person, Collection<PersonRole> personRoles){
         List<GrantedAuthority> authorities =
-                person.getPersonRoleCollection().stream().map(role -> new SimpleGrantedAuthority(
+        		personRoles.stream().map(role -> new SimpleGrantedAuthority(
                 		role.getRole().getRoleName())).collect(Collectors.toList());
-        return new JwtUser(person.getPersonUsername(), person.getPersonPassword(), authorities);
+        return new JwtUser(
+        		person.getPersonId(), 
+        		person.getPersonUsername(), 
+        		person.getPersonPassword(), 
+        		authorities);
+    }
+    
+    public Long getId() {
+    	return this.id;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
+        return this.authorities;
     }
 
     @Override
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
     @Override
     public String getUsername() {
-        return username;
+        return this.username;
     }
 
     @Override
@@ -65,5 +78,15 @@ public class JwtUser implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+      if (this == o)
+        return true;
+      if (o == null || getClass() != o.getClass())
+        return false;
+      JwtUser user = (JwtUser) o;
+      return Objects.equals(this.id, user.id);
     }
 }

@@ -121,7 +121,7 @@ public class EvaluatedStatus implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.EvaluatedStatus[ evaluatedStatusId=" + evaluatedStatusId + " ]";
+        return "com.system.demo.persistence.entity.EvaluatedStatus[ evaluatedStatusId=" + evaluatedStatusId + " ]";
     }
     
 }

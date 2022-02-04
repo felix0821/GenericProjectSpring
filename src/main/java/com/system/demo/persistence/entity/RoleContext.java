@@ -112,7 +112,7 @@ public class RoleContext implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.RoleContext[ roleContextPK=" + roleContextPK + " ]";
+        return "com.system.demo.persistence.entity.RoleContext[ roleContextPK=" + roleContextPK + " ]";
     }
     
 }

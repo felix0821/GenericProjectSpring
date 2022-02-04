@@ -74,7 +74,7 @@ public class EnrollmentCoursePK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.EnrollmentCoursePK[ personId=" + personId + ", courseDetailId=" + courseDetailId + " ]";
+        return "com.system.demo.persistence.entity.EnrollmentCoursePK[ personId=" + personId + ", courseDetailId=" + courseDetailId + " ]";
     }
     
 }

@@ -25,6 +25,8 @@ public class GenericProjectSystemStatement {
 	public static final Character SYSTEM_GENDER_MALE = 'M';
 	public static final Character SYSTEM_GENDER_FEMALE = 'F';
 	public static final Character SYSTEM_GENDER_UNDEFINED = 'X';
+	//	Recursos identificación de personas
+	public static final Long SYSTEM_IDENTIFICATION_DNI = 1L;
 	/**
 	 *	Route mapping for the system
 	 **/

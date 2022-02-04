@@ -90,7 +90,7 @@ public class RequisitionDataDetailPK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.RequisitionDataDetailPK[ requisitionId=" + requisitionId + ", dataId=" + dataId + ", requisitionDetailId=" + requisitionDetailId + " ]";
+        return "com.system.demo.persistence.entity.RequisitionDataDetailPK[ requisitionId=" + requisitionId + ", dataId=" + dataId + ", requisitionDetailId=" + requisitionDetailId + " ]";
     }
     
 }

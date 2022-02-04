@@ -74,7 +74,7 @@ public class FinancialMovementDataPK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.FinancialMovementDataPK[ financialMovementId=" + financialMovementId + ", dataId=" + dataId + " ]";
+        return "com.system.demo.persistence.entity.FinancialMovementDataPK[ financialMovementId=" + financialMovementId + ", dataId=" + dataId + " ]";
     }
     
 }

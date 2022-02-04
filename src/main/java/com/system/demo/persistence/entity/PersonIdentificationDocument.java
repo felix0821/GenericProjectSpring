@@ -112,7 +112,7 @@ public class PersonIdentificationDocument implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.PersonIdentificationDocument[ personIdentificationDocumentPK=" + personIdentificationDocumentPK + " ]";
+        return "com.system.demo.persistence.entity.PersonIdentificationDocument[ personIdentificationDocumentPK=" + personIdentificationDocumentPK + " ]";
     }
     
 }

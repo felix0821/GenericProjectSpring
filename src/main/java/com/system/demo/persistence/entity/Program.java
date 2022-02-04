@@ -11,7 +11,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -52,8 +51,7 @@ public class Program implements Serializable {
     @Basic(optional = false)
     @Column(name = "program_acronym", nullable = false, length = 4)
     private String programAcronym;
-    @Basic(optional = false)
-    @Column(name = "program_description", nullable = false, length = 512)
+    @Column(name = "program_description", length = 512)
     private String programDescription;
     @Column(name = "program_requirement", length = 128)
     private String programRequirement;
@@ -74,6 +72,8 @@ public class Program implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "programId")
     private Collection<ProgramPeriod> programPeriodCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "programId")
+    private Collection<Course> courseCollection;
+    @OneToMany(mappedBy = "programId")
     private Collection<Modulus> modulusCollection;
 
     public Program() {
@@ -83,12 +83,11 @@ public class Program implements Serializable {
         this.programId = programId;
     }
 
-    public Program(Long programId, int programIndex, String programName, String programAcronym, String programDescription, Character programArea, Character programState) {
+    public Program(Long programId, int programIndex, String programName, String programAcronym, Character programArea, Character programState) {
         this.programId = programId;
         this.programIndex = programIndex;
         this.programName = programName;
         this.programAcronym = programAcronym;
-        this.programDescription = programDescription;
         this.programArea = programArea;
         this.programState = programState;
     }
@@ -197,6 +196,14 @@ public class Program implements Serializable {
         this.programPeriodCollection = programPeriodCollection;
     }
 
+    public Collection<Course> getCourseCollection() {
+        return courseCollection;
+    }
+
+    public void setCourseCollection(Collection<Course> courseCollection) {
+        this.courseCollection = courseCollection;
+    }
+
     public Collection<Modulus> getModulusCollection() {
         return modulusCollection;
     }
@@ -227,7 +234,7 @@ public class Program implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.Program[ programId=" + programId + " ]";
+        return "com.system.demo.persistence.entity.Program[ programId=" + programId + " ]";
     }
     
 }

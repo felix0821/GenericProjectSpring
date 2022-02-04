@@ -131,7 +131,7 @@ public class Report implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.Report[ reportId=" + reportId + " ]";
+        return "com.system.demo.persistence.entity.Report[ reportId=" + reportId + " ]";
     }
     
 }

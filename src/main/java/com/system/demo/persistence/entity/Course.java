@@ -62,9 +62,17 @@ public class Course implements Serializable {
     private Collection<CertificateStudiesDetail> certificateStudiesDetailCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "courseId")
     private Collection<CourseDetail> courseDetailCollection;
+    @OneToMany(mappedBy = "courseEquivalentId")
+    private Collection<Course> courseCollection;
+    @JoinColumn(name = "course_equivalent_id", referencedColumnName = "course_id")
+    @ManyToOne
+    private Course courseEquivalentId;
     @JoinColumn(name = "modulus_id", referencedColumnName = "modulus_id", nullable = false)
     @ManyToOne(optional = false)
     private Modulus modulusId;
+    @JoinColumn(name = "program_id", referencedColumnName = "program_id", nullable = false)
+    @ManyToOne(optional = false)
+    private Program programId;
 
     public Course() {
     }
@@ -154,12 +162,36 @@ public class Course implements Serializable {
         this.courseDetailCollection = courseDetailCollection;
     }
 
+    public Collection<Course> getCourseCollection() {
+        return courseCollection;
+    }
+
+    public void setCourseCollection(Collection<Course> courseCollection) {
+        this.courseCollection = courseCollection;
+    }
+
+    public Course getCourseEquivalentId() {
+        return courseEquivalentId;
+    }
+
+    public void setCourseEquivalentId(Course courseEquivalentId) {
+        this.courseEquivalentId = courseEquivalentId;
+    }
+
     public Modulus getModulusId() {
         return modulusId;
     }
 
     public void setModulusId(Modulus modulusId) {
         this.modulusId = modulusId;
+    }
+
+    public Program getProgramId() {
+        return programId;
+    }
+
+    public void setProgramId(Program programId) {
+        this.programId = programId;
     }
 
     @Override
@@ -184,7 +216,7 @@ public class Course implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.Course[ courseId=" + courseId + " ]";
+        return "com.system.demo.persistence.entity.Course[ courseId=" + courseId + " ]";
     }
     
 }

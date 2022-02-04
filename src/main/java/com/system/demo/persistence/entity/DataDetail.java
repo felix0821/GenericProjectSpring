@@ -111,7 +111,7 @@ public class DataDetail implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.model.DataDetail[ dataDetailId=" + dataDetailId + " ]";
+        return "com.system.demo.persistence.entity.DataDetail[ dataDetailId=" + dataDetailId + " ]";
     }
     
 }
