@@ -49,7 +49,7 @@ public class ConfigurationController {
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@GetMapping(value=URL_CONFIGURATION_PROGRAM_GET)
-	public ResponseEntity<?> academicPeriodForm(@PathVariable(name ="id")Long id) {
+	public ResponseEntity<?> academicPeriodForm() {
 		Iterable<Program> programs = programService.getAllPrograms();
 		List<ConfigurationProgramDto> configurationProgramsDto = new ArrayList<>();
 		for(Program program: programs) {
