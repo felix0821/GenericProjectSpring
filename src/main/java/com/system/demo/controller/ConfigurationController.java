@@ -50,13 +50,18 @@ public class ConfigurationController {
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@GetMapping(value=URL_CONFIGURATION_PROGRAM_GET)
 	public ResponseEntity<?> academicPeriodForm() {
-		Iterable<Program> programs = programService.getAllPrograms();
-		List<ConfigurationProgramDto> configurationProgramsDto = new ArrayList<>();
-		for(Program program: programs) {
-			configurationProgramsDto.add(new ConfigurationProgramDto(program.getProgramId(), program.getProgramIdentifier(), 
-					program.getProgramIndex(), program.getProgramName(), program.getProgramAcronym(), "", program.getProgramState()));
+		try {
+			Iterable<Program> programs = programService.getAllPrograms();
+			List<ConfigurationProgramDto> configurationProgramsDto = new ArrayList<>();
+			for(Program program: programs) {
+				configurationProgramsDto.add(new ConfigurationProgramDto(program.getProgramId(), program.getProgramIdentifier(), 
+						program.getProgramIndex(), program.getProgramName(), program.getProgramAcronym(), "", program.getProgramState()));
+			}
+			return new ResponseEntity<List<ConfigurationProgramDto>>(configurationProgramsDto, HttpStatus.OK);
+		} catch(Exception e) {
+			return new ResponseEntity(new Message(SYSTEM_ERROR), HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity(new Message(SYSTEM_ERROR), HttpStatus.BAD_REQUEST);
+		
 	}
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked"})

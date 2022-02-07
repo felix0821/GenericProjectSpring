@@ -99,7 +99,7 @@ public class AcademicController {
 						pedPeriod.getPedagogicalPeriodModality(), pedPeriod.getPedagogicalPeriodState()));
 			}
 			return new ResponseEntity<List<AcademicPeriodDto>>(academicPedPeriodDto, HttpStatus.OK);
-		}catch(Exception e) {
+		} catch(Exception e) {
 			return new ResponseEntity(new Message(SYSTEM_ERROR), HttpStatus.BAD_REQUEST);
 		}
 	}
