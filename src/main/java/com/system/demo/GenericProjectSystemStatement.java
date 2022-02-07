@@ -69,7 +69,7 @@ public class GenericProjectSystemStatement {
 	public static final String URL_ACADEMIC_PROGRAMxOCCUPATIONAL_REGISTER_POST = "/program-occupational/register";
 	public static final String URL_ACADEMIC_PROGRAMxPERIODS_GET = "/program-periods/{idProgram}";
 	public static final String URL_ACADEMIC_CYCLExREGISTER_POST = "/cycle-register";
-	public static final String URL_ACADEMIC_CYCLExEDIT_GET = "/cycle-edit/{identifier}";
+	public static final String URL_ACADEMIC_CYCLExEDIT_GET = "/cycle-edit";
 	public static final String URL_ACADEMIC_CYCLExEDIT_POST = "/cycle-edit";
 	public static final String URL_ACADEMIC_CYCLE_PROGRAMS_GET = "/{cycle}/programs";
 	public static final String URL_ACADEMIC_CYCLE_PROGRAM_REGISTER_POST = "/{cycle}/program-register";

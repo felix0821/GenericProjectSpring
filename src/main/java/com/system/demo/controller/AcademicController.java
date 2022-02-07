@@ -105,7 +105,7 @@ public class AcademicController {
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@GetMapping(value=URL_ACADEMIC_CYCLExEDIT_GET)
-	public ResponseEntity<?> academicPeriodForm(@PathVariable(name ="identifier")String identifier){
+	public ResponseEntity<?> academicPeriodForm(@RequestParam(name ="identifier")String identifier){
 		//	Buscamos programa por id
 		PedagogicalPeriod periodEdit = null;
 		try {
@@ -149,7 +149,7 @@ public class AcademicController {
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@GetMapping(URL_ACADEMIC_PERIOD_DELETE_GET)
-	public ResponseEntity<?> periodDelete(@PathVariable(name="id")Long id) {
+	public ResponseEntity<?> periodDelete(@RequestParam(name="id")Long id) {
 		try {
 			pedagogicalPeriodService.deletePedagogicalPeriod(id);
 		} catch(Exception e) {
