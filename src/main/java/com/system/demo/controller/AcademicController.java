@@ -94,8 +94,9 @@ public class AcademicController {
 			Iterable<PedagogicalPeriod> pedagogicalPeriods = pedagogicalPeriodService.getAllPedagogicalPeriods();
 			List<AcademicPeriodDto> academicPedPeriodDto = new ArrayList<>();
 			for(PedagogicalPeriod pedPeriod:pedagogicalPeriods) {
-				academicPedPeriodDto.add(new AcademicPeriodDto(pedPeriod.getPedagogicalPeriodIdentifier(), pedPeriod.getPedagogicalPeriodYear(),
-						pedPeriod.getPedagogicalPeriodName(), "",pedPeriod.getPedagogicalPeriodModality(), pedPeriod.getPedagogicalPeriodState()));
+				academicPedPeriodDto.add(new AcademicPeriodDto(pedPeriod.getPedagogicalPeriodId(), pedPeriod.getPedagogicalPeriodIdentifier(), 
+						pedPeriod.getPedagogicalPeriodYear(), pedPeriod.getPedagogicalPeriodName(), "",
+						pedPeriod.getPedagogicalPeriodModality(), pedPeriod.getPedagogicalPeriodState()));
 			}
 			return new ResponseEntity<List<AcademicPeriodDto>>(academicPedPeriodDto, HttpStatus.OK);
 		}catch(Exception e) {
@@ -105,18 +106,18 @@ public class AcademicController {
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@GetMapping(value=URL_ACADEMIC_CYCLExEDIT_GET)
-	public ResponseEntity<?> academicPeriodForm(@RequestParam(name ="identifier")String identifier){
+	public ResponseEntity<?> academicPeriodForm(@RequestParam(name ="id")Long id){
 		//	Buscamos programa por id
 		PedagogicalPeriod periodEdit = null;
 		try {
-			periodEdit = pedagogicalPeriodService.getPedagogicalPeriodByIdentifier(identifier).get();
+			periodEdit = pedagogicalPeriodService.getPedagogicalPeriodById(id);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
 		}
-		AcademicPeriodDto resultDto = new AcademicPeriodDto(periodEdit.getPedagogicalPeriodIdentifier(), periodEdit.getPedagogicalPeriodYear(),
-				periodEdit.getPedagogicalPeriodName(), periodEdit.getPedagogicalPeriodDescription(), periodEdit.getPedagogicalPeriodModality(), 
-				periodEdit.getPedagogicalPeriodState());
+		AcademicPeriodDto resultDto = new AcademicPeriodDto(periodEdit.getPedagogicalPeriodId(), periodEdit.getPedagogicalPeriodIdentifier(), 
+				periodEdit.getPedagogicalPeriodYear(), periodEdit.getPedagogicalPeriodName(), periodEdit.getPedagogicalPeriodDescription(), 
+				periodEdit.getPedagogicalPeriodModality(), periodEdit.getPedagogicalPeriodState());
 		return new ResponseEntity<AcademicPeriodDto>(resultDto, HttpStatus.OK);
 	}
 	
@@ -129,7 +130,7 @@ public class AcademicController {
         //	Buscamos programa por id
         PedagogicalPeriod periodEdit = null;
 		try {
-			periodEdit = pedagogicalPeriodService.getPedagogicalPeriodByIdentifier(periodEditDto.getId()).get();
+			periodEdit = pedagogicalPeriodService.getPedagogicalPeriodById(periodEditDto.getId());
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
@@ -148,7 +149,7 @@ public class AcademicController {
 	}
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
-	@GetMapping(URL_ACADEMIC_PERIOD_DELETE_GET)
+	@GetMapping(URL_ACADEMIC_CYCLExDELETE_GET)
 	public ResponseEntity<?> periodDelete(@RequestParam(name="id")Long id) {
 		try {
 			pedagogicalPeriodService.deletePedagogicalPeriod(id);

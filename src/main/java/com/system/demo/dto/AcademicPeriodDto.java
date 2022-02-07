@@ -6,7 +6,10 @@ import javax.validation.constraints.NotNull;
 public class AcademicPeriodDto {
 	
 	@NotNull(message = "Ingrese un id valido")
-	private String id;
+	private Long id;
+	
+	@NotNull(message = "Ingrese un id valido")
+	private String identifier;
 	
 	@NotNull(message = "Ingrese un año valido")
 	private int year;
@@ -22,11 +25,13 @@ public class AcademicPeriodDto {
 	@NotNull
 	private Character state;
 
-	public AcademicPeriodDto(@NotNull(message = "Ingrese un id valido") String id,
+	public AcademicPeriodDto(@NotNull(message = "Ingrese un id valido") Long id,
+			@NotNull(message = "Ingrese un id valido") String identifier,
 			@NotNull(message = "Ingrese un año valido") int year, @NotBlank(message = "Ingrese un nombre.") String name,
 			String description, @NotNull Character modality, @NotNull Character state) {
 		super();
 		this.id = id;
+		this.identifier = identifier;
 		this.year = year;
 		this.name = name;
 		this.description = description;
@@ -34,12 +39,20 @@ public class AcademicPeriodDto {
 		this.state = state;
 	}
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getIdentifier() {
+		return identifier;
+	}
+
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;
 	}
 
 	public int getYear() {
