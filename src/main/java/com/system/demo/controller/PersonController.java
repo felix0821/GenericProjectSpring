@@ -97,7 +97,7 @@ public class PersonController {
 			for(Person person: listPerson) {
 				//Verificar mi usuario
 		        Person user = personService.getPersonByUsername(userFromToken).get();
-		        int count = personRoleService.getTotalPersonRoleByPersonId(user.getPersonId());
+		        int count = (int)personRoleService.getTotalPersonRoleByPersonId(user.getPersonId());
 		        listDto.add(new PersonListDto(person.getPersonId(), person.getPersonUsername(),person.getPersonName(),person.getPersonLastnameFather(),
 		        		person.getPersonLastnameMother(),count,person.getPersonState()));
 			}
