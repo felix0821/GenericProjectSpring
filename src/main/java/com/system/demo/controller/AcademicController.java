@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.system.demo.dto.AcademicPeriodDto;
 import com.system.demo.dto.AcademicPeriodRegisterDto;
 import com.system.demo.dto.ConfigurationProgramDto;
-import com.system.demo.dto.AcademicProgramRegisterDto;
+import com.system.demo.dto.ConfigurationProgramRegisterDto;
 import com.system.demo.dto.CourseDetailListDto;
 import com.system.demo.dto.HeaderDataDto;
 import com.system.demo.dto.Message;
@@ -325,14 +325,14 @@ public class AcademicController {
 	*/
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@GetMapping(value = URL_ACADEMIC_CYCLE_PROGRAM_COURSE_GET)
-	public ResponseEntity<?> getAcademicCycleProgramCourse(@PathVariable(name ="program-id")Long id) {
+	public ResponseEntity<?> getAcademicCycleProgramCourse(@PathVariable(name ="cycle")String cycle, @PathVariable(name ="program")String prog) {
 		ProgramPeriod progPeriod = null;
 		Program program = null;
-		PedagogicalPeriod pedPeriod = null;
+		PedagogicalPeriod period = null;
 		try {
-			program = programService.getProgramByIdentifier(SYSTEM_ERROR).get();
-			pedPeriod = pedagogicalPeriodService.getPedagogicalPeriodByIdentifier(SYSTEM_ERROR).get();
-			progPeriod = programPeriodService.getProgramPeriodById(program.getProgramId(), pedPeriod.getPedagogicalPeriodId()).get();
+			program = programService.getProgramByIdentifier(prog).get();
+			period = pedagogicalPeriodService.getPedagogicalPeriodByIdentifier(cycle).get();
+			progPeriod = programPeriodService.getProgramPeriodById(program.getProgramId(), period.getPedagogicalPeriodId()).get();
 		} catch(Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
@@ -340,7 +340,7 @@ public class AcademicController {
 		HeaderDataDto cycleProgramHeaderDto = new HeaderDataDto<CourseDetailListDto>(progPeriod.getProgram().getProgramIdentifier(),
 				progPeriod.getProgram().getProgramName());
 		List<CourseDetailListDto> courseListDto = new ArrayList<>();
-		Iterable<CourseDetail> courseDetailList = courseDetailService.getCourseDetailsByProgramPeriodId(program.getProgramId(), pedPeriod.getPedagogicalPeriodId());
+		Iterable<CourseDetail> courseDetailList = courseDetailService.getCourseDetailsByProgramPeriodId(program.getProgramId(), period.getPedagogicalPeriodId());
 		for(CourseDetail courseDetail:courseDetailList) {
 			Course course = courseDetail.getCourseId();
 			courseListDto.add(new CourseDetailListDto(courseDetail.getCourseDetailId(), course.getCourseName(),

@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.system.demo.dto.AcademicProgramRegisterDto;
+import com.system.demo.dto.ConfigurationProgramRegisterDto;
 import com.system.demo.dto.ConfigurationProgramDto;
 import com.system.demo.dto.Message;
 import com.system.demo.dto.ProgramDetailedDto;
@@ -66,7 +66,7 @@ public class ConfigurationController {
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked"})
 	@PostMapping(value=URL_CONFIGURATION_PROGRAMxREGISTER_POST)
-    public ResponseEntity<?> programRegister(@Valid @RequestBody AcademicProgramRegisterDto programRegister, BindingResult bindingResult){
+    public ResponseEntity<?> programRegister(@Valid @RequestBody ConfigurationProgramRegisterDto programRegister, BindingResult bindingResult){
 		try {
 			//Realizamos las validaciones pertinentes
 	        if(bindingResult.hasErrors())
@@ -121,6 +121,8 @@ public class ConfigurationController {
 			e.printStackTrace();
 			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
 		}
+		String identifier = uI.getIdentifier(Arrays.asList(programEditDto.getName()));
+		programEdit.setProgramIdentifier(identifier);
 		programEdit.setProgramName(programEditDto.getName());
 		programEdit.setProgramAcronym(programEditDto.getAcronym());
 		programEdit.setProgramDescription(programEditDto.getDescription());

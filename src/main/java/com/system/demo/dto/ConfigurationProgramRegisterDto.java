@@ -4,7 +4,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class AcademicProgramRegisterDto {
+public class ConfigurationProgramRegisterDto {
 	
 	@NotBlank(message = "Ingrese un nombre de programa.")
 	@Size(max = 64, min = 3, message = "Ingrese entre 3 a 64 caracteres.")

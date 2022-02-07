@@ -31,9 +31,12 @@ public class ProgramServiceImplements implements ProgramService{
 	
 	@Override
 	public Program updateProgram(Program fromProgram) throws Exception {
-		Program toProgram = getProgramById(fromProgram.getProgramId());
+		Program toProgram = getProgramByid(fromProgram.getProgramId()).get();
 		mapProgram(fromProgram, toProgram);
 		return programRepository.save(toProgram);
+	}
+	private Optional<Program> getProgramByid(Long id) {
+		return programRepository.findById(id);
 	}
 
 	@Override
@@ -56,6 +59,7 @@ public class ProgramServiceImplements implements ProgramService{
 	
 	protected void mapProgram(Program from, Program to) {
 		to.setProgramIndex(from.getProgramIndex());
+		to.setProgramIdentifier(from.getProgramIdentifier());
 		to.setProgramName(from.getProgramName());
 		to.setProgramAcronym(from.getProgramAcronym());
 		to.setProgramDescription(from.getProgramDescription());
