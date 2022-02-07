@@ -97,12 +97,9 @@ public class PersonController {
 			for(Person person: listPerson) {
 				//Verificar mi usuario
 		        Person user = personService.getPersonByUsername(userFromToken).get();
-		        int count = 0;
-				//Agregar a lista
-				if (!user.getPersonUsername().equals(person.getPersonUsername()))
-					count = personRoleService.getTotalPersonRoleByPersonId(user.getPersonId());
-					listDto.add(new PersonListDto(person.getPersonId(), person.getPersonUsername(),person.getPersonName(),person.getPersonLastnameFather(),
-			        		person.getPersonLastnameMother(),count,person.getPersonState()));
+		        int count = personRoleService.getTotalPersonRoleByPersonId(user.getPersonId());
+		        listDto.add(new PersonListDto(person.getPersonId(), person.getPersonUsername(),person.getPersonName(),person.getPersonLastnameFather(),
+		        		person.getPersonLastnameMother(),count,person.getPersonState()));
 			}
 	        return new ResponseEntity<List<PersonListDto>>(listDto, HttpStatus.OK);
 		}
