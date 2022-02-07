@@ -7,5 +7,5 @@ public interface PersonRoleService {
 	public void deletePersonRol(long personId, long roleId);
 	public Iterable<PersonRole> getPersonRoleByPersonId(long personId);
 	
-	public long getTotalPersonRoleByPersonId(long personId);
+	public Long getTotalPersonRoleByPersonId(long personId);
 }

@@ -17,6 +17,8 @@ public interface PersonRoleRepository extends JpaRepository<PersonRole,PersonRol
 	@Query(value = "DELETE FROM PersonRole p WHERE (p.personRolePK.personId = :personId) AND (p.personRolePK.roleId = :roleId)")
 	public void deletePersonRole(long personId, long roleId);
 	
-	@Query("SELECT COUNT(p) FROM PersonRole p WHERE p.personRolePK.personId = :personId")
-	public long countPersonRoleByPersonId(long personId);
+	/*@Query(value = "SELECT COUNT(p) FROM PersonRole p WHERE p.personRolePK.personId = :personId")
+	public Long countPersonRoleByPersonId(long personId);*/
+	
+	public Long countByPersonId(long personId);
 }
