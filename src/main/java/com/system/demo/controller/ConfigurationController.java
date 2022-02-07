@@ -34,7 +34,7 @@ import com.system.demo.service.ProgramService;
 import com.system.demo.utility.UniqId;
 
 @RestController
-@RequestMapping(value=URL_PERSON_REQUEST)
+@RequestMapping(value=URL_CONFIGURATION_REQUEST)
 @CrossOrigin(origins = "*")
 public class ConfigurationController {
 	
