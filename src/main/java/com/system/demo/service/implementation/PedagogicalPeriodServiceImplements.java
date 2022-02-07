@@ -1,5 +1,7 @@
 package com.system.demo.service.implementation;
 
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +57,11 @@ public class PedagogicalPeriodServiceImplements implements PedagogicalPeriodServ
 	@Override
 	public boolean existsPedagogicalPeriodById(Long pedagogicalPeriodId) {
 		return pedagogicalPeriodRepository.existsById(pedagogicalPeriodId);
+	}
+
+	@Override
+	public Optional<PedagogicalPeriod> getPedagogicalPeriodByIdentifier(String pedagogicalPeriodIdentifier) {
+		return pedagogicalPeriodRepository.findByPedagogicalPeriodIdentifier(pedagogicalPeriodIdentifier);
 	}
 
 }

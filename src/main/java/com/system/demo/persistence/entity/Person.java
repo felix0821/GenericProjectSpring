@@ -29,7 +29,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * @author Felix
  */
 @Entity
-@Table(name = "person", uniqueConstraints = {
+@Table(uniqueConstraints = {
     @UniqueConstraint(columnNames = {"person_email"}),
     @UniqueConstraint(columnNames = {"person_username"})})
 @NamedQueries({

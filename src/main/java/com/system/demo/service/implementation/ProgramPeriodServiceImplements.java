@@ -1,6 +1,7 @@
 package com.system.demo.service.implementation;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.system.demo.persistence.entity.ProgramPeriod;
+import com.system.demo.persistence.entity.ProgramPeriodPK;
 import com.system.demo.persistence.repository.ProgramPeriodRepository;
 import com.system.demo.service.ProgramPeriodService;
 
@@ -30,13 +32,18 @@ public class ProgramPeriodServiceImplements implements ProgramPeriodService {
 	}
 
 	@Override
-	public List<ProgramPeriod> getProgramPeriodByProgramId(Long programId) {
+	public List<ProgramPeriod> getProgramPeriodByProgramId(long programId) {
 		return programPeriodRepository.findByProgramId(programId);
 	}
 
 	@Override
-	public List<ProgramPeriod> getProgramPeriodByPedagogicalPeriodId(Long pedagogicalPeriodId) {
+	public List<ProgramPeriod> getProgramPeriodByPedagogicalPeriodId(long pedagogicalPeriodId) {
 		return programPeriodRepository.findByPedagogicalPeriodId(pedagogicalPeriodId);
+	}
+
+	@Override
+	public Optional<ProgramPeriod> getProgramPeriodById(long programId, long pedagogicalPeriodId) {
+		return programPeriodRepository.findById(new ProgramPeriodPK(programId, pedagogicalPeriodId));
 	}
 
 }

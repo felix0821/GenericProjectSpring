@@ -113,12 +113,12 @@ public class RequisitionController {
 			Date dateRegister=Date.from(fechaPeru.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
 			boolean checking = false;
 			//	Objeto Solicitud
-			Long idReqDetail = uI.uniqid();
+			Long idReqDetail = uI.getUniqId();
 			RequisitionDetail requisitionDetail = new RequisitionDetail(idReqDetail, checking, dateRegister);
 			//	Objeto movimiento financiero
 			Long idMovFin = 1L;
 			FinancialMovement f = financialMovementService.getById(idMovFin);
-			Long idFinDetail = uI.uniqid();
+			Long idFinDetail = uI.getUniqId();
 			FinancialMovementDetail financialMovementDetail = new FinancialMovementDetail(idFinDetail, requisitionRegisterDto.getAmount(),
 					dateRegister, 'A','A');
 			financialMovementDetail.setFinancialMovementId(f);

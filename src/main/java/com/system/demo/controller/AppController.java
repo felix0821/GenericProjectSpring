@@ -295,7 +295,7 @@ public class AppController {
 		if(personService.existsByUsername("admin"))
 			System.out.println("Ese nombre de usuario ya existe");
 		else {
-			Long idPerson = uI.uniqid();
+			Long idPerson = uI.getUniqId();
 			LocalDate datePeru=LocalDate.now(ZoneId.of("America/Lima"));
 			String password = bCryptPasswordEncoder.encode("admin");
 			Date dateRegister=Date.from(datePeru.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());

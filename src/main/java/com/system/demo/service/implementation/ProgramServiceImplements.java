@@ -66,6 +66,11 @@ public class ProgramServiceImplements implements ProgramService{
 		to.setProgramState(from.getProgramState());
 	}
 
+	@Override
+	public Optional<Program> getProgramByIdentifier(String identifier) {
+		return programRepository.findByProgramIdentifier(identifier);
+	}
+
 	
 
 	

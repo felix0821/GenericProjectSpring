@@ -49,8 +49,8 @@ public class QualificationCriteria implements Serializable {
     private double qualificationCriteriaPorcentual;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "qualificationCriteria")
     private Collection<EnrollmentQualification> enrollmentQualificationCollection;
-    @JoinColumn(name = "course_detail_id", referencedColumnName = "course_detail_id")
-    @ManyToOne
+    @JoinColumn(name = "course_detail_id", referencedColumnName = "course_detail_id", nullable = false)
+    @ManyToOne(optional = false)
     private CourseDetail courseDetailId;
 
     public QualificationCriteria() {

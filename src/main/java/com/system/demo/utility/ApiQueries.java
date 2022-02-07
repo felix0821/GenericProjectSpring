@@ -72,7 +72,7 @@ public class ApiQueries {
 	
 	//Api consumida de https://api-peru.com/
 	public String[] checkDniApiPeru(String dni) throws Exception {
-		String data[]= {"Sin nombres","Sin apellido paterno","Sin apellido materno","Sin fecha de nacimiento","Sin genero"};
+		String data[]= {"Sin nombres","Sin apellido paterno","Sin apellido materno","2000-01-01","X"};
 		URL url;
 		try {
 			url = new URL("https://consulta.api-peru.com/api/dni/"+dni);

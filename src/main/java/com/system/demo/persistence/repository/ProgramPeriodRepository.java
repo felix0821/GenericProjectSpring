@@ -7,14 +7,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.system.demo.persistence.entity.ProgramPeriod;
+import com.system.demo.persistence.entity.ProgramPeriodPK;
 
 @Repository
-public interface ProgramPeriodRepository extends JpaRepository<ProgramPeriod,Long> {
+public interface ProgramPeriodRepository extends JpaRepository<ProgramPeriod,ProgramPeriodPK> {
 	
-	@Query("SELECT p FROM ProgramPeriod p WHERE p.programId.programId = :programId")
-	public List<ProgramPeriod> findByProgramId(Long programId);
+	public List<ProgramPeriod> findByProgramId(long programId);
 	
-	@Query("SELECT p FROM ProgramPeriod p WHERE p.pedagogicalPeriodId.pedagogicalPeriodId = :pedagogicalPeriodId")
-	public List<ProgramPeriod> findByPedagogicalPeriodId(Long pedagogicalPeriodId);
+	public List<ProgramPeriod> findByPedagogicalPeriodId(long pedagogicalPeriodId);
 
 }

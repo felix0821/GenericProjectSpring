@@ -3,6 +3,7 @@ package com.system.demo.utility;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.security.SecureRandom;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Component;
@@ -29,7 +30,7 @@ public class UniqId {
 	
 	//private Random random = new Random();
 	//Generador de claves unicas en formato Long
-	public Long uniqid()
+	public Long getUniqId()
 	{
 		long time = System.currentTimeMillis();
 		String generator = "";
@@ -84,4 +85,15 @@ public class UniqId {
 		return uniqid;
 	}
 	
+	//	Generador de identificador de url
+	public String getIdentifier(List<String>parameters) {
+		String identifier = "";
+		for(int i=0; i<parameters.size(); i++) {
+			String pre_process = parameters.get(i).replace(' ','_');
+			pre_process = pre_process.toLowerCase();
+			identifier += pre_process;
+			if(i<parameters.size()-1) identifier += "-";
+		}
+		return identifier;
+	}
 }

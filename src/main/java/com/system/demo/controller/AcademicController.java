@@ -4,6 +4,7 @@ import static com.system.demo.GenericProjectSystemStatement.*;
 import static com.system.demo.GenericProjectSystemDefinition.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,6 +30,8 @@ import com.system.demo.dto.AcademicPeriodDto;
 import com.system.demo.dto.AcademicPeriodRegisterDto;
 import com.system.demo.dto.AcademicProgramDto;
 import com.system.demo.dto.AcademicProgramRegisterDto;
+import com.system.demo.dto.CourseDetailListDto;
+import com.system.demo.dto.HeaderDataDto;
 import com.system.demo.dto.Message;
 import com.system.demo.dto.ProgramDetailedDto;
 import com.system.demo.dto.ProgramDetailedOccupationalDto;
@@ -35,12 +39,16 @@ import com.system.demo.dto.ProgramOccupationalRegisterDto;
 import com.system.demo.dto.ProgramPeriodDto;
 import com.system.demo.dto.ProgramPeriodEnrollmentDto;
 import com.system.demo.dto.ProgramPeriodHeaderDto;
+import com.system.demo.persistence.entity.Course;
+import com.system.demo.persistence.entity.CourseDetail;
 import com.system.demo.persistence.entity.EnrollmentProgramPeriod;
 import com.system.demo.persistence.entity.OccupationalField;
 import com.system.demo.persistence.entity.PedagogicalPeriod;
 import com.system.demo.persistence.entity.Person;
 import com.system.demo.persistence.entity.Program;
 import com.system.demo.persistence.entity.ProgramPeriod;
+import com.system.demo.persistence.entity.ProgramPeriodPK;
+import com.system.demo.service.CourseDetailService;
 import com.system.demo.service.EnrollmentProgramPeriodService;
 import com.system.demo.service.OccupationalFieldService;
 import com.system.demo.service.PedagogicalPeriodService;
@@ -52,7 +60,6 @@ import com.system.demo.utility.UniqId;
 @RequestMapping(value=URL_ACADEMIC_REQUEST)
 @CrossOrigin(origins = "*")
 public class AcademicController {
-	private int index = 1;
 	
 	@Autowired
 	UniqId uI;
@@ -72,8 +79,11 @@ public class AcademicController {
 	@Autowired
 	EnrollmentProgramPeriodService enrollmentProgramPeriodService;
 	
+	@Autowired
+	CourseDetailService courseDetailService;
+	
 	/*
-	 * GESTION DE ACADÉMICAS
+	 * ENLACE PRINCIPAL - GESTION ACADEMICA
 	 */
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -192,18 +202,17 @@ public class AcademicController {
 		return new ResponseEntity(new Message(SYSTEM_SUCCESS_EDIT_PROGRAM), HttpStatus.CREATED);
 	}
 	
-	@SuppressWarnings(value = { "rawtypes", "unchecked" })
+	@SuppressWarnings(value = { "rawtypes", "unchecked"})
 	@PostMapping(value=URL_ACADEMIC_PROGRAM_REGISTER_POST)
     public ResponseEntity<?> programRegister(@Valid @RequestBody AcademicProgramRegisterDto programRegister, BindingResult bindingResult){
 		try {
 			//Realizamos las validaciones pertinentes
 	        if(bindingResult.hasErrors())
 	            return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
-	        Long idProgram = uI.uniqid();
-	        int index = this.index;
-	        this.index++;
+	        Long idProgram = uI.getUniqId();
 	        char state = SYSTEM_STATE_ACTIVE;
-	        Program program = new Program(idProgram,index,programRegister.getName(),programRegister.getAcronym(),
+	        String identifier = uI.getIdentifier(Arrays.asList(programRegister.getName()));
+	        Program program = new Program(idProgram, SYSTEM_INDEX, identifier, programRegister.getName(), programRegister.getAcronym(),
 	        		programRegister.getArea(), state);
 	        program.setProgramDescription(programRegister.getDescription());
 	        if(programRegister.getImage()!=null) program.setProgramImage(programRegister.getImage());
@@ -293,10 +302,9 @@ public class AcademicController {
 			//Realizamos las validaciones pertinentes
 	        if(bindingResult.hasErrors())
 	            return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
-	        Long idOccupationalField = uI.uniqid();
-	        int index = this.index;
-	        this.index++;
+	        Long idOccupationalField = uI.getUniqId();
 	        char state = 'A';
+	        Integer index = null;
 	        Program programId = programService.getProgramById(programOccupationalRegister.getIdProgram());
 	        OccupationalField occupationalField = new OccupationalField(idOccupationalField, index, programOccupationalRegister.getName(), 
 	        		state);
@@ -315,63 +323,6 @@ public class AcademicController {
 	}
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
-	@PostMapping(value = URL_ACADEMIC_PEDAGOGICALxPERIOD_REGISTER_POST)
-    public ResponseEntity<?> pedagogicalPeriodRegister(@Valid @RequestBody AcademicPeriodRegisterDto periodRegister, BindingResult bindingResult){
-		try {
-			//Realizamos las validaciones pertinentes
-	        if(bindingResult.hasErrors())
-	            return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
-	        Long idPedPeriod = uI.uniqid();
-	        int index = 1;
-	        PedagogicalPeriod pedPeriod = pedagogicalPeriodService.createPedagogicalPeriod(new PedagogicalPeriod(idPedPeriod, index,
-	        		periodRegister.getName(), periodRegister.getModality(), periodRegister.getYear(), 'A'));
-	       if(periodRegister.isBlockRegistration()) {
-	    	   	List<Program> programs = programService.getProgramByState('A');
-		        int i=1;
-		        for(Program program:programs) {
-		        	Long idProgPeriod = uI.uniqid();
-		        	String description = program.getProgramName()+"-"+periodRegister.getYear();
-		        	ProgramPeriod progPeriod = new ProgramPeriod(idProgPeriod, i, description, periodRegister.getPayEnrollmet(), 
-		        			periodRegister.getPayPension(), periodRegister.getDateOpening(), periodRegister.getDateClosingEnrollmet(), 
-		        			periodRegister.getDateClosing(), 'A');
-		        	progPeriod.setProgramPeriodDescription(description);
-		        	progPeriod.setPedagogicalPeriodId(pedPeriod);
-		        	progPeriod.setProgramId(program);
-		        	programPeriodService.createProgramPeriod(progPeriod);
-		        	i++;
-		        }
-	       }
-	        return new ResponseEntity(new Message(SYSTEM_SUCCESS_REGISTER_PROGRAM), HttpStatus.CREATED);
-		} catch (Exception e) {
-			System.out.println(e);
-			return new ResponseEntity(new Message(SYSTEM_ERROR), HttpStatus.BAD_REQUEST);
-		}
-	}
-	
-	@SuppressWarnings(value = { "rawtypes", "unchecked" })
-	@GetMapping(value = URL_ACADEMIC_PROGRAMSxPERIOD_GET)
-	public ResponseEntity<?> academicProgramsPeriod(@PathVariable(name ="idPeriod")Long id){
-		//	Buscamos programa por id
-		PedagogicalPeriod period = null;
-		try {
-			period = pedagogicalPeriodService.getPedagogicalPeriodById(id);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
-		}
-		ProgramPeriodHeaderDto progPeriodHeaderDto = new ProgramPeriodHeaderDto(period.getPedagogicalPeriodName());
-		List<ProgramPeriodDto> progPeriodDtoList = new ArrayList<>();
-		List<ProgramPeriod> progPeriods = programPeriodService.getProgramPeriodByPedagogicalPeriodId(id);
-		for(ProgramPeriod progPeriod:progPeriods) {
-			progPeriodDtoList.add(new ProgramPeriodDto(progPeriod.getProgramPeriodId(), progPeriod.getProgramPeriodIndex(), 
-					progPeriod.getProgramPeriodDescription(), progPeriod.getProgramPeriodOpening(), progPeriod.getProgramPeriodClosing(), 
-					progPeriod.getProgramPeriodState()));
-		}
-		progPeriodHeaderDto.setProgramPeriods(progPeriodDtoList);
-		return new ResponseEntity<ProgramPeriodHeaderDto>(progPeriodHeaderDto, HttpStatus.OK);
-	}
-	
-	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@GetMapping(value = URL_ACADEMIC_PROGRAMxPERIODS_GET)
 	public ResponseEntity<?> academicProgramPeriods(@PathVariable(name ="idProgram")Long id){
 		//	Buscamos programa por id
@@ -386,17 +337,77 @@ public class AcademicController {
 		List<ProgramPeriodDto> progPeriodDtoList = new ArrayList<>();
 		List<ProgramPeriod> progPeriods = programPeriodService.getProgramPeriodByProgramId(id);
 		for(ProgramPeriod progPeriod:progPeriods) {
-			progPeriodDtoList.add(new ProgramPeriodDto(progPeriod.getProgramPeriodId(), progPeriod.getProgramPeriodIndex(), 
-					progPeriod.getProgramPeriodDescription(), progPeriod.getProgramPeriodOpening(), progPeriod.getProgramPeriodClosing(), 
+			progPeriodDtoList.add(new ProgramPeriodDto(progPeriod.getProgram().getProgramIdentifier(), progPeriod.getProgramPeriodIndex(), 
+					progPeriod.getProgram().getProgramName(), progPeriod.getProgramPeriodOpening(), progPeriod.getProgramPeriodClosing(), 
 					progPeriod.getProgramPeriodState()));
 		}
 		progPeriodHeaderDto.setProgramPeriods(progPeriodDtoList);
 		return new ResponseEntity<ProgramPeriodHeaderDto>(progPeriodHeaderDto, HttpStatus.OK);
 	}
 	
+	/*
+	 * ENLACE - GESTION DE PERIODOS PEDAGÓGICOS
+	 */
+	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
-	@GetMapping(value = URL_ACADEMIC_PROGRAMxPERIOD_VIEW_GET)
-	public ResponseEntity<?> academicProgramPeriodView(@PathVariable(name ="id")Long id) {
+	@PostMapping(value = URL_ACADEMIC_CYCLE_REGISTER_POST)
+    public ResponseEntity<?> pedagogicalPeriodRegister(@Valid @RequestBody AcademicPeriodRegisterDto periodRegister, BindingResult bindingResult){
+		try {
+			//Realizamos las validaciones pertinentes
+	        if(bindingResult.hasErrors())
+	            return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
+	        Long idPedPeriod = uI.getUniqId();
+	        String identifier = uI.getIdentifier(Arrays.asList(periodRegister.getName(), 
+	        		periodRegister.getModality().toString(), Integer.toString(periodRegister.getYear())));
+	        //Construimos modelo de registro
+	        PedagogicalPeriod pedagogicalPeriod = new PedagogicalPeriod(idPedPeriod, SYSTEM_INDEX, identifier, periodRegister.getName(),
+	        		periodRegister.getYear(), periodRegister.getModality(), SYSTEM_STATE_ACTIVE);
+	        PedagogicalPeriod pedPeriod = pedagogicalPeriodService.createPedagogicalPeriod(pedagogicalPeriod);
+	        //Realizar registro en bloque
+	       if(periodRegister.isBlockRegistration()) {
+	    	   	List<Program> programs = programService.getProgramByState(SYSTEM_STATE_ACTIVE);
+		        for(Program program:programs) {
+		        	//Long idProgPeriod = uI.getUniqId();
+		        	ProgramPeriodPK idProgPeriod = new ProgramPeriodPK(program.getProgramId(), pedPeriod.getPedagogicalPeriodId());
+		        	ProgramPeriod progPeriod = new ProgramPeriod(idProgPeriod, SYSTEM_INDEX, periodRegister.getPayEnrollmet(), 
+		        			periodRegister.getPayPension(), periodRegister.getDateOpening(), periodRegister.getDateClosingEnrollmet(), 
+		        			periodRegister.getDateClosing(), SYSTEM_STATE_ACTIVE);
+		        	programPeriodService.createProgramPeriod(progPeriod);
+		        }
+	       }
+	        return new ResponseEntity(new Message(SYSTEM_SUCCESS_REGISTER_PROGRAM), HttpStatus.CREATED);
+		} catch (Exception e) {
+			System.out.println(e);
+			return new ResponseEntity(new Message(SYSTEM_ERROR), HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@SuppressWarnings(value = { "rawtypes", "unchecked" })
+	@GetMapping(value = URL_ACADEMIC_CYCLE_PROGRAMS_GET)
+	public ResponseEntity<?> academicProgramsPeriod(@PathVariable(name ="cycle")Long id){
+		//	Buscamos programa por id
+		PedagogicalPeriod period = null;
+		try {
+			period = pedagogicalPeriodService.getPedagogicalPeriodById(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
+		}
+		ProgramPeriodHeaderDto progPeriodHeaderDto = new ProgramPeriodHeaderDto(period.getPedagogicalPeriodName());
+		List<ProgramPeriodDto> progPeriodDtoList = new ArrayList<>();
+		List<ProgramPeriod> progPeriods = programPeriodService.getProgramPeriodByPedagogicalPeriodId(id);
+		for(ProgramPeriod progPeriod:progPeriods) {
+			progPeriodDtoList.add(new ProgramPeriodDto(progPeriod.getProgram().getProgramIdentifier(), progPeriod.getProgramPeriodIndex(), 
+					progPeriod.getProgram().getProgramName(), progPeriod.getProgramPeriodOpening(), progPeriod.getProgramPeriodClosing(), 
+					progPeriod.getProgramPeriodState()));
+		}
+		progPeriodHeaderDto.setProgramPeriods(progPeriodDtoList);
+		return new ResponseEntity<ProgramPeriodHeaderDto>(progPeriodHeaderDto, HttpStatus.OK);
+	}
+	/*
+	@SuppressWarnings(value = { "rawtypes", "unchecked" })
+	@GetMapping(value = URL_ACADEMIC_CYCLE_PROGRAM_ENROLLED_GET)
+	public ResponseEntity<?> academicProgramPeriodView(@PathVariable(name ="program-id")Long id) {
 		try {
 			List<EnrollmentProgramPeriod> enrollProgList = enrollmentProgramPeriodService.getEnrollmentProgramPeriodByProgramPeriodId(id);
 			List<ProgramPeriodEnrollmentDto> progEnrollDto = new ArrayList<>();
@@ -407,9 +418,36 @@ public class AcademicController {
 			}
 			return new ResponseEntity<List<ProgramPeriodEnrollmentDto>>(progEnrollDto, HttpStatus.OK);
 		} catch(Exception e) {
+			e.printStackTrace();
 			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
 		}
-		
+	}
+	*/
+	@SuppressWarnings(value = { "rawtypes", "unchecked" })
+	@GetMapping(value = URL_ACADEMIC_CYCLE_PROGRAM_COURSE_GET)
+	public ResponseEntity<?> getAcademicCycleProgramCourse(@PathVariable(name ="program-id")Long id) {
+		ProgramPeriod progPeriod = null;
+		Program program = null;
+		PedagogicalPeriod pedPeriod = null;
+		try {
+			program = programService.getProgramByIdentifier(SYSTEM_ERROR).get();
+			pedPeriod = pedagogicalPeriodService.getPedagogicalPeriodByIdentifier(SYSTEM_ERROR).get();
+			progPeriod = programPeriodService.getProgramPeriodById(program.getProgramId(), pedPeriod.getPedagogicalPeriodId()).get();
+		} catch(Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
+		}
+		HeaderDataDto cycleProgramHeaderDto = new HeaderDataDto<CourseDetailListDto>(progPeriod.getProgram().getProgramIdentifier(),
+				progPeriod.getProgram().getProgramName());
+		List<CourseDetailListDto> courseListDto = new ArrayList<>();
+		Iterable<CourseDetail> courseDetailList = courseDetailService.getCourseDetailsByProgramPeriodId(program.getProgramId(), pedPeriod.getPedagogicalPeriodId());
+		for(CourseDetail courseDetail:courseDetailList) {
+			Course course = courseDetail.getCourseId();
+			courseListDto.add(new CourseDetailListDto(courseDetail.getCourseDetailId(), course.getCourseName(),
+					courseDetail.getCourseDetailCapacity(), courseDetail.getCourseDetailState()));
+		}
+		cycleProgramHeaderDto.setList(courseListDto);
+		return new ResponseEntity<HeaderDataDto>(cycleProgramHeaderDto, HttpStatus.OK);
 	}
 
 }

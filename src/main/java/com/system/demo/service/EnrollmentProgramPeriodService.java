@@ -7,6 +7,6 @@ import com.system.demo.persistence.entity.EnrollmentProgramPeriod;
 public interface EnrollmentProgramPeriodService {
 	
 	public EnrollmentProgramPeriod createEnrollmentProgramPeriod(EnrollmentProgramPeriod enrollmentProgramPeriod) throws Exception;
-	public List<EnrollmentProgramPeriod> getEnrollmentProgramPeriodByProgramPeriodId(long yProgramPeriodId);
+	public Iterable<EnrollmentProgramPeriod> getEnrollmentProgramPeriodByProgramPeriodId(long programId, long pedagogicalPeriodId);
 
 }

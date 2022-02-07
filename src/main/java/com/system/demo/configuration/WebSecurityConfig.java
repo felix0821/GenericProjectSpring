@@ -23,7 +23,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	private String[] resources = new String[]{
 			"/css/**","/icons/**","/img/**","/js/**","/layer/**","/","/index",
-			"/auth/**","/user/register","/","/generate-data", "/favicon.ico","/alert-websocket/**"
+			"/auth/**","/person/register","/","/generate-data", "/favicon.ico","/alert-websocket/**"
     };
 	
 	BCryptPasswordEncoder bCryptPasswordEncoder;

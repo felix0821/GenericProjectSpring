@@ -16,7 +16,6 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -25,7 +24,6 @@ import javax.persistence.TemporalType;
  * @author Felix
  */
 @Entity
-@Table(name = "horary")
 @NamedQueries({
     @NamedQuery(name = "Horary.findAll", query = "SELECT h FROM Horary h"),
     @NamedQuery(name = "Horary.findByHoraryId", query = "SELECT h FROM Horary h WHERE h.horaryId = :horaryId"),

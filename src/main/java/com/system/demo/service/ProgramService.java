@@ -12,6 +12,7 @@ public interface ProgramService {
 	public Program updateProgram(Program fromProgram) throws Exception;
 	public void deleteProgram(Long programId) throws Exception;
 	
+	public Optional<Program> getProgramByIdentifier(String identifier);
 	public Program getProgramById(Long programId) throws Exception;
 	public List<Program> getProgramByState(Character programState);
 }

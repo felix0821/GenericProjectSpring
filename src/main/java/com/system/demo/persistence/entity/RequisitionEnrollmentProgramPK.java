@@ -24,16 +24,20 @@ public class RequisitionEnrollmentProgramPK implements Serializable {
     @Column(name = "person_id", nullable = false)
     private long personId;
     @Basic(optional = false)
-    @Column(name = "program_period_id", nullable = false)
-    private long programPeriodId;
+    @Column(name = "program_id", nullable = false)
+    private long programId;
+    @Basic(optional = false)
+    @Column(name = "pedagogical_period_id", nullable = false)
+    private long pedagogicalPeriodId;
 
     public RequisitionEnrollmentProgramPK() {
     }
 
-    public RequisitionEnrollmentProgramPK(long requisitionDetailId, long personId, long programPeriodId) {
+    public RequisitionEnrollmentProgramPK(long requisitionDetailId, long personId, long programId, long pedagogicalPeriodId) {
         this.requisitionDetailId = requisitionDetailId;
         this.personId = personId;
-        this.programPeriodId = programPeriodId;
+        this.programId = programId;
+        this.pedagogicalPeriodId = pedagogicalPeriodId;
     }
 
     public long getRequisitionDetailId() {
@@ -52,12 +56,20 @@ public class RequisitionEnrollmentProgramPK implements Serializable {
         this.personId = personId;
     }
 
-    public long getProgramPeriodId() {
-        return programPeriodId;
+    public long getProgramId() {
+        return programId;
     }
 
-    public void setProgramPeriodId(long programPeriodId) {
-        this.programPeriodId = programPeriodId;
+    public void setProgramId(long programId) {
+        this.programId = programId;
+    }
+
+    public long getPedagogicalPeriodId() {
+        return pedagogicalPeriodId;
+    }
+
+    public void setPedagogicalPeriodId(long pedagogicalPeriodId) {
+        this.pedagogicalPeriodId = pedagogicalPeriodId;
     }
 
     @Override
@@ -65,7 +77,8 @@ public class RequisitionEnrollmentProgramPK implements Serializable {
         int hash = 0;
         hash += (int) requisitionDetailId;
         hash += (int) personId;
-        hash += (int) programPeriodId;
+        hash += (int) programId;
+        hash += (int) pedagogicalPeriodId;
         return hash;
     }
 
@@ -82,7 +95,10 @@ public class RequisitionEnrollmentProgramPK implements Serializable {
         if (this.personId != other.personId) {
             return false;
         }
-        if (this.programPeriodId != other.programPeriodId) {
+        if (this.programId != other.programId) {
+            return false;
+        }
+        if (this.pedagogicalPeriodId != other.pedagogicalPeriodId) {
             return false;
         }
         return true;
@@ -90,7 +106,7 @@ public class RequisitionEnrollmentProgramPK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.persistence.entity.RequisitionEnrollmentProgramPK[ requisitionDetailId=" + requisitionDetailId + ", personId=" + personId + ", programPeriodId=" + programPeriodId + " ]";
+        return "com.system.demo.persistence.entity.RequisitionEnrollmentProgramPK[ requisitionDetailId=" + requisitionDetailId + ", personId=" + personId + ", programId=" + programId + ", pedagogicalPeriodId=" + pedagogicalPeriodId + " ]";
     }
     
 }

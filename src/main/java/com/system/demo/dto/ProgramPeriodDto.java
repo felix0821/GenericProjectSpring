@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 public class ProgramPeriodDto {
 	
 	@NotNull(message = "Ingrese un id valido")
-	private Long id;
+	private String id;
 	@NotNull(message = "Ingrese un id valido")
 	private int index;
 	@NotNull(message = "Ingrese una descripción valida")
@@ -18,8 +18,8 @@ public class ProgramPeriodDto {
 	private Date dateClosing;
 	@NotNull(message = "Ingrese estado.")
 	private Character state;
-	
-	public ProgramPeriodDto(@NotNull(message = "Ingrese un id valido") Long id,
+
+	public ProgramPeriodDto(@NotNull(message = "Ingrese un id valido") String id,
 			@NotNull(message = "Ingrese un id valido") int index,
 			@NotNull(message = "Ingrese una descripción valida") String description,
 			@NotNull(message = "Ingrese una fecha de apertura.") Date dateOpening,
@@ -34,11 +34,11 @@ public class ProgramPeriodDto {
 		this.state = state;
 	}
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

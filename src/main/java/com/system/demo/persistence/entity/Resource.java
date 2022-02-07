@@ -23,17 +23,17 @@ import javax.persistence.UniqueConstraint;
  * @author Felix
  */
 @Entity
-@Table(name = "resource", uniqueConstraints = {
+@Table(uniqueConstraints = {
     @UniqueConstraint(columnNames = {"resource_url"}),
     @UniqueConstraint(columnNames = {"resource_name"})})
 @NamedQueries({
     @NamedQuery(name = "Resource.findAll", query = "SELECT r FROM Resource r"),
     @NamedQuery(name = "Resource.findByResourceId", query = "SELECT r FROM Resource r WHERE r.resourceId = :resourceId"),
+    @NamedQuery(name = "Resource.findByResourceIndex", query = "SELECT r FROM Resource r WHERE r.resourceIndex = :resourceIndex"),
     @NamedQuery(name = "Resource.findByResourceName", query = "SELECT r FROM Resource r WHERE r.resourceName = :resourceName"),
     @NamedQuery(name = "Resource.findByResourceUrl", query = "SELECT r FROM Resource r WHERE r.resourceUrl = :resourceUrl"),
     @NamedQuery(name = "Resource.findByResourceType", query = "SELECT r FROM Resource r WHERE r.resourceType = :resourceType"),
-    @NamedQuery(name = "Resource.findByResourceState", query = "SELECT r FROM Resource r WHERE r.resourceState = :resourceState"),
-    @NamedQuery(name = "Resource.findByResourceIndex", query = "SELECT r FROM Resource r WHERE r.resourceIndex = :resourceIndex")})
+    @NamedQuery(name = "Resource.findByResourceState", query = "SELECT r FROM Resource r WHERE r.resourceState = :resourceState")})
 public class Resource implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -41,6 +41,9 @@ public class Resource implements Serializable {
     @Basic(optional = false)
     @Column(name = "resource_id", nullable = false)
     private Long resourceId;
+    @Basic(optional = false)
+    @Column(name = "resource_index", nullable = false)
+    private int resourceIndex;
     @Basic(optional = false)
     @Column(name = "resource_name", nullable = false, length = 64)
     private String resourceName;
@@ -53,9 +56,6 @@ public class Resource implements Serializable {
     @Basic(optional = false)
     @Column(name = "resource_state", nullable = false)
     private Character resourceState;
-    @Basic(optional = false)
-    @Column(name = "resource_index", nullable = false)
-    private int resourceIndex;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "resource")
     private Collection<Access> accessCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "resource")
@@ -70,13 +70,13 @@ public class Resource implements Serializable {
         this.resourceId = resourceId;
     }
 
-    public Resource(Long resourceId, String resourceName, String resourceUrl, Character resourceType, Character resourceState, int resourceIndex) {
+    public Resource(Long resourceId, int resourceIndex, String resourceName, String resourceUrl, Character resourceType, Character resourceState) {
         this.resourceId = resourceId;
+        this.resourceIndex = resourceIndex;
         this.resourceName = resourceName;
         this.resourceUrl = resourceUrl;
         this.resourceType = resourceType;
         this.resourceState = resourceState;
-        this.resourceIndex = resourceIndex;
     }
 
     public Long getResourceId() {
@@ -85,6 +85,14 @@ public class Resource implements Serializable {
 
     public void setResourceId(Long resourceId) {
         this.resourceId = resourceId;
+    }
+
+    public int getResourceIndex() {
+        return resourceIndex;
+    }
+
+    public void setResourceIndex(int resourceIndex) {
+        this.resourceIndex = resourceIndex;
     }
 
     public String getResourceName() {
@@ -117,14 +125,6 @@ public class Resource implements Serializable {
 
     public void setResourceState(Character resourceState) {
         this.resourceState = resourceState;
-    }
-
-    public int getResourceIndex() {
-        return resourceIndex;
-    }
-
-    public void setResourceIndex(int resourceIndex) {
-        this.resourceIndex = resourceIndex;
     }
 
     public Collection<Access> getAccessCollection() {

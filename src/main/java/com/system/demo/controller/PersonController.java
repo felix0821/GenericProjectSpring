@@ -176,7 +176,7 @@ public class PersonController {
             return new ResponseEntity(new Message("Ese email ya existe"), HttpStatus.BAD_REQUEST);
         /*if(personService.existsByDni(userRegister.getDni()))
             return new ResponseEntity(new Message("Ese dni ya existe"), HttpStatus.BAD_REQUEST);*/
-        Long personId = uI.uniqid();
+        Long personId = uI.getUniqId();
         String password = bCryptPasswordEncoder.encode(personRegister.getPassword());
         //Insertar fecha de registro
 		LocalDate fechaPeru=LocalDate.now(ZoneId.of("America/Lima"));
@@ -186,8 +186,10 @@ public class PersonController {
 		Date dateBirth=new SimpleDateFormat("yyyy-MM-dd").parse(dniQuery[3]);
 		String emailPerson = personRegister.getEmail();
 		char gender = SYSTEM_GENDER_UNDEFINED;
-		if (dniQuery[4].equals("MASCULINO")) gender = SYSTEM_GENDER_MALE;
-		else gender = SYSTEM_GENDER_FEMALE;
+		if (!dniQuery[4].equals(SYSTEM_GENDER_UNDEFINED.toString())) {
+			if (dniQuery[4].equals("MASCULINO")) gender = SYSTEM_GENDER_MALE;
+			else gender = SYSTEM_GENDER_FEMALE;
+		}
 		//Crear un usuario para persistir
         Person person =
                 new Person(personId, personRegister.getUsername(), password, dniQuery[0], dniQuery[1], 
@@ -195,7 +197,7 @@ public class PersonController {
         person.setPersonDateBirth(dateBirth);
         personService.createPerson(person);
         //Agregar documento de identidad a nuevo usuario
-        PersonIdentificationDocument personIdentificationDocument = new PersonIdentificationDocument(1L,personId);
+        PersonIdentificationDocument personIdentificationDocument = new PersonIdentificationDocument(SYSTEM_IDENTIFICATION_DNI,personId);
         personIdentificationDocument.setPersonIdentificationDocumentValue(personRegister.getDni());
         personIdentDocService.createPersonIdentificationDocument(personIdentificationDocument);
         //Agregar rol a nuevo usuario
@@ -207,7 +209,7 @@ public class PersonController {
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@GetMapping(URL_PERSON_DELETE_GET)
-	public ResponseEntity<?> delete(@PathVariable(name="id")Long id){
+	public ResponseEntity<?> delete(@RequestParam(name="personId")Long id){
 		try {
 			personService.deletePerson(id);
 		} 

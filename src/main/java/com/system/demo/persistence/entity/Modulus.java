@@ -17,14 +17,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 /**
  *
  * @author Felix
  */
 @Entity
-@Table(name = "modulus")
 @NamedQueries({
     @NamedQuery(name = "Modulus.findAll", query = "SELECT m FROM Modulus m"),
     @NamedQuery(name = "Modulus.findByModulusId", query = "SELECT m FROM Modulus m WHERE m.modulusId = :modulusId"),

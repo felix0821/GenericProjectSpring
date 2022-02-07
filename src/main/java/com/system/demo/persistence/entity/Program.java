@@ -16,17 +16,20 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /**
  *
  * @author Felix
  */
 @Entity
-@Table(name = "program")
+@Table(uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"program_identifier"})})
 @NamedQueries({
     @NamedQuery(name = "Program.findAll", query = "SELECT p FROM Program p"),
     @NamedQuery(name = "Program.findByProgramId", query = "SELECT p FROM Program p WHERE p.programId = :programId"),
     @NamedQuery(name = "Program.findByProgramIndex", query = "SELECT p FROM Program p WHERE p.programIndex = :programIndex"),
+    @NamedQuery(name = "Program.findByProgramIdentifier", query = "SELECT p FROM Program p WHERE p.programIdentifier = :programIdentifier"),
     @NamedQuery(name = "Program.findByProgramName", query = "SELECT p FROM Program p WHERE p.programName = :programName"),
     @NamedQuery(name = "Program.findByProgramAcronym", query = "SELECT p FROM Program p WHERE p.programAcronym = :programAcronym"),
     @NamedQuery(name = "Program.findByProgramDescription", query = "SELECT p FROM Program p WHERE p.programDescription = :programDescription"),
@@ -45,6 +48,9 @@ public class Program implements Serializable {
     @Basic(optional = false)
     @Column(name = "program_index", nullable = false)
     private int programIndex;
+    @Basic(optional = false)
+    @Column(name = "program_identifier", nullable = false, length = 64)
+    private String programIdentifier;
     @Basic(optional = false)
     @Column(name = "program_name", nullable = false, length = 64)
     private String programName;
@@ -69,7 +75,7 @@ public class Program implements Serializable {
     private Collection<CertificateStudies> certificateStudiesCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "programId")
     private Collection<OccupationalField> occupationalFieldCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "programId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "program")
     private Collection<ProgramPeriod> programPeriodCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "programId")
     private Collection<Course> courseCollection;
@@ -83,9 +89,10 @@ public class Program implements Serializable {
         this.programId = programId;
     }
 
-    public Program(Long programId, int programIndex, String programName, String programAcronym, Character programArea, Character programState) {
+    public Program(Long programId, int programIndex, String programIdentifier, String programName, String programAcronym, Character programArea, Character programState) {
         this.programId = programId;
         this.programIndex = programIndex;
+        this.programIdentifier = programIdentifier;
         this.programName = programName;
         this.programAcronym = programAcronym;
         this.programArea = programArea;
@@ -106,6 +113,14 @@ public class Program implements Serializable {
 
     public void setProgramIndex(int programIndex) {
         this.programIndex = programIndex;
+    }
+
+    public String getProgramIdentifier() {
+        return programIdentifier;
+    }
+
+    public void setProgramIdentifier(String programIdentifier) {
+        this.programIdentifier = programIdentifier;
     }
 
     public String getProgramName() {

@@ -18,22 +18,24 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /**
  *
  * @author Felix
  */
 @Entity
-@Table(name = "course")
+@Table(uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"course_identifier"})})
 @NamedQueries({
     @NamedQuery(name = "Course.findAll", query = "SELECT c FROM Course c"),
     @NamedQuery(name = "Course.findByCourseId", query = "SELECT c FROM Course c WHERE c.courseId = :courseId"),
     @NamedQuery(name = "Course.findByCourseIndex", query = "SELECT c FROM Course c WHERE c.courseIndex = :courseIndex"),
+    @NamedQuery(name = "Course.findByCourseIdentifier", query = "SELECT c FROM Course c WHERE c.courseIdentifier = :courseIdentifier"),
     @NamedQuery(name = "Course.findByCourseName", query = "SELECT c FROM Course c WHERE c.courseName = :courseName"),
     @NamedQuery(name = "Course.findByCourseAcronym", query = "SELECT c FROM Course c WHERE c.courseAcronym = :courseAcronym"),
     @NamedQuery(name = "Course.findByCourseDescription", query = "SELECT c FROM Course c WHERE c.courseDescription = :courseDescription"),
-    @NamedQuery(name = "Course.findByCourseState", query = "SELECT c FROM Course c WHERE c.courseState = :courseState"),
-    @NamedQuery(name = "Course.findByCourseTeachingCode", query = "SELECT c FROM Course c WHERE c.courseTeachingCode = :courseTeachingCode")})
+    @NamedQuery(name = "Course.findByCourseState", query = "SELECT c FROM Course c WHERE c.courseState = :courseState")})
 public class Course implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,6 +47,9 @@ public class Course implements Serializable {
     @Column(name = "course_index", nullable = false)
     private int courseIndex;
     @Basic(optional = false)
+    @Column(name = "course_identifier", nullable = false, length = 64)
+    private String courseIdentifier;
+    @Basic(optional = false)
     @Column(name = "course_name", nullable = false, length = 64)
     private String courseName;
     @Basic(optional = false)
@@ -55,9 +60,6 @@ public class Course implements Serializable {
     @Basic(optional = false)
     @Column(name = "course_state", nullable = false)
     private Character courseState;
-    @Basic(optional = false)
-    @Column(name = "course_teaching_code", nullable = false)
-    private long courseTeachingCode;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "courseId")
     private Collection<CertificateStudiesDetail> certificateStudiesDetailCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "courseId")
@@ -81,13 +83,13 @@ public class Course implements Serializable {
         this.courseId = courseId;
     }
 
-    public Course(Long courseId, int courseIndex, String courseName, String courseAcronym, Character courseState, long courseTeachingCode) {
+    public Course(Long courseId, int courseIndex, String courseIdentifier, String courseName, String courseAcronym, Character courseState) {
         this.courseId = courseId;
         this.courseIndex = courseIndex;
+        this.courseIdentifier = courseIdentifier;
         this.courseName = courseName;
         this.courseAcronym = courseAcronym;
         this.courseState = courseState;
-        this.courseTeachingCode = courseTeachingCode;
     }
 
     public Long getCourseId() {
@@ -104,6 +106,14 @@ public class Course implements Serializable {
 
     public void setCourseIndex(int courseIndex) {
         this.courseIndex = courseIndex;
+    }
+
+    public String getCourseIdentifier() {
+        return courseIdentifier;
+    }
+
+    public void setCourseIdentifier(String courseIdentifier) {
+        this.courseIdentifier = courseIdentifier;
     }
 
     public String getCourseName() {
@@ -136,14 +146,6 @@ public class Course implements Serializable {
 
     public void setCourseState(Character courseState) {
         this.courseState = courseState;
-    }
-
-    public long getCourseTeachingCode() {
-        return courseTeachingCode;
-    }
-
-    public void setCourseTeachingCode(long courseTeachingCode) {
-        this.courseTeachingCode = courseTeachingCode;
     }
 
     public Collection<CertificateStudiesDetail> getCertificateStudiesDetailCollection() {

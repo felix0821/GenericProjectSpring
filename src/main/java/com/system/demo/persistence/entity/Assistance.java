@@ -13,14 +13,12 @@ import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.Table;
 
 /**
  *
  * @author Felix
  */
 @Entity
-@Table(name = "assistance")
 @NamedQueries({
     @NamedQuery(name = "Assistance.findAll", query = "SELECT a FROM Assistance a"),
     @NamedQuery(name = "Assistance.findByHoraryId", query = "SELECT a FROM Assistance a WHERE a.assistancePK.horaryId = :horaryId"),

@@ -69,7 +69,7 @@ public class SecurityController {
 		//Realizamos las validaciones pertinentes
         if(bindingResult.hasErrors())
             return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
-        Long idRole = uI.uniqid();
+        Long idRole = uI.getUniqId();
 		char type = SYSTEM_TYPE_DEFINED_USER;
 		char state = SYSTEM_STATE_ACTIVE;
 		Role role = new Role(idRole, roleRegister.getName(), state, type);

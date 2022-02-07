@@ -25,8 +25,8 @@ public class EnrollmentProgramPeriodServiceImplements implements EnrollmentProgr
 	}
 	
 	@Override
-	public List<EnrollmentProgramPeriod> getEnrollmentProgramPeriodByProgramPeriodId(long yProgramPeriodId) {
-		return enrollmentProgramPeriodRepository.findByProgramPeriodId(yProgramPeriodId);
+	public Iterable<EnrollmentProgramPeriod> getEnrollmentProgramPeriodByProgramPeriodId(long programId, long pedagogicalPeriodId) {
+		return enrollmentProgramPeriodRepository.findByProgramPeriodId(programId, pedagogicalPeriodId);
 	}
 
 	

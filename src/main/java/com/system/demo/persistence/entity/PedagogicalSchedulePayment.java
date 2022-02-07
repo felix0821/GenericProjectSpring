@@ -50,8 +50,9 @@ public class PedagogicalSchedulePayment implements Serializable {
     @Column(name = "payment_schedule_final_payday", nullable = false)
     private int paymentScheduleFinalPayday;
     @JoinColumns({
-        @JoinColumn(name = "program_period_id", referencedColumnName = "program_period_id"),
-        @JoinColumn(name = "modulus_id", referencedColumnName = "modulus_id")})
+        @JoinColumn(name = "modulus_id", referencedColumnName = "modulus_id"),
+        @JoinColumn(name = "program_id", referencedColumnName = "program_id"),
+        @JoinColumn(name = "pedagogical_period_id", referencedColumnName = "pedagogical_period_id")})
     @ManyToOne
     private ModulusSchedule modulusSchedule;
     @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false)

@@ -14,6 +14,7 @@ import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -30,8 +31,9 @@ import javax.persistence.TemporalType;
 @Table(name = "enrollment_program_period")
 @NamedQueries({
     @NamedQuery(name = "EnrollmentProgramPeriod.findAll", query = "SELECT e FROM EnrollmentProgramPeriod e"),
-    @NamedQuery(name = "EnrollmentProgramPeriod.findByProgramPeriodId", query = "SELECT e FROM EnrollmentProgramPeriod e WHERE e.enrollmentProgramPeriodPK.programPeriodId = :programPeriodId"),
     @NamedQuery(name = "EnrollmentProgramPeriod.findByPersonId", query = "SELECT e FROM EnrollmentProgramPeriod e WHERE e.enrollmentProgramPeriodPK.personId = :personId"),
+    @NamedQuery(name = "EnrollmentProgramPeriod.findByProgramId", query = "SELECT e FROM EnrollmentProgramPeriod e WHERE e.enrollmentProgramPeriodPK.programId = :programId"),
+    @NamedQuery(name = "EnrollmentProgramPeriod.findByPedagogicalPeriodId", query = "SELECT e FROM EnrollmentProgramPeriod e WHERE e.enrollmentProgramPeriodPK.pedagogicalPeriodId = :pedagogicalPeriodId"),
     @NamedQuery(name = "EnrollmentProgramPeriod.findByPersonProgramPeriodDate", query = "SELECT e FROM EnrollmentProgramPeriod e WHERE e.personProgramPeriodDate = :personProgramPeriodDate"),
     @NamedQuery(name = "EnrollmentProgramPeriod.findByPersonProgramPeriodState", query = "SELECT e FROM EnrollmentProgramPeriod e WHERE e.personProgramPeriodState = :personProgramPeriodState")})
 public class EnrollmentProgramPeriod implements Serializable {
@@ -49,7 +51,9 @@ public class EnrollmentProgramPeriod implements Serializable {
     @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Person person;
-    @JoinColumn(name = "program_period_id", referencedColumnName = "program_period_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumns({
+        @JoinColumn(name = "program_id", referencedColumnName = "program_id", nullable = false, insertable = false, updatable = false),
+        @JoinColumn(name = "pedagogical_period_id", referencedColumnName = "pedagogical_period_id", nullable = false, insertable = false, updatable = false)})
     @ManyToOne(optional = false)
     private ProgramPeriod programPeriod;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "enrollmentProgramPeriod")
@@ -68,8 +72,8 @@ public class EnrollmentProgramPeriod implements Serializable {
         this.personProgramPeriodState = personProgramPeriodState;
     }
 
-    public EnrollmentProgramPeriod(long programPeriodId, long personId) {
-        this.enrollmentProgramPeriodPK = new EnrollmentProgramPeriodPK(programPeriodId, personId);
+    public EnrollmentProgramPeriod(long personId, long programId, long pedagogicalPeriodId) {
+        this.enrollmentProgramPeriodPK = new EnrollmentProgramPeriodPK(personId, programId, pedagogicalPeriodId);
     }
 
     public EnrollmentProgramPeriodPK getEnrollmentProgramPeriodPK() {

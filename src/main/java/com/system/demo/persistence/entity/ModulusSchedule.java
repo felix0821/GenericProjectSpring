@@ -13,6 +13,7 @@ import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -29,8 +30,9 @@ import javax.persistence.TemporalType;
 @Table(name = "modulus_schedule")
 @NamedQueries({
     @NamedQuery(name = "ModulusSchedule.findAll", query = "SELECT m FROM ModulusSchedule m"),
-    @NamedQuery(name = "ModulusSchedule.findByProgramPeriodId", query = "SELECT m FROM ModulusSchedule m WHERE m.modulusSchedulePK.programPeriodId = :programPeriodId"),
     @NamedQuery(name = "ModulusSchedule.findByModulusId", query = "SELECT m FROM ModulusSchedule m WHERE m.modulusSchedulePK.modulusId = :modulusId"),
+    @NamedQuery(name = "ModulusSchedule.findByProgramId", query = "SELECT m FROM ModulusSchedule m WHERE m.modulusSchedulePK.programId = :programId"),
+    @NamedQuery(name = "ModulusSchedule.findByPedagogicalPeriodId", query = "SELECT m FROM ModulusSchedule m WHERE m.modulusSchedulePK.pedagogicalPeriodId = :pedagogicalPeriodId"),
     @NamedQuery(name = "ModulusSchedule.findByModulusScheduleStartDate", query = "SELECT m FROM ModulusSchedule m WHERE m.modulusScheduleStartDate = :modulusScheduleStartDate"),
     @NamedQuery(name = "ModulusSchedule.findByModulusScheduleFinalDate", query = "SELECT m FROM ModulusSchedule m WHERE m.modulusScheduleFinalDate = :modulusScheduleFinalDate"),
     @NamedQuery(name = "ModulusSchedule.findByModulusScheduleInterestArrears", query = "SELECT m FROM ModulusSchedule m WHERE m.modulusScheduleInterestArrears = :modulusScheduleInterestArrears"),
@@ -57,7 +59,9 @@ public class ModulusSchedule implements Serializable {
     @JoinColumn(name = "modulus_id", referencedColumnName = "modulus_id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Modulus modulus;
-    @JoinColumn(name = "program_period_id", referencedColumnName = "program_period_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumns({
+        @JoinColumn(name = "program_id", referencedColumnName = "program_id", nullable = false, insertable = false, updatable = false),
+        @JoinColumn(name = "pedagogical_period_id", referencedColumnName = "pedagogical_period_id", nullable = false, insertable = false, updatable = false)})
     @ManyToOne(optional = false)
     private ProgramPeriod programPeriod;
     @OneToMany(mappedBy = "modulusSchedule")
@@ -78,8 +82,8 @@ public class ModulusSchedule implements Serializable {
         this.modulusScheduleState = modulusScheduleState;
     }
 
-    public ModulusSchedule(long programPeriodId, long modulusId) {
-        this.modulusSchedulePK = new ModulusSchedulePK(programPeriodId, modulusId);
+    public ModulusSchedule(long modulusId, long programId, long pedagogicalPeriodId) {
+        this.modulusSchedulePK = new ModulusSchedulePK(modulusId, programId, pedagogicalPeriodId);
     }
 
     public ModulusSchedulePK getModulusSchedulePK() {

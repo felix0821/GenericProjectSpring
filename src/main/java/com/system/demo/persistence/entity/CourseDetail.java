@@ -13,6 +13,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -28,10 +29,9 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(name = "CourseDetail.findAll", query = "SELECT c FROM CourseDetail c"),
     @NamedQuery(name = "CourseDetail.findByCourseDetailId", query = "SELECT c FROM CourseDetail c WHERE c.courseDetailId = :courseDetailId"),
-    @NamedQuery(name = "CourseDetail.findByCourseGroupCapacity", query = "SELECT c FROM CourseDetail c WHERE c.courseGroupCapacity = :courseGroupCapacity"),
-    @NamedQuery(name = "CourseDetail.findByCourseGroupIdentifier", query = "SELECT c FROM CourseDetail c WHERE c.courseGroupIdentifier = :courseGroupIdentifier"),
-    @NamedQuery(name = "CourseDetail.findByCourseGroupState", query = "SELECT c FROM CourseDetail c WHERE c.courseGroupState = :courseGroupState"),
-    @NamedQuery(name = "CourseDetail.findByCourseGroupTeachingCurriculum", query = "SELECT c FROM CourseDetail c WHERE c.courseGroupTeachingCurriculum = :courseGroupTeachingCurriculum")})
+    @NamedQuery(name = "CourseDetail.findByCourseDetailCapacity", query = "SELECT c FROM CourseDetail c WHERE c.courseDetailCapacity = :courseDetailCapacity"),
+    @NamedQuery(name = "CourseDetail.findByCourseDetailTeachingCurriculum", query = "SELECT c FROM CourseDetail c WHERE c.courseDetailTeachingCurriculum = :courseDetailTeachingCurriculum"),
+    @NamedQuery(name = "CourseDetail.findByCourseDetailState", query = "SELECT c FROM CourseDetail c WHERE c.courseDetailState = :courseDetailState")})
 public class CourseDetail implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,16 +40,13 @@ public class CourseDetail implements Serializable {
     @Column(name = "course_detail_id", nullable = false)
     private Long courseDetailId;
     @Basic(optional = false)
-    @Column(name = "course_group_capacity", nullable = false)
-    private int courseGroupCapacity;
+    @Column(name = "course_detail_capacity", nullable = false)
+    private int courseDetailCapacity;
+    @Column(name = "course_detail_teaching_curriculum", length = 256)
+    private String courseDetailTeachingCurriculum;
     @Basic(optional = false)
-    @Column(name = "course_group_identifier", nullable = false, length = 16)
-    private String courseGroupIdentifier;
-    @Basic(optional = false)
-    @Column(name = "course_group_state", nullable = false)
-    private Character courseGroupState;
-    @Column(name = "course_group_teaching_curriculum", length = 256)
-    private String courseGroupTeachingCurriculum;
+    @Column(name = "course_detail_state", nullable = false)
+    private Character courseDetailState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "courseDetail")
     private Collection<CourseRole> courseRoleCollection;
     @JoinColumn(name = "course_id", referencedColumnName = "course_id", nullable = false)
@@ -58,10 +55,12 @@ public class CourseDetail implements Serializable {
     @JoinColumn(name = "group_id", referencedColumnName = "group_id", nullable = false)
     @ManyToOne(optional = false)
     private GroupTeaching groupId;
-    @JoinColumn(name = "program_period_id", referencedColumnName = "program_period_id")
+    @JoinColumns({
+        @JoinColumn(name = "program_id", referencedColumnName = "program_id"),
+        @JoinColumn(name = "pedagogical_period_id", referencedColumnName = "pedagogical_period_id")})
     @ManyToOne
-    private ProgramPeriod programPeriodId;
-    @OneToMany(mappedBy = "courseDetailId")
+    private ProgramPeriod programPeriod;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "courseDetailId")
     private Collection<QualificationCriteria> qualificationCriteriaCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "courseDetail")
     private Collection<EnrollmentCourse> enrollmentCourseCollection;
@@ -75,11 +74,10 @@ public class CourseDetail implements Serializable {
         this.courseDetailId = courseDetailId;
     }
 
-    public CourseDetail(Long courseDetailId, int courseGroupCapacity, String courseGroupIdentifier, Character courseGroupState) {
+    public CourseDetail(Long courseDetailId, int courseDetailCapacity, Character courseDetailState) {
         this.courseDetailId = courseDetailId;
-        this.courseGroupCapacity = courseGroupCapacity;
-        this.courseGroupIdentifier = courseGroupIdentifier;
-        this.courseGroupState = courseGroupState;
+        this.courseDetailCapacity = courseDetailCapacity;
+        this.courseDetailState = courseDetailState;
     }
 
     public Long getCourseDetailId() {
@@ -90,36 +88,28 @@ public class CourseDetail implements Serializable {
         this.courseDetailId = courseDetailId;
     }
 
-    public int getCourseGroupCapacity() {
-        return courseGroupCapacity;
+    public int getCourseDetailCapacity() {
+        return courseDetailCapacity;
     }
 
-    public void setCourseGroupCapacity(int courseGroupCapacity) {
-        this.courseGroupCapacity = courseGroupCapacity;
+    public void setCourseDetailCapacity(int courseDetailCapacity) {
+        this.courseDetailCapacity = courseDetailCapacity;
     }
 
-    public String getCourseGroupIdentifier() {
-        return courseGroupIdentifier;
+    public String getCourseDetailTeachingCurriculum() {
+        return courseDetailTeachingCurriculum;
     }
 
-    public void setCourseGroupIdentifier(String courseGroupIdentifier) {
-        this.courseGroupIdentifier = courseGroupIdentifier;
+    public void setCourseDetailTeachingCurriculum(String courseDetailTeachingCurriculum) {
+        this.courseDetailTeachingCurriculum = courseDetailTeachingCurriculum;
     }
 
-    public Character getCourseGroupState() {
-        return courseGroupState;
+    public Character getCourseDetailState() {
+        return courseDetailState;
     }
 
-    public void setCourseGroupState(Character courseGroupState) {
-        this.courseGroupState = courseGroupState;
-    }
-
-    public String getCourseGroupTeachingCurriculum() {
-        return courseGroupTeachingCurriculum;
-    }
-
-    public void setCourseGroupTeachingCurriculum(String courseGroupTeachingCurriculum) {
-        this.courseGroupTeachingCurriculum = courseGroupTeachingCurriculum;
+    public void setCourseDetailState(Character courseDetailState) {
+        this.courseDetailState = courseDetailState;
     }
 
     public Collection<CourseRole> getCourseRoleCollection() {
@@ -146,12 +136,12 @@ public class CourseDetail implements Serializable {
         this.groupId = groupId;
     }
 
-    public ProgramPeriod getProgramPeriodId() {
-        return programPeriodId;
+    public ProgramPeriod getProgramPeriod() {
+        return programPeriod;
     }
 
-    public void setProgramPeriodId(ProgramPeriod programPeriodId) {
-        this.programPeriodId = programPeriodId;
+    public void setProgramPeriod(ProgramPeriod programPeriod) {
+        this.programPeriod = programPeriod;
     }
 
     public Collection<QualificationCriteria> getQualificationCriteriaCollection() {
