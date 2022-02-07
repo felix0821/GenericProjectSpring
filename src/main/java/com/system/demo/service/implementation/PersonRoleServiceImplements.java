@@ -42,8 +42,8 @@ public class PersonRoleServiceImplements implements PersonRoleService {
 	}
 
 	@Override
-	public Long getTotalPersonRoleByPersonId(long personId) {
-		return repository.countByPersonId(personId);
+	public long getTotalPersonRoleByPersonId(long personId) {
+		return repository.countPersonRoleByPersonId(personId);
 	}
 
 }

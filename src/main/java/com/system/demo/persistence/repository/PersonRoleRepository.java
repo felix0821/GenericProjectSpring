@@ -8,6 +8,7 @@ import com.system.demo.persistence.entity.PersonRolePK;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 @Repository
 public interface PersonRoleRepository extends JpaRepository<PersonRole,PersonRolePK>{
@@ -17,8 +18,8 @@ public interface PersonRoleRepository extends JpaRepository<PersonRole,PersonRol
 	@Query(value = "DELETE FROM PersonRole p WHERE (p.personRolePK.personId = :personId) AND (p.personRolePK.roleId = :roleId)")
 	public void deletePersonRole(long personId, long roleId);
 	
-	/*@Query(value = "SELECT COUNT(p) FROM PersonRole p WHERE p.personRolePK.personId = :personId")
-	public Long countPersonRoleByPersonId(long personId);*/
+	@Query(value = "SELECT COUNT(p) FROM PersonRole p WHERE p.personRolePK.personId = :personId")
+	public Long countPersonRoleByPersonId(@Param("personId")long personId);
 	
-	public Long countByPersonId(long personId);
+	//public Long countByPersonId(long personId);
 }
