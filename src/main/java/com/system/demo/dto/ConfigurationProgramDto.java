@@ -8,6 +8,9 @@ public class ConfigurationProgramDto {
 	@NotNull(message = "Ingrese un id valido")
 	private Long id;
 	
+	@NotNull(message = "Ingrese un id valido")
+	private String identifier;
+	
 	@NotNull(message = "Ingrese un indice valido")
 	private int index;
 	
@@ -24,28 +27,27 @@ public class ConfigurationProgramDto {
 	private Character state;
 	
 	public ConfigurationProgramDto(@NotNull(message = "Ingrese un id valido") Long id,
-			@NotNull(message = "Ingrese un id valido") int index, @NotBlank(message = "Ingrese un nombre.") String name,
-			@NotBlank(message = "Ingrese un acrónimo.") String acronym, @NotNull Character state) {
-		super();
-		this.id = id;
-		this.index = index;
-		this.name = name;
-		this.acronym = acronym;
-		this.state = state;
-		this.description = "Programa de enseñanza";
-	}
-
-	public ConfigurationProgramDto(@NotNull(message = "Ingrese un id valido") Long id,
-			@NotNull(message = "Ingrese un id valido") int index, @NotBlank(message = "Ingrese un nombre.") String name,
+			@NotNull(message = "Ingrese un id valido") String identifier,
+			@NotNull(message = "Ingrese un indice valido") int index,
+			@NotBlank(message = "Ingrese un nombre.") String name,
 			@NotBlank(message = "Ingrese un acrónimo.") String acronym,
-			@NotBlank(message = "Ingrese un acrónimo.") String description, @NotNull Character state) {
+			@NotBlank(message = "Ingrese una descripción.") String description, @NotNull Character state) {
 		super();
 		this.id = id;
+		this.identifier = identifier;
 		this.index = index;
 		this.name = name;
 		this.acronym = acronym;
 		this.description = description;
 		this.state = state;
+	}
+
+	public String getIdentifier() {
+		return identifier;
+	}
+
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;
 	}
 
 	public Long getId() {

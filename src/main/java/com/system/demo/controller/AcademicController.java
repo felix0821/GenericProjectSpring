@@ -160,99 +160,8 @@ public class AcademicController {
 		return new ResponseEntity(new Message(SYSTEM_SUCCESS_DELETE_PERIOD), HttpStatus.OK);
 	}
 	
-	@SuppressWarnings(value = { "rawtypes", "unchecked" })
-	@GetMapping(value=URL_ACADEMIC_EDITxPROGRAM_GET)
-	public ResponseEntity<?> academicProgramForm(@PathVariable(name ="id")Long id){
-		//	Buscamos programa por id
-		Program programEdit = null;
-		try {
-			programEdit = programService.getProgramById(id);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
-		}
-		ConfigurationProgramDto result = new ConfigurationProgramDto(programEdit.getProgramId(), programEdit.getProgramIndex(),
-				programEdit.getProgramName(), programEdit.getProgramAcronym(), programEdit.getProgramDescription(), programEdit.getProgramState());
-		return new ResponseEntity<ConfigurationProgramDto>(result, HttpStatus.OK);
-	}
 	
-	@SuppressWarnings(value = { "rawtypes", "unchecked" })
-	@PostMapping(URL_ACADEMIC_EDITxPROGRAM_POST)
-	public ResponseEntity<?> academicProgramEdit(@Valid @RequestBody ConfigurationProgramDto programEditDto, BindingResult bindingResult) {
-		//	Realizamos las validaciones pertinentes
-        if(bindingResult.hasErrors())
-            return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
-        //	Buscamos programa por id
-        Program programEdit = null;
-		try {
-			programEdit = programService.getProgramById(programEditDto.getId());
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
-		}
-		programEdit.setProgramName(programEditDto.getName());
-		programEdit.setProgramAcronym(programEditDto.getAcronym());
-		programEdit.setProgramDescription(programEditDto.getDescription());
-		programEdit.setProgramState(programEditDto.getState());
-		try {
-			programService.updateProgram(programEdit);
-		} catch(Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_PROGRAM), HttpStatus.BAD_REQUEST);
-		}
-		return new ResponseEntity(new Message(SYSTEM_SUCCESS_EDIT_PROGRAM), HttpStatus.CREATED);
-	}
-	
-	@SuppressWarnings(value = { "rawtypes", "unchecked"})
-	@PostMapping(value=URL_ACADEMIC_PROGRAM_REGISTER_POST)
-    public ResponseEntity<?> programRegister(@Valid @RequestBody AcademicProgramRegisterDto programRegister, BindingResult bindingResult){
-		try {
-			//Realizamos las validaciones pertinentes
-	        if(bindingResult.hasErrors())
-	            return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
-	        Long idProgram = uI.getUniqId();
-	        char state = SYSTEM_STATE_ACTIVE;
-	        String identifier = uI.getIdentifier(Arrays.asList(programRegister.getName()));
-	        Program program = new Program(idProgram, SYSTEM_INDEX, identifier, programRegister.getName(), programRegister.getAcronym(),
-	        		programRegister.getArea(), state);
-	        program.setProgramDescription(programRegister.getDescription());
-	        if(programRegister.getImage()!=null) program.setProgramImage(programRegister.getImage());
-	        try {
-				programService.createProgram(program);
-				return new ResponseEntity(new Message(SYSTEM_SUCCESS_REGISTER_PROGRAM), HttpStatus.CREATED);
-			} catch (Exception e) {
-				e.printStackTrace();
-				return new ResponseEntity(new Message(SYSTEM_ERROR_REGISTER_PROGRAM), HttpStatus.BAD_REQUEST);
-			}
-		} catch (Exception e) {
-			System.out.println(e);
-			return new ResponseEntity(new Message(SYSTEM_ERROR), HttpStatus.BAD_REQUEST);
-		}
-	}
-	
-	@SuppressWarnings(value = { "rawtypes", "unchecked" })
-	@GetMapping(value = URL_ACADEMIC_PROGRAM_VIEW_GET)
-	public ResponseEntity<?> programView(@PathVariable(name ="id")Long id) {
-		//		Buscamos programa por id
-		Program programEdit = null;
-		try {
-			programEdit = programService.getProgramById(id);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
-		}
-		ProgramDetailedDto result = new ProgramDetailedDto(programEdit.getProgramId(), programEdit.getProgramName(), 
-				programEdit.getProgramAcronym(), programEdit.getProgramDescription(), programEdit.getProgramRequirement(), 
-				programEdit.getProgramCurriculum(), programEdit.getProgramImage(), programEdit.getProgramArea(), programEdit.getProgramState());
-		List<ProgramDetailedOccupationalDto> occupationalsDto = new ArrayList<>();
-		for(OccupationalField occupational:occupationalFieldService.getOccupationalFieldByProgramId(id)) {
-			occupationalsDto.add(new ProgramDetailedOccupationalDto(occupational.getOccupationalFieldId(),
-					occupational.getOccupationalFieldIndex(), occupational.getOccupationalFieldName(), occupational.getOccupationalFieldState()));
-		}
-		result.setOccupationals(occupationalsDto);
-		return new ResponseEntity<ProgramDetailedDto>(result, HttpStatus.OK);
-	}
-	
+	//-------------------------------------------------------
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@PostMapping(value = URL_ACADEMIC_PROGRAM_EDIT_POST)
 	public ResponseEntity<?> programEdit(@Valid @RequestBody ProgramDetailedDto programEditDto, BindingResult bindingResult) {
@@ -284,17 +193,7 @@ public class AcademicController {
 		return new ResponseEntity(new Message(SYSTEM_SUCCESS_EDIT_PROGRAM), HttpStatus.CREATED);
 	}
 	
-	@SuppressWarnings(value = { "rawtypes", "unchecked" })
-	@GetMapping(value = URL_ACADEMIC_PROGRAM_DELETE_GET)
-	public ResponseEntity<?> programDelete(@PathVariable(name="id")Long id) {
-		try {
-			programService.deleteProgram(id);
-		} catch(Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
-		}
-		return new ResponseEntity(new Message(SYSTEM_SUCCESS_DELETE_PROGRAM), HttpStatus.OK);
-	}
+	
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@PostMapping(value = URL_ACADEMIC_PROGRAMxOCCUPATIONAL_REGISTER_POST)

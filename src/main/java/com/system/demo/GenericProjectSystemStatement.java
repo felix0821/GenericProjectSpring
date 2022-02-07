@@ -59,12 +59,8 @@ public class GenericProjectSystemStatement {
 	public static final String URL_DOCUMENTARY_REQUEST = "/documentary";
 	//	Mapeo para el controlador "Gestion academica"
 	public static final String URL_ACADEMIC_REQUEST = "/academic";
-	public static final String URL_ACADEMIC_EDITxPROGRAM_GET = "/edit-program/{id}";
-	public static final String URL_ACADEMIC_EDITxPROGRAM_POST = "/edit-program";
-	public static final String URL_ACADEMIC_PROGRAM_REGISTER_POST = "/program/register";
-	public static final String URL_ACADEMIC_PROGRAM_VIEW_GET = "/program/view/{id}";
-	public static final String URL_ACADEMIC_PROGRAM_EDIT_POST = "/program/edit";
-	public static final String URL_ACADEMIC_PROGRAM_DELETE_GET = "/program/delete/{id}";
+	
+	
 	public static final String URL_ACADEMIC_PROGRAMxOCCUPATIONAL_REGISTER_POST = "/program-occupational/register";
 	public static final String URL_ACADEMIC_PROGRAMxPERIODS_GET = "/program-periods/{idProgram}";
 	public static final String URL_ACADEMIC_CYCLExREGISTER_POST = "/cycle-register";
@@ -88,6 +84,13 @@ public class GenericProjectSystemStatement {
 	//	Mapero para el controlador "Gestion de configuración"
 	public static final String URL_CONFIGURATION_REQUEST = "/configuration";
 	public static final String URL_CONFIGURATION_PROGRAM_GET = "/program";
+	public static final String URL_CONFIGURATION_PROGRAMxREGISTER_POST = "/program-register";
+	public static final String URL_CONFIGURATION_PROGRAMxEDIT_GET = "/program-edit";
+	public static final String URL_CONFIGURATION_PROGRAMxEDIT_POST = "/program-edit";
+	public static final String URL_CONFIGURATION_PROGRAMxDELETE_GET = "/program-delete";
+	public static final String URL_CONFIGURATION_PROGRAM_VIEW_GET = "/program/{program}";
+	public static final String URL_ACADEMIC_PROGRAM_EDIT_POST = "/program/edit";
+	
 	
 	private static final HashMap<String,String> MAPPING_URL = new HashMap<String,String>(){
 		private static final long serialVersionUID = -5369868392053811478L;
