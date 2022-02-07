@@ -385,18 +385,18 @@ public class AcademicController {
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@GetMapping(value = URL_ACADEMIC_CYCLE_PROGRAMS_GET)
-	public ResponseEntity<?> academicProgramsPeriod(@PathVariable(name ="cycle")Long id){
+	public ResponseEntity<?> academicProgramsPeriod(@PathVariable(name ="cycle")String identifier){
 		//	Buscamos programa por id
 		PedagogicalPeriod period = null;
 		try {
-			period = pedagogicalPeriodService.getPedagogicalPeriodById(id);
+			period = pedagogicalPeriodService.getPedagogicalPeriodByIdentifier(identifier).get();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
 		}
 		ProgramPeriodHeaderDto progPeriodHeaderDto = new ProgramPeriodHeaderDto(period.getPedagogicalPeriodName());
 		List<ProgramPeriodDto> progPeriodDtoList = new ArrayList<>();
-		List<ProgramPeriod> progPeriods = programPeriodService.getProgramPeriodByPedagogicalPeriodId(id);
+		List<ProgramPeriod> progPeriods = programPeriodService.getProgramPeriodByPedagogicalPeriodId(period.getPedagogicalPeriodId());
 		for(ProgramPeriod progPeriod:progPeriods) {
 			progPeriodDtoList.add(new ProgramPeriodDto(progPeriod.getProgram().getProgramIdentifier(), progPeriod.getProgramPeriodIndex(), 
 					progPeriod.getProgram().getProgramName(), progPeriod.getProgramPeriodOpening(), progPeriod.getProgramPeriodClosing(), 
