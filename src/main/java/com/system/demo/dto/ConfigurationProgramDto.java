@@ -3,7 +3,7 @@ package com.system.demo.dto;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-public class AcademicProgramDto {
+public class ConfigurationProgramDto {
 	
 	@NotNull(message = "Ingrese un id valido")
 	private Long id;
@@ -23,7 +23,7 @@ public class AcademicProgramDto {
 	@NotNull
 	private Character state;
 	
-	public AcademicProgramDto(@NotNull(message = "Ingrese un id valido") Long id,
+	public ConfigurationProgramDto(@NotNull(message = "Ingrese un id valido") Long id,
 			@NotNull(message = "Ingrese un id valido") int index, @NotBlank(message = "Ingrese un nombre.") String name,
 			@NotBlank(message = "Ingrese un acrónimo.") String acronym, @NotNull Character state) {
 		super();
@@ -35,7 +35,7 @@ public class AcademicProgramDto {
 		this.description = "Programa de enseñanza";
 	}
 
-	public AcademicProgramDto(@NotNull(message = "Ingrese un id valido") Long id,
+	public ConfigurationProgramDto(@NotNull(message = "Ingrese un id valido") Long id,
 			@NotNull(message = "Ingrese un id valido") int index, @NotBlank(message = "Ingrese un nombre.") String name,
 			@NotBlank(message = "Ingrese un acrónimo.") String acronym,
 			@NotBlank(message = "Ingrese un acrónimo.") String description, @NotNull Character state) {

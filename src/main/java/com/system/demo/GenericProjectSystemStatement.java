@@ -59,8 +59,6 @@ public class GenericProjectSystemStatement {
 	public static final String URL_DOCUMENTARY_REQUEST = "/documentary";
 	//	Mapeo para el controlador "Gestion academica"
 	public static final String URL_ACADEMIC_REQUEST = "/academic";
-	public static final String URL_ACADEMIC_EDITxPERIOD_GET = "/edit-period/{id}";
-	public static final String URL_ACADEMIC_EDITxPERIOD_POST = "/edit-period";
 	public static final String URL_ACADEMIC_EDITxPROGRAM_GET = "/edit-program/{id}";
 	public static final String URL_ACADEMIC_EDITxPROGRAM_POST = "/edit-program";
 	public static final String URL_ACADEMIC_PERIOD_DELETE_GET = "/period/delete/{id}";
@@ -70,12 +68,13 @@ public class GenericProjectSystemStatement {
 	public static final String URL_ACADEMIC_PROGRAM_DELETE_GET = "/program/delete/{id}";
 	public static final String URL_ACADEMIC_PROGRAMxOCCUPATIONAL_REGISTER_POST = "/program-occupational/register";
 	public static final String URL_ACADEMIC_PROGRAMxPERIODS_GET = "/program-periods/{idProgram}";
-	public static final String URL_ACADEMIC_CYCLE_REGISTER_POST = "/cycle-register";
+	public static final String URL_ACADEMIC_CYCLExREGISTER_POST = "/cycle-register";
+	public static final String URL_ACADEMIC_CYCLExEDIT_GET = "/cycle-edit/{identifier}";
+	public static final String URL_ACADEMIC_CYCLExEDIT_POST = "/cycle-edit";
 	public static final String URL_ACADEMIC_CYCLE_PROGRAMS_GET = "/{cycle}/programs";
 	public static final String URL_ACADEMIC_CYCLE_PROGRAM_REGISTER_POST = "/{cycle}/program-register";
 	public static final String URL_ACADEMIC_CYCLE_PROGRAM_ENROLLED_GET = "/{cycle}/{program}/enrolleds";
 	public static final String URL_ACADEMIC_CYCLE_PROGRAM_COURSE_GET = "/{cycle}/{program}/courses";
-	
 	//public static final String URL_ACADEMIC_PROGRAMxPERIOD_VIEW_GET = "/program-period/view/{id}";
 	//	Mapeo para el controlador "Gestion de seguridad"
 	public static final String URL_SECURITY_REQUEST = "/security";
@@ -86,6 +85,9 @@ public class GenericProjectSystemStatement {
 	public static final String URL_SECURITY_ROLE_REGISTER_POST = "/role/register";
 	public static final String URL_SECURITY_ACCESS_GET = "/access";
 	public static final String URL_SECURITY_INTERFACE_GET = "/interface";
+	//	Mapero para el controlador "Gestion de configuración"
+	public static final String URL_CONFIGURATION_REQUEST = "/configuration";
+	public static final String URL_CONFIGURATION_PROGRAM_GET = "/program";
 	
 	private static final HashMap<String,String> MAPPING_URL = new HashMap<String,String>(){
 		private static final long serialVersionUID = -5369868392053811478L;
