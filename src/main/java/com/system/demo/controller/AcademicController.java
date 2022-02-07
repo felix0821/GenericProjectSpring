@@ -297,7 +297,7 @@ public class AcademicController {
 			e.printStackTrace();
 			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
 		}
-		ProgramPeriodHeaderDto progPeriodHeaderDto = new ProgramPeriodHeaderDto(period.getPedagogicalPeriodName());
+		ProgramPeriodHeaderDto progPeriodHeaderDto = new ProgramPeriodHeaderDto(identifier,period.getPedagogicalPeriodName());
 		List<ProgramPeriodDto> progPeriodDtoList = new ArrayList<>();
 		List<ProgramPeriod> progPeriods = programPeriodService.getProgramPeriodByPedagogicalPeriodId(period.getPedagogicalPeriodId());
 		Long count = 0L;

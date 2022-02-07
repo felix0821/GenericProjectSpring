@@ -4,18 +4,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class ProgramPeriodHeaderDto {
+	
+	@NotNull(message = "Ingrese un id valido")
+	private String identifier;
 	
 	@NotBlank(message = "Ingrese un nombre de encabezado.")
 	private String name;
 	
 	private List<ProgramPeriodDto> programPeriods;
-
-	public ProgramPeriodHeaderDto(@NotBlank(message = "Ingrese un nombre de encabezado.") String name) {
+	
+	public ProgramPeriodHeaderDto(@NotNull(message = "Ingrese un id valido") String identifier,
+			@NotBlank(message = "Ingrese un nombre de encabezado.") String name) {
 		super();
+		this.identifier = identifier;
 		this.name = name;
 		this.programPeriods = new ArrayList<>();
+	}
+
+	public String getIdentifier() {
+		return identifier;
+	}
+
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;
 	}
 
 	public String getName() {
