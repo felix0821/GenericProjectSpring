@@ -222,6 +222,7 @@ public class AcademicController {
 		}
 	}
 	
+	/*
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@GetMapping(value = URL_ACADEMIC_PROGRAMxPERIODS_GET)
 	public ResponseEntity<?> academicProgramPeriods(@PathVariable(name ="idProgram")Long id){
@@ -244,6 +245,7 @@ public class AcademicController {
 		progPeriodHeaderDto.setProgramPeriods(progPeriodDtoList);
 		return new ResponseEntity<ProgramPeriodHeaderDto>(progPeriodHeaderDto, HttpStatus.OK);
 	}
+	*/
 	
 	/*
 	 * ENLACE - GESTION DE PERIODOS PEDAGÓGICOS
@@ -296,10 +298,12 @@ public class AcademicController {
 		ProgramPeriodHeaderDto progPeriodHeaderDto = new ProgramPeriodHeaderDto(period.getPedagogicalPeriodName());
 		List<ProgramPeriodDto> progPeriodDtoList = new ArrayList<>();
 		List<ProgramPeriod> progPeriods = programPeriodService.getProgramPeriodByPedagogicalPeriodId(period.getPedagogicalPeriodId());
+		Long count = 0L;
 		for(ProgramPeriod progPeriod:progPeriods) {
-			progPeriodDtoList.add(new ProgramPeriodDto(progPeriod.getProgram().getProgramIdentifier(), progPeriod.getProgramPeriodIndex(), 
-					progPeriod.getProgram().getProgramName(), progPeriod.getProgramPeriodOpening(), progPeriod.getProgramPeriodClosing(), 
-					progPeriod.getProgramPeriodState()));
+			count = programPeriodService.getTotalProgramPeriodByPedagogicalPeriodId(progPeriod.getPedagogicalPeriod().getPedagogicalPeriodId());
+			progPeriodDtoList.add(new ProgramPeriodDto(progPeriod.getProgram().getProgramId(), progPeriod.getProgram().getProgramIdentifier(), 
+					progPeriod.getProgramPeriodIndex(), progPeriod.getProgram().getProgramName(), progPeriod.getProgramPeriodOpening(), 
+					progPeriod.getProgramPeriodClosing(), count, progPeriod.getProgramPeriodState()));
 		}
 		progPeriodHeaderDto.setProgramPeriods(progPeriodDtoList);
 		return new ResponseEntity<ProgramPeriodHeaderDto>(progPeriodHeaderDto, HttpStatus.OK);

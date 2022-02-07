@@ -46,4 +46,9 @@ public class ProgramPeriodServiceImplements implements ProgramPeriodService {
 		return programPeriodRepository.findById(new ProgramPeriodPK(programId, pedagogicalPeriodId));
 	}
 
+	@Override
+	public long getTotalProgramPeriodByPedagogicalPeriodId(long pedagogicalPeriodId) {
+		return programPeriodRepository.countByPedagogicalPeriodId(pedagogicalPeriodId);
+	}
+
 }

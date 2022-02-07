@@ -23,7 +23,7 @@ public class PersonListDto {
 	private String lastnameMother;
 	
 	@NotNull
-	private int countRoles;
+	private Long countRoles;
 	
 	@NotNull
 	private Character state;
@@ -33,7 +33,7 @@ public class PersonListDto {
 			@NotBlank @Size(max = 20, min = 3, message = "Usuario invalido") String username,
 			@NotBlank(message = "Ingrese un nombre.") String name,
 			@NotBlank(message = "Ingrese un apellido paterno.") String lastnameFather,
-			@NotBlank(message = "Ingrese un apellido materno.") String lastnameMother, @NotNull int countRoles,
+			@NotBlank(message = "Ingrese un apellido materno.") String lastnameMother, @NotNull Long countRoles,
 			@NotNull Character state) {
 		super();
 		this.id = id;
@@ -93,11 +93,11 @@ public class PersonListDto {
 		this.state = state;
 	}
 
-	public int getCountRoles() {
+	public Long getCountRoles() {
 		return countRoles;
 	}
 
-	public void setCountRoles(int countRoles) {
+	public void setCountRoles(Long countRoles) {
 		this.countRoles = countRoles;
 	}
 

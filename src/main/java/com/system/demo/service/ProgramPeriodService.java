@@ -14,5 +14,7 @@ public interface ProgramPeriodService {
 	public List<ProgramPeriod> getProgramPeriodByPedagogicalPeriodId(long pedagogicalPeriodId);
 	
 	public Optional<ProgramPeriod> getProgramPeriodById(long programId, long pedagogicalPeriodId);
+	
+	public long getTotalProgramPeriodByPedagogicalPeriodId(long pedagogicalPeriodId);
 
 }
