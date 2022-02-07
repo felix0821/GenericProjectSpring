@@ -93,9 +93,11 @@ public class AcademicController {
 		try {
 			Iterable<PedagogicalPeriod> pedagogicalPeriods = pedagogicalPeriodService.getAllPedagogicalPeriods();
 			List<AcademicPeriodDto> academicPedPeriodDto = new ArrayList<>();
+			Long count = 0L;
 			for(PedagogicalPeriod pedPeriod:pedagogicalPeriods) {
+				count = programPeriodService.getTotalProgramPeriodByPedagogicalPeriodId(pedPeriod.getPedagogicalPeriodId());
 				academicPedPeriodDto.add(new AcademicPeriodDto(pedPeriod.getPedagogicalPeriodId(), pedPeriod.getPedagogicalPeriodIdentifier(), 
-						pedPeriod.getPedagogicalPeriodYear(), pedPeriod.getPedagogicalPeriodName(), "",
+						pedPeriod.getPedagogicalPeriodYear(), pedPeriod.getPedagogicalPeriodName(), "", count,
 						pedPeriod.getPedagogicalPeriodModality(), pedPeriod.getPedagogicalPeriodState()));
 			}
 			return new ResponseEntity<List<AcademicPeriodDto>>(academicPedPeriodDto, HttpStatus.OK);
@@ -116,7 +118,7 @@ public class AcademicController {
 			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
 		}
 		AcademicPeriodDto resultDto = new AcademicPeriodDto(periodEdit.getPedagogicalPeriodId(), periodEdit.getPedagogicalPeriodIdentifier(), 
-				periodEdit.getPedagogicalPeriodYear(), periodEdit.getPedagogicalPeriodName(), periodEdit.getPedagogicalPeriodDescription(), 
+				periodEdit.getPedagogicalPeriodYear(), periodEdit.getPedagogicalPeriodName(), periodEdit.getPedagogicalPeriodDescription(), 0L,
 				periodEdit.getPedagogicalPeriodModality(), periodEdit.getPedagogicalPeriodState());
 		return new ResponseEntity<AcademicPeriodDto>(resultDto, HttpStatus.OK);
 	}
@@ -300,7 +302,7 @@ public class AcademicController {
 		List<ProgramPeriod> progPeriods = programPeriodService.getProgramPeriodByPedagogicalPeriodId(period.getPedagogicalPeriodId());
 		Long count = 0L;
 		for(ProgramPeriod progPeriod:progPeriods) {
-			count = programPeriodService.getTotalProgramPeriodByPedagogicalPeriodId(progPeriod.getPedagogicalPeriod().getPedagogicalPeriodId());
+			count = 0L;
 			progPeriodDtoList.add(new ProgramPeriodDto(progPeriod.getProgram().getProgramId(), progPeriod.getProgram().getProgramIdentifier(), 
 					progPeriod.getProgramPeriodIndex(), progPeriod.getProgram().getProgramName(), progPeriod.getProgramPeriodOpening(), 
 					progPeriod.getProgramPeriodClosing(), count, progPeriod.getProgramPeriodState()));

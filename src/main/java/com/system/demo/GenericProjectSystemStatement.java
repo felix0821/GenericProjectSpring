@@ -60,7 +60,6 @@ public class GenericProjectSystemStatement {
 	//	Mapeo para el controlador "Gestion academica"
 	public static final String URL_ACADEMIC_REQUEST = "/academic";
 	
-	
 	public static final String URL_ACADEMIC_PROGRAMxOCCUPATIONAL_REGISTER_POST = "/program-occupational/register";
 	public static final String URL_ACADEMIC_PROGRAMxPERIODS_GET = "/program-periods/{idProgram}";
 	public static final String URL_ACADEMIC_CYCLExREGISTER_POST = "/cycle-register";
