@@ -118,15 +118,17 @@ public class AppController {
 	@PostMapping("/generate-data")
 	public String createUser(ModelMap model) {
 		try {
-			generateData();
+			//generateData();
 			//generateFinancialMovement();
 			//generateRequisitionStatus();
 			//generateRequisition();
 			//generateRole();
 			//generateDocument();
 			//generatePerson();
-			//model.addAttribute("page", "completed.html");
+			model.addAttribute("message", "Id - ");
+			model.addAttribute("page", "completed.html");
 		} catch (Exception e) {
+			model.addAttribute("message", "ERROR");
 			model.addAttribute("page", "error.html");
 			e.printStackTrace();
 		}

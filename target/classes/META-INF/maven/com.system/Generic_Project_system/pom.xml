@@ -101,12 +101,6 @@
 			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-		<!-- JDO -->
-		<dependency>
-	    	<groupId>org.datanucleus</groupId>
-		    <artifactId>javax.jdo</artifactId>
-		    <version>3.2.0-m6</version>
-		</dependency>
 	</dependencies>
 
 	<build>

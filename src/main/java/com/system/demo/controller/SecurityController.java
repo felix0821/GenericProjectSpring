@@ -72,7 +72,7 @@ public class SecurityController {
         Long idRole = uI.getUniqId();
 		char type = SYSTEM_TYPE_DEFINED_USER;
 		char state = SYSTEM_STATE_ACTIVE;
-		Role role = new Role(idRole, roleRegister.getName(), state, type);
+		Role role = new Role(idRole, roleRegister.getName(), type, state);
 		role.setRoleDescription(roleRegister.getDescription());
 		try {
 			roleService.createRole(role);

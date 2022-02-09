@@ -105,6 +105,4 @@ public class AcademicPeriodDto {
 	public void setState(Character state) {
 		this.state = state;
 	}
-
-
 }
