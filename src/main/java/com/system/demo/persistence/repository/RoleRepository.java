@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.system.demo.persistence.entity.Role;
@@ -21,6 +22,6 @@ public interface RoleRepository extends JpaRepository<Role, Long>{
 	
 	public Iterable<Role> findByRoleType(Character roleType);
 	
-	@Query("SELECT r FROM Role r WHERE r.roleId NOT IN (SELECT p.personRolePK.roleId FROM PersonRole p WHERE p.personRolePK.personId = :personId)")
-	public Iterable<Role> findByRoleNotPersonId(Long personId);
+	@Query(value = "SELECT r FROM Role r WHERE r.roleId NOT IN (SELECT p.personRolePK.roleId FROM PersonRole p WHERE p.personRolePK.personId = :personId)")
+	public Iterable<Role> findByRoleNotPersonId(@Param(value = "personId")Long personId);
 }

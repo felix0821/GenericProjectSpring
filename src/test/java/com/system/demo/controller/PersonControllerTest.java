@@ -3,7 +3,7 @@ package com.system.demo.controller;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.system.demo.dto.PersonLoginDto;
+import com.system.demo.dto.specific.PersonLoginDto;
 import com.system.demo.persistence.entity.Person;
 import com.system.demo.persistence.repository.PersonRepository;
 import com.system.demo.security.JwtProvider;

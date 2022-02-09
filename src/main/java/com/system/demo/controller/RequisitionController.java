@@ -26,9 +26,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.system.demo.dto.Message;
-import com.system.demo.dto.RequisitionRegisterDto;
-import com.system.demo.dto.RequisitionTypeDto;
+import com.system.demo.dto.generic.Message;
+import com.system.demo.dto.specific.RequisitionRegisterDto;
+import com.system.demo.dto.specific.RequisitionTypeDto;
 import com.system.demo.persistence.entity.FinancialMovement;
 import com.system.demo.persistence.entity.FinancialMovementDetail;
 import com.system.demo.persistence.entity.Person;

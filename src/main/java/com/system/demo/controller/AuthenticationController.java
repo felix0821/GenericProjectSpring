@@ -12,9 +12,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import com.system.demo.dto.JwtDto;
-import com.system.demo.dto.Message;
-import com.system.demo.dto.PersonLoginDto;
+import com.system.demo.dto.generic.Message;
+import com.system.demo.dto.specific.JwtDto;
+import com.system.demo.dto.specific.PersonLoginDto;
 import com.system.demo.persistence.entity.Person;
 import com.system.demo.security.JwtProvider;
 import com.system.demo.service.PersonService;

@@ -22,11 +22,11 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.system.demo.dto.Message;
-import com.system.demo.dto.RoleDto;
-import com.system.demo.dto.RoleHeaderDto;
-import com.system.demo.dto.RoleRegisterDto;
-import com.system.demo.dto.RoleTypeDto;
+import com.system.demo.dto.generic.Message;
+import com.system.demo.dto.specific.RoleDto;
+import com.system.demo.dto.specific.RoleHeaderDto;
+import com.system.demo.dto.specific.RoleRegisterDto;
+import com.system.demo.dto.specific.RoleTypeDto;
 import com.system.demo.persistence.entity.Role;
 import com.system.demo.service.RoleService;
 import com.system.demo.utility.UniqId;

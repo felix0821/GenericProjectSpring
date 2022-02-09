@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.system.demo.dto.ChangePasswordDto;
+import com.system.demo.dto.specific.ChangePasswordDto;
 import com.system.demo.exception.CustomeFieldValidationException;
 import com.system.demo.exception.UsernameOrIdNotFound;
 import com.system.demo.persistence.entity.Person;

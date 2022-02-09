@@ -1,6 +1,6 @@
 package com.system.demo.controller;
 
-import com.system.demo.dto.ErrorDto;
+import com.system.demo.dto.generic.ErrorDto;
 import com.system.demo.exception.AppBadRequestException;
 import com.system.demo.exception.AppNotAuthorizedException;
 import com.system.demo.exception.AppNotFoundException;
@@ -21,10 +21,11 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+
+import static com.system.demo.dto.generic.ErrorDto.DetailError;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.system.demo.dto.ErrorDto.DetailError;
 
 @RestControllerAdvice
 public class CustomExceptionMapper extends ResponseEntityExceptionHandler {

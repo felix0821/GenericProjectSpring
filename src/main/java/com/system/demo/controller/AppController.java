@@ -18,9 +18,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.system.demo.dto.AlertRequisitionDto;
-import com.system.demo.dto.Message;
-import com.system.demo.dto.RequisitionRegisterDto;
+import com.system.demo.dto.generic.Message;
+import com.system.demo.dto.specific.AlertRequisitionDto;
+import com.system.demo.dto.specific.RequisitionRegisterDto;
 import com.system.demo.persistence.entity.Data;
 import com.system.demo.persistence.entity.DataCategory;
 import com.system.demo.persistence.entity.DataDetail;

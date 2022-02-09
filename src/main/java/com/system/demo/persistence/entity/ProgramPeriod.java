@@ -72,7 +72,7 @@ public class ProgramPeriod implements Serializable {
     private Collection<EnrollmentProgramPeriod> enrollmentProgramPeriodCollection;
     @JoinColumn(name = "pedagogical_period_id", referencedColumnName = "pedagogical_period_id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
-    private PedagogicalPeriod pedagogicalPeriod;
+    private Period period;
     @JoinColumn(name = "program_id", referencedColumnName = "program_id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Program program;
@@ -175,12 +175,12 @@ public class ProgramPeriod implements Serializable {
         this.enrollmentProgramPeriodCollection = enrollmentProgramPeriodCollection;
     }
 
-    public PedagogicalPeriod getPedagogicalPeriod() {
-        return pedagogicalPeriod;
+    public Period getPedagogicalPeriod() {
+        return period;
     }
 
-    public void setPedagogicalPeriod(PedagogicalPeriod pedagogicalPeriod) {
-        this.pedagogicalPeriod = pedagogicalPeriod;
+    public void setPedagogicalPeriod(Period period) {
+        this.period = period;
     }
 
     public Program getProgram() {

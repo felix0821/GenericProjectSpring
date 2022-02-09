@@ -2,7 +2,7 @@ package com.system.demo.service;
 
 import java.util.Optional;
 
-import com.system.demo.dto.ChangePasswordDto;
+import com.system.demo.dto.specific.ChangePasswordDto;
 import com.system.demo.exception.UsernameOrIdNotFound;
 import com.system.demo.persistence.entity.Person;
 

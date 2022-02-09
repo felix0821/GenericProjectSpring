@@ -75,6 +75,11 @@ public class ProgramServiceImplements implements ProgramService{
 		return programRepository.findByProgramIdentifier(identifier);
 	}
 
+	@Override
+	public Iterable<Program> getProgramByNotPedagogicalPeriodId(Long PedagogicalPeriodId) {
+		return programRepository.findByProgramNotPedagogicalPeriodId(PedagogicalPeriodId);
+	}
+
 	
 
 	

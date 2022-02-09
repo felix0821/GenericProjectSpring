@@ -22,11 +22,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.system.demo.dto.ConfigurationProgramRegisterDto;
-import com.system.demo.dto.ConfigurationProgramDto;
-import com.system.demo.dto.Message;
-import com.system.demo.dto.ProgramDetailedDto;
-import com.system.demo.dto.ProgramDetailedOccupationalDto;
+import com.system.demo.dto.generic.Message;
+import com.system.demo.dto.specific.ConfigurationProgramDto;
+import com.system.demo.dto.specific.ConfigurationProgramRegisterDto;
+import com.system.demo.dto.specific.ProgramDetailedDto;
+import com.system.demo.dto.specific.ProgramDetailedOccupationalDto;
 import com.system.demo.persistence.entity.OccupationalField;
 import com.system.demo.persistence.entity.Program;
 import com.system.demo.service.OccupationalFieldService;

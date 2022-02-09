@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.system.demo.dto.DocumentaryListDetailDto;
-import com.system.demo.dto.DocumentaryListDto;
-import com.system.demo.dto.Message;
+import com.system.demo.dto.generic.Message;
+import com.system.demo.dto.specific.DocumentaryListDetailDto;
+import com.system.demo.dto.specific.DocumentaryListDto;
 import com.system.demo.persistence.entity.RequisitionDetail;
 import com.system.demo.persistence.entity.RequisitionStatus;
 import com.system.demo.persistence.entity.RequisitionStatusDetail;

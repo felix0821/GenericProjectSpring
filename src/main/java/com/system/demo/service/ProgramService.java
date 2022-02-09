@@ -15,4 +15,5 @@ public interface ProgramService {
 	public Optional<Program> getProgramByIdentifier(String identifier);
 	public Program getProgramById(Long programId) throws Exception;
 	public List<Program> getProgramByState(Character programState);
+	public Iterable<Program> getProgramByNotPedagogicalPeriodId(Long PedagogicalPeriodId);
 }

@@ -27,15 +27,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.system.demo.dto.DropdownDataDto;
-import com.system.demo.dto.Message;
-import com.system.demo.dto.PersonEditDto;
-import com.system.demo.dto.PersonListDto;
-import com.system.demo.dto.PersonProfileDto;
-import com.system.demo.dto.PersonRegisterDto;
-import com.system.demo.dto.PersonRoleRegisterDto;
-import com.system.demo.dto.PersonRolesDetailDto;
-import com.system.demo.dto.PersonRolesHeaderDto;
+import com.system.demo.dto.generic.DropdownDataDto;
+import com.system.demo.dto.generic.Message;
+import com.system.demo.dto.generic.Relationship2Dto;
+import com.system.demo.dto.specific.PersonEditDto;
+import com.system.demo.dto.specific.PersonListDto;
+import com.system.demo.dto.specific.PersonProfileDto;
+import com.system.demo.dto.specific.PersonRegisterDto;
+import com.system.demo.dto.specific.PersonRolesDetailDto;
+import com.system.demo.dto.specific.PersonRolesHeaderDto;
 import com.system.demo.persistence.entity.Person;
 import com.system.demo.persistence.entity.PersonIdentificationDocument;
 import com.system.demo.persistence.entity.PersonRole;
@@ -297,14 +297,19 @@ public class PersonController {
 		}
 	}
 	
+	/**
+	 * @implNote <b>idOne</b> refers to the <b>personId</b>
+	 * @implNote <b>idTwo</b> refers to the <b>roleId</b>
+	*/
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@PostMapping(value = URL_PERSONxROLE_REGISTER_POST)
-    public ResponseEntity<?> personRoleRegister(@Valid @RequestBody PersonRoleRegisterDto personRoleRegDto, BindingResult bindingResult) {
-		//Realizamos las validaciones pertinentes
+    public ResponseEntity<?> personRoleRegister(@Valid @RequestBody Relationship2Dto personRoleRegDto, BindingResult bindingResult) {
+		//	Realizamos las validaciones pertinentes
         if(bindingResult.hasErrors())
             return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
 		try {
-			PersonRole personRol = new PersonRole(personRoleRegDto.getPersonId(), personRoleRegDto.getRoleId());
+			
+			PersonRole personRol = new PersonRole(personRoleRegDto.getIdOne(), personRoleRegDto.getIdTwo());
 			personRol.setPersonRoleState(SYSTEM_STATE_ACTIVE);
 			personRoleService.createPersonRol(personRol);
 			return new ResponseEntity(new Message(SYSTEM_SUCCESS_REGISTER_PERSONxROLE), HttpStatus.CREATED);

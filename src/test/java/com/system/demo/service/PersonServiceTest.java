@@ -5,7 +5,7 @@ import org.springframework.validation.BindingResult;
 import org.thymeleaf.extras.springsecurity5.auth.Authorization;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.system.demo.dto.PersonLoginDto;
+import com.system.demo.dto.specific.PersonLoginDto;
 import com.system.demo.persistence.entity.Person;
 import com.system.demo.persistence.repository.PersonRepository;
 import com.system.demo.security.JwtProvider;
