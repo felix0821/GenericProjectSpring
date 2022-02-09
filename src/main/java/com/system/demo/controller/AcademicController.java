@@ -41,6 +41,7 @@ import com.system.demo.dto.specific.ProgramPeriodDto;
 import com.system.demo.dto.specific.ProgramPeriodEnrollmentDto;
 import com.system.demo.dto.specific.ProgramPeriodHeaderDto;
 import com.system.demo.dto.specific.ProgramPeriodNewRegisterDto;
+import com.system.demo.dto.specific.ProgramPeriodSelectRegisterDto;
 import com.system.demo.persistence.entity.Course;
 import com.system.demo.persistence.entity.CourseDetail;
 import com.system.demo.persistence.entity.EnrollmentProgramPeriod;
@@ -339,8 +340,26 @@ public class AcademicController {
 	}
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
+	@PostMapping(value = URL_ACADEMIC_CYCLE_PROGRAMxREGISTERxSELECT_POST)
+    public ResponseEntity<?> periodProgramRegisterSelect(@Valid @RequestBody ProgramPeriodSelectRegisterDto progPeriodRegister, BindingResult bindingResult){
+		try {
+	        //	Construimos modelo de registro
+	        ProgramPeriodPK idProgPeriod = new ProgramPeriodPK(progPeriodRegister.getIdProgram(), progPeriodRegister.getIdPeriod());
+	        ProgramPeriod programPeriod = new ProgramPeriod(idProgPeriod, SYSTEM_INDEX, progPeriodRegister.getPayEnrollmet(), 
+	        		progPeriodRegister.getPayPension(), progPeriodRegister.getDateOpening(), progPeriodRegister.getDateClosingEnrollmet(), 
+	        		progPeriodRegister.getDateClosing(), SYSTEM_STATE_ACTIVE);
+	        programPeriodService.createProgramPeriod(programPeriod);
+	        //Realizar registro en bloque
+	        return new ResponseEntity(new Message(SYSTEM_SUCCESS_REGISTER_PROGRAM), HttpStatus.CREATED);
+		} catch (Exception e) {
+			System.out.println(e);
+			return new ResponseEntity(new Message(SYSTEM_ERROR), HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@PostMapping(value = URL_ACADEMIC_CYCLE_PROGRAMxREGISTERxNEW_POST)
-    public ResponseEntity<?> periodProgramRegister(@Valid @RequestBody ProgramPeriodNewRegisterDto progPeriodRegister, BindingResult bindingResult){
+    public ResponseEntity<?> periodProgramRegisterNew(@Valid @RequestBody ProgramPeriodNewRegisterDto progPeriodRegister, BindingResult bindingResult){
 		try {
 			//Realizamos las validaciones pertinentes
 	        if(bindingResult.hasErrors())
