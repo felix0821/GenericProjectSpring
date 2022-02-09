@@ -42,13 +42,19 @@ public class ProgramPeriodServiceImplements implements ProgramPeriodService {
 	}
 
 	@Override
-	public Optional<ProgramPeriod> getProgramPeriodById(long programId, long pedagogicalPeriodId) {
-		return programPeriodRepository.findById(new ProgramPeriodPK(programId, pedagogicalPeriodId));
+	public Optional<ProgramPeriod> getProgramPeriodById(long programId, long periodId) {
+		return programPeriodRepository.findById(new ProgramPeriodPK(programId, periodId));
 	}
 
 	@Override
-	public long getTotalProgramPeriodByPedagogicalPeriodId(long pedagogicalPeriodId) {
-		return programPeriodRepository.countByPedagogicalPeriodId(pedagogicalPeriodId);
+	public long getTotalProgramPeriodByPedagogicalPeriodId(long periodId) {
+		return programPeriodRepository.countByPedagogicalPeriodId(periodId);
+	}
+
+	@Override
+	public void deleteProgramPeriod(long programId, long periodId) {
+		ProgramPeriod programPeriod = getProgramPeriodById(programId, periodId).get();
+		programPeriodRepository.delete(programPeriod);
 	}
 
 }

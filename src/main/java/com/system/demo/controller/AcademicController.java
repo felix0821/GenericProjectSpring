@@ -389,6 +389,19 @@ public class AcademicController {
 		}
 	}
 	
+	@SuppressWarnings(value = { "rawtypes", "unchecked" })
+	@GetMapping(URL_ACADEMIC_CYCLE_PROGRAMxDELETE_GET)
+	public ResponseEntity<?> periodProrgamDelete(@PathVariable(name ="cycle")String cycle, @RequestParam(name="programId")Long programId) {
+		try {
+			Period period = periodService.getPeriodByIdentifier(cycle).get();
+			programPeriodService.deleteProgramPeriod(programId, period.getPeriodId());;
+		} catch(Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity(new Message(SYSTEM_SUCCESS_DELETE_PROGRAM), HttpStatus.OK);
+	}
+	
 	/*
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@GetMapping(value = URL_ACADEMIC_CYCLE_PROGRAM_ENROLLED_GET)
