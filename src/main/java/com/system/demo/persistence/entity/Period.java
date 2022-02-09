@@ -28,15 +28,15 @@ import javax.persistence.UniqueConstraint;
 @Table(name = "pedagogical_period", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"pedagogical_period_identifier"})})
 @NamedQueries({
-    @NamedQuery(name = "PedagogicalPeriod.findAll", query = "SELECT p FROM PedagogicalPeriod p"),
-    @NamedQuery(name = "PedagogicalPeriod.findByPedagogicalPeriodId", query = "SELECT p FROM PedagogicalPeriod p WHERE p.pedagogicalPeriodId = :pedagogicalPeriodId"),
-    @NamedQuery(name = "PedagogicalPeriod.findByPedagogicalPeriodIndex", query = "SELECT p FROM PedagogicalPeriod p WHERE p.pedagogicalPeriodIndex = :pedagogicalPeriodIndex"),
-    @NamedQuery(name = "PedagogicalPeriod.findByPedagogicalPeriodIdentifier", query = "SELECT p FROM PedagogicalPeriod p WHERE p.pedagogicalPeriodIdentifier = :pedagogicalPeriodIdentifier"),
-    @NamedQuery(name = "PedagogicalPeriod.findByPedagogicalPeriodName", query = "SELECT p FROM PedagogicalPeriod p WHERE p.pedagogicalPeriodName = :pedagogicalPeriodName"),
-    @NamedQuery(name = "PedagogicalPeriod.findByPedagogicalPeriodYear", query = "SELECT p FROM PedagogicalPeriod p WHERE p.pedagogicalPeriodYear = :pedagogicalPeriodYear"),
-    @NamedQuery(name = "PedagogicalPeriod.findByPedagogicalPeriodDescription", query = "SELECT p FROM PedagogicalPeriod p WHERE p.pedagogicalPeriodDescription = :pedagogicalPeriodDescription"),
-    @NamedQuery(name = "PedagogicalPeriod.findByPedagogicalPeriodModality", query = "SELECT p FROM PedagogicalPeriod p WHERE p.pedagogicalPeriodModality = :pedagogicalPeriodModality"),
-    @NamedQuery(name = "PedagogicalPeriod.findByPedagogicalPeriodState", query = "SELECT p FROM PedagogicalPeriod p WHERE p.pedagogicalPeriodState = :pedagogicalPeriodState")})
+    @NamedQuery(name = "Period.findAll", query = "SELECT p FROM Period p"),
+    @NamedQuery(name = "Period.findByPedagogicalPeriodId", query = "SELECT p FROM Period p WHERE p.pedagogicalPeriodId = :pedagogicalPeriodId"),
+    @NamedQuery(name = "Period.findByPedagogicalPeriodIndex", query = "SELECT p FROM Period p WHERE p.pedagogicalPeriodIndex = :pedagogicalPeriodIndex"),
+    @NamedQuery(name = "Period.findByPedagogicalPeriodIdentifier", query = "SELECT p FROM Period p WHERE p.pedagogicalPeriodIdentifier = :pedagogicalPeriodIdentifier"),
+    @NamedQuery(name = "Period.findByPedagogicalPeriodName", query = "SELECT p FROM Period p WHERE p.pedagogicalPeriodName = :pedagogicalPeriodName"),
+    @NamedQuery(name = "Period.findByPedagogicalPeriodYear", query = "SELECT p FROM Period p WHERE p.pedagogicalPeriodYear = :pedagogicalPeriodYear"),
+    @NamedQuery(name = "Period.findByPedagogicalPeriodDescription", query = "SELECT p FROM Period p WHERE p.pedagogicalPeriodDescription = :pedagogicalPeriodDescription"),
+    @NamedQuery(name = "Period.findByPedagogicalPeriodModality", query = "SELECT p FROM Period p WHERE p.pedagogicalPeriodModality = :pedagogicalPeriodModality"),
+    @NamedQuery(name = "Period.findByPedagogicalPeriodState", query = "SELECT p FROM Period p WHERE p.pedagogicalPeriodState = :pedagogicalPeriodState")})
 public class Period implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -65,7 +65,7 @@ public class Period implements Serializable {
     @Basic(optional = false)
     @Column(name = "pedagogical_period_state", nullable = false)
     private Character pedagogicalPeriodState;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pedagogicalPeriod")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "period")
     private Collection<ProgramPeriod> programPeriodCollection;
 
     public Period() {
