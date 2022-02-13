@@ -13,6 +13,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -29,7 +31,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * @author Felix
  */
 @Entity
-@Table(uniqueConstraints = {
+@Table(name = "person", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"person_email"}),
     @UniqueConstraint(columnNames = {"person_username"})})
 @NamedQueries({
@@ -40,7 +42,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
     @NamedQuery(name = "Person.findByPersonName", query = "SELECT p FROM Person p WHERE p.personName = :personName"),
     @NamedQuery(name = "Person.findByPersonLastnameFather", query = "SELECT p FROM Person p WHERE p.personLastnameFather = :personLastnameFather"),
     @NamedQuery(name = "Person.findByPersonLastnameMother", query = "SELECT p FROM Person p WHERE p.personLastnameMother = :personLastnameMother"),
-    @NamedQuery(name = "Person.findByPersonGender", query = "SELECT p FROM Person p WHERE p.personGender = :personGender"),
     @NamedQuery(name = "Person.findByPersonDateBirth", query = "SELECT p FROM Person p WHERE p.personDateBirth = :personDateBirth"),
     @NamedQuery(name = "Person.findByPersonDateRegistration", query = "SELECT p FROM Person p WHERE p.personDateRegistration = :personDateRegistration"),
     @NamedQuery(name = "Person.findByPersonEmail", query = "SELECT p FROM Person p WHERE p.personEmail = :personEmail"),
@@ -54,7 +55,7 @@ public class Person implements Serializable {
     @Column(name = "person_id", nullable = false)
     private Long personId;
     @Basic(optional = false)
-    @Column(name = "person_username", nullable = false, length = 32)
+    @Column(name = "person_username", nullable = false, length = 128)
     private String personUsername;
     @Basic(optional = false)
     @Column(name = "person_password", nullable = false, length = 128)
@@ -68,9 +69,6 @@ public class Person implements Serializable {
     @Basic(optional = false)
     @Column(name = "person_lastname_mother", nullable = false, length = 128)
     private String personLastnameMother;
-    @Basic(optional = false)
-    @Column(name = "person_gender", nullable = false)
-    private Character personGender;
     @Column(name = "person_date_birth")
     @Temporal(TemporalType.DATE)
     private Date personDateBirth;
@@ -100,6 +98,9 @@ public class Person implements Serializable {
     private Collection<RequisitionDetailPerson> requisitionDetailPersonCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
     private Collection<PaymentDiscountPerson> paymentDiscountPersonCollection;
+    @JoinColumn(name = "gender_id", referencedColumnName = "gender_id")
+    @ManyToOne
+    private Gender genderId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId")
     private Collection<RequisitionRemark> requisitionRemarkCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
@@ -126,14 +127,13 @@ public class Person implements Serializable {
         this.personId = personId;
     }
 
-    public Person(Long personId, String personUsername, String personPassword, String personName, String personLastnameFather, String personLastnameMother, Character personGender, Date personDateRegistration, String personEmail, Character personState) {
+    public Person(Long personId, String personUsername, String personPassword, String personName, String personLastnameFather, String personLastnameMother, Date personDateRegistration, String personEmail, Character personState) {
         this.personId = personId;
         this.personUsername = personUsername;
         this.personPassword = personPassword;
         this.personName = personName;
         this.personLastnameFather = personLastnameFather;
         this.personLastnameMother = personLastnameMother;
-        this.personGender = personGender;
         this.personDateRegistration = personDateRegistration;
         this.personEmail = personEmail;
         this.personState = personState;
@@ -185,14 +185,6 @@ public class Person implements Serializable {
 
     public void setPersonLastnameMother(String personLastnameMother) {
         this.personLastnameMother = personLastnameMother;
-    }
-
-    public Character getPersonGender() {
-        return personGender;
-    }
-
-    public void setPersonGender(Character personGender) {
-        this.personGender = personGender;
     }
 
     public Date getPersonDateBirth() {
@@ -289,6 +281,14 @@ public class Person implements Serializable {
 
     public void setPaymentDiscountPersonCollection(Collection<PaymentDiscountPerson> paymentDiscountPersonCollection) {
         this.paymentDiscountPersonCollection = paymentDiscountPersonCollection;
+    }
+
+    public Gender getGenderId() {
+        return genderId;
+    }
+
+    public void setGenderId(Gender genderId) {
+        this.genderId = genderId;
     }
 
     public Collection<RequisitionRemark> getRequisitionRemarkCollection() {

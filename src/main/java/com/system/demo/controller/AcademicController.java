@@ -99,7 +99,7 @@ public class AcademicController {
 			List<AcademicPeriodDto> academicPedPeriodDto = new ArrayList<>();
 			Long count = 0L;
 			for(Period pedPeriod:periods) {
-				count = programPeriodService.getTotalProgramPeriodByPedagogicalPeriodId(pedPeriod.getPeriodId());
+				count = programPeriodService.getTotalProgramPeriodByPeriodId(pedPeriod.getPeriodId());
 				academicPedPeriodDto.add(new AcademicPeriodDto(pedPeriod.getPeriodId(), pedPeriod.getPeriodIdentifier(), 
 						pedPeriod.getPeriodYear(), pedPeriod.getPeriodName(), "", count,
 						pedPeriod.getPeriodModality(), pedPeriod.getPeriodState()));

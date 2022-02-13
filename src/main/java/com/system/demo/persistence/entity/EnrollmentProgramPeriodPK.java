@@ -24,16 +24,16 @@ public class EnrollmentProgramPeriodPK implements Serializable {
     @Column(name = "program_id", nullable = false)
     private long programId;
     @Basic(optional = false)
-    @Column(name = "pedagogical_period_id", nullable = false)
-    private long pedagogicalPeriodId;
+    @Column(name = "period_id", nullable = false)
+    private long periodId;
 
     public EnrollmentProgramPeriodPK() {
     }
 
-    public EnrollmentProgramPeriodPK(long personId, long programId, long pedagogicalPeriodId) {
+    public EnrollmentProgramPeriodPK(long personId, long programId, long periodId) {
         this.personId = personId;
         this.programId = programId;
-        this.pedagogicalPeriodId = pedagogicalPeriodId;
+        this.periodId = periodId;
     }
 
     public long getPersonId() {
@@ -52,12 +52,12 @@ public class EnrollmentProgramPeriodPK implements Serializable {
         this.programId = programId;
     }
 
-    public long getPedagogicalPeriodId() {
-        return pedagogicalPeriodId;
+    public long getPeriodId() {
+        return periodId;
     }
 
-    public void setPedagogicalPeriodId(long pedagogicalPeriodId) {
-        this.pedagogicalPeriodId = pedagogicalPeriodId;
+    public void setPeriodId(long periodId) {
+        this.periodId = periodId;
     }
 
     @Override
@@ -65,7 +65,7 @@ public class EnrollmentProgramPeriodPK implements Serializable {
         int hash = 0;
         hash += (int) personId;
         hash += (int) programId;
-        hash += (int) pedagogicalPeriodId;
+        hash += (int) periodId;
         return hash;
     }
 
@@ -82,7 +82,7 @@ public class EnrollmentProgramPeriodPK implements Serializable {
         if (this.programId != other.programId) {
             return false;
         }
-        if (this.pedagogicalPeriodId != other.pedagogicalPeriodId) {
+        if (this.periodId != other.periodId) {
             return false;
         }
         return true;
@@ -90,7 +90,7 @@ public class EnrollmentProgramPeriodPK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.persistence.entity.EnrollmentProgramPeriodPK[ personId=" + personId + ", programId=" + programId + ", pedagogicalPeriodId=" + pedagogicalPeriodId + " ]";
+        return "com.system.demo.persistence.entity.EnrollmentProgramPeriodPK[ personId=" + personId + ", programId=" + programId + ", periodId=" + periodId + " ]";
     }
     
 }

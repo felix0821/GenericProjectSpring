@@ -13,9 +13,12 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -24,12 +27,14 @@ import javax.persistence.TemporalType;
  * @author Felix
  */
 @Entity
+@Table(name = "horary")
 @NamedQueries({
     @NamedQuery(name = "Horary.findAll", query = "SELECT h FROM Horary h"),
     @NamedQuery(name = "Horary.findByHoraryId", query = "SELECT h FROM Horary h WHERE h.horaryId = :horaryId"),
     @NamedQuery(name = "Horary.findByHoraryDay", query = "SELECT h FROM Horary h WHERE h.horaryDay = :horaryDay"),
     @NamedQuery(name = "Horary.findByHoraryTimeStart", query = "SELECT h FROM Horary h WHERE h.horaryTimeStart = :horaryTimeStart"),
-    @NamedQuery(name = "Horary.findByHoraryTimeFinal", query = "SELECT h FROM Horary h WHERE h.horaryTimeFinal = :horaryTimeFinal")})
+    @NamedQuery(name = "Horary.findByHoraryTimeFinal", query = "SELECT h FROM Horary h WHERE h.horaryTimeFinal = :horaryTimeFinal"),
+    @NamedQuery(name = "Horary.findByHoraryState", query = "SELECT h FROM Horary h WHERE h.horaryState = :horaryState")})
 public class Horary implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -48,8 +53,14 @@ public class Horary implements Serializable {
     @Column(name = "horary_time_final", nullable = false)
     @Temporal(TemporalType.TIME)
     private Date horaryTimeFinal;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "horary")
-    private Collection<HoraryCourseGroup> horaryCourseGroupCollection;
+    @Basic(optional = false)
+    @Column(name = "horary_state", nullable = false)
+    private Character horaryState;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "horaryId")
+    private Collection<HoraryDetail> horaryDetailCollection;
+    @JoinColumn(name = "course_detail_id", referencedColumnName = "course_detail_id", nullable = false)
+    @ManyToOne(optional = false)
+    private CourseDetail courseDetailId;
 
     public Horary() {
     }
@@ -58,11 +69,12 @@ public class Horary implements Serializable {
         this.horaryId = horaryId;
     }
 
-    public Horary(Long horaryId, Character horaryDay, Date horaryTimeStart, Date horaryTimeFinal) {
+    public Horary(Long horaryId, Character horaryDay, Date horaryTimeStart, Date horaryTimeFinal, Character horaryState) {
         this.horaryId = horaryId;
         this.horaryDay = horaryDay;
         this.horaryTimeStart = horaryTimeStart;
         this.horaryTimeFinal = horaryTimeFinal;
+        this.horaryState = horaryState;
     }
 
     public Long getHoraryId() {
@@ -97,12 +109,28 @@ public class Horary implements Serializable {
         this.horaryTimeFinal = horaryTimeFinal;
     }
 
-    public Collection<HoraryCourseGroup> getHoraryCourseGroupCollection() {
-        return horaryCourseGroupCollection;
+    public Character getHoraryState() {
+        return horaryState;
     }
 
-    public void setHoraryCourseGroupCollection(Collection<HoraryCourseGroup> horaryCourseGroupCollection) {
-        this.horaryCourseGroupCollection = horaryCourseGroupCollection;
+    public void setHoraryState(Character horaryState) {
+        this.horaryState = horaryState;
+    }
+
+    public Collection<HoraryDetail> getHoraryDetailCollection() {
+        return horaryDetailCollection;
+    }
+
+    public void setHoraryDetailCollection(Collection<HoraryDetail> horaryDetailCollection) {
+        this.horaryDetailCollection = horaryDetailCollection;
+    }
+
+    public CourseDetail getCourseDetailId() {
+        return courseDetailId;
+    }
+
+    public void setCourseDetailId(CourseDetail courseDetailId) {
+        this.courseDetailId = courseDetailId;
     }
 
     @Override

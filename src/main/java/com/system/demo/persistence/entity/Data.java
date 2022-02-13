@@ -17,12 +17,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  *
  * @author Felix
  */
 @Entity
+@Table(name = "data")
 @NamedQueries({
     @NamedQuery(name = "Data.findAll", query = "SELECT d FROM Data d"),
     @NamedQuery(name = "Data.findByDataId", query = "SELECT d FROM Data d WHERE d.dataId = :dataId"),

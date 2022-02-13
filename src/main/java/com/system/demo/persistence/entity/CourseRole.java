@@ -6,7 +6,6 @@
 package com.system.demo.persistence.entity;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
@@ -16,8 +15,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  *
@@ -29,27 +26,28 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "CourseRole.findAll", query = "SELECT c FROM CourseRole c"),
     @NamedQuery(name = "CourseRole.findByCourseDetailId", query = "SELECT c FROM CourseRole c WHERE c.courseRolePK.courseDetailId = :courseDetailId"),
     @NamedQuery(name = "CourseRole.findByRoleId", query = "SELECT c FROM CourseRole c WHERE c.courseRolePK.roleId = :roleId"),
-    @NamedQuery(name = "CourseRole.findByCourseRoleRegistrationDate", query = "SELECT c FROM CourseRole c WHERE c.courseRoleRegistrationDate = :courseRoleRegistrationDate"),
-    @NamedQuery(name = "CourseRole.findByCourseRoleExpirationDate", query = "SELECT c FROM CourseRole c WHERE c.courseRoleExpirationDate = :courseRoleExpirationDate")})
+    @NamedQuery(name = "CourseRole.findByCourseRoleEnroll", query = "SELECT c FROM CourseRole c WHERE c.courseRoleEnroll = :courseRoleEnroll"),
+    @NamedQuery(name = "CourseRole.findByCourseRoleState", query = "SELECT c FROM CourseRole c WHERE c.courseRoleState = :courseRoleState")})
 public class CourseRole implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected CourseRolePK courseRolePK;
     @Basic(optional = false)
-    @Column(name = "course_role_registration_date", nullable = false)
-    @Temporal(TemporalType.DATE)
-    private Date courseRoleRegistrationDate;
+    @Column(name = "course_role_enroll", nullable = false)
+    private boolean courseRoleEnroll;
     @Basic(optional = false)
-    @Column(name = "course_role_expiration_date", nullable = false)
-    @Temporal(TemporalType.DATE)
-    private Date courseRoleExpirationDate;
+    @Column(name = "course_role_state", nullable = false)
+    private Character courseRoleState;
     @JoinColumn(name = "course_detail_id", referencedColumnName = "course_detail_id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private CourseDetail courseDetail;
     @JoinColumn(name = "role_id", referencedColumnName = "role_id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Role role;
+    @JoinColumn(name = "schedule_id", referencedColumnName = "schedule_id")
+    @ManyToOne
+    private Schedule scheduleId;
 
     public CourseRole() {
     }
@@ -58,10 +56,10 @@ public class CourseRole implements Serializable {
         this.courseRolePK = courseRolePK;
     }
 
-    public CourseRole(CourseRolePK courseRolePK, Date courseRoleRegistrationDate, Date courseRoleExpirationDate) {
+    public CourseRole(CourseRolePK courseRolePK, boolean courseRoleEnroll, Character courseRoleState) {
         this.courseRolePK = courseRolePK;
-        this.courseRoleRegistrationDate = courseRoleRegistrationDate;
-        this.courseRoleExpirationDate = courseRoleExpirationDate;
+        this.courseRoleEnroll = courseRoleEnroll;
+        this.courseRoleState = courseRoleState;
     }
 
     public CourseRole(long courseDetailId, long roleId) {
@@ -76,20 +74,20 @@ public class CourseRole implements Serializable {
         this.courseRolePK = courseRolePK;
     }
 
-    public Date getCourseRoleRegistrationDate() {
-        return courseRoleRegistrationDate;
+    public boolean getCourseRoleEnroll() {
+        return courseRoleEnroll;
     }
 
-    public void setCourseRoleRegistrationDate(Date courseRoleRegistrationDate) {
-        this.courseRoleRegistrationDate = courseRoleRegistrationDate;
+    public void setCourseRoleEnroll(boolean courseRoleEnroll) {
+        this.courseRoleEnroll = courseRoleEnroll;
     }
 
-    public Date getCourseRoleExpirationDate() {
-        return courseRoleExpirationDate;
+    public Character getCourseRoleState() {
+        return courseRoleState;
     }
 
-    public void setCourseRoleExpirationDate(Date courseRoleExpirationDate) {
-        this.courseRoleExpirationDate = courseRoleExpirationDate;
+    public void setCourseRoleState(Character courseRoleState) {
+        this.courseRoleState = courseRoleState;
     }
 
     public CourseDetail getCourseDetail() {
@@ -106,6 +104,14 @@ public class CourseRole implements Serializable {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public Schedule getScheduleId() {
+        return scheduleId;
+    }
+
+    public void setScheduleId(Schedule scheduleId) {
+        this.scheduleId = scheduleId;
     }
 
     @Override

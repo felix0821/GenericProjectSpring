@@ -49,12 +49,15 @@ public class PedagogicalSchedulePayment implements Serializable {
     @Basic(optional = false)
     @Column(name = "payment_schedule_final_payday", nullable = false)
     private int paymentScheduleFinalPayday;
+    @JoinColumn(name = "interest_arrears_id", referencedColumnName = "interest_arrears_id")
+    @ManyToOne
+    private InterestArrears interestArrearsId;
     @JoinColumns({
         @JoinColumn(name = "modulus_id", referencedColumnName = "modulus_id"),
         @JoinColumn(name = "program_id", referencedColumnName = "program_id"),
-        @JoinColumn(name = "pedagogical_period_id", referencedColumnName = "pedagogical_period_id")})
+        @JoinColumn(name = "period_id", referencedColumnName = "period_id")})
     @ManyToOne
-    private ModulusSchedule modulusSchedule;
+    private ModulusDetail modulusDetail;
     @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false)
     @ManyToOne(optional = false)
     private Person personId;
@@ -114,12 +117,20 @@ public class PedagogicalSchedulePayment implements Serializable {
         this.paymentScheduleFinalPayday = paymentScheduleFinalPayday;
     }
 
-    public ModulusSchedule getModulusSchedule() {
-        return modulusSchedule;
+    public InterestArrears getInterestArrearsId() {
+        return interestArrearsId;
     }
 
-    public void setModulusSchedule(ModulusSchedule modulusSchedule) {
-        this.modulusSchedule = modulusSchedule;
+    public void setInterestArrearsId(InterestArrears interestArrearsId) {
+        this.interestArrearsId = interestArrearsId;
+    }
+
+    public ModulusDetail getModulusDetail() {
+        return modulusDetail;
+    }
+
+    public void setModulusDetail(ModulusDetail modulusDetail) {
+        this.modulusDetail = modulusDetail;
     }
 
     public Person getPersonId() {

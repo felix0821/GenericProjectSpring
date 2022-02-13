@@ -36,12 +36,14 @@ import com.system.demo.dto.specific.PersonProfileDto;
 import com.system.demo.dto.specific.PersonRegisterDto;
 import com.system.demo.dto.specific.PersonRolesDetailDto;
 import com.system.demo.dto.specific.PersonRolesHeaderDto;
+import com.system.demo.persistence.entity.Gender;
 import com.system.demo.persistence.entity.Person;
 import com.system.demo.persistence.entity.PersonIdentificationDocument;
 import com.system.demo.persistence.entity.PersonRole;
 import com.system.demo.persistence.entity.Role;
 import com.system.demo.security.AclFilterVerify;
 import com.system.demo.security.JwtProvider;
+import com.system.demo.service.GenderService;
 import com.system.demo.service.PersonIdentificationDocumentService;
 import com.system.demo.service.PersonRoleService;
 import com.system.demo.service.PersonService;
@@ -71,6 +73,9 @@ public class PersonController {
 	
 	@Autowired
 	RoleService roleService;
+	
+	@Autowired
+	GenderService genderService;
 	
 	@Autowired
 	PersonIdentificationDocumentService personIdentDocService;
@@ -182,16 +187,19 @@ public class PersonController {
 		String dniQuery[] = apiQueries.checkDniApiPeru(personRegister.getDni());
 		Date dateBirth=new SimpleDateFormat("yyyy-MM-dd").parse(dniQuery[3]);
 		String emailPerson = personRegister.getEmail();
-		char gender = SYSTEM_GENDER_UNDEFINED;
+		Character genderId;
+		Gender gender = null;
 		if (!dniQuery[4].equals(SYSTEM_GENDER_UNDEFINED.toString())) {
-			if (dniQuery[4].equals("MASCULINO")) gender = SYSTEM_GENDER_MALE;
-			else gender = SYSTEM_GENDER_FEMALE;
+			if (dniQuery[4].equals("MASCULINO")) genderId = SYSTEM_GENDER_MALE;
+			else genderId = SYSTEM_GENDER_FEMALE;
+			gender = genderService.getGenderById(genderId.toString()).get();
 		}
 		//Crear un usuario para persistir
         Person person =
                 new Person(personId, personRegister.getUsername(), password, dniQuery[0], dniQuery[1], 
-                		dniQuery[2], gender, dateRegister, emailPerson, SYSTEM_STATE_ACTIVE);
+                		dniQuery[2], dateRegister, emailPerson, SYSTEM_STATE_ACTIVE);
         person.setPersonDateBirth(dateBirth);
+        person.setGenderId(gender);
         personService.createPerson(person);
         //Agregar documento de identidad a nuevo usuario
         PersonIdentificationDocument personIdentificationDocument = new PersonIdentificationDocument(SYSTEM_IDENTIFICATION_DNI,personId);

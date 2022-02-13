@@ -33,7 +33,7 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "EnrollmentProgramPeriod.findAll", query = "SELECT e FROM EnrollmentProgramPeriod e"),
     @NamedQuery(name = "EnrollmentProgramPeriod.findByPersonId", query = "SELECT e FROM EnrollmentProgramPeriod e WHERE e.enrollmentProgramPeriodPK.personId = :personId"),
     @NamedQuery(name = "EnrollmentProgramPeriod.findByProgramId", query = "SELECT e FROM EnrollmentProgramPeriod e WHERE e.enrollmentProgramPeriodPK.programId = :programId"),
-    @NamedQuery(name = "EnrollmentProgramPeriod.findByPedagogicalPeriodId", query = "SELECT e FROM EnrollmentProgramPeriod e WHERE e.enrollmentProgramPeriodPK.pedagogicalPeriodId = :pedagogicalPeriodId"),
+    @NamedQuery(name = "EnrollmentProgramPeriod.findByPeriodId", query = "SELECT e FROM EnrollmentProgramPeriod e WHERE e.enrollmentProgramPeriodPK.periodId = :periodId"),
     @NamedQuery(name = "EnrollmentProgramPeriod.findByPersonProgramPeriodDate", query = "SELECT e FROM EnrollmentProgramPeriod e WHERE e.personProgramPeriodDate = :personProgramPeriodDate"),
     @NamedQuery(name = "EnrollmentProgramPeriod.findByPersonProgramPeriodState", query = "SELECT e FROM EnrollmentProgramPeriod e WHERE e.personProgramPeriodState = :personProgramPeriodState")})
 public class EnrollmentProgramPeriod implements Serializable {
@@ -53,7 +53,7 @@ public class EnrollmentProgramPeriod implements Serializable {
     private Person person;
     @JoinColumns({
         @JoinColumn(name = "program_id", referencedColumnName = "program_id", nullable = false, insertable = false, updatable = false),
-        @JoinColumn(name = "pedagogical_period_id", referencedColumnName = "pedagogical_period_id", nullable = false, insertable = false, updatable = false)})
+        @JoinColumn(name = "period_id", referencedColumnName = "period_id", nullable = false, insertable = false, updatable = false)})
     @ManyToOne(optional = false)
     private ProgramPeriod programPeriod;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "enrollmentProgramPeriod")
@@ -72,8 +72,8 @@ public class EnrollmentProgramPeriod implements Serializable {
         this.personProgramPeriodState = personProgramPeriodState;
     }
 
-    public EnrollmentProgramPeriod(long personId, long programId, long pedagogicalPeriodId) {
-        this.enrollmentProgramPeriodPK = new EnrollmentProgramPeriodPK(personId, programId, pedagogicalPeriodId);
+    public EnrollmentProgramPeriod(long personId, long programId, long periodId) {
+        this.enrollmentProgramPeriodPK = new EnrollmentProgramPeriodPK(personId, programId, periodId);
     }
 
     public EnrollmentProgramPeriodPK getEnrollmentProgramPeriodPK() {

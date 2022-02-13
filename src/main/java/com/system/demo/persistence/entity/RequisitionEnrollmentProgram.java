@@ -28,7 +28,7 @@ import javax.persistence.Table;
     @NamedQuery(name = "RequisitionEnrollmentProgram.findByRequisitionDetailId", query = "SELECT r FROM RequisitionEnrollmentProgram r WHERE r.requisitionEnrollmentProgramPK.requisitionDetailId = :requisitionDetailId"),
     @NamedQuery(name = "RequisitionEnrollmentProgram.findByPersonId", query = "SELECT r FROM RequisitionEnrollmentProgram r WHERE r.requisitionEnrollmentProgramPK.personId = :personId"),
     @NamedQuery(name = "RequisitionEnrollmentProgram.findByProgramId", query = "SELECT r FROM RequisitionEnrollmentProgram r WHERE r.requisitionEnrollmentProgramPK.programId = :programId"),
-    @NamedQuery(name = "RequisitionEnrollmentProgram.findByPedagogicalPeriodId", query = "SELECT r FROM RequisitionEnrollmentProgram r WHERE r.requisitionEnrollmentProgramPK.pedagogicalPeriodId = :pedagogicalPeriodId"),
+    @NamedQuery(name = "RequisitionEnrollmentProgram.findByPeriodId", query = "SELECT r FROM RequisitionEnrollmentProgram r WHERE r.requisitionEnrollmentProgramPK.periodId = :periodId"),
     @NamedQuery(name = "RequisitionEnrollmentProgram.findByRequisitionEnrollmentProgramState", query = "SELECT r FROM RequisitionEnrollmentProgram r WHERE r.requisitionEnrollmentProgramState = :requisitionEnrollmentProgramState")})
 public class RequisitionEnrollmentProgram implements Serializable {
 
@@ -41,7 +41,7 @@ public class RequisitionEnrollmentProgram implements Serializable {
     @JoinColumns({
         @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false, insertable = false, updatable = false),
         @JoinColumn(name = "program_id", referencedColumnName = "program_id", nullable = false, insertable = false, updatable = false),
-        @JoinColumn(name = "pedagogical_period_id", referencedColumnName = "pedagogical_period_id", nullable = false, insertable = false, updatable = false)})
+        @JoinColumn(name = "period_id", referencedColumnName = "period_id", nullable = false, insertable = false, updatable = false)})
     @ManyToOne(optional = false)
     private EnrollmentProgramPeriod enrollmentProgramPeriod;
     @JoinColumn(name = "requisition_detail_id", referencedColumnName = "requisition_detail_id", nullable = false, insertable = false, updatable = false)
@@ -60,8 +60,8 @@ public class RequisitionEnrollmentProgram implements Serializable {
         this.requisitionEnrollmentProgramState = requisitionEnrollmentProgramState;
     }
 
-    public RequisitionEnrollmentProgram(long requisitionDetailId, long personId, long programId, long pedagogicalPeriodId) {
-        this.requisitionEnrollmentProgramPK = new RequisitionEnrollmentProgramPK(requisitionDetailId, personId, programId, pedagogicalPeriodId);
+    public RequisitionEnrollmentProgram(long requisitionDetailId, long personId, long programId, long periodId) {
+        this.requisitionEnrollmentProgramPK = new RequisitionEnrollmentProgramPK(requisitionDetailId, personId, programId, periodId);
     }
 
     public RequisitionEnrollmentProgramPK getRequisitionEnrollmentProgramPK() {

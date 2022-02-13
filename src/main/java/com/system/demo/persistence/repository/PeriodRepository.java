@@ -10,6 +10,6 @@ import com.system.demo.persistence.entity.Period;
 @Repository
 public interface PeriodRepository extends JpaRepository<Period,Long> {
 	
-	public Optional<Period> findByPedagogicalPeriodIdentifier(String pedagogicalPeriodIdentifier);
+	public Optional<Period> findByPeriodIdentifier(String periodIdentifier);
 	
 }

@@ -11,11 +11,11 @@ public interface ProgramPeriodService {
 	
 	public ProgramPeriod createProgramPeriod(ProgramPeriod programPeriod) throws Exception;
 	public List<ProgramPeriod> getProgramPeriodByProgramId(long programId);
-	public List<ProgramPeriod> getProgramPeriodByPedagogicalPeriodId(long pedagogicalPeriodId);
+	public List<ProgramPeriod> getProgramPeriodByPedagogicalPeriodId(long periodId);
 	public void deleteProgramPeriod(long programId, long periodId);
 	
-	public Optional<ProgramPeriod> getProgramPeriodById(long programId, long pedagogicalPeriodId);
+	public Optional<ProgramPeriod> getProgramPeriodById(long programId, long periodId);
 	
-	public long getTotalProgramPeriodByPedagogicalPeriodId(long pedagogicalPeriodId);
+	public long getTotalProgramPeriodByPeriodId(long periodId);
 
 }

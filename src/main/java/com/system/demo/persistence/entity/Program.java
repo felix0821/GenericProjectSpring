@@ -23,7 +23,7 @@ import javax.persistence.UniqueConstraint;
  * @author Felix
  */
 @Entity
-@Table(uniqueConstraints = {
+@Table(name = "program", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"program_identifier"})})
 @NamedQueries({
     @NamedQuery(name = "Program.findAll", query = "SELECT p FROM Program p"),
@@ -78,8 +78,6 @@ public class Program implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "program")
     private Collection<ProgramPeriod> programPeriodCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "programId")
-    private Collection<Course> courseCollection;
-    @OneToMany(mappedBy = "programId")
     private Collection<Modulus> modulusCollection;
 
     public Program() {
@@ -209,14 +207,6 @@ public class Program implements Serializable {
 
     public void setProgramPeriodCollection(Collection<ProgramPeriod> programPeriodCollection) {
         this.programPeriodCollection = programPeriodCollection;
-    }
-
-    public Collection<Course> getCourseCollection() {
-        return courseCollection;
-    }
-
-    public void setCourseCollection(Collection<Course> courseCollection) {
-        this.courseCollection = courseCollection;
     }
 
     public Collection<Modulus> getModulusCollection() {

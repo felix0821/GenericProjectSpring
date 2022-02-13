@@ -15,12 +15,14 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  *
  * @author Felix
  */
 @Entity
+@Table(name = "report")
 @NamedQueries({
     @NamedQuery(name = "Report.findAll", query = "SELECT r FROM Report r"),
     @NamedQuery(name = "Report.findByReportId", query = "SELECT r FROM Report r WHERE r.reportId = :reportId"),

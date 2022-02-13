@@ -15,7 +15,7 @@ import javax.persistence.Embeddable;
  * @author Felix
  */
 @Embeddable
-public class ModulusSchedulePK implements Serializable {
+public class ModulusDetailPK implements Serializable {
 
     @Basic(optional = false)
     @Column(name = "modulus_id", nullable = false)
@@ -24,16 +24,16 @@ public class ModulusSchedulePK implements Serializable {
     @Column(name = "program_id", nullable = false)
     private long programId;
     @Basic(optional = false)
-    @Column(name = "pedagogical_period_id", nullable = false)
-    private long pedagogicalPeriodId;
+    @Column(name = "period_id", nullable = false)
+    private long periodId;
 
-    public ModulusSchedulePK() {
+    public ModulusDetailPK() {
     }
 
-    public ModulusSchedulePK(long modulusId, long programId, long pedagogicalPeriodId) {
+    public ModulusDetailPK(long modulusId, long programId, long periodId) {
         this.modulusId = modulusId;
         this.programId = programId;
-        this.pedagogicalPeriodId = pedagogicalPeriodId;
+        this.periodId = periodId;
     }
 
     public long getModulusId() {
@@ -52,12 +52,12 @@ public class ModulusSchedulePK implements Serializable {
         this.programId = programId;
     }
 
-    public long getPedagogicalPeriodId() {
-        return pedagogicalPeriodId;
+    public long getPeriodId() {
+        return periodId;
     }
 
-    public void setPedagogicalPeriodId(long pedagogicalPeriodId) {
-        this.pedagogicalPeriodId = pedagogicalPeriodId;
+    public void setPeriodId(long periodId) {
+        this.periodId = periodId;
     }
 
     @Override
@@ -65,24 +65,24 @@ public class ModulusSchedulePK implements Serializable {
         int hash = 0;
         hash += (int) modulusId;
         hash += (int) programId;
-        hash += (int) pedagogicalPeriodId;
+        hash += (int) periodId;
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ModulusSchedulePK)) {
+        if (!(object instanceof ModulusDetailPK)) {
             return false;
         }
-        ModulusSchedulePK other = (ModulusSchedulePK) object;
+        ModulusDetailPK other = (ModulusDetailPK) object;
         if (this.modulusId != other.modulusId) {
             return false;
         }
         if (this.programId != other.programId) {
             return false;
         }
-        if (this.pedagogicalPeriodId != other.pedagogicalPeriodId) {
+        if (this.periodId != other.periodId) {
             return false;
         }
         return true;
@@ -90,7 +90,7 @@ public class ModulusSchedulePK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.persistence.entity.ModulusSchedulePK[ modulusId=" + modulusId + ", programId=" + programId + ", pedagogicalPeriodId=" + pedagogicalPeriodId + " ]";
+        return "com.system.demo.persistence.entity.ModulusDetailPK[ modulusId=" + modulusId + ", programId=" + programId + ", periodId=" + periodId + " ]";
     }
     
 }

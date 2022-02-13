@@ -27,7 +27,8 @@ import javax.persistence.Table;
     @NamedQuery(name = "AssistanceStatus.findAll", query = "SELECT a FROM AssistanceStatus a"),
     @NamedQuery(name = "AssistanceStatus.findByAssistanceStatusId", query = "SELECT a FROM AssistanceStatus a WHERE a.assistanceStatusId = :assistanceStatusId"),
     @NamedQuery(name = "AssistanceStatus.findByAssistanceStatusName", query = "SELECT a FROM AssistanceStatus a WHERE a.assistanceStatusName = :assistanceStatusName"),
-    @NamedQuery(name = "AssistanceStatus.findByAssistanceStatusColor", query = "SELECT a FROM AssistanceStatus a WHERE a.assistanceStatusColor = :assistanceStatusColor")})
+    @NamedQuery(name = "AssistanceStatus.findByAssistanceStatusColor", query = "SELECT a FROM AssistanceStatus a WHERE a.assistanceStatusColor = :assistanceStatusColor"),
+    @NamedQuery(name = "AssistanceStatus.findByAssistanceStatusScore", query = "SELECT a FROM AssistanceStatus a WHERE a.assistanceStatusScore = :assistanceStatusScore")})
 public class AssistanceStatus implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -41,6 +42,9 @@ public class AssistanceStatus implements Serializable {
     @Basic(optional = false)
     @Column(name = "assistance_status_color", nullable = false)
     private Character assistanceStatusColor;
+    @Basic(optional = false)
+    @Column(name = "assistance_status_score", nullable = false)
+    private int assistanceStatusScore;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "assistanceStatusId")
     private Collection<Assistance> assistanceCollection;
 
@@ -51,10 +55,11 @@ public class AssistanceStatus implements Serializable {
         this.assistanceStatusId = assistanceStatusId;
     }
 
-    public AssistanceStatus(Long assistanceStatusId, String assistanceStatusName, Character assistanceStatusColor) {
+    public AssistanceStatus(Long assistanceStatusId, String assistanceStatusName, Character assistanceStatusColor, int assistanceStatusScore) {
         this.assistanceStatusId = assistanceStatusId;
         this.assistanceStatusName = assistanceStatusName;
         this.assistanceStatusColor = assistanceStatusColor;
+        this.assistanceStatusScore = assistanceStatusScore;
     }
 
     public Long getAssistanceStatusId() {
@@ -79,6 +84,14 @@ public class AssistanceStatus implements Serializable {
 
     public void setAssistanceStatusColor(Character assistanceStatusColor) {
         this.assistanceStatusColor = assistanceStatusColor;
+    }
+
+    public int getAssistanceStatusScore() {
+        return assistanceStatusScore;
+    }
+
+    public void setAssistanceStatusScore(int assistanceStatusScore) {
+        this.assistanceStatusScore = assistanceStatusScore;
     }
 
     public Collection<Assistance> getAssistanceCollection() {

@@ -132,7 +132,7 @@ Mockito.when(encripId.encript(Mockito.any(String.class))).thenReturn("pasw");
   LocalDate datePeru=LocalDate.now(ZoneId.of("America/Lima"));
   Date dateRegister=Date.from(datePeru.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
   //Crear usuario
-  Person person = new Person(1L, "felix123", "123", "FELIX", "MONTALICO", "LAQUIHUANACO", 'M',
+  Person person = new Person(1L, "felix123", "123", "FELIX", "MONTALICO", "LAQUIHUANACO",
        dateRegister, "felixmontalico@gmail.com", 'A');
   return person;
  }

@@ -77,7 +77,7 @@ public class ProgramServiceImplements implements ProgramService{
 
 	@Override
 	public Iterable<Program> getProgramByNotPedagogicalPeriodId(Long PedagogicalPeriodId) {
-		return programRepository.findByProgramNotPedagogicalPeriodId(PedagogicalPeriodId);
+		return programRepository.findByProgramNotPeriodId(PedagogicalPeriodId);
 	}
 
 	

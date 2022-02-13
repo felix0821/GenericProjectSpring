@@ -21,15 +21,15 @@ public class ProgramPeriodPK implements Serializable {
     @Column(name = "program_id", nullable = false)
     private long programId;
     @Basic(optional = false)
-    @Column(name = "pedagogical_period_id", nullable = false)
-    private long pedagogicalPeriodId;
+    @Column(name = "period_id", nullable = false)
+    private long periodId;
 
     public ProgramPeriodPK() {
     }
 
-    public ProgramPeriodPK(long programId, long pedagogicalPeriodId) {
+    public ProgramPeriodPK(long programId, long periodId) {
         this.programId = programId;
-        this.pedagogicalPeriodId = pedagogicalPeriodId;
+        this.periodId = periodId;
     }
 
     public long getProgramId() {
@@ -40,19 +40,19 @@ public class ProgramPeriodPK implements Serializable {
         this.programId = programId;
     }
 
-    public long getPedagogicalPeriodId() {
-        return pedagogicalPeriodId;
+    public long getPeriodId() {
+        return periodId;
     }
 
-    public void setPedagogicalPeriodId(long pedagogicalPeriodId) {
-        this.pedagogicalPeriodId = pedagogicalPeriodId;
+    public void setPeriodId(long periodId) {
+        this.periodId = periodId;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
         hash += (int) programId;
-        hash += (int) pedagogicalPeriodId;
+        hash += (int) periodId;
         return hash;
     }
 
@@ -66,7 +66,7 @@ public class ProgramPeriodPK implements Serializable {
         if (this.programId != other.programId) {
             return false;
         }
-        if (this.pedagogicalPeriodId != other.pedagogicalPeriodId) {
+        if (this.periodId != other.periodId) {
             return false;
         }
         return true;
@@ -74,7 +74,7 @@ public class ProgramPeriodPK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.persistence.entity.ProgramPeriodPK[ programId=" + programId + ", pedagogicalPeriodId=" + pedagogicalPeriodId + " ]";
+        return "com.system.demo.persistence.entity.ProgramPeriodPK[ programId=" + programId + ", periodId=" + periodId + " ]";
     }
     
 }

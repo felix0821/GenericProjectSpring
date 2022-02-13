@@ -9,21 +9,21 @@ import java.io.Serializable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 /**
  *
  * @author Felix
  */
 @Entity
+@Table(name = "assistance")
 @NamedQueries({
     @NamedQuery(name = "Assistance.findAll", query = "SELECT a FROM Assistance a"),
-    @NamedQuery(name = "Assistance.findByHoraryId", query = "SELECT a FROM Assistance a WHERE a.assistancePK.horaryId = :horaryId"),
     @NamedQuery(name = "Assistance.findByPersonId", query = "SELECT a FROM Assistance a WHERE a.assistancePK.personId = :personId"),
-    @NamedQuery(name = "Assistance.findByCourseDetailId", query = "SELECT a FROM Assistance a WHERE a.assistancePK.courseDetailId = :courseDetailId")})
+    @NamedQuery(name = "Assistance.findByHoraryDetailId", query = "SELECT a FROM Assistance a WHERE a.assistancePK.horaryDetailId = :horaryDetailId")})
 public class Assistance implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -32,11 +32,9 @@ public class Assistance implements Serializable {
     @JoinColumn(name = "assistance_status_id", referencedColumnName = "assistance_status_id", nullable = false)
     @ManyToOne(optional = false)
     private AssistanceStatus assistanceStatusId;
-    @JoinColumns({
-        @JoinColumn(name = "horary_id", referencedColumnName = "horary_id", nullable = false, insertable = false, updatable = false),
-        @JoinColumn(name = "course_detail_id", referencedColumnName = "course_detail_id", nullable = false, insertable = false, updatable = false)})
+    @JoinColumn(name = "horary_detail_id", referencedColumnName = "horary_detail_id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
-    private HoraryCourseGroup horaryCourseGroup;
+    private HoraryDetail horaryDetail;
     @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Person person;
@@ -51,8 +49,8 @@ public class Assistance implements Serializable {
         this.assistancePK = assistancePK;
     }
 
-    public Assistance(long horaryId, long personId, long courseDetailId) {
-        this.assistancePK = new AssistancePK(horaryId, personId, courseDetailId);
+    public Assistance(long personId, long horaryDetailId) {
+        this.assistancePK = new AssistancePK(personId, horaryDetailId);
     }
 
     public AssistancePK getAssistancePK() {
@@ -71,12 +69,12 @@ public class Assistance implements Serializable {
         this.assistanceStatusId = assistanceStatusId;
     }
 
-    public HoraryCourseGroup getHoraryCourseGroup() {
-        return horaryCourseGroup;
+    public HoraryDetail getHoraryDetail() {
+        return horaryDetail;
     }
 
-    public void setHoraryCourseGroup(HoraryCourseGroup horaryCourseGroup) {
-        this.horaryCourseGroup = horaryCourseGroup;
+    public void setHoraryDetail(HoraryDetail horaryDetail) {
+        this.horaryDetail = horaryDetail;
     }
 
     public Person getPerson() {

@@ -19,13 +19,15 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /**
  *
  * @author Felix
  */
 @Entity
-@Table(name = "course_detail")
+@Table(name = "course_detail", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"group_id", "course_id", "modulus_id", "program_id", "period_id"})})
 @NamedQueries({
     @NamedQuery(name = "CourseDetail.findAll", query = "SELECT c FROM CourseDetail c"),
     @NamedQuery(name = "CourseDetail.findByCourseDetailId", query = "SELECT c FROM CourseDetail c WHERE c.courseDetailId = :courseDetailId"),
@@ -56,16 +58,20 @@ public class CourseDetail implements Serializable {
     @ManyToOne(optional = false)
     private GroupTeaching groupId;
     @JoinColumns({
-        @JoinColumn(name = "program_id", referencedColumnName = "program_id"),
-        @JoinColumn(name = "pedagogical_period_id", referencedColumnName = "pedagogical_period_id")})
+        @JoinColumn(name = "modulus_id", referencedColumnName = "modulus_id", nullable = false),
+        @JoinColumn(name = "program_id", referencedColumnName = "program_id", nullable = false),
+        @JoinColumn(name = "period_id", referencedColumnName = "period_id", nullable = false)})
+    @ManyToOne(optional = false)
+    private ModulusDetail modulusDetail;
+    @JoinColumn(name = "schedule_id", referencedColumnName = "schedule_id")
     @ManyToOne
-    private ProgramPeriod programPeriod;
+    private Schedule scheduleId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "courseDetailId")
     private Collection<QualificationCriteria> qualificationCriteriaCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "courseDetail")
     private Collection<EnrollmentCourse> enrollmentCourseCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "courseDetail")
-    private Collection<HoraryCourseGroup> horaryCourseGroupCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "courseDetailId")
+    private Collection<Horary> horaryCollection;
 
     public CourseDetail() {
     }
@@ -136,12 +142,20 @@ public class CourseDetail implements Serializable {
         this.groupId = groupId;
     }
 
-    public ProgramPeriod getProgramPeriod() {
-        return programPeriod;
+    public ModulusDetail getModulusDetail() {
+        return modulusDetail;
     }
 
-    public void setProgramPeriod(ProgramPeriod programPeriod) {
-        this.programPeriod = programPeriod;
+    public void setModulusDetail(ModulusDetail modulusDetail) {
+        this.modulusDetail = modulusDetail;
+    }
+
+    public Schedule getScheduleId() {
+        return scheduleId;
+    }
+
+    public void setScheduleId(Schedule scheduleId) {
+        this.scheduleId = scheduleId;
     }
 
     public Collection<QualificationCriteria> getQualificationCriteriaCollection() {
@@ -160,12 +174,12 @@ public class CourseDetail implements Serializable {
         this.enrollmentCourseCollection = enrollmentCourseCollection;
     }
 
-    public Collection<HoraryCourseGroup> getHoraryCourseGroupCollection() {
-        return horaryCourseGroupCollection;
+    public Collection<Horary> getHoraryCollection() {
+        return horaryCollection;
     }
 
-    public void setHoraryCourseGroupCollection(Collection<HoraryCourseGroup> horaryCourseGroupCollection) {
-        this.horaryCourseGroupCollection = horaryCourseGroupCollection;
+    public void setHoraryCollection(Collection<Horary> horaryCollection) {
+        this.horaryCollection = horaryCollection;
     }
 
     @Override

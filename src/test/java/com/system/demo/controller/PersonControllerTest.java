@@ -122,7 +122,7 @@ public class PersonControllerTest {
 		String contraseña = "1234";
 		//Crear usuario
 		Person person = new Person(1L, "felix123", contraseña, "FELIX", "MONTALICO", "LAQUIHUANACO", 
-	    		'M', dateRegister, "felixmontalico@gmail.com", 'A');
+	    		dateRegister, "felixmontalico@gmail.com", 'A');
 		person.setPersonDateBirth(dateBirth);
 		return person;
 	}

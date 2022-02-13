@@ -11,8 +11,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -25,128 +23,127 @@ import javax.persistence.UniqueConstraint;
  * @author Felix
  */
 @Entity
-@Table(name = "pedagogical_period", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"pedagogical_period_identifier"})})
+@Table(name = "period", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"period_identifier"})})
 @NamedQueries({
     @NamedQuery(name = "Period.findAll", query = "SELECT p FROM Period p"),
-    @NamedQuery(name = "Period.findByPedagogicalPeriodId", query = "SELECT p FROM Period p WHERE p.pedagogicalPeriodId = :pedagogicalPeriodId"),
-    @NamedQuery(name = "Period.findByPedagogicalPeriodIndex", query = "SELECT p FROM Period p WHERE p.pedagogicalPeriodIndex = :pedagogicalPeriodIndex"),
-    @NamedQuery(name = "Period.findByPedagogicalPeriodIdentifier", query = "SELECT p FROM Period p WHERE p.pedagogicalPeriodIdentifier = :pedagogicalPeriodIdentifier"),
-    @NamedQuery(name = "Period.findByPedagogicalPeriodName", query = "SELECT p FROM Period p WHERE p.pedagogicalPeriodName = :pedagogicalPeriodName"),
-    @NamedQuery(name = "Period.findByPedagogicalPeriodYear", query = "SELECT p FROM Period p WHERE p.pedagogicalPeriodYear = :pedagogicalPeriodYear"),
-    @NamedQuery(name = "Period.findByPedagogicalPeriodDescription", query = "SELECT p FROM Period p WHERE p.pedagogicalPeriodDescription = :pedagogicalPeriodDescription"),
-    @NamedQuery(name = "Period.findByPedagogicalPeriodModality", query = "SELECT p FROM Period p WHERE p.pedagogicalPeriodModality = :pedagogicalPeriodModality"),
-    @NamedQuery(name = "Period.findByPedagogicalPeriodState", query = "SELECT p FROM Period p WHERE p.pedagogicalPeriodState = :pedagogicalPeriodState")})
+    @NamedQuery(name = "Period.findByPeriodId", query = "SELECT p FROM Period p WHERE p.periodId = :periodId"),
+    @NamedQuery(name = "Period.findByPeriodIndex", query = "SELECT p FROM Period p WHERE p.periodIndex = :periodIndex"),
+    @NamedQuery(name = "Period.findByPeriodIdentifier", query = "SELECT p FROM Period p WHERE p.periodIdentifier = :periodIdentifier"),
+    @NamedQuery(name = "Period.findByPeriodName", query = "SELECT p FROM Period p WHERE p.periodName = :periodName"),
+    @NamedQuery(name = "Period.findByPeriodYear", query = "SELECT p FROM Period p WHERE p.periodYear = :periodYear"),
+    @NamedQuery(name = "Period.findByPeriodDescription", query = "SELECT p FROM Period p WHERE p.periodDescription = :periodDescription"),
+    @NamedQuery(name = "Period.findByPeriodModality", query = "SELECT p FROM Period p WHERE p.periodModality = :periodModality"),
+    @NamedQuery(name = "Period.findByPeriodState", query = "SELECT p FROM Period p WHERE p.periodState = :periodState")})
 public class Period implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "pedagogical_period_id", nullable = false)
-    private Long pedagogicalPeriodId;
+    @Column(name = "period_id", nullable = false)
+    private Long periodId;
     @Basic(optional = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "pedagogical_period_index", nullable = false)
-    private int pedagogicalPeriodIndex;
+    @Column(name = "period_index", nullable = false)
+    private int periodIndex;
     @Basic(optional = false)
-    @Column(name = "pedagogical_period_identifier", nullable = false, length = 40)
-    private String pedagogicalPeriodIdentifier;
+    @Column(name = "period_identifier", nullable = false, length = 40)
+    private String periodIdentifier;
     @Basic(optional = false)
-    @Column(name = "pedagogical_period_name", nullable = false, length = 32)
-    private String pedagogicalPeriodName;
+    @Column(name = "period_name", nullable = false, length = 32)
+    private String periodName;
     @Basic(optional = false)
-    @Column(name = "pedagogical_period_year", nullable = false)
-    private int pedagogicalPeriodYear;
-    @Column(name = "pedagogical_period_description", length = 128)
-    private String pedagogicalPeriodDescription;
+    @Column(name = "period_year", nullable = false)
+    private int periodYear;
+    @Column(name = "period_description", length = 128)
+    private String periodDescription;
     @Basic(optional = false)
-    @Column(name = "pedagogical_period_modality", nullable = false)
-    private Character pedagogicalPeriodModality;
+    @Column(name = "period_modality", nullable = false)
+    private Character periodModality;
     @Basic(optional = false)
-    @Column(name = "pedagogical_period_state", nullable = false)
-    private Character pedagogicalPeriodState;
+    @Column(name = "period_state", nullable = false)
+    private Character periodState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "period")
     private Collection<ProgramPeriod> programPeriodCollection;
 
     public Period() {
     }
 
-    public Period(Long pedagogicalPeriodId) {
-        this.pedagogicalPeriodId = pedagogicalPeriodId;
+    public Period(Long periodId) {
+        this.periodId = periodId;
     }
 
-    public Period(Long pedagogicalPeriodId, int pedagogicalPeriodIndex, String pedagogicalPeriodIdentifier, String pedagogicalPeriodName, int pedagogicalPeriodYear, Character pedagogicalPeriodModality, Character pedagogicalPeriodState) {
-        this.pedagogicalPeriodId = pedagogicalPeriodId;
-        this.pedagogicalPeriodIndex = pedagogicalPeriodIndex;
-        this.pedagogicalPeriodIdentifier = pedagogicalPeriodIdentifier;
-        this.pedagogicalPeriodName = pedagogicalPeriodName;
-        this.pedagogicalPeriodYear = pedagogicalPeriodYear;
-        this.pedagogicalPeriodModality = pedagogicalPeriodModality;
-        this.pedagogicalPeriodState = pedagogicalPeriodState;
+    public Period(Long periodId, int periodIndex, String periodIdentifier, String periodName, int periodYear, Character periodModality, Character periodState) {
+        this.periodId = periodId;
+        this.periodIndex = periodIndex;
+        this.periodIdentifier = periodIdentifier;
+        this.periodName = periodName;
+        this.periodYear = periodYear;
+        this.periodModality = periodModality;
+        this.periodState = periodState;
     }
 
     public Long getPeriodId() {
-        return pedagogicalPeriodId;
+        return periodId;
     }
 
-    public void setPeriodId(Long pedagogicalPeriodId) {
-        this.pedagogicalPeriodId = pedagogicalPeriodId;
+    public void setPeriodId(Long periodId) {
+        this.periodId = periodId;
     }
 
     public int getPeriodIndex() {
-        return pedagogicalPeriodIndex;
+        return periodIndex;
     }
 
-    public void setPeriodIndex(int pedagogicalPeriodIndex) {
-        this.pedagogicalPeriodIndex = pedagogicalPeriodIndex;
+    public void setPeriodIndex(int periodIndex) {
+        this.periodIndex = periodIndex;
     }
 
     public String getPeriodIdentifier() {
-        return pedagogicalPeriodIdentifier;
+        return periodIdentifier;
     }
 
-    public void setPeriodIdentifier(String pedagogicalPeriodIdentifier) {
-        this.pedagogicalPeriodIdentifier = pedagogicalPeriodIdentifier;
+    public void setPeriodIdentifier(String periodIdentifier) {
+        this.periodIdentifier = periodIdentifier;
     }
 
     public String getPeriodName() {
-        return pedagogicalPeriodName;
+        return periodName;
     }
 
-    public void setPeriodName(String pedagogicalPeriodName) {
-        this.pedagogicalPeriodName = pedagogicalPeriodName;
+    public void setPeriodName(String periodName) {
+        this.periodName = periodName;
     }
 
     public int getPeriodYear() {
-        return pedagogicalPeriodYear;
+        return periodYear;
     }
 
-    public void setPeriodYear(int pedagogicalPeriodYear) {
-        this.pedagogicalPeriodYear = pedagogicalPeriodYear;
+    public void setPeriodYear(int periodYear) {
+        this.periodYear = periodYear;
     }
 
     public String getPeriodDescription() {
-        return pedagogicalPeriodDescription;
+        return periodDescription;
     }
 
-    public void setPeriodDescription(String pedagogicalPeriodDescription) {
-        this.pedagogicalPeriodDescription = pedagogicalPeriodDescription;
+    public void setPeriodDescription(String periodDescription) {
+        this.periodDescription = periodDescription;
     }
 
     public Character getPeriodModality() {
-        return pedagogicalPeriodModality;
+        return periodModality;
     }
 
-    public void setPeriodModality(Character pedagogicalPeriodModality) {
-        this.pedagogicalPeriodModality = pedagogicalPeriodModality;
+    public void setPeriodModality(Character periodModality) {
+        this.periodModality = periodModality;
     }
 
     public Character getPeriodState() {
-        return pedagogicalPeriodState;
+        return periodState;
     }
 
-    public void setPeriodState(Character pedagogicalPeriodState) {
-        this.pedagogicalPeriodState = pedagogicalPeriodState;
+    public void setPeriodState(Character periodState) {
+        this.periodState = periodState;
     }
 
     public Collection<ProgramPeriod> getProgramPeriodCollection() {
@@ -160,7 +157,7 @@ public class Period implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (pedagogicalPeriodId != null ? pedagogicalPeriodId.hashCode() : 0);
+        hash += (periodId != null ? periodId.hashCode() : 0);
         return hash;
     }
 
@@ -171,7 +168,7 @@ public class Period implements Serializable {
             return false;
         }
         Period other = (Period) object;
-        if ((this.pedagogicalPeriodId == null && other.pedagogicalPeriodId != null) || (this.pedagogicalPeriodId != null && !this.pedagogicalPeriodId.equals(other.pedagogicalPeriodId))) {
+        if ((this.periodId == null && other.periodId != null) || (this.periodId != null && !this.periodId.equals(other.periodId))) {
             return false;
         }
         return true;
@@ -179,7 +176,7 @@ public class Period implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.persistence.entity.PedagogicalPeriod[ pedagogicalPeriodId=" + pedagogicalPeriodId + " ]";
+        return "com.system.demo.persistence.entity.Period[ periodId=" + periodId + " ]";
     }
     
 }

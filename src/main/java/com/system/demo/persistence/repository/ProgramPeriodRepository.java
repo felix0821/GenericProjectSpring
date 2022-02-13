@@ -15,9 +15,9 @@ public interface ProgramPeriodRepository extends JpaRepository<ProgramPeriod,Pro
 	
 	public List<ProgramPeriod> findByProgramId(long programId);
 	
-	public List<ProgramPeriod> findByPedagogicalPeriodId(long pedagogicalPeriodId);
+	public List<ProgramPeriod> findByPeriodId(long periodId);
 	
-	@Query(value = "SELECT COUNT(p) FROM ProgramPeriod p WHERE p.programPeriodPK.pedagogicalPeriodId = :pedagogicalPeriodId")
-	public Long countByPedagogicalPeriodId(@Param(value = "pedagogicalPeriodId")long pedagogicalPeriodId);
+	@Query(value="SELECT COUNT(p) FROM ProgramPeriod p WHERE p.programPeriodPK.periodId = :periodId")
+	public Long countByPeriodId(@Param(value="periodId")long pedagogicalPeriodId);
 
 }

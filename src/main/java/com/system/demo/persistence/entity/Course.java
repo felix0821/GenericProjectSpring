@@ -25,8 +25,8 @@ import javax.persistence.UniqueConstraint;
  * @author Felix
  */
 @Entity
-@Table(uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"course_identifier"})})
+@Table(name = "course", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"course_identifier", "modulus_id"})})
 @NamedQueries({
     @NamedQuery(name = "Course.findAll", query = "SELECT c FROM Course c"),
     @NamedQuery(name = "Course.findByCourseId", query = "SELECT c FROM Course c WHERE c.courseId = :courseId"),
@@ -64,6 +64,8 @@ public class Course implements Serializable {
     private Collection<CertificateStudiesDetail> certificateStudiesDetailCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "courseId")
     private Collection<CourseDetail> courseDetailCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "course")
+    private Collection<CourseGroup> courseGroupCollection;
     @OneToMany(mappedBy = "courseEquivalentId")
     private Collection<Course> courseCollection;
     @JoinColumn(name = "course_equivalent_id", referencedColumnName = "course_id")
@@ -72,9 +74,6 @@ public class Course implements Serializable {
     @JoinColumn(name = "modulus_id", referencedColumnName = "modulus_id", nullable = false)
     @ManyToOne(optional = false)
     private Modulus modulusId;
-    @JoinColumn(name = "program_id", referencedColumnName = "program_id", nullable = false)
-    @ManyToOne(optional = false)
-    private Program programId;
 
     public Course() {
     }
@@ -164,6 +163,14 @@ public class Course implements Serializable {
         this.courseDetailCollection = courseDetailCollection;
     }
 
+    public Collection<CourseGroup> getCourseGroupCollection() {
+        return courseGroupCollection;
+    }
+
+    public void setCourseGroupCollection(Collection<CourseGroup> courseGroupCollection) {
+        this.courseGroupCollection = courseGroupCollection;
+    }
+
     public Collection<Course> getCourseCollection() {
         return courseCollection;
     }
@@ -186,14 +193,6 @@ public class Course implements Serializable {
 
     public void setModulusId(Modulus modulusId) {
         this.modulusId = modulusId;
-    }
-
-    public Program getProgramId() {
-        return programId;
-    }
-
-    public void setProgramId(Program programId) {
-        this.programId = programId;
     }
 
     @Override

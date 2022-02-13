@@ -17,7 +17,7 @@ public interface ProgramRepository extends JpaRepository<Program,Long> {
 	
 	public List<Program> findByProgramState(Character programState);
 	
-	@Query(value = "SELECT p FROM Program p WHERE p.programId NOT IN (SELECT pg.programPeriodPK.programId FROM ProgramPeriod pg WHERE pg.programPeriodPK.pedagogicalPeriodId = :pedagogicalPeriodId)")
-	public Iterable<Program> findByProgramNotPedagogicalPeriodId(@Param(value = "pedagogicalPeriodId")Long pedagogicalPeriodId);
+	@Query(value="SELECT p FROM Program p WHERE p.programId NOT IN (SELECT pg.programPeriodPK.programId FROM ProgramPeriod pg WHERE pg.programPeriodPK.periodId = :periodId)")
+	public Iterable<Program> findByProgramNotPeriodId(@Param(value="periodId")Long periodId);
 
 }

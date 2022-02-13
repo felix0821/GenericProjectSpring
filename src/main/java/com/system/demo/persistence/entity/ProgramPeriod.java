@@ -31,7 +31,7 @@ import javax.persistence.TemporalType;
 @NamedQueries({
     @NamedQuery(name = "ProgramPeriod.findAll", query = "SELECT p FROM ProgramPeriod p"),
     @NamedQuery(name = "ProgramPeriod.findByProgramId", query = "SELECT p FROM ProgramPeriod p WHERE p.programPeriodPK.programId = :programId"),
-    @NamedQuery(name = "ProgramPeriod.findByPedagogicalPeriodId", query = "SELECT p FROM ProgramPeriod p WHERE p.programPeriodPK.pedagogicalPeriodId = :pedagogicalPeriodId"),
+    @NamedQuery(name = "ProgramPeriod.findByPeriodId", query = "SELECT p FROM ProgramPeriod p WHERE p.programPeriodPK.periodId = :periodId"),
     @NamedQuery(name = "ProgramPeriod.findByProgramPeriodIndex", query = "SELECT p FROM ProgramPeriod p WHERE p.programPeriodIndex = :programPeriodIndex"),
     @NamedQuery(name = "ProgramPeriod.findByProgramPeriodPayEnrollment", query = "SELECT p FROM ProgramPeriod p WHERE p.programPeriodPayEnrollment = :programPeriodPayEnrollment"),
     @NamedQuery(name = "ProgramPeriod.findByProgramPeriodPayPension", query = "SELECT p FROM ProgramPeriod p WHERE p.programPeriodPayPension = :programPeriodPayPension"),
@@ -70,16 +70,14 @@ public class ProgramPeriod implements Serializable {
     private Character programPeriodState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "programPeriod")
     private Collection<EnrollmentProgramPeriod> enrollmentProgramPeriodCollection;
-    @JoinColumn(name = "pedagogical_period_id", referencedColumnName = "pedagogical_period_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "period_id", referencedColumnName = "period_id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Period period;
     @JoinColumn(name = "program_id", referencedColumnName = "program_id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Program program;
-    @OneToMany(mappedBy = "programPeriod")
-    private Collection<CourseDetail> courseDetailCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "programPeriod")
-    private Collection<ModulusSchedule> modulusScheduleCollection;
+    private Collection<ModulusDetail> modulusDetailCollection;
 
     public ProgramPeriod() {
     }
@@ -99,8 +97,8 @@ public class ProgramPeriod implements Serializable {
         this.programPeriodState = programPeriodState;
     }
 
-    public ProgramPeriod(long programId, long pedagogicalPeriodId) {
-        this.programPeriodPK = new ProgramPeriodPK(programId, pedagogicalPeriodId);
+    public ProgramPeriod(long programId, long periodId) {
+        this.programPeriodPK = new ProgramPeriodPK(programId, periodId);
     }
 
     public ProgramPeriodPK getProgramPeriodPK() {
@@ -175,11 +173,11 @@ public class ProgramPeriod implements Serializable {
         this.enrollmentProgramPeriodCollection = enrollmentProgramPeriodCollection;
     }
 
-    public Period getPedagogicalPeriod() {
+    public Period getPeriod() {
         return period;
     }
 
-    public void setPedagogicalPeriod(Period period) {
+    public void setPeriod(Period period) {
         this.period = period;
     }
 
@@ -191,20 +189,12 @@ public class ProgramPeriod implements Serializable {
         this.program = program;
     }
 
-    public Collection<CourseDetail> getCourseDetailCollection() {
-        return courseDetailCollection;
+    public Collection<ModulusDetail> getModulusDetailCollection() {
+        return modulusDetailCollection;
     }
 
-    public void setCourseDetailCollection(Collection<CourseDetail> courseDetailCollection) {
-        this.courseDetailCollection = courseDetailCollection;
-    }
-
-    public Collection<ModulusSchedule> getModulusScheduleCollection() {
-        return modulusScheduleCollection;
-    }
-
-    public void setModulusScheduleCollection(Collection<ModulusSchedule> modulusScheduleCollection) {
-        this.modulusScheduleCollection = modulusScheduleCollection;
+    public void setModulusDetailCollection(Collection<ModulusDetail> modulusDetailCollection) {
+        this.modulusDetailCollection = modulusDetailCollection;
     }
 
     @Override

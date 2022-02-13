@@ -15,12 +15,14 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  *
  * @author Felix
  */
 @Entity
+@Table(name = "context")
 @NamedQueries({
     @NamedQuery(name = "Context.findAll", query = "SELECT c FROM Context c"),
     @NamedQuery(name = "Context.findByContextId", query = "SELECT c FROM Context c WHERE c.contextId = :contextId"),

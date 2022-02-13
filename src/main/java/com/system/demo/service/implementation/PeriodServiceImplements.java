@@ -61,7 +61,7 @@ public class PeriodServiceImplements implements PeriodService{
 
 	@Override
 	public Optional<Period> getPeriodByIdentifier(String periodIdentifier) {
-		return periodRepository.findByPedagogicalPeriodIdentifier(periodIdentifier);
+		return periodRepository.findByPeriodIdentifier(periodIdentifier);
 	}
 
 }

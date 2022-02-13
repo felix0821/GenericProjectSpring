@@ -18,30 +18,18 @@ import javax.persistence.Embeddable;
 public class AssistancePK implements Serializable {
 
     @Basic(optional = false)
-    @Column(name = "horary_id", nullable = false)
-    private long horaryId;
-    @Basic(optional = false)
     @Column(name = "person_id", nullable = false)
     private long personId;
     @Basic(optional = false)
-    @Column(name = "course_detail_id", nullable = false)
-    private long courseDetailId;
+    @Column(name = "horary_detail_id", nullable = false)
+    private long horaryDetailId;
 
     public AssistancePK() {
     }
 
-    public AssistancePK(long horaryId, long personId, long courseDetailId) {
-        this.horaryId = horaryId;
+    public AssistancePK(long personId, long horaryDetailId) {
         this.personId = personId;
-        this.courseDetailId = courseDetailId;
-    }
-
-    public long getHoraryId() {
-        return horaryId;
-    }
-
-    public void setHoraryId(long horaryId) {
-        this.horaryId = horaryId;
+        this.horaryDetailId = horaryDetailId;
     }
 
     public long getPersonId() {
@@ -52,20 +40,19 @@ public class AssistancePK implements Serializable {
         this.personId = personId;
     }
 
-    public long getCourseDetailId() {
-        return courseDetailId;
+    public long getHoraryDetailId() {
+        return horaryDetailId;
     }
 
-    public void setCourseDetailId(long courseDetailId) {
-        this.courseDetailId = courseDetailId;
+    public void setHoraryDetailId(long horaryDetailId) {
+        this.horaryDetailId = horaryDetailId;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (int) horaryId;
         hash += (int) personId;
-        hash += (int) courseDetailId;
+        hash += (int) horaryDetailId;
         return hash;
     }
 
@@ -76,13 +63,10 @@ public class AssistancePK implements Serializable {
             return false;
         }
         AssistancePK other = (AssistancePK) object;
-        if (this.horaryId != other.horaryId) {
-            return false;
-        }
         if (this.personId != other.personId) {
             return false;
         }
-        if (this.courseDetailId != other.courseDetailId) {
+        if (this.horaryDetailId != other.horaryDetailId) {
             return false;
         }
         return true;
@@ -90,7 +74,7 @@ public class AssistancePK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.persistence.entity.AssistancePK[ horaryId=" + horaryId + ", personId=" + personId + ", courseDetailId=" + courseDetailId + " ]";
+        return "com.system.demo.persistence.entity.AssistancePK[ personId=" + personId + ", horaryDetailId=" + horaryDetailId + " ]";
     }
     
 }

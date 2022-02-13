@@ -23,9 +23,8 @@ import javax.persistence.UniqueConstraint;
  * @author Felix
  */
 @Entity
-@Table(uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"resource_url"}),
-    @UniqueConstraint(columnNames = {"resource_name"})})
+@Table(name = "resource", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"resource_name", "resource_url"})})
 @NamedQueries({
     @NamedQuery(name = "Resource.findAll", query = "SELECT r FROM Resource r"),
     @NamedQuery(name = "Resource.findByResourceId", query = "SELECT r FROM Resource r WHERE r.resourceId = :resourceId"),
