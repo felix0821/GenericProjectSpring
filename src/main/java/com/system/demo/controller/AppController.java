@@ -39,7 +39,8 @@ import com.system.demo.persistence.entity.RequisitionDetail;
 import com.system.demo.persistence.entity.RequisitionStatus;
 import com.system.demo.persistence.entity.Role;
 import com.system.demo.service.RoleService;
-import com.system.demo.utility.UniqId;
+import com.system.demo.utility.PreferenceUtility;
+import com.system.demo.utility.UniqIdUtility;
 import com.system.demo.service.DataCategoryService;
 import com.system.demo.service.DataDetailService;
 import com.system.demo.service.DataEntryService;
@@ -58,7 +59,7 @@ import com.system.demo.service.RequisitionStatusService;
 public class AppController {
 	
 	@Autowired
-	UniqId uI;
+	UniqIdUtility uI;
 	
 	// Gestion de datos
 	@Autowired
@@ -97,6 +98,9 @@ public class AppController {
 	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 	
+	@Autowired
+	PreferenceUtility preferenceUtility;
+	
 	@MessageMapping
 	@SendTo("/alert-response")
 	public List<AlertRequisitionDto> sendAlert() {
@@ -128,7 +132,8 @@ public class AppController {
 			//generateRole();
 			//generateDocument();
 			//generatePerson();
-			model.addAttribute("message", "Id - ");
+			int i = preferenceUtility.getIndex("index");
+			model.addAttribute("message", "Id - "+i);
 			model.addAttribute("page", "completed.html");
 		} catch (Exception e) {
 			model.addAttribute("message", "ERROR");

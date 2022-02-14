@@ -29,7 +29,7 @@ import com.system.demo.dto.specific.RoleRegisterDto;
 import com.system.demo.dto.specific.RoleTypeDto;
 import com.system.demo.persistence.entity.Role;
 import com.system.demo.service.RoleService;
-import com.system.demo.utility.UniqId;
+import com.system.demo.utility.UniqIdUtility;
 
 @RestController
 @RequestMapping(value=URL_SECURITY_REQUEST)
@@ -37,7 +37,7 @@ import com.system.demo.utility.UniqId;
 public class SecurityController {
 	
 	@Autowired
-	UniqId uI;
+	UniqIdUtility uI;
 	
 	@Autowired
 	RoleService roleService;

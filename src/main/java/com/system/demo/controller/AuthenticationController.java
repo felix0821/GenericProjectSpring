@@ -18,7 +18,7 @@ import com.system.demo.dto.specific.PersonLoginDto;
 import com.system.demo.persistence.entity.Person;
 import com.system.demo.security.JwtProvider;
 import com.system.demo.service.PersonService;
-import com.system.demo.utility.EncripId;
+import com.system.demo.utility.EncripIdUtility;
 
 import static com.system.demo.GenericProjectSystemStatement.*;
 import static com.system.demo.GenericProjectSystemDefinition.*;
@@ -40,7 +40,7 @@ public class AuthenticationController {
     JwtProvider jwtProvider;
     
     @Autowired
-    EncripId encripId;
+    EncripIdUtility encripIdUtility;
     
     @Autowired
 	PersonService personService;
@@ -56,7 +56,7 @@ public class AuthenticationController {
         	SecurityContextHolder.getContext().setAuthentication(authentication);
             String jwt = jwtProvider.generateToken(authentication);
             UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-            String key = encripId.encript(userDetails.getUsername());
+            String key = encripIdUtility.encript(userDetails.getUsername());
             Person person = personService.getPersonByUsername(userDetails.getUsername()).get();
             JwtDto jwtDto = new JwtDto(jwt, userDetails.getUsername(), key, userDetails.getAuthorities(), person.getPersonUrlProfilepicture());
             return new ResponseEntity<JwtDto>(jwtDto, HttpStatus.OK);

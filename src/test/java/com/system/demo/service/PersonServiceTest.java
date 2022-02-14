@@ -11,7 +11,7 @@ import com.system.demo.persistence.repository.PersonRepository;
 import com.system.demo.security.JwtProvider;
 import com.system.demo.service.PersonService;
 import com.system.demo.service.implementation.PersonServiceImplements;
-import com.system.demo.utility.EncripId;
+import com.system.demo.utility.EncripIdUtility;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.verify;
@@ -81,7 +81,7 @@ public class PersonServiceTest {
  
  
  @MockBean
- EncripId encripId;
+ EncripIdUtility encripIdUtility;
  
  
  @Test
@@ -116,7 +116,7 @@ public class PersonServiceTest {
      Authentication authentication = authRequest;
      Mockito.when(authenticationManager.authenticate(Mockito.any(Authentication.class))).thenReturn(authentication);
      Mockito.when(jwtProvider.generateToken(Mockito.any(Authentication.class))).thenReturn(token);
-Mockito.when(encripId.encript(Mockito.any(String.class))).thenReturn("pasw");
+Mockito.when(encripIdUtility.encript(Mockito.any(String.class))).thenReturn("pasw");
      Mockito.when(personService.getPersonByUsername(Mockito.any(String.class))).thenReturn(opt);
      
  }

@@ -45,7 +45,7 @@ import com.system.demo.service.RequisitionDataDetailService;
 import com.system.demo.service.RequisitionDetailService;
 import com.system.demo.service.RequisitionService;
 import com.system.demo.service.RequisitionStatusService;
-import com.system.demo.utility.UniqId;
+import com.system.demo.utility.UniqIdUtility;
 
 @RestController
 @RequestMapping(value=URL_REQUISITION_REQUEST)
@@ -59,7 +59,7 @@ public class RequisitionController {
 	PersonService personService;
 	
 	@Autowired
-	UniqId uI;
+	UniqIdUtility uI;
 	
 	@Autowired
 	RequisitionService requisitionService;

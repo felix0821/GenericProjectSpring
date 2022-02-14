@@ -48,8 +48,8 @@ import com.system.demo.service.PersonIdentificationDocumentService;
 import com.system.demo.service.PersonRoleService;
 import com.system.demo.service.PersonService;
 import com.system.demo.service.RoleService;
-import com.system.demo.utility.ApiQueries;
-import com.system.demo.utility.UniqId;
+import com.system.demo.utility.ApiQueriesUtility;
+import com.system.demo.utility.UniqIdUtility;
 
 import static com.system.demo.GenericProjectSystemStatement.*;
 import static com.system.demo.GenericProjectSystemDefinition.*;
@@ -60,7 +60,7 @@ import static com.system.demo.GenericProjectSystemDefinition.*;
 public class PersonController {
 	
 	@Autowired
-	ApiQueries apiQueries;
+	ApiQueriesUtility apiQueriesUtility;
 	
 	@Autowired
     JwtProvider jwtProvider;
@@ -81,7 +81,7 @@ public class PersonController {
 	PersonIdentificationDocumentService personIdentDocService;
 	
 	@Autowired
-	UniqId uI;
+	UniqIdUtility uI;
 	
 	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -184,7 +184,7 @@ public class PersonController {
 		LocalDate fechaPeru=LocalDate.now(ZoneId.of("America/Lima"));
 		Date dateRegister=Date.from(fechaPeru.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
 		//Insertar nombres por dni
-		String dniQuery[] = apiQueries.checkDniApiPeru(personRegister.getDni());
+		String dniQuery[] = apiQueriesUtility.checkDniApiPeru(personRegister.getDni());
 		Date dateBirth=new SimpleDateFormat("yyyy-MM-dd").parse(dniQuery[3]);
 		String emailPerson = personRegister.getEmail();
 		Character genderId;

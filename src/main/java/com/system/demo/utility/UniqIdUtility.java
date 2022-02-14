@@ -9,7 +9,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UniqId {
+public class UniqIdUtility {
 	
 	public Long generateUniqueId()
     {	//maxId = 9000000000000000

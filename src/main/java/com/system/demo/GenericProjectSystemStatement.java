@@ -10,6 +10,12 @@ public class GenericProjectSystemStatement {
 	//	Declaraciones generales del sistema
 	//	Declaraciones de parametros nulos
 	public static final int SYSTEM_INDEX = 1;
+	public static final String INDEX_OCCUPATIONAL_FIELD = "occupational_field_index";
+	public static final String INDEX_PERIOD = "period_index";
+	public static final String INDEX_PROGRAM_PERIOD = "program_period_index";
+	public static final String INDEX_PROGRAM = "program_index";
+	public static final String INDEX_MODULUS = "modulus_index";
+	public static final String INDEX_COURSE = "course_index";
 	//	Recursos generales del sistema
 	//	Recursos estados de entidad
 	public static final Character SYSTEM_STATE_ACTIVE = 'A';

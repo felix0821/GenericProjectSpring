@@ -9,7 +9,7 @@ import javax.crypto.spec.SecretKeySpec;
 import org.springframework.stereotype.Component;
 
 @Component
-public class EncripId {
+public class EncripIdUtility {
 	private final String  ENCRYPT_KEY="FODVNUASDNVVAOVF";
 	
 	public String encript(String text) throws Exception {	

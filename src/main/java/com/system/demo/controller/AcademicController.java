@@ -58,7 +58,7 @@ import com.system.demo.service.OccupationalFieldService;
 import com.system.demo.service.PeriodService;
 import com.system.demo.service.ProgramPeriodService;
 import com.system.demo.service.ProgramService;
-import com.system.demo.utility.UniqId;
+import com.system.demo.utility.UniqIdUtility;
 
 @RestController
 @RequestMapping(value=URL_ACADEMIC_REQUEST)
@@ -66,7 +66,7 @@ import com.system.demo.utility.UniqId;
 public class AcademicController {
 	
 	@Autowired
-	UniqId uI;
+	UniqIdUtility uI;
 	
 	@Autowired
 	ProgramService programService;
@@ -205,12 +205,14 @@ public class AcademicController {
 	@PostMapping(value = URL_ACADEMIC_PROGRAMxOCCUPATIONAL_REGISTER_POST)
     public ResponseEntity<?> programOccupationalRegister(@Valid @RequestBody ProgramOccupationalRegisterDto programOccupationalRegister, BindingResult bindingResult) {
 		try {
-			//Realizamos las validaciones pertinentes
+			//	Realizar validaciones
 	        if(bindingResult.hasErrors())
 	            return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
+	        //	Generar valores
 	        Long idOccupationalField = uI.getUniqId();
-	        char state = 'A';
+	        char state = SYSTEM_STATE_ACTIVE;
 	        Integer index = null;
+	        //	Generar entidad
 	        Program programId = programService.getProgramById(programOccupationalRegister.getIdProgram());
 	        OccupationalField occupationalField = new OccupationalField(idOccupationalField, index, programOccupationalRegister.getName(), 
 	        		state);

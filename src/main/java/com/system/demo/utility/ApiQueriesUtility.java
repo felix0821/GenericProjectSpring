@@ -12,7 +12,7 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ApiQueries {
+public class ApiQueriesUtility {
 	
 	//Api consumida de https://ruc.com.pe/tokens
 	public String[] checkDniRucPe(String dni) throws Exception {

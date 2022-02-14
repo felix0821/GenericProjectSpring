@@ -31,7 +31,7 @@ import com.system.demo.persistence.entity.OccupationalField;
 import com.system.demo.persistence.entity.Program;
 import com.system.demo.service.OccupationalFieldService;
 import com.system.demo.service.ProgramService;
-import com.system.demo.utility.UniqId;
+import com.system.demo.utility.UniqIdUtility;
 
 @RestController
 @RequestMapping(value=URL_CONFIGURATION_REQUEST)
@@ -39,7 +39,7 @@ import com.system.demo.utility.UniqId;
 public class ConfigurationController {
 	
 	@Autowired
-	UniqId uI;
+	UniqIdUtility uI;
 	
 	@Autowired
 	ProgramService programService;
