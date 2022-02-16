@@ -123,7 +123,7 @@ public class AlertController {
 	public ResponseEntity<?> getAlertObserve(@RequestParam(name ="id")Long id, @RequestHeader HttpHeaders headers) {
 		String userFromToken = usernameFromToken(headers);
 		try {
-			RequisitionDetail requisition = requisitionDetailService.RequisitionDetailById(id).get();
+			/*RequisitionDetail requisition = requisitionDetailService.RequisitionDetailById(id).get();
 			Person person = personService.getPersonByUsername(userFromToken).get();
 			RequisitionStatus reqStatus = requisitionStatusService.getRequisitionStatusById(SYSTEM_REQUISITION_STATUS_OBSERVE).get();
 			Long idReqStatusDetail = uniqueId.getUniqId();
@@ -134,8 +134,8 @@ public class AlertController {
 			reqStatusDetail.setPersonId(person);
 			reqStatusDetail.setRequisitionStatusId(reqStatus);
 			reqStatusDetail.setRequisitionDetailId(requisition);
-			requisitionStatusDetailService.createRequisitionStatusDetail(reqStatusDetail);
-			requisitionDetailService.checkingRequisitionDetailById(requisition.getRequisitionDetailId());
+			requisitionStatusDetailService.createRequisitionStatusDetail(reqStatusDetail);*/
+			requisitionDetailService.checkingRequisitionDetailById(id);
 			return new ResponseEntity(new Message(SYSTEM_SUCCESS), HttpStatus.OK);
 		} catch(Exception e) {
 			return new ResponseEntity(new Message(SYSTEM_ERROR), HttpStatus.BAD_REQUEST);
