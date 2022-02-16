@@ -17,6 +17,11 @@ public class RequisitionDataServiceImplements implements RequisitionDataService{
 	RequisitionDataRepository requisitionDataRepository;
 
 	@Override
+	public Iterable<RequisitionData> getRequisitionDatasByRequisitionId(long requisitionId) {
+		return requisitionDataRepository.findByRequisitionId(requisitionId);
+	}
+	
+	@Override
 	public RequisitionData createRequisitionData(RequisitionData RequisitionData) throws Exception {
 		return requisitionDataRepository.save(RequisitionData);
 	}

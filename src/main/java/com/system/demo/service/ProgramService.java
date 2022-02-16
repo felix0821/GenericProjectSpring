@@ -7,7 +7,7 @@ import com.system.demo.persistence.entity.Program;
 
 public interface ProgramService {
 	
-	Iterable<Program> getAllPrograms();
+	public Iterable<Program> getAllPrograms();
 	public Program createProgram(Program program) throws Exception;
 	public Program updateProgram(Program fromProgram) throws Exception;
 	public void deleteProgram(Long programId) throws Exception;

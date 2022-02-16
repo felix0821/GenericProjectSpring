@@ -49,6 +49,8 @@ public class GroupTeaching implements Serializable {
     private Collection<CourseDetail> courseDetailCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "groupTeaching")
     private Collection<CourseGroup> courseGroupCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "groupTeaching")
+    private Collection<ProgramGroup> programGroupCollection;
 
     public GroupTeaching() {
     }
@@ -110,6 +112,14 @@ public class GroupTeaching implements Serializable {
 
     public void setCourseGroupCollection(Collection<CourseGroup> courseGroupCollection) {
         this.courseGroupCollection = courseGroupCollection;
+    }
+
+    public Collection<ProgramGroup> getProgramGroupCollection() {
+        return programGroupCollection;
+    }
+
+    public void setProgramGroupCollection(Collection<ProgramGroup> programGroupCollection) {
+        this.programGroupCollection = programGroupCollection;
     }
 
     @Override

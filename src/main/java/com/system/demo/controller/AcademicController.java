@@ -58,6 +58,7 @@ import com.system.demo.service.OccupationalFieldService;
 import com.system.demo.service.PeriodService;
 import com.system.demo.service.ProgramPeriodService;
 import com.system.demo.service.ProgramService;
+import com.system.demo.utility.PreferenceUtility;
 import com.system.demo.utility.UniqIdUtility;
 
 @RestController
@@ -66,23 +67,21 @@ import com.system.demo.utility.UniqIdUtility;
 public class AcademicController {
 	
 	@Autowired
-	UniqIdUtility uI;
+	UniqIdUtility uniqueId;
+	@Autowired
+	PreferenceUtility preference;
+	
 	
 	@Autowired
 	ProgramService programService;
-	
 	@Autowired
 	ProgramPeriodService programPeriodService;
-	
 	@Autowired
 	OccupationalFieldService occupationalFieldService;
-	
 	@Autowired
 	PeriodService periodService;
-	
 	@Autowired
 	EnrollmentProgramPeriodService enrollmentProgramPeriodService;
-	
 	@Autowired
 	CourseDetailService courseDetailService;
 	
@@ -168,67 +167,6 @@ public class AcademicController {
 	
 	
 	//-------------------------------------------------------
-	@SuppressWarnings(value = { "rawtypes", "unchecked" })
-	@PostMapping(value = URL_ACADEMIC_PROGRAM_EDIT_POST)
-	public ResponseEntity<?> programEdit(@Valid @RequestBody ProgramDetailedDto programEditDto, BindingResult bindingResult) {
-		//	Realizamos las validaciones pertinentes
-        if(bindingResult.hasErrors())
-            return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
-        //	Buscamos programa por id
-        Program programEdit = null;
-		try {
-			programEdit = programService.getProgramById(programEditDto.getId());
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
-		}
-		programEdit.setProgramName(programEditDto.getName());
-		programEdit.setProgramAcronym(programEditDto.getAcronym());
-		programEdit.setProgramDescription(programEditDto.getDescription());
-		programEdit.setProgramRequirement(programEditDto.getRequirement());
-		programEdit.setProgramCurriculum(programEditDto.getCurriculum());
-		programEdit.setProgramImage(programEditDto.getImage());
-		programEdit.setProgramArea(programEditDto.getArea());
-		programEdit.setProgramState(programEditDto.getState());
-		try {
-			programService.updateProgram(programEdit);
-		} catch(Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_PROGRAM), HttpStatus.BAD_REQUEST);
-		}
-		return new ResponseEntity(new Message(SYSTEM_SUCCESS_EDIT_PROGRAM), HttpStatus.CREATED);
-	}
-	
-	
-	
-	@SuppressWarnings(value = { "rawtypes", "unchecked" })
-	@PostMapping(value = URL_ACADEMIC_PROGRAMxOCCUPATIONAL_REGISTER_POST)
-    public ResponseEntity<?> programOccupationalRegister(@Valid @RequestBody ProgramOccupationalRegisterDto programOccupationalRegister, BindingResult bindingResult) {
-		try {
-			//	Realizar validaciones
-	        if(bindingResult.hasErrors())
-	            return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
-	        //	Generar valores
-	        Long idOccupationalField = uI.getUniqId();
-	        char state = SYSTEM_STATE_ACTIVE;
-	        Integer index = null;
-	        //	Generar entidad
-	        Program programId = programService.getProgramById(programOccupationalRegister.getIdProgram());
-	        OccupationalField occupationalField = new OccupationalField(idOccupationalField, index, programOccupationalRegister.getName(), 
-	        		state);
-	        occupationalField.setProgramId(programId);
-	        try {
-	        	occupationalFieldService.createOccupationalField(occupationalField);
-				return new ResponseEntity(new Message(SYSTEM_SUCCESS_REGISTER_PROGRAM), HttpStatus.CREATED);
-			} catch (Exception e) {
-				e.printStackTrace();
-				return new ResponseEntity(new Message(SYSTEM_ERROR_REGISTER), HttpStatus.BAD_REQUEST);
-			}
-		} catch(Exception e) {
-			System.out.println(e);
-			return new ResponseEntity(new Message(SYSTEM_ERROR), HttpStatus.BAD_REQUEST);
-		}
-	}
 	
 	/*
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
@@ -263,28 +201,34 @@ public class AcademicController {
 	@PostMapping(value = URL_ACADEMIC_CYCLExREGISTER_POST)
     public ResponseEntity<?> pedagogicalPeriodRegister(@Valid @RequestBody AcademicPeriodRegisterDto periodRegister, BindingResult bindingResult){
 		try {
-			//Realizamos las validaciones pertinentes
+//			°Realizar validaciones
 	        if(bindingResult.hasErrors())
 	            return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
-	        Long idPedPeriod = uI.getUniqId();
-	        String identifier = uI.getIdentifier(Arrays.asList(periodRegister.getName(), 
+//	    	°Generar valores
+	        Long idPeriod = uniqueId.getUniqId();
+	        String identifierPeriod = uniqueId.getIdentifier(Arrays.asList(periodRegister.getName(), 
 	        		periodRegister.getModality().toString(), Integer.toString(periodRegister.getYear())));
-	        //Construimos modelo de registro
-	        Period period = new Period(idPedPeriod, SYSTEM_INDEX, identifier, periodRegister.getName(),
+	        int indexPeriod = preference.getIndex(INDEX_PERIOD);
+//	    	°Generar entidad
+	        Period period = new Period(idPeriod, indexPeriod, identifierPeriod, periodRegister.getName(),
 	        		periodRegister.getYear(), periodRegister.getModality(), SYSTEM_STATE_ACTIVE);
 	        Period pedPeriod = periodService.createPeriod(period);
-	        //Realizar registro en bloque
+//	    	°Realizar registro en bloque
 	       if(periodRegister.isBlockRegistration()) {
 	    	   	List<Program> programs = programService.getProgramByState(SYSTEM_STATE_ACTIVE);
 		        for(Program program:programs) {
-		        	//Long idProgPeriod = uI.getUniqId();
+//			    	°Generar valores
 		        	ProgramPeriodPK idProgPeriod = new ProgramPeriodPK(program.getProgramId(), pedPeriod.getPeriodId());
-		        	ProgramPeriod progPeriod = new ProgramPeriod(idProgPeriod, SYSTEM_INDEX, periodRegister.getPayEnrollmet(), 
+		        	Integer indexProgPeriod = preference.getIndex(INDEX_PROGRAM_PERIOD);
+		        	Character stateProgPeriod = SYSTEM_STATE_ACTIVE;
+//			    	°Generar entidad
+		        	ProgramPeriod progPeriod = new ProgramPeriod(idProgPeriod, indexProgPeriod, periodRegister.getPayEnrollmet(), 
 		        			periodRegister.getPayPension(), periodRegister.getDateOpening(), periodRegister.getDateClosingEnrollmet(), 
-		        			periodRegister.getDateClosing(), SYSTEM_STATE_ACTIVE);
+		        			periodRegister.getDateClosing(), stateProgPeriod);
 		        	programPeriodService.createProgramPeriod(progPeriod);
 		        }
 	       }
+//	    	°Retornar mensaje
 	        return new ResponseEntity(new Message(SYSTEM_SUCCESS_REGISTER_PROGRAM), HttpStatus.CREATED);
 		} catch (Exception e) {
 			System.out.println(e);
@@ -345,13 +289,19 @@ public class AcademicController {
 	@PostMapping(value = URL_ACADEMIC_CYCLE_PROGRAMxREGISTERxSELECT_POST)
     public ResponseEntity<?> periodProgramRegisterSelect(@Valid @RequestBody ProgramPeriodSelectRegisterDto progPeriodRegister, BindingResult bindingResult){
 		try {
-	        //	Construimos modelo de registro
+//			°Realizar validaciones
+	        if(bindingResult.hasErrors())
+	            return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
+//			°Generar valores
 	        ProgramPeriodPK idProgPeriod = new ProgramPeriodPK(progPeriodRegister.getIdProgram(), progPeriodRegister.getIdPeriod());
-	        ProgramPeriod programPeriod = new ProgramPeriod(idProgPeriod, SYSTEM_INDEX, progPeriodRegister.getPayEnrollmet(), 
+	        Integer indexProgPeriod = preference.getIndex(INDEX_PROGRAM_PERIOD);
+	        Character stateProgPeriod = SYSTEM_STATE_ACTIVE;
+//			°Generar entidad
+	        ProgramPeriod programPeriod = new ProgramPeriod(idProgPeriod, indexProgPeriod, progPeriodRegister.getPayEnrollmet(), 
 	        		progPeriodRegister.getPayPension(), progPeriodRegister.getDateOpening(), progPeriodRegister.getDateClosingEnrollmet(), 
-	        		progPeriodRegister.getDateClosing(), SYSTEM_STATE_ACTIVE);
+	        		progPeriodRegister.getDateClosing(), stateProgPeriod);
 	        programPeriodService.createProgramPeriod(programPeriod);
-	        //Realizar registro en bloque
+//			°Retornar mensaje
 	        return new ResponseEntity(new Message(SYSTEM_SUCCESS_REGISTER_PROGRAM), HttpStatus.CREATED);
 		} catch (Exception e) {
 			System.out.println(e);
@@ -363,27 +313,33 @@ public class AcademicController {
 	@PostMapping(value = URL_ACADEMIC_CYCLE_PROGRAMxREGISTERxNEW_POST)
     public ResponseEntity<?> periodProgramRegisterNew(@Valid @RequestBody ProgramPeriodNewRegisterDto progPeriodRegister, BindingResult bindingResult){
 		try {
-			//Realizamos las validaciones pertinentes
+//			°Realizar validaciones
 	        if(bindingResult.hasErrors())
 	            return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
-	        //Construimos modelo de registro
-	        Long idProgram = uI.getUniqId();
-	        String identifier = uI.getIdentifier(Arrays.asList(progPeriodRegister.getName()));
-	        Program program = new Program(idProgram, SYSTEM_INDEX, identifier,  progPeriodRegister.getName(),  progPeriodRegister.getAcronym(),
-	        		 progPeriodRegister.getArea(), SYSTEM_STATE_ACTIVE);
+//			°Generar valores
+	        Long idProgram = uniqueId.getUniqId();
+	        String identifierProgram = uniqueId.getIdentifier(Arrays.asList(progPeriodRegister.getName()));
+	        Integer indexProgram = preference.getIndex(INDEX_PROGRAM);
+	        Character stateProgram = SYSTEM_STATE_ACTIVE;
+//			°Generar entidad
+	        Program program = new Program(idProgram, indexProgram, identifierProgram,  progPeriodRegister.getName(),  
+	        		progPeriodRegister.getAcronym(), progPeriodRegister.getArea(), stateProgram);
 	        program.setProgramDescription(progPeriodRegister.getDescription());
 	        try {
 				programService.createProgram(program);
 			} catch (Exception e) {
 				e.printStackTrace();
-			}  
-	        //	Construimos modelo de registro
+			}
+//			°Generar valores
 	        ProgramPeriodPK idProgPeriod = new ProgramPeriodPK(program.getProgramId(), progPeriodRegister.getIdPeriod());
-	        ProgramPeriod programPeriod = new ProgramPeriod(idProgPeriod, SYSTEM_INDEX, progPeriodRegister.getPayEnrollmet(), 
+	        Integer indexProgPeriod = preference.getIndex(INDEX_PROGRAM_PERIOD);
+	        Character stateProgPeriod = SYSTEM_STATE_ACTIVE;
+//			°Generar entidad
+	        ProgramPeriod programPeriod = new ProgramPeriod(idProgPeriod, indexProgPeriod, progPeriodRegister.getPayEnrollmet(), 
 	        		progPeriodRegister.getPayPension(), progPeriodRegister.getDateOpening(), progPeriodRegister.getDateClosingEnrollmet(), 
-	        		progPeriodRegister.getDateClosing(), SYSTEM_STATE_ACTIVE);
+	        		progPeriodRegister.getDateClosing(), stateProgPeriod);
 	        programPeriodService.createProgramPeriod(programPeriod);
-	        //Realizar registro en bloque
+//			°Retornar mensaje
 	        return new ResponseEntity(new Message(SYSTEM_SUCCESS_REGISTER_PROGRAM), HttpStatus.CREATED);
 		} catch (Exception e) {
 			System.out.println(e);

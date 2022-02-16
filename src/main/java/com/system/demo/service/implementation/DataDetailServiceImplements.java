@@ -21,4 +21,9 @@ public class DataDetailServiceImplements implements DataDetailService {
 		return dataDetailRepository.save(dataDetail);
 	}
 
+	@Override
+	public Iterable<DataDetail> getDataDetailsByDataId(Long DataId) {
+		return dataDetailRepository.findByDataId(DataId);
+	}
+
 }

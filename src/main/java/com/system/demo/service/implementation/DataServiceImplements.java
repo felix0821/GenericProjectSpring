@@ -1,5 +1,7 @@
 package com.system.demo.service.implementation;
 
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +19,19 @@ public class DataServiceImplements implements DataService {
 	DataRepository dataRepository;
 
 	@Override
+	public Iterable<Data> getDatasByRequisitionId(Long RequisitionId) {
+		return dataRepository.findByRequisitionId(RequisitionId);
+	}
+	
+	@Override
 	public Data createData(Data data) throws Exception {
 		return dataRepository.save(data);
 	}
+
+	@Override
+	public Optional<Data> getDataById(Long dataId) {
+		return dataRepository.findById(dataId);
+	}
+
 
 }

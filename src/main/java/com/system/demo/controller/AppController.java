@@ -151,7 +151,7 @@ public class AppController {
 			e.printStackTrace();
 		}
 	}*/
-	
+	/*
 	private void generateData()throws Exception {
 		DataCategory requisition;
 		DataEntry image, document, numberInteger, numberReal, text, multioptions;
@@ -238,7 +238,7 @@ public class AppController {
 		reqData06.setRequisitionDataState('A');
 		requisitionDataService.createRequisitionData(reqData06);
 	}
-	
+	*/
 	private void generateFinancialMovement() throws Exception {
 		FinancialMovement income, egress;
 		// Crear objetos iniciales

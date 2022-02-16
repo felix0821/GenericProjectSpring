@@ -12,8 +12,11 @@ import org.springframework.data.repository.query.Param;
 
 @Repository
 public interface PersonRoleRepository extends JpaRepository<PersonRole,PersonRolePK>{
-	public Iterable<PersonRole> findByPersonId(long personId);
-	public Iterable<PersonRole> findByRoleId(long roleId);
+	
+	public Iterable<PersonRole> findByPersonId(@Param("personId")long personId);
+	
+	public Iterable<PersonRole> findByRoleId(@Param("roleId")long roleId);
+	
 	@Modifying
 	@Query(value = "DELETE FROM PersonRole p WHERE (p.personRolePK.personId = :personId) AND (p.personRolePK.roleId = :roleId)")
 	public void deletePersonRole(long personId, long roleId);

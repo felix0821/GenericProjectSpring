@@ -1,5 +1,7 @@
 package com.system.demo.service.implementation;
 
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,11 @@ public class RequisitionDetailServiceImplements implements RequisitionDetailServ
 	
 	@Autowired
 	RequisitionDetailRepository requisitionDetailRepository;
+	
+	@Override
+	public Iterable<RequisitionDetail> getRequisitionDetailsByRequisitionIdNotChecking(Long requisitionId) {
+		return requisitionDetailRepository.findByRequisitionIdAndNotChecking(requisitionId);
+	}
 
 	@Override
 	public Iterable<RequisitionDetail> getAllRequisitionDetails() {
@@ -33,9 +40,8 @@ public class RequisitionDetailServiceImplements implements RequisitionDetailServ
 	}
 
 	@Override
-	public RequisitionDetail RequisitionDetailById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Optional<RequisitionDetail> RequisitionDetailById(Long id) {
+		return requisitionDetailRepository.findById(id);
 	}
 
 }

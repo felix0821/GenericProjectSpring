@@ -21,4 +21,9 @@ public class RequisitionDataDetailServiceImplements implements RequisitionDataDe
 		return requisitionDataDetailRepository.save(requisitionDataDetail);
 	}
 
+	@Override
+	public Iterable<RequisitionDataDetail> getRequisitionDetailsByRequisitionDetailId(Long requisitionDetailId) {
+		return requisitionDataDetailRepository.findByRequisitionDetailId(requisitionDetailId);
+	}
+
 }

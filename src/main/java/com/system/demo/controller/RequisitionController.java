@@ -1,6 +1,7 @@
 package com.system.demo.controller;
 
 import static com.system.demo.GenericProjectSystemStatement.*;
+import static com.system.demo.GenericProjectSystemDefinition.*;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -26,9 +27,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.system.demo.dto.generic.HeaderDataDto;
 import com.system.demo.dto.generic.Message;
+import com.system.demo.dto.specific.DataDetailDto;
+import com.system.demo.dto.specific.DataDto;
 import com.system.demo.dto.specific.RequisitionRegisterDto;
 import com.system.demo.dto.specific.RequisitionTypeDto;
+import com.system.demo.persistence.entity.Data;
+import com.system.demo.persistence.entity.DataDetail;
+import com.system.demo.persistence.entity.DataEntry;
 import com.system.demo.persistence.entity.FinancialMovement;
 import com.system.demo.persistence.entity.FinancialMovementDetail;
 import com.system.demo.persistence.entity.Person;
@@ -38,6 +45,8 @@ import com.system.demo.persistence.entity.RequisitionDetail;
 import com.system.demo.persistence.entity.RequisitionStatus;
 import com.system.demo.persistence.repository.FinancialMovementRepository;
 import com.system.demo.security.JwtProvider;
+import com.system.demo.service.DataDetailService;
+import com.system.demo.service.DataService;
 import com.system.demo.service.FinancialMovementDetailService;
 import com.system.demo.service.FinancialMovementService;
 import com.system.demo.service.PersonService;
@@ -54,43 +63,53 @@ public class RequisitionController {
 	
 	@Autowired
     JwtProvider jwtProvider;
+	@Autowired
+	UniqIdUtility uniqueId;
 	
 	@Autowired
 	PersonService personService;
-	
-	@Autowired
-	UniqIdUtility uI;
-	
 	@Autowired
 	RequisitionService requisitionService;
-	
 	@Autowired
 	RequisitionDetailService requisitionDetailService;
-	
 	@Autowired
 	RequisitionStatusService requisitionStatusService;
-	
 	@Autowired
 	FinancialMovementDetailService financialMovementDetailService;
-	
 	@Autowired
 	FinancialMovementRepository financialMovementService;
-	
 	@Autowired
 	RequisitionDataDetailService requisitionDataDetailService;
+	@Autowired
+	DataService dataService;
+	@Autowired
+	DataDetailService dataDetailService;
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@GetMapping
 	@ResponseBody
     public ResponseEntity<?> formRequisition(@RequestHeader HttpHeaders headers, HttpServletRequest request){
 		try {
-			/*Iterable<Requisition> listRequisition = requisitionService.getAllRequisitions();
-			List<RequisitionTypeDto> listRequisitionDto = new ArrayList<>();
-			for(Requisition requisition:listRequisition) {
-				listRequisitionDto.add(new RequisitionTypeDto(requisition.getRequisitionId(), requisition.getRequisitionName()));
+			Requisition requisition = requisitionService.getRequisitionById(1L).get();
+			HeaderDataDto response = new HeaderDataDto(requisition.getRequisitionId().toString(), requisition.getRequisitionName());
+			Iterable<Data> datas = dataService.getDatasByRequisitionId(1L);
+			List<DataDto> datasDto = new ArrayList<>();
+			for(Data data: datas) {
+				DataEntry dataEntry = data.getDataEntryId();
+				List<DataDetailDto> dataDetailsDto = new ArrayList<>();
+				DataDto dataDto = new DataDto(data.getDataId(), data.getDataName(), data.getDataDescription(), data.getDataPlaceholder(),
+						dataEntry.getDataEntryType(), dataEntry.getDataEntrySelection(), dataEntry.getDataEntryAccept());
+				if(dataEntry.getDataEntrySelection()) {
+					Iterable<DataDetail> dataDetails = dataDetailService.getDataDetailsByDataId(data.getDataId());
+					for(DataDetail dataDetail: dataDetails) {
+						dataDetailsDto.add(new DataDetailDto(dataDetail.getDataDetailName(), dataDetail.getDataDetailValue()));
+					}
+				}
+				dataDto.setData_detail(dataDetailsDto);
+				datasDto.add(dataDto);
 			}
-			return new ResponseEntity<List<RequisitionTypeDto>>(listRequisitionDto, HttpStatus.OK);*/
-			return new ResponseEntity(new Message("Solicitud de matricula"), HttpStatus.OK);
+			response.setList(datasDto);
+			return new ResponseEntity<HeaderDataDto>(response, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity(new Message("BLOQUED"), HttpStatus.BAD_REQUEST);
 		}
@@ -113,12 +132,12 @@ public class RequisitionController {
 			Date dateRegister=Date.from(fechaPeru.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
 			boolean checking = false;
 			//	Objeto Solicitud
-			Long idReqDetail = uI.getUniqId();
+			Long idReqDetail = uniqueId.getUniqId();
 			RequisitionDetail requisitionDetail = new RequisitionDetail(idReqDetail, checking, dateRegister);
 			//	Objeto movimiento financiero
 			Long idMovFin = 1L;
 			FinancialMovement f = financialMovementService.getById(idMovFin);
-			Long idFinDetail = uI.getUniqId();
+			Long idFinDetail = uniqueId.getUniqId();
 			FinancialMovementDetail financialMovementDetail = new FinancialMovementDetail(idFinDetail, requisitionRegisterDto.getAmount(),
 					dateRegister, 'A','A');
 			financialMovementDetail.setFinancialMovementId(f);

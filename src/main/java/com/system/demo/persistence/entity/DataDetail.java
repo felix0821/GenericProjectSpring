@@ -26,6 +26,7 @@ import javax.persistence.Table;
     @NamedQuery(name = "DataDetail.findAll", query = "SELECT d FROM DataDetail d"),
     @NamedQuery(name = "DataDetail.findByDataDetailId", query = "SELECT d FROM DataDetail d WHERE d.dataDetailId = :dataDetailId"),
     @NamedQuery(name = "DataDetail.findByDataDetailName", query = "SELECT d FROM DataDetail d WHERE d.dataDetailName = :dataDetailName"),
+    @NamedQuery(name = "DataDetail.findByDataDetailValue", query = "SELECT d FROM DataDetail d WHERE d.dataDetailValue = :dataDetailValue"),
     @NamedQuery(name = "DataDetail.findByDataDetailState", query = "SELECT d FROM DataDetail d WHERE d.dataDetailState = :dataDetailState")})
 public class DataDetail implements Serializable {
 
@@ -37,6 +38,9 @@ public class DataDetail implements Serializable {
     @Basic(optional = false)
     @Column(name = "data_detail_name", nullable = false, length = 64)
     private String dataDetailName;
+    @Basic(optional = false)
+    @Column(name = "data_detail_value", nullable = false, length = 64)
+    private String dataDetailValue;
     @Basic(optional = false)
     @Column(name = "data_detail_state", nullable = false)
     private Character dataDetailState;
@@ -51,9 +55,10 @@ public class DataDetail implements Serializable {
         this.dataDetailId = dataDetailId;
     }
 
-    public DataDetail(Long dataDetailId, String dataDetailName, Character dataDetailState) {
+    public DataDetail(Long dataDetailId, String dataDetailName, String dataDetailValue, Character dataDetailState) {
         this.dataDetailId = dataDetailId;
         this.dataDetailName = dataDetailName;
+        this.dataDetailValue = dataDetailValue;
         this.dataDetailState = dataDetailState;
     }
 
@@ -71,6 +76,14 @@ public class DataDetail implements Serializable {
 
     public void setDataDetailName(String dataDetailName) {
         this.dataDetailName = dataDetailName;
+    }
+
+    public String getDataDetailValue() {
+        return dataDetailValue;
+    }
+
+    public void setDataDetailValue(String dataDetailValue) {
+        this.dataDetailValue = dataDetailValue;
     }
 
     public Character getDataDetailState() {

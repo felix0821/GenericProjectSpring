@@ -27,6 +27,7 @@ import javax.persistence.Table;
     @NamedQuery(name = "DataEntry.findAll", query = "SELECT d FROM DataEntry d"),
     @NamedQuery(name = "DataEntry.findByDataEntryId", query = "SELECT d FROM DataEntry d WHERE d.dataEntryId = :dataEntryId"),
     @NamedQuery(name = "DataEntry.findByDataEntryType", query = "SELECT d FROM DataEntry d WHERE d.dataEntryType = :dataEntryType"),
+    @NamedQuery(name = "DataEntry.findByDataEntryAccept", query = "SELECT d FROM DataEntry d WHERE d.dataEntryAccept = :dataEntryAccept"),
     @NamedQuery(name = "DataEntry.findByDataEntrySelection", query = "SELECT d FROM DataEntry d WHERE d.dataEntrySelection = :dataEntrySelection")})
 public class DataEntry implements Serializable {
 
@@ -36,8 +37,10 @@ public class DataEntry implements Serializable {
     @Column(name = "data_entry_id", nullable = false)
     private Long dataEntryId;
     @Basic(optional = false)
-    @Column(name = "data_entry_type", nullable = false)
-    private Character dataEntryType;
+    @Column(name = "data_entry_type", nullable = false, length = 32)
+    private String dataEntryType;
+    @Column(name = "data_entry_accept", length = 128)
+    private String dataEntryAccept;
     @Basic(optional = false)
     @Column(name = "data_entry_selection", nullable = false)
     private boolean dataEntrySelection;
@@ -51,7 +54,7 @@ public class DataEntry implements Serializable {
         this.dataEntryId = dataEntryId;
     }
 
-    public DataEntry(Long dataEntryId, Character dataEntryType, boolean dataEntrySelection) {
+    public DataEntry(Long dataEntryId, String dataEntryType, boolean dataEntrySelection) {
         this.dataEntryId = dataEntryId;
         this.dataEntryType = dataEntryType;
         this.dataEntrySelection = dataEntrySelection;
@@ -65,12 +68,20 @@ public class DataEntry implements Serializable {
         this.dataEntryId = dataEntryId;
     }
 
-    public Character getDataEntryType() {
+    public String getDataEntryType() {
         return dataEntryType;
     }
 
-    public void setDataEntryType(Character dataEntryType) {
+    public void setDataEntryType(String dataEntryType) {
         this.dataEntryType = dataEntryType;
+    }
+
+    public String getDataEntryAccept() {
+        return dataEntryAccept;
+    }
+
+    public void setDataEntryAccept(String dataEntryAccept) {
+        this.dataEntryAccept = dataEntryAccept;
     }
 
     public boolean getDataEntrySelection() {

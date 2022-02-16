@@ -30,6 +30,8 @@ import javax.persistence.Table;
     @NamedQuery(name = "Data.findByDataId", query = "SELECT d FROM Data d WHERE d.dataId = :dataId"),
     @NamedQuery(name = "Data.findByDataName", query = "SELECT d FROM Data d WHERE d.dataName = :dataName"),
     @NamedQuery(name = "Data.findByDataDescription", query = "SELECT d FROM Data d WHERE d.dataDescription = :dataDescription"),
+    @NamedQuery(name = "Data.findByDataPlaceholder", query = "SELECT d FROM Data d WHERE d.dataPlaceholder = :dataPlaceholder"),
+    @NamedQuery(name = "Data.findByDataType", query = "SELECT d FROM Data d WHERE d.dataType = :dataType"),
     @NamedQuery(name = "Data.findByDataState", query = "SELECT d FROM Data d WHERE d.dataState = :dataState")})
 public class Data implements Serializable {
 
@@ -43,6 +45,11 @@ public class Data implements Serializable {
     private String dataName;
     @Column(name = "data_description", length = 128)
     private String dataDescription;
+    @Column(name = "data_placeholder", length = 64)
+    private String dataPlaceholder;
+    @Basic(optional = false)
+    @Column(name = "data_type", nullable = false)
+    private Character dataType;
     @Basic(optional = false)
     @Column(name = "data_state", nullable = false)
     private Character dataState;
@@ -70,9 +77,10 @@ public class Data implements Serializable {
         this.dataId = dataId;
     }
 
-    public Data(Long dataId, String dataName, Character dataState) {
+    public Data(Long dataId, String dataName, Character dataType, Character dataState) {
         this.dataId = dataId;
         this.dataName = dataName;
+        this.dataType = dataType;
         this.dataState = dataState;
     }
 
@@ -98,6 +106,22 @@ public class Data implements Serializable {
 
     public void setDataDescription(String dataDescription) {
         this.dataDescription = dataDescription;
+    }
+
+    public String getDataPlaceholder() {
+        return dataPlaceholder;
+    }
+
+    public void setDataPlaceholder(String dataPlaceholder) {
+        this.dataPlaceholder = dataPlaceholder;
+    }
+
+    public Character getDataType() {
+        return dataType;
+    }
+
+    public void setDataType(Character dataType) {
+        this.dataType = dataType;
     }
 
     public Character getDataState() {

@@ -9,7 +9,6 @@ public class GenericProjectSystemStatement {
 	 **/
 	//	Declaraciones generales del sistema
 	//	Declaraciones de parametros nulos
-	public static final int SYSTEM_INDEX = 1;
 	public static final String INDEX_OCCUPATIONAL_FIELD = "occupational_field_index";
 	public static final String INDEX_PERIOD = "period_index";
 	public static final String INDEX_PROGRAM_PERIOD = "program_period_index";
@@ -39,11 +38,11 @@ public class GenericProjectSystemStatement {
 	/**
 	 *	Route mapping for the system
 	 **/
-	//	Mapeo para el controlador "Autenticación"
+//	Mapeo para el controlador "Autenticación"
 	public static final String URL_AUTH_REQUEST = "/auth";
 	public static final String URL_AUTH_LOGIN_POST = "/login";
 	public static final String URL_AUTH_ERROR_GET = "/error";
-	//	Mapeo para el controlador "Persona"
+//	Mapeo para el controlador "Persona"
 	public static final String URL_PERSON_REQUEST = "/person";
 	public static final String URL_PERSON_PROFILE_GET = "/profile";
 	public static final String URL_PERSON_PROFILE_EDIT_POST = "/profile/edit";
@@ -55,18 +54,20 @@ public class GenericProjectSystemStatement {
 	public static final String URL_PERSONxROLE_DELETE_GET = "/person-role/delete";
 	public static final String URL_PERSONxROLES_REGISTER_GET = "/person-roles/register/{personId}";
 	public static final String URL_PERSONxROLE_REGISTER_POST = "/person-role/register";
-	//	Mapeo para el controlador "Solicitud"
+	
+//	Mapeo para el controlador "Solicitud"
 	public static final String URL_REQUISITION_REQUEST = "/requisition";
 	public static final String URL_REQUISITION_STATUS_GET = "/status";
 	public static final String URL_REQUISITION_REGISTER_GET = "/register/{requisition}";
-	//	Mapeo para el controlador "Movimiento financiero"
-	public static final String URL_FINANCIAL_MOVEMENT_REQUEST = "/financial-movement";
-	//	Mapeo para el controlador "Control documental"
-	public static final String URL_DOCUMENTARY_REQUEST = "/documentary";
-	//	Mapeo para el controlador "Gestion academica"
-	public static final String URL_ACADEMIC_REQUEST = "/academic";
 	
-	public static final String URL_ACADEMIC_PROGRAMxOCCUPATIONAL_REGISTER_POST = "/program-occupational/register";
+//	Mapeo para el controlador "Movimiento financiero"
+	public static final String URL_FINANCIAL_MOVEMENT_REQUEST = "/financial-movement";
+	
+//	Mapeo para el controlador "Control documental"
+	public static final String URL_DOCUMENTARY_REQUEST = "/documentary";
+	
+//	Mapeo para el controlador "Gestion academica"
+	public static final String URL_ACADEMIC_REQUEST = "/academic";
 	public static final String URL_ACADEMIC_PROGRAMxPERIODS_GET = "/program-periods/{idProgram}";
 	public static final String URL_ACADEMIC_CYCLExREGISTER_POST = "/cycle-register";
 	public static final String URL_ACADEMIC_CYCLExEDIT_GET = "/cycle-edit";
@@ -80,7 +81,8 @@ public class GenericProjectSystemStatement {
 	public static final String URL_ACADEMIC_CYCLE_PROGRAM_ENROLLED_GET = "/{cycle}/{program}/enrolleds";
 	public static final String URL_ACADEMIC_CYCLE_PROGRAM_COURSE_GET = "/{cycle}/{program}/courses";
 	//public static final String URL_ACADEMIC_PROGRAMxPERIOD_VIEW_GET = "/program-period/view/{id}";
-	//	Mapeo para el controlador "Gestion de seguridad"
+	
+//	Mapeo para el controlador "Gestion de seguridad"
 	public static final String URL_SECURITY_REQUEST = "/security";
 	public static final String URL_SECURITY_ROLE_GET = "/role";
 	public static final String URL_SECURITY_EDITxROLE_GET = "/edit-role/{id}";
@@ -89,7 +91,8 @@ public class GenericProjectSystemStatement {
 	public static final String URL_SECURITY_ROLE_REGISTER_POST = "/role/register";
 	public static final String URL_SECURITY_ACCESS_GET = "/access";
 	public static final String URL_SECURITY_INTERFACE_GET = "/interface";
-	//	Mapero para el controlador "Gestion de configuración"
+	
+//	Mapeo para el controlador "Gestion de configuración"
 	public static final String URL_CONFIGURATION_REQUEST = "/configuration";
 	public static final String URL_CONFIGURATION_PROGRAM_GET = "/program";
 	public static final String URL_CONFIGURATION_PROGRAMxREGISTER_POST = "/program-register";
@@ -97,8 +100,35 @@ public class GenericProjectSystemStatement {
 	public static final String URL_CONFIGURATION_PROGRAMxEDIT_POST = "/program-edit";
 	public static final String URL_CONFIGURATION_PROGRAMxDELETE_GET = "/program-delete";
 	public static final String URL_CONFIGURATION_PROGRAM_VIEW_GET = "/program/{program}";
-	public static final String URL_ACADEMIC_PROGRAM_EDIT_POST = "/program/edit";
+	public static final String URL_CONFIGURATION_PROGRAM_EDIT_POST = "/program/{program}/edit";
+	public static final String URL_CONFIGURATION_PROGRAM_OCCUPATIONALxREGISTER_POST = "/program/{program}/occupational-register";
 	
+	public static final String URL_CONFIGURATION_PROGRAM_MODULUS_GET = "/program/{program}/modulus";
+	public static final String URL_CONFIGURATION_PROGRAM_MODULUSxREGISTER_POST = "/program/{program}/modulus-register";
+	public static final String URL_CONFIGURATION_PROGRAM_MODULUSxEDIT_GET = "/program/{program}/modulus-edit";
+	public static final String URL_CONFIGURATION_PROGRAM_MODULUSxEDIT_POST = "/program/{program}/modulus-edit";
+	public static final String URL_CONFIGURATION_PROGRAM_MODULUSxDELETE_GET = "/program/{program}/modulus-delete";
+	
+	public static final String URL_CONFIGURATION_MODULUS_COURSE_GET = "/modulus/{modulus}/course";
+	public static final String URL_CONFIGURATION_MODULUS_COURSExREGISTER_GET = "/modulus/{modulus}/course-register";
+	public static final String URL_CONFIGURATION_MODULUS_COURSExEDIT_GET = "/modulus/{modulus}/course-edit";
+	public static final String URL_CONFIGURATION_MODULUS_COURSExEDIT_POST = "/modulus/{modulus}/course-edit";
+	public static final String URL_CONFIGURATION_MODULUS_COURSExDELETE_GET = "/modulus/{modulus}/course-delete";
+	
+	public static final String URL_CONFIGURATION_COURSE_GROUP_GET = "/course/{course}/group";
+	public static final String URL_CONFIGURATION_COURSE_GROUPxREGISTER_POST = "/course/{course}/group-register";
+	public static final String URL_CONFIGURATION_COURSE_GROUPxDELETE_GET = "/course/{course}/group-delete";
+	
+	public static final String URL_CONFIGURATION_GROUP_GET = "/group";
+	public static final String URL_CONFIGURATION_GROUPxREGISTER_POST = "/group-register";
+	public static final String URL_CONFIGURATION_GROUPxEDIT_GET = "/group-edit";
+	public static final String URL_CONFIGURATION_GROUPxEDIT_POST = "/group-edit";
+	public static final String URL_CONFIGURATION_GROUPxDELETE_GET = "/group-delete";
+	
+//	Mapeo para el controlador "Gestion de alertas"
+	public static final String URL_ALERT_GET = "/alert";
+	public static final String URL_ALERT_VIEW_GET = "/view";
+	public static final String URL_ALERT_VALIDATE_POST = "/validate";
 	
 	private static final HashMap<String,String> MAPPING_URL = new HashMap<String,String>(){
 		private static final long serialVersionUID = -5369868392053811478L;

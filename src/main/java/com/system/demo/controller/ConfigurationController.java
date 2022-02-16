@@ -27,10 +27,13 @@ import com.system.demo.dto.specific.ConfigurationProgramDto;
 import com.system.demo.dto.specific.ConfigurationProgramRegisterDto;
 import com.system.demo.dto.specific.ProgramDetailedDto;
 import com.system.demo.dto.specific.ProgramDetailedOccupationalDto;
+import com.system.demo.dto.specific.ProgramOccupationalRegisterDto;
 import com.system.demo.persistence.entity.OccupationalField;
 import com.system.demo.persistence.entity.Program;
+import com.system.demo.service.ModulusService;
 import com.system.demo.service.OccupationalFieldService;
 import com.system.demo.service.ProgramService;
+import com.system.demo.utility.PreferenceUtility;
 import com.system.demo.utility.UniqIdUtility;
 
 @RestController
@@ -39,13 +42,16 @@ import com.system.demo.utility.UniqIdUtility;
 public class ConfigurationController {
 	
 	@Autowired
-	UniqIdUtility uI;
+	UniqIdUtility uniqueId;
+	@Autowired
+	PreferenceUtility preference;
 	
 	@Autowired
 	ProgramService programService;
-	
 	@Autowired
 	OccupationalFieldService occupationalFieldService;
+	@Autowired
+	ModulusService modulusService;
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@GetMapping(value=URL_CONFIGURATION_PROGRAM_GET)
@@ -68,12 +74,15 @@ public class ConfigurationController {
 	@PostMapping(value=URL_CONFIGURATION_PROGRAMxREGISTER_POST)
     public ResponseEntity<?> programRegister(@Valid @RequestBody ConfigurationProgramRegisterDto programRegister, BindingResult bindingResult){
 		try {
-			//Realizamos las validaciones pertinentes
+//			°Realizar validaciones
 	        if(bindingResult.hasErrors())
 	            return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
-	        Long idProgram = uI.getUniqId();
-	        String identifier = uI.getIdentifier(Arrays.asList(programRegister.getName()));
-	        Program program = new Program(idProgram, SYSTEM_INDEX, identifier, programRegister.getName(), programRegister.getAcronym(),
+//			°Generar valores
+	        Long idProgram = uniqueId.getUniqId();
+	        String identifierProgram = uniqueId.getIdentifier(Arrays.asList(programRegister.getName()));
+	        Integer indexProgram = preference.getIndex(INDEX_PROGRAM);
+//			°Generar entidad
+	        Program program = new Program(idProgram, indexProgram, identifierProgram, programRegister.getName(), programRegister.getAcronym(),
 	        		programRegister.getArea(), SYSTEM_STATE_ACTIVE);
 	        program.setProgramDescription(programRegister.getDescription());
 	        if(programRegister.getImage()!=null) program.setProgramImage(programRegister.getImage());
@@ -121,7 +130,7 @@ public class ConfigurationController {
 			e.printStackTrace();
 			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
 		}
-		String identifier = uI.getIdentifier(Arrays.asList(programEditDto.getName()));
+		String identifier = uniqueId.getIdentifier(Arrays.asList(programEditDto.getName()));
 		programEdit.setProgramIdentifier(identifier);
 		programEdit.setProgramName(programEditDto.getName());
 		programEdit.setProgramAcronym(programEditDto.getAcronym());
@@ -170,6 +179,66 @@ public class ConfigurationController {
 		}
 		result.setOccupationals(occupationalsDto);
 		return new ResponseEntity<ProgramDetailedDto>(result, HttpStatus.OK);
+	}
+	
+	@SuppressWarnings(value = { "rawtypes", "unchecked" })
+	@PostMapping(value = URL_CONFIGURATION_PROGRAM_EDIT_POST)
+	public ResponseEntity<?> programEdit(@Valid @RequestBody ProgramDetailedDto programEditDto, BindingResult bindingResult) {
+		//	Realizamos las validaciones pertinentes
+        if(bindingResult.hasErrors())
+            return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
+        //	Buscamos programa por id
+        Program programEdit = null;
+		try {
+			programEdit = programService.getProgramById(programEditDto.getId());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
+		}
+		programEdit.setProgramName(programEditDto.getName());
+		programEdit.setProgramAcronym(programEditDto.getAcronym());
+		programEdit.setProgramDescription(programEditDto.getDescription());
+		programEdit.setProgramRequirement(programEditDto.getRequirement());
+		programEdit.setProgramCurriculum(programEditDto.getCurriculum());
+		programEdit.setProgramImage(programEditDto.getImage());
+		programEdit.setProgramArea(programEditDto.getArea());
+		programEdit.setProgramState(programEditDto.getState());
+		try {
+			programService.updateProgram(programEdit);
+		} catch(Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_PROGRAM), HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity(new Message(SYSTEM_SUCCESS_EDIT_PROGRAM), HttpStatus.CREATED);
+	}
+	
+	@SuppressWarnings(value = { "rawtypes", "unchecked" })
+	@PostMapping(value = URL_CONFIGURATION_PROGRAM_OCCUPATIONALxREGISTER_POST)
+    public ResponseEntity<?> programOccupationalRegister(@Valid @RequestBody ProgramOccupationalRegisterDto programOccupationalRegister, BindingResult bindingResult) {
+		try {
+//			°Realizar validaciones
+	        if(bindingResult.hasErrors())
+	            return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
+//	    	°Generar valores
+	        Long idOccupationalField = uniqueId.getUniqId();
+	        Integer indexOccupationalField = preference.getIndex(INDEX_OCCUPATIONAL_FIELD);
+	        Character stateOccupationalField = SYSTEM_STATE_ACTIVE;
+//	    	°Generar entidad
+	        Program programId = programService.getProgramById(programOccupationalRegister.getIdProgram());
+	        OccupationalField occupationalField = new OccupationalField(idOccupationalField, indexOccupationalField, 
+	        		programOccupationalRegister.getName(), stateOccupationalField);
+	        occupationalField.setProgramId(programId);
+	        try {
+	        	occupationalFieldService.createOccupationalField(occupationalField);
+				return new ResponseEntity(new Message(SYSTEM_SUCCESS_REGISTER_PROGRAM), HttpStatus.CREATED);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return new ResponseEntity(new Message(SYSTEM_ERROR_REGISTER), HttpStatus.BAD_REQUEST);
+			}
+		} catch(Exception e) {
+			System.out.println(e);
+			return new ResponseEntity(new Message(SYSTEM_ERROR), HttpStatus.BAD_REQUEST);
+		}
 	}
 
 }

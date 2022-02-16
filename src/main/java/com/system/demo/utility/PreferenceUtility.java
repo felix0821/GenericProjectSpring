@@ -10,7 +10,7 @@ public class PreferenceUtility {
 	private static final Preferences PREFERENCE=Preferences.userRoot().node("system");
 	
 	public int getIndex(String key) {
-		int index = PREFERENCE.getInt(key, 0);
+		int index = PREFERENCE.getInt(key, 1);
 		PREFERENCE.putInt(key, index+1);
 		return index;
 	}

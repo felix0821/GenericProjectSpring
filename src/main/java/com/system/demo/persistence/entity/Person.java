@@ -346,7 +346,7 @@ public class Person implements Serializable {
     public void setRequisitionStatusDetailCollection(Collection<RequisitionStatusDetail> requisitionStatusDetailCollection) {
         this.requisitionStatusDetailCollection = requisitionStatusDetailCollection;
     }
-
+    
     public String getConfirmPassword() {
 		return confirmPassword;
 	}
