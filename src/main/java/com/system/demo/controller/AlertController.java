@@ -138,6 +138,7 @@ public class AlertController {
 			requisitionDetailService.checkingRequisitionDetailById(id);
 			return new ResponseEntity(new Message(SYSTEM_SUCCESS), HttpStatus.OK);
 		} catch(Exception e) {
+			System.out.println(e);
 			return new ResponseEntity(new Message(SYSTEM_ERROR), HttpStatus.BAD_REQUEST);
 		}
 		
