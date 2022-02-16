@@ -10,5 +10,8 @@ public interface RequisitionDetailRepository extends JpaRepository<RequisitionDe
 	
 	@Query(value="SELECT r FROM RequisitionDetail r WHERE r.requisitionId.requisitionId = :requisitionId AND r.requisitionDetailChecking = false")
 	public Iterable<RequisitionDetail> findByRequisitionIdAndNotChecking(@Param(value="requisitionId")Long requisitionId);
+	
+	@Query(value="UPDATE RequisitionDetail r SET r.requisitionDetailChecking = true WHERE r.requisitionDetailId = :requisitionDetailId")
+	public void checkingByRequisitionDetailId(@Param(value="requisitionDetailId")Long requisitionDetailId);
 
 }

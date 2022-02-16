@@ -44,4 +44,10 @@ public class RequisitionDetailServiceImplements implements RequisitionDetailServ
 		return requisitionDetailRepository.findById(id);
 	}
 
+	@Override
+	public void checkingRequisitionDetailById(Long id) {
+		// TODO Auto-generated method stub
+		requisitionDetailRepository.checkingByRequisitionDetailId(id);
+	}
+
 }

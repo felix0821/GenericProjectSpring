@@ -14,5 +14,7 @@ public interface RequisitionDetailService {
 	public RequisitionDetail updateRequisitionDetail(RequisitionDetail requisitionDetail);
 	
 	public Optional<RequisitionDetail> RequisitionDetailById(Long id);
+	
+	public void checkingRequisitionDetailById(Long id);
 
 }

@@ -6,6 +6,8 @@ public class GenericProjectSystemDefinition {
 	 *	Global response for the system
 	 **/
 	//	Respuestas generales
+	//	Respeusta concretada
+	public static String SYSTEM_SUCCESS = "Proceso exitoso";
 	//	Respuesta de error
 	public static String SYSTEM_ERROR = "Error general de sistema";
 	public static String SYSTEM_ERROR_NO_ID = "No existe Id";
