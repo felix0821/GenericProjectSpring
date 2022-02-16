@@ -119,7 +119,7 @@ public class AlertController {
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@PostMapping(URL_ALERT_OBSERVE_GET)
+	@GetMapping(URL_ALERT_OBSERVE_GET)
 	public ResponseEntity<?> getAlertObserve(@RequestParam(name ="id")Long id, @RequestHeader HttpHeaders headers) {
 		String userFromToken = usernameFromToken(headers);
 		try {
