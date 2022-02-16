@@ -38,7 +38,7 @@ import com.system.demo.service.RequisitionDetailService;
 import com.system.demo.utility.UniqIdUtility;
 
 @RestController
-@RequestMapping(value=URL_ALERT_GET)
+@RequestMapping(value=URL_ALERT_REQUEST)
 @CrossOrigin(origins = "*")
 public class AlertController {
 	

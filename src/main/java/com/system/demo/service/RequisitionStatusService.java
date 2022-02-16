@@ -1,5 +1,7 @@
 package com.system.demo.service;
 
+import java.util.Optional;
+
 import com.system.demo.persistence.entity.RequisitionStatus;
 
 public interface RequisitionStatusService {
@@ -9,6 +11,6 @@ public interface RequisitionStatusService {
 	public RequisitionStatus createRequisitionStatus(RequisitionStatus requisitionStatus);
 	public RequisitionStatus updateRequisitionStatus(RequisitionStatus requisitionStatus);
 	
-	public RequisitionStatus RequisitionStatusById(Long id);
+	public Optional<RequisitionStatus> getRequisitionStatusById(Long id);
 
 }

@@ -1,5 +1,7 @@
 package com.system.demo.service.implementation;
 
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +35,8 @@ public class RequisitionStatusServiceImplements implements RequisitionStatusServ
 	}
 
 	@Override
-	public RequisitionStatus RequisitionStatusById(Long id) {
-		return requisitionStatusRepository.getById(id);
+	public Optional<RequisitionStatus> getRequisitionStatusById(Long id) {
+		return requisitionStatusRepository.findById(id);
 	}
 
 }

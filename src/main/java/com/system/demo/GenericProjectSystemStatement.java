@@ -15,6 +15,7 @@ public class GenericProjectSystemStatement {
 	public static final String INDEX_PROGRAM = "program_index";
 	public static final String INDEX_MODULUS = "modulus_index";
 	public static final String INDEX_COURSE = "course_index";
+	public static final String INDEX_REQUISITION_STATUS_DETAIL = "requisition_status_detail_index";
 	//	Recursos generales del sistema
 	//	Recursos estados de entidad
 	public static final Character SYSTEM_STATE_ACTIVE = 'A';
@@ -35,6 +36,10 @@ public class GenericProjectSystemStatement {
 	public static final Character SYSTEM_GENDER_UNDEFINED = 'X';
 	//	Recursos identificación de personas
 	public static final Long SYSTEM_IDENTIFICATION_DNI = 1000002000001L;
+	//	Recursos estado de solicitud
+	public static final Long SYSTEM_REQUISITION_STATUS_SEND = 500010001L;
+	public static final Long SYSTEM_REQUISITION_STATUS_ACCEPT = 500010002L;
+	public static final Long SYSTEM_REQUISITION_STATUS_OBSERVE = 500010003L;
 	/**
 	 *	Route mapping for the system
 	 **/
@@ -42,6 +47,10 @@ public class GenericProjectSystemStatement {
 	public static final String URL_AUTH_REQUEST = "/auth";
 	public static final String URL_AUTH_LOGIN_POST = "/login";
 	public static final String URL_AUTH_ERROR_GET = "/error";
+	
+//	Mapeo para el controlador "Servicio"
+	public static final String URL_SERVICE_REQUEST = "/service";
+	
 //	Mapeo para el controlador "Persona"
 	public static final String URL_PERSON_REQUEST = "/person";
 	public static final String URL_PERSON_PROFILE_GET = "/profile";
@@ -59,6 +68,7 @@ public class GenericProjectSystemStatement {
 	public static final String URL_REQUISITION_REQUEST = "/requisition";
 	public static final String URL_REQUISITION_STATUS_GET = "/status";
 	public static final String URL_REQUISITION_REGISTER_GET = "/register/{requisition}";
+	public static final String URL_REQUISITION_ENROLL_GET = "/enroll";
 	
 //	Mapeo para el controlador "Movimiento financiero"
 	public static final String URL_FINANCIAL_MOVEMENT_REQUEST = "/financial-movement";
@@ -126,7 +136,7 @@ public class GenericProjectSystemStatement {
 	public static final String URL_CONFIGURATION_GROUPxDELETE_GET = "/group-delete";
 	
 //	Mapeo para el controlador "Gestion de alertas"
-	public static final String URL_ALERT_GET = "/alert";
+	public static final String URL_ALERT_REQUEST = "/alert";
 	public static final String URL_ALERT_VIEW_GET = "/view";
 	public static final String URL_ALERT_VALIDATE_POST = "/validate";
 	
