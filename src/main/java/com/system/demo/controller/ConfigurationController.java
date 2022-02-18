@@ -437,7 +437,7 @@ public class ConfigurationController {
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@GetMapping(URL_CONFIGURATION_PROGRAM_GROUPxREGISTER_GET)
-	public ResponseEntity<?> programGroupRegisterForm(@PathVariable(name ="programId")Long id) {
+	public ResponseEntity<?> programGroupRegisterForm(@RequestParam(name ="programId")Long id) {
 		try {
 			List<DropdownDataDto> groupsDto = new ArrayList<>();
 			Iterable<GroupTeaching> groupTeachingNotProgram = groupTeachingService.getGroupTeachingByNotProgramId(id);
