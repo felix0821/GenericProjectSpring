@@ -28,18 +28,22 @@ import com.system.demo.dto.specific.ConfigurationProgramDto;
 import com.system.demo.dto.specific.ConfigurationProgramRegisterDto;
 import com.system.demo.dto.specific.ConfigurationCourseListDto;
 import com.system.demo.dto.specific.ConfigurationCourseRegisterDto;
+import com.system.demo.dto.specific.ConfigurationGroupListDto;
 import com.system.demo.dto.specific.ConfigurationModulusListDto;
 import com.system.demo.dto.specific.ConfigurationModulusRegisterDto;
 import com.system.demo.dto.specific.ProgramDetailedDto;
 import com.system.demo.dto.specific.ProgramDetailedOccupationalDto;
 import com.system.demo.dto.specific.ProgramOccupationalRegisterDto;
 import com.system.demo.persistence.entity.Course;
+import com.system.demo.persistence.entity.GroupTeaching;
 import com.system.demo.persistence.entity.Modulus;
 import com.system.demo.persistence.entity.OccupationalField;
 import com.system.demo.persistence.entity.Program;
+import com.system.demo.persistence.entity.ProgramGroup;
 import com.system.demo.service.CourseService;
 import com.system.demo.service.ModulusService;
 import com.system.demo.service.OccupationalFieldService;
+import com.system.demo.service.ProgramGroupService;
 import com.system.demo.service.ProgramService;
 import com.system.demo.utility.PreferenceUtility;
 import com.system.demo.utility.UniqIdUtility;
@@ -62,6 +66,8 @@ public class ConfigurationController {
 	ModulusService modulusService;
 	@Autowired
 	CourseService courseService;
+	@Autowired
+	ProgramGroupService programGroupService;
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@GetMapping(value=URL_CONFIGURATION_PROGRAM_GET)
@@ -398,6 +404,31 @@ public class ConfigurationController {
 			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity(new Message(SYSTEM_SUCCESS_DELETE_COURSE), HttpStatus.OK);
+	}
+	
+//	-------------------------------------- MODULUS --------------------------------------
+	
+	@SuppressWarnings(value = { "rawtypes", "unchecked" })
+	@GetMapping(value = URL_CONFIGURATION_PROGRAM_GROUP_GET)
+	public ResponseEntity<?> programGroupView(@PathVariable(name ="program")String identifier) {
+		//		Buscamos programa por id
+		Program program = null;
+		try {
+			program = programService.getProgramByIdentifier(identifier).get();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
+		}
+		HeaderDataDto<ConfigurationGroupListDto> response = new HeaderDataDto(program.getProgramId().toString(), program.getProgramName());
+		List<ConfigurationGroupListDto> list = new ArrayList<>();
+		Iterable<ProgramGroup> programGroups = programGroupService.getProgramGroupByProgramId(program.getProgramId());
+		for(ProgramGroup programGroup: programGroups) {
+			GroupTeaching group = programGroup.getGroupTeaching();
+			list.add(new ConfigurationGroupListDto(group.getGroupId(), group.getGroupName(), programGroup.getProgramGroupCapacity(), 
+					programGroup.getProgramGroupState()));
+		}
+		response.setList(list);
+		return new ResponseEntity<HeaderDataDto<ConfigurationGroupListDto>>(response, HttpStatus.OK);
 	}
 
 }
