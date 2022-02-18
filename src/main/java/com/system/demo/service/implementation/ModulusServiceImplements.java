@@ -24,7 +24,7 @@ public class ModulusServiceImplements implements ModulusService{
 	@Override
 	public Modulus createModulus(Modulus modulus) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		return modulusRepository.save(modulus);
 	}
 
 	@Override

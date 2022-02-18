@@ -307,5 +307,17 @@ public class ConfigurationController {
 			return new ResponseEntity(new Message(SYSTEM_ERROR), HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	@SuppressWarnings(value = { "rawtypes", "unchecked" })
+	@GetMapping(value = URL_CONFIGURATION_PROGRAM_MODULUSxDELETE_GET)
+	public ResponseEntity<?> programModulusDelete(@RequestParam(name="id")Long id) {
+		try {
+			programService.deleteProgram(id);
+		} catch(Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity(new Message(SYSTEM_SUCCESS_DELETE_MODULUS), HttpStatus.OK);
+	}
 
 }

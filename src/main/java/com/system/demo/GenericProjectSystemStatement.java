@@ -115,8 +115,8 @@ public class GenericProjectSystemStatement {
 	
 	public static final String URL_CONFIGURATION_PROGRAM_MODULUS_GET = "/program/{program}/modulus";
 	public static final String URL_CONFIGURATION_PROGRAM_MODULUSxREGISTER_POST = "/program/{program}/modulus-register";
-	public static final String URL_CONFIGURATION_PROGRAM_MODULUSxEDIT_GET = "/program/{program}/modulus-edit";
-	public static final String URL_CONFIGURATION_PROGRAM_MODULUSxEDIT_POST = "/program/{program}/modulus-edit";
+	public static final String URL_CONFIGURATION_PROGRAM_MODULUSxEDIT_GET = "/program/{program}/modulus-edit";//?
+	public static final String URL_CONFIGURATION_PROGRAM_MODULUSxEDIT_POST = "/program/{program}/modulus-edit";//?
 	public static final String URL_CONFIGURATION_PROGRAM_MODULUSxDELETE_GET = "/program/{program}/modulus-delete";
 	
 	public static final String URL_CONFIGURATION_MODULUS_COURSE_GET = "/modulus/{modulus}/course";
