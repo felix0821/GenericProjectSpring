@@ -6,7 +6,7 @@ import javax.validation.constraints.Size;
 public class ConfigurationCourseRegisterDto {
 	
 	@NotBlank(message = "Ingrese un nombre de modulo.")
-	@Size(max = 20, min = 3, message = "Ingrese entre 3 a 30 caracteres.")
+	@Size(max = 64, min = 3, message = "Ingrese entre 3 a 64 caracteres.")
 	private String name;
 	
 	@NotBlank(message = "Ingrese un acrónimo de programa.")
