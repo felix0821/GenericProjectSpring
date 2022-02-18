@@ -64,7 +64,7 @@ public class FinancialMovementDetail implements Serializable {
     @ManyToOne(optional = false)
     private FinancialMovement financialMovementId;
     @JoinColumn(name = "person_registering_id", referencedColumnName = "person_registering_id", nullable = false)
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = true)
     private PersonRegistering personRegisteringId;
 
     public FinancialMovementDetail() {

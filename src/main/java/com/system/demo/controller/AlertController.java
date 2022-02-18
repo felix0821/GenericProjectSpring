@@ -155,6 +155,7 @@ public class AlertController {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@PostMapping(URL_ALERT_VALIDATE_POST)
 	public ResponseEntity<?> postAlerts(@RequestHeader HttpHeaders headers, @Valid @RequestBody AlertViewDto alertDto) {
+		String userFromToken = usernameFromToken(headers);
 		try {
 //			Insertar fecha de registro
 			LocalDate fechaPeru=LocalDate.now(ZoneId.of("America/Lima"));
