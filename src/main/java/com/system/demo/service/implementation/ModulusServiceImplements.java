@@ -1,5 +1,7 @@
 package com.system.demo.service.implementation;
 
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +38,14 @@ public class ModulusServiceImplements implements ModulusService{
 	@Override
 	public void deleteModulus(Long modulusId) throws Exception {
 		// TODO Auto-generated method stub
-		
+		Modulus modulus = getModulusById(modulusId).get();
+		modulusRepository.delete(modulus);
+	}
+
+	@Override
+	public Optional<Modulus> getModulusById(Long modulusId) {
+		// TODO Auto-generated method stub
+		return modulusRepository.findById(modulusId);
 	}
 
 }
