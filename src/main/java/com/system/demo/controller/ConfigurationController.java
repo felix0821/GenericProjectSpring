@@ -458,15 +458,16 @@ public class ConfigurationController {
 	*/
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@PostMapping(value = URL_CONFIGURATION_PROGRAM_GROUPxREGISTER_POST)
-    public ResponseEntity<?> personRoleRegister(@Valid @RequestBody Relationship2Dto programGroupRegDto, BindingResult bindingResult) {
-		//	Realizamos las validaciones pertinentes
+    public ResponseEntity<?> personRoleRegister(@Valid @RequestBody Relationship2Dto programGroupRegDto, BindingResult bindingResult,
+    		@RequestParam(name ="capacity")Integer capacity) {
+//		Realizamos las validaciones pertinentes
         if(bindingResult.hasErrors())
             return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
 		try {
 			ProgramGroup programGroup = new ProgramGroup(programGroupRegDto.getIdOne(), programGroupRegDto.getIdTwo());
 			programGroup.setProgramGroupState(SYSTEM_STATE_ACTIVE);
-			//personRol.setPersonRoleState(SYSTEM_STATE_ACTIVE);
-			//personRoleService.createPersonRol(personRol);
+			programGroup.setProgramGroupCapacity(capacity);
+			programGroupService.createProgramGroup(programGroup);
 			return new ResponseEntity(new Message(SYSTEM_SUCCESS_REGISTER_PERSONxROLE), HttpStatus.CREATED);
 		} catch (Exception e) {
 			e.printStackTrace();
