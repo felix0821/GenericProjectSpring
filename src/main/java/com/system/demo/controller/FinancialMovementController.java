@@ -22,6 +22,10 @@ import com.system.demo.dto.generic.Message;
 import com.system.demo.dto.specific.FinancialMovementListDto;
 import com.system.demo.persistence.entity.FinancialMovementDetail;
 import com.system.demo.persistence.entity.FinancialMovementRequisition;
+import com.system.demo.persistence.entity.RequisitionDataDetail;
+import com.system.demo.persistence.entity.RequisitionDataDetailPK;
+import com.system.demo.persistence.repository.FinancialMovementRequisitionRepository;
+import com.system.demo.persistence.repository.RequisitionDataDetailRepository;
 import com.system.demo.service.FinancialMovementDetailService;
 import com.system.demo.service.FinancialMovementService;
 
@@ -35,6 +39,10 @@ public class FinancialMovementController {
 	
 	@Autowired
 	FinancialMovementDetailService financialMovementDetailService;
+	@Autowired
+	FinancialMovementRequisitionRepository financialMovementRequisitionRepository;
+	@Autowired
+	RequisitionDataDetailRepository requisitionDataDetailRepository;
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@GetMapping
@@ -44,12 +52,19 @@ public class FinancialMovementController {
 			Iterable<FinancialMovementDetail> financialMovDetailList = financialMovementDetailService.getAllFinancialMovementDetail();
 			List<FinancialMovementListDto> financialMovDetailListDto = new ArrayList<>();
 			for (FinancialMovementDetail fMovDetail : financialMovDetailList) {
-				financialMovDetailListDto.add(new FinancialMovementListDto(fMovDetail.getFinancialMovementDetailId(),
+				FinancialMovementRequisition fMovReq = financialMovementRequisitionRepository.findByFinancialMovementDetailId(fMovDetail.getFinancialMovementDetailId()).get();
+				RequisitionDataDetailPK id = new RequisitionDataDetailPK(1L,10006L,fMovReq.getRequisitionDetail().getRequisitionDetailId());
+				RequisitionDataDetail reqDataDet = requisitionDataDetailRepository.getById(id);
+				FinancialMovementListDto rec = new FinancialMovementListDto(fMovDetail.getFinancialMovementDetailId(),
 						fMovDetail.getFinancialMovementId().getFinancialMovementName(), fMovDetail.getFinancialMovementId().getFinancialMovementSymbol(),
-						fMovDetail.getFinancialMovementDetailAmount(),"Registro por solicitud", fMovDetail.getFinancialMovementDetailOperationNumber()));
+						fMovDetail.getFinancialMovementDetailAmount(),"Registro por solicitud", fMovDetail.getFinancialMovementDetailOperationNumber());
+				rec.setImage(reqDataDet.getRequisitionDataDetailValue());
+				financialMovDetailListDto.add(rec);
+				
 			}
 			return new ResponseEntity<List<FinancialMovementListDto>>(financialMovDetailListDto, HttpStatus.OK);
 		} catch (Exception e) {
+			e.printStackTrace();
 			return new ResponseEntity(new Message("BLOQUED"), HttpStatus.BAD_REQUEST);
 		}
 		

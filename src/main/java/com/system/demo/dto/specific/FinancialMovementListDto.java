@@ -22,6 +22,8 @@ public class FinancialMovementListDto {
 
 	private int operationNumber;
 	
+	private String image;
+	
 	
 	public FinancialMovementListDto(@NotNull(message = "Ingrese un id valido") Long id,
 			@NotBlank(message = "Ingrese un nombre.") String name,
@@ -83,6 +85,14 @@ public class FinancialMovementListDto {
 
 	public void setOperationNumber(int operationNumber) {
 		this.operationNumber = operationNumber;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 }

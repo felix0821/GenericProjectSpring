@@ -35,6 +35,7 @@ import com.system.demo.persistence.entity.Data;
 import com.system.demo.persistence.entity.EnrollmentProgram;
 import com.system.demo.persistence.entity.FinancialMovement;
 import com.system.demo.persistence.entity.FinancialMovementDetail;
+import com.system.demo.persistence.entity.FinancialMovementRequisition;
 import com.system.demo.persistence.entity.Period;
 import com.system.demo.persistence.entity.Person;
 import com.system.demo.persistence.entity.Program;
@@ -44,6 +45,7 @@ import com.system.demo.persistence.entity.RequisitionDetail;
 import com.system.demo.persistence.entity.RequisitionStatus;
 import com.system.demo.persistence.entity.RequisitionStatusDetail;
 import com.system.demo.persistence.repository.FinancialMovementRepository;
+import com.system.demo.persistence.repository.FinancialMovementRequisitionRepository;
 import com.system.demo.security.JwtProvider;
 import com.system.demo.service.DataService;
 import com.system.demo.service.EnrollmentProgramService;
@@ -92,6 +94,8 @@ public class AlertController {
 	FinancialMovementDetailService financialMovementDetailService;
 	@Autowired
 	FinancialMovementRepository financialMovementService;
+	@Autowired
+	FinancialMovementRequisitionRepository financialMovementRequisitionRepository;
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@GetMapping
@@ -180,6 +184,10 @@ public class AlertController {
 			financial.setFinancialMovementDetailOperationNumber(alertDto.getMovement());
 			financialMovementDetailService.createFinancialMovementDetail(financial);
 			requisitionDetailService.checkingRequisitionDetailById(alertDto.getId());
+			FinancialMovementRequisition finMovReq = new FinancialMovementRequisition(financial.getFinancialMovementDetailId(), 
+					requisition.getRequisitionDetailId());
+			finMovReq.setFinancialMovementRequisitionState(SYSTEM_STATE_ACTIVE);
+			financialMovementRequisitionRepository.save(finMovReq);
 			return new ResponseEntity(new Message(SYSTEM_SUCCESS), HttpStatus.OK);
 		} catch(Exception e) {
 			System.out.println(e);
