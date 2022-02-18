@@ -129,6 +129,7 @@ public class RequisitionController {
 			response.setList(datasDto);
 			return new ResponseEntity<HeaderDataDto>(response, HttpStatus.OK);
 		} catch (Exception e) {
+			e.printStackTrace();
 			return new ResponseEntity(new Message("BLOQUED"), HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -173,7 +174,8 @@ public class RequisitionController {
 			//	Consultas
 			return new ResponseEntity(new Message("Solicitud enviado exitosamente"), HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity(new Message("BLOQUED"), HttpStatus.BAD_REQUEST);
+			e.printStackTrace();
+			return new ResponseEntity(new Message(SYSTEM_ERROR), HttpStatus.BAD_REQUEST);
 		}
 	}
 	
