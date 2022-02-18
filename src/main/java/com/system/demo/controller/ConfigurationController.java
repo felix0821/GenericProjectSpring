@@ -26,14 +26,17 @@ import com.system.demo.dto.generic.HeaderDataDto;
 import com.system.demo.dto.generic.Message;
 import com.system.demo.dto.specific.ConfigurationProgramDto;
 import com.system.demo.dto.specific.ConfigurationProgramRegisterDto;
+import com.system.demo.dto.specific.ConfigurationCourseListDto;
 import com.system.demo.dto.specific.ConfigurationModulusListDto;
 import com.system.demo.dto.specific.ConfigurationModulusRegisterDto;
 import com.system.demo.dto.specific.ProgramDetailedDto;
 import com.system.demo.dto.specific.ProgramDetailedOccupationalDto;
 import com.system.demo.dto.specific.ProgramOccupationalRegisterDto;
+import com.system.demo.persistence.entity.Course;
 import com.system.demo.persistence.entity.Modulus;
 import com.system.demo.persistence.entity.OccupationalField;
 import com.system.demo.persistence.entity.Program;
+import com.system.demo.service.CourseService;
 import com.system.demo.service.ModulusService;
 import com.system.demo.service.OccupationalFieldService;
 import com.system.demo.service.ProgramService;
@@ -56,6 +59,8 @@ public class ConfigurationController {
 	OccupationalFieldService occupationalFieldService;
 	@Autowired
 	ModulusService modulusService;
+	@Autowired
+	CourseService courseService;
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@GetMapping(value=URL_CONFIGURATION_PROGRAM_GET)
@@ -246,11 +251,11 @@ public class ConfigurationController {
 		}
 	}
 	
-	//	--------------------------------MODULUS--------------------------------
+//	-------------------------------------- MODULUS --------------------------------------
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@GetMapping(value = URL_CONFIGURATION_PROGRAM_MODULUS_GET)
-	public ResponseEntity<?> programModulusVew(@PathVariable(name ="program")String identifier) {
+	public ResponseEntity<?> programModulusView(@PathVariable(name ="program")String identifier) {
 		//		Buscamos programa por id
 		Program program = null;
 		try {
@@ -318,6 +323,30 @@ public class ConfigurationController {
 			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity(new Message(SYSTEM_SUCCESS_DELETE_MODULUS), HttpStatus.OK);
+	}
+	
+//	-------------------------------------- COURSE --------------------------------------
+	
+	@SuppressWarnings(value = { "rawtypes", "unchecked" })
+	@GetMapping(value = URL_CONFIGURATION_MODULUS_COURSE_GET)
+	public ResponseEntity<?> modulusCourseView(@PathVariable(name ="modulus")String identifier) {
+		//		Buscamos programa por id
+		Modulus modulus = null;
+		try {
+			modulus = modulusService.getModulusByIdentifier(identifier).get();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
+		}
+		HeaderDataDto<ConfigurationCourseListDto> response = new HeaderDataDto(modulus.getModulusIdentifier(), modulus.getModulusName());
+		List<ConfigurationCourseListDto> list = new ArrayList<>();
+		Iterable<Course> courses = courseService.getCoursesByModulusId(modulus.getModulusId());
+		for(Course course: courses) {
+			list.add(new ConfigurationCourseListDto(course.getCourseId(), course.getCourseIdentifier(), course.getCourseName(), 
+					course.getCourseIndex(), course.getCourseAcronym(), course.getCourseState()));
+		}
+		response.setList(list);
+		return new ResponseEntity<HeaderDataDto<ConfigurationCourseListDto>>(response, HttpStatus.OK);
 	}
 
 }

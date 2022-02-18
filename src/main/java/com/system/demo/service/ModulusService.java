@@ -10,6 +10,8 @@ public interface ModulusService {
 	public Modulus createModulus(Modulus modulus) throws Exception;
 	public Modulus updateModulus(Modulus fromModulus) throws Exception;
 	public void deleteModulus(Long modulusId) throws Exception;
-	public Optional<Modulus> getModulusById(Long modulusId);
+	public Optional<Modulus> getModulusById(Long id);
+	
+	public Optional<Modulus> getModulusByIdentifier(String identifier);
 
 }

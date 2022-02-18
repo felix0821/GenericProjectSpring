@@ -18,13 +18,14 @@ public class CourseServiceImplements implements CourseService{
 
 	@Override
 	public Iterable<Course> getCoursesByProgramId(Long programId) {
-		return courseRepository.findByCourseProgramId(programId);
+		// TODO Auto-generated method stub
+		return courseRepository.findByProgramId(programId);
 	}
 	
 	@Override
 	public Iterable<Course> getCoursesByModulusId(Long modulusId) {
 		// TODO Auto-generated method stub
-		return null;
+		return courseRepository.findByModulusId(modulusId);
 	}
 
 	@Override

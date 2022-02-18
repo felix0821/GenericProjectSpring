@@ -48,4 +48,10 @@ public class ModulusServiceImplements implements ModulusService{
 		return modulusRepository.findById(modulusId);
 	}
 
+	@Override
+	public Optional<Modulus> getModulusByIdentifier(String identifier) {
+		// TODO Auto-generated method stub
+		return modulusRepository.findByModulusIdentifier(identifier);
+	}
+
 }
