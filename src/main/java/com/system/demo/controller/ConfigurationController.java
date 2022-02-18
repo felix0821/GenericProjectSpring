@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.system.demo.dto.generic.DropdownDataDto;
 import com.system.demo.dto.generic.HeaderDataDto;
 import com.system.demo.dto.generic.Message;
 import com.system.demo.dto.specific.ConfigurationProgramDto;
@@ -41,6 +42,7 @@ import com.system.demo.persistence.entity.OccupationalField;
 import com.system.demo.persistence.entity.Program;
 import com.system.demo.persistence.entity.ProgramGroup;
 import com.system.demo.service.CourseService;
+import com.system.demo.service.GroupTeachingService;
 import com.system.demo.service.ModulusService;
 import com.system.demo.service.OccupationalFieldService;
 import com.system.demo.service.ProgramGroupService;
@@ -68,6 +70,8 @@ public class ConfigurationController {
 	CourseService courseService;
 	@Autowired
 	ProgramGroupService programGroupService;
+	@Autowired
+	GroupTeachingService groupTeachingService;
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@GetMapping(value=URL_CONFIGURATION_PROGRAM_GET)
@@ -406,7 +410,7 @@ public class ConfigurationController {
 		return new ResponseEntity(new Message(SYSTEM_SUCCESS_DELETE_COURSE), HttpStatus.OK);
 	}
 	
-//	-------------------------------------- MODULUS --------------------------------------
+//	-------------------------------------- PROGRAM-GROUP --------------------------------------
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@GetMapping(value = URL_CONFIGURATION_PROGRAM_GROUP_GET)
@@ -429,6 +433,21 @@ public class ConfigurationController {
 		}
 		response.setList(list);
 		return new ResponseEntity<HeaderDataDto<ConfigurationGroupListDto>>(response, HttpStatus.OK);
+	}
+	
+	@SuppressWarnings(value = { "rawtypes", "unchecked" })
+	@GetMapping(URL_CONFIGURATION_PROGRAM_GROUPxREGISTER_GET)
+	public ResponseEntity<?> programGroupRegisterForm(@PathVariable(name ="programId")Long id) {
+		try {
+			List<DropdownDataDto> groupsDto = new ArrayList<>();
+			Iterable<GroupTeaching> groupTeachingNotProgram = groupTeachingService.getGroupTeachingByNotProgramId(id);
+			for(GroupTeaching groupTeaching: groupTeachingNotProgram) {
+				groupsDto.add(new DropdownDataDto(groupTeaching.getGroupId(), groupTeaching.getGroupName()));
+			}
+			return new ResponseEntity<List<DropdownDataDto>>(groupsDto, HttpStatus.OK);
+		} catch(Exception e) {
+			return new ResponseEntity(new Message(SYSTEM_ERROR), HttpStatus.BAD_REQUEST);
+		}
 	}
 
 }
