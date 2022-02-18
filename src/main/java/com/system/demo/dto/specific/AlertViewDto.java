@@ -14,6 +14,9 @@ public class AlertViewDto {
 	
 	private String sender;
 	
+	private Long periodId;
+	private Long programId;
+	
 	private List<AlertViewDataDto> data;
 
 	public AlertViewDto(Long id, String name, Date date, String sender) {
@@ -63,6 +66,22 @@ public class AlertViewDto {
 
 	public void setData(List<AlertViewDataDto> data) {
 		this.data = data;
+	}
+
+	public Long getPeriodId() {
+		return periodId;
+	}
+
+	public void setPeriodId(Long periodId) {
+		this.periodId = periodId;
+	}
+
+	public Long getProgramId() {
+		return programId;
+	}
+
+	public void setProgramId(Long programId) {
+		this.programId = programId;
 	}
 
 }

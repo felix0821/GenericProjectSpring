@@ -22,4 +22,17 @@ public class RequisitionStatusDetailServiceImplements implements RequisitionStat
 		return requisitionStatusDetailRepository.save(requisitionStatusDetail);
 	}
 
+	@Override
+	public RequisitionStatusDetail updateRequisitionStatusDetail(RequisitionStatusDetail fromRequisitionStatusDetail)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+	//----------------------------------Methods Complements----------------------------------//
+	protected void mapRequisitionStatusDetail(RequisitionStatusDetail from, RequisitionStatusDetail to) {
+		
+	}
+
 }

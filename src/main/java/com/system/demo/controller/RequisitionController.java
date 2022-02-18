@@ -172,7 +172,7 @@ public class RequisitionController {
 				requisitionDataDetailService.createRequisitionDataDetail(reqDataDetail);
 			}
 			//	Consultas
-			return new ResponseEntity(new Message("Solicitud enviado exitosamente"), HttpStatus.OK);
+			return new ResponseEntity(new Message("Solicitud enviada exitosamente"), HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity(new Message(SYSTEM_ERROR), HttpStatus.BAD_REQUEST);

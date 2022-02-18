@@ -11,6 +11,7 @@ import java.util.List;
 import static com.system.demo.GenericProjectSystemDefinition.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -19,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,7 +32,10 @@ import com.system.demo.dto.specific.AlertDto;
 import com.system.demo.dto.specific.AlertViewDataDto;
 import com.system.demo.dto.specific.AlertViewDto;
 import com.system.demo.persistence.entity.Data;
+import com.system.demo.persistence.entity.EnrollmentProgram;
+import com.system.demo.persistence.entity.Period;
 import com.system.demo.persistence.entity.Person;
+import com.system.demo.persistence.entity.Program;
 import com.system.demo.persistence.entity.Requisition;
 import com.system.demo.persistence.entity.RequisitionDataDetail;
 import com.system.demo.persistence.entity.RequisitionDetail;
@@ -38,7 +43,10 @@ import com.system.demo.persistence.entity.RequisitionStatus;
 import com.system.demo.persistence.entity.RequisitionStatusDetail;
 import com.system.demo.security.JwtProvider;
 import com.system.demo.service.DataService;
+import com.system.demo.service.EnrollmentProgramService;
+import com.system.demo.service.PeriodService;
 import com.system.demo.service.PersonService;
+import com.system.demo.service.ProgramService;
 import com.system.demo.service.RequisitionDataDetailService;
 import com.system.demo.service.RequisitionDetailService;
 import com.system.demo.service.RequisitionStatusDetailService;
@@ -70,6 +78,12 @@ public class AlertController {
 	PersonService personService;
 	@Autowired
 	RequisitionStatusService requisitionStatusService;
+	@Autowired
+	ProgramService programService;
+	@Autowired
+	PeriodService periodService;
+	@Autowired
+	EnrollmentProgramService enrollmentProgramService;
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@GetMapping
@@ -94,6 +108,8 @@ public class AlertController {
 	@GetMapping(URL_ALERT_VIEW_GET)
 	public ResponseEntity<?> academicPeriodForm(@RequestParam(name ="id")Long id){
 		try {
+			Period period = null;
+			Program program = null;
 			RequisitionDetail requisition = requisitionDetailService.RequisitionDetailById(id).get();
 			AlertViewDto alertDto = new AlertViewDto(requisition.getRequisitionDetailId(), requisition.getRequisitionId().getRequisitionName(),
 					requisition.getRequisitionDetailDate(), requisition.getPersonId().getPersonUsername());
@@ -101,9 +117,20 @@ public class AlertController {
 			Iterable<RequisitionDataDetail> reqDataDetails = requisitionDataDetailService.getRequisitionDetailsByRequisitionDetailId(id);
 			for(RequisitionDataDetail reqDataDetail: reqDataDetails) {
 				Data data = dataService.getDataById(reqDataDetail.getRequisitionDataDetailPK().getDataId()).get();
-				dates.add(new AlertViewDataDto(data.getDataId(), data.getDataName(),reqDataDetail.getRequisitionDataDetailValue(), 
-						data.getDataType()));
+				String value = "";
+				if(data.getDataId()==10001L) {
+					period = periodService.getPeriodById(Long.parseLong(reqDataDetail.getRequisitionDataDetailValue()));
+					value = period.getPeriodIdentifier();
+				} else if(data.getDataId()==10002L) {
+					program = programService.getProgramById(Long.parseLong(reqDataDetail.getRequisitionDataDetailValue()));
+					value = program.getProgramName();
+				} else {
+					value = reqDataDetail.getRequisitionDataDetailValue();
+				}
+				dates.add(new AlertViewDataDto(data.getDataId(), data.getDataName(), value, data.getDataType()));
 			}
+			alertDto.setPeriodId(period.getPeriodId());
+			alertDto.setProgramId(program.getProgramId());
 			alertDto.setData(dates);
 			return new ResponseEntity<AlertViewDto>(alertDto, HttpStatus.OK);
 		} catch(Exception e) {
@@ -113,9 +140,28 @@ public class AlertController {
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@PostMapping(URL_ALERT_VALIDATE_POST)
-	public ResponseEntity<?> postAlerts(@RequestHeader HttpHeaders headers) {
-		
-		return new ResponseEntity(new Message(SYSTEM_ERROR), HttpStatus.BAD_REQUEST);
+	public ResponseEntity<?> postAlerts(@RequestHeader HttpHeaders headers, @Valid @RequestBody AlertViewDto alertDto) {
+		try {
+//			Insertar fecha de registro
+			LocalDate fechaPeru=LocalDate.now(ZoneId.of("America/Lima"));
+			Date dateRegister=Date.from(fechaPeru.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+			RequisitionDetail requisition = requisitionDetailService.RequisitionDetailById(alertDto.getId()).get();
+//			Insertar ids
+			Person person = personService.getPersonById(requisition.getPersonId().getPersonId());
+			Period period = periodService.getPeriodById(alertDto.getPeriodId());
+			Program program = programService.getProgramById(alertDto.getProgramId());
+//			Crear entidad
+			EnrollmentProgram enroll = new EnrollmentProgram(person.getPersonId(), program.getProgramId(), period.getPeriodId());
+			enroll.setEnrollmentProgramDate(dateRegister);
+			enroll.setEnrollmentProgramChecking(false);
+			enroll.setEnrollmentProgramState(SYSTEM_STATE_ACTIVE);
+			requisitionDetailService.checkingRequisitionDetailById(alertDto.getId());
+			enrollmentProgramService.createEnrollmentProgramPeriod(enroll);
+			return new ResponseEntity(new Message(SYSTEM_SUCCESS), HttpStatus.OK);
+		} catch(Exception e) {
+			System.out.println(e);
+			return new ResponseEntity(new Message(SYSTEM_ERROR), HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })

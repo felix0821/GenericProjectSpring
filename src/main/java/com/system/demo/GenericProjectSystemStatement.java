@@ -26,9 +26,11 @@ public class GenericProjectSystemStatement {
 	public static final Character SYSTEM_TYPE_DEFINED_USER = 'D';
 	public static final Character SYSTEM_TYPE_LOCAL_GENERATED = 'L';
 	//	Recursos especificos del sistema
-	//	Recursos referencia
+	//	Recursos de referencia
 	public static final Long SYSTEM_REFERENCE_PERIOD = 2000001000001L;
 	public static final Long SYSTEM_REFERENCE_PROGRAM = 2000001000002L;
+	//	Recursos de uso
+	public static final Long SYSTEM_USE_ENROLLMENT = 3000001000001L;
 	//	Recursos id de roles
 	public static final Long SYSTEM_ID_ADMINISTRATOR = 1000001000001L;
 	public static final Long SYSTEM_ID_USER = 1000001000002L;

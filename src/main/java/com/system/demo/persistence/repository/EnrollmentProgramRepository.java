@@ -11,7 +11,7 @@ import com.system.demo.persistence.entity.EnrollmentProgram;
 import com.system.demo.persistence.entity.EnrollmentProgramPK;
 
 @Repository
-public interface EnrollmentProgramPeriodRepository extends JpaRepository<EnrollmentProgram,EnrollmentProgramPK>{
+public interface EnrollmentProgramRepository extends JpaRepository<EnrollmentProgram,EnrollmentProgramPK>{
 	
 	@Query("SELECT e FROM EnrollmentProgram e WHERE e.enrollmentProgramPK.programId = :programId AND e.enrollmentProgramPK.periodId = :periodId")
 	public List<EnrollmentProgram> findByProgramPeriodId(@Param(value="programId")long programId, @Param(value="periodId")long periodId);
