@@ -27,6 +27,7 @@ import com.system.demo.dto.generic.Message;
 import com.system.demo.dto.specific.ConfigurationProgramDto;
 import com.system.demo.dto.specific.ConfigurationProgramRegisterDto;
 import com.system.demo.dto.specific.ConfigurationCourseListDto;
+import com.system.demo.dto.specific.ConfigurationCourseRegisterDto;
 import com.system.demo.dto.specific.ConfigurationModulusListDto;
 import com.system.demo.dto.specific.ConfigurationModulusRegisterDto;
 import com.system.demo.dto.specific.ProgramDetailedDto;
@@ -293,7 +294,7 @@ public class ConfigurationController {
 //			°Generar valores
 	        Long idModulus = uniqueId.getUniqId();
 	        String identifierModulus = uniqueId.getIdentifier(Arrays.asList(modulusRegister.getName()));
-	        Integer indexModulus = preference.getIndex(INDEX_PROGRAM);
+	        Integer indexModulus = preference.getIndex(INDEX_MODULUS);
 	        Character stateModulus = SYSTEM_STATE_ACTIVE;
 //			°Generar entidad
 	        Modulus modulus = new Modulus(idModulus, indexModulus, identifierModulus, modulusRegister.getName(), 
@@ -347,6 +348,44 @@ public class ConfigurationController {
 		}
 		response.setList(list);
 		return new ResponseEntity<HeaderDataDto<ConfigurationCourseListDto>>(response, HttpStatus.OK);
+	}
+	
+	@SuppressWarnings(value = { "rawtypes", "unchecked"})
+	@PostMapping(value = URL_CONFIGURATION_MODULUS_COURSExREGISTER_POST)
+    public ResponseEntity<?> modulusCourseRegister(@Valid @RequestBody ConfigurationCourseRegisterDto courseRegister, BindingResult bindingResult,
+    		@PathVariable(name ="modulus")String modulusIdentifier){
+		try {
+//			°Realizar validaciones
+	        if(bindingResult.hasErrors())
+	            return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
+	        Modulus modulus = null;
+	        try {
+				modulus = modulusService.getModulusByIdentifier(modulusIdentifier).get();
+			} catch (Exception e) {
+				e.printStackTrace();
+				return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
+			}
+//			°Generar valores
+	        Long idCourse = uniqueId.getUniqId();
+	        String identifierCourse = uniqueId.getIdentifier(Arrays.asList(courseRegister.getName()));
+	        Integer indexCourse = preference.getIndex(INDEX_COURSE);
+	        Character stateCourse = SYSTEM_STATE_ACTIVE;
+//			°Generar entidad
+	        Course course = new Course(idCourse, indexCourse, identifierCourse, courseRegister.getName(), 
+	        		courseRegister.getAcronym(), stateCourse);
+	        course.setCourseDescription(courseRegister.getDescription());
+	        course.setModulusId(modulus);
+	        try {
+	        	courseService.createCourse(course);
+				return new ResponseEntity(new Message(SYSTEM_SUCCESS_REGISTER_COURSE), HttpStatus.CREATED);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return new ResponseEntity(new Message(SYSTEM_ERROR_REGISTER_COURSE), HttpStatus.BAD_REQUEST);
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+			return new ResponseEntity(new Message(SYSTEM_ERROR), HttpStatus.BAD_REQUEST);
+		}
 	}
 
 }

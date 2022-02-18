@@ -120,7 +120,7 @@ public class GenericProjectSystemStatement {
 	public static final String URL_CONFIGURATION_PROGRAM_MODULUSxDELETE_GET = "/program/{program}/modulus-delete";
 	
 	public static final String URL_CONFIGURATION_MODULUS_COURSE_GET = "/modulus/{modulus}/course";
-	public static final String URL_CONFIGURATION_MODULUS_COURSExREGISTER_GET = "/modulus/{modulus}/course-register";
+	public static final String URL_CONFIGURATION_MODULUS_COURSExREGISTER_POST = "/modulus/{modulus}/course-register";
 	public static final String URL_CONFIGURATION_MODULUS_COURSExEDIT_GET = "/modulus/{modulus}/course-edit";
 	public static final String URL_CONFIGURATION_MODULUS_COURSExEDIT_POST = "/modulus/{modulus}/course-edit";
 	public static final String URL_CONFIGURATION_MODULUS_COURSExDELETE_GET = "/modulus/{modulus}/course-delete";

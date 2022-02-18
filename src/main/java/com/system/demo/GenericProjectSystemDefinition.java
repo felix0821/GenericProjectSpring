@@ -46,12 +46,14 @@ public class GenericProjectSystemDefinition {
 	public static String SYSTEM_ERROR_NO_ROLE = "Rol no encontrado";
 	
 	
-//	Respuestas Controlador de gestion académica
+//	Respuestas Controlador de configuración académica
 	//	Respuestas concretadas
 	public static String SYSTEM_SUCCESS_REGISTER_MODULUS = "Modulo registrado exitosamente";
 	public static String SYSTEM_SUCCESS_DELETE_MODULUS= "Modulo eliminado exitosamente";
+	public static String SYSTEM_SUCCESS_REGISTER_COURSE = "Curso registrado exitosamente";
 	//	Respuestas de error
 	public static String SYSTEM_ERROR_REGISTER_MODULUS = "Error de registro en modulo";
+	public static String SYSTEM_ERROR_REGISTER_COURSE = "Error de registro en curso";
 	public static String SYSTEM_ERROR_NO_MODULUS = "Modulo no encontrado";
 	/**
 	 * Global defined entities
