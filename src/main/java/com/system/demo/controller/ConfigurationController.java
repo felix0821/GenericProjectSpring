@@ -26,7 +26,8 @@ import com.system.demo.dto.generic.HeaderDataDto;
 import com.system.demo.dto.generic.Message;
 import com.system.demo.dto.specific.ConfigurationProgramDto;
 import com.system.demo.dto.specific.ConfigurationProgramRegisterDto;
-import com.system.demo.dto.specific.ModulusListDto;
+import com.system.demo.dto.specific.ConfigurationModulusListDto;
+import com.system.demo.dto.specific.ConfigurationModulusRegisterDto;
 import com.system.demo.dto.specific.ProgramDetailedDto;
 import com.system.demo.dto.specific.ProgramDetailedOccupationalDto;
 import com.system.demo.dto.specific.ProgramOccupationalRegisterDto;
@@ -84,9 +85,10 @@ public class ConfigurationController {
 	        Long idProgram = uniqueId.getUniqId();
 	        String identifierProgram = uniqueId.getIdentifier(Arrays.asList(programRegister.getName()));
 	        Integer indexProgram = preference.getIndex(INDEX_PROGRAM);
+	        Character stateProgram = SYSTEM_STATE_ACTIVE;
 //			°Generar entidad
 	        Program program = new Program(idProgram, indexProgram, identifierProgram, programRegister.getName(), programRegister.getAcronym(),
-	        		programRegister.getArea(), SYSTEM_STATE_ACTIVE);
+	        		programRegister.getArea(), stateProgram);
 	        program.setProgramDescription(programRegister.getDescription());
 	        if(programRegister.getImage()!=null) program.setProgramImage(programRegister.getImage());
 	        try {
@@ -244,9 +246,11 @@ public class ConfigurationController {
 		}
 	}
 	
+	//	--------------------------------MODULUS--------------------------------
+	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@GetMapping(value = URL_CONFIGURATION_PROGRAM_MODULUS_GET)
-	public ResponseEntity<?> programModulus(@PathVariable(name ="program")String identifier) {
+	public ResponseEntity<?> programModulusVew(@PathVariable(name ="program")String identifier) {
 		//		Buscamos programa por id
 		Program program = null;
 		try {
@@ -255,15 +259,53 @@ public class ConfigurationController {
 			e.printStackTrace();
 			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
 		}
-		HeaderDataDto<ModulusListDto> response = new HeaderDataDto(program.getProgramId().toString(),program.getProgramName());
-		List<ModulusListDto> list = new ArrayList<>();
+		HeaderDataDto<ConfigurationModulusListDto> response = new HeaderDataDto(program.getProgramIdentifier(), program.getProgramName());
+		List<ConfigurationModulusListDto> list = new ArrayList<>();
 		Iterable<Modulus> modules = modulusService.getModulesByProgramId(program.getProgramId());
 		for(Modulus modulus: modules) {
-			list.add(new ModulusListDto(modulus.getModulusId(), modulus.getModulusIdentifier(), modulus.getModulusName(), 
+			list.add(new ConfigurationModulusListDto(modulus.getModulusId(), modulus.getModulusIdentifier(), modulus.getModulusName(), 
 					modulus.getModulusIndex(), modulus.getModulusOrder(), modulus.getModulusState()));
 		}
 		response.setList(list);
-		return new ResponseEntity<HeaderDataDto<ModulusListDto>>(response, HttpStatus.OK);
+		return new ResponseEntity<HeaderDataDto<ConfigurationModulusListDto>>(response, HttpStatus.OK);
+	}
+	
+	@SuppressWarnings(value = { "rawtypes", "unchecked"})
+	@PostMapping(value = URL_CONFIGURATION_PROGRAM_MODULUSxREGISTER_POST)
+    public ResponseEntity<?> programModulusRegister(@Valid @RequestBody ConfigurationModulusRegisterDto modulusRegister, BindingResult bindingResult,
+    		@PathVariable(name ="program")String programIdentifier){
+		try {
+//			°Realizar validaciones
+	        if(bindingResult.hasErrors())
+	            return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
+	        Program program = null;
+	        try {
+				program = programService.getProgramByIdentifier(programIdentifier).get();
+			} catch (Exception e) {
+				e.printStackTrace();
+				return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
+			}
+//			°Generar valores
+	        Long idModulus = uniqueId.getUniqId();
+	        String identifierModulus = uniqueId.getIdentifier(Arrays.asList(modulusRegister.getName()));
+	        Integer indexModulus = preference.getIndex(INDEX_PROGRAM);
+	        Character stateModulus = SYSTEM_STATE_ACTIVE;
+//			°Generar entidad
+	        Modulus modulus = new Modulus(idModulus, indexModulus, identifierModulus, modulusRegister.getName(), 
+	        		modulusRegister.getOrder(), stateModulus);
+	        modulus.setModulusDescription(modulusRegister.getDescription());
+	        modulus.setProgramId(program);
+	        try {
+	        	modulusService.createModulus(modulus);
+				return new ResponseEntity(new Message(SYSTEM_SUCCESS_REGISTER_MODULUS), HttpStatus.CREATED);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return new ResponseEntity(new Message(SYSTEM_ERROR_REGISTER_MODULUS), HttpStatus.BAD_REQUEST);
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+			return new ResponseEntity(new Message(SYSTEM_ERROR), HttpStatus.BAD_REQUEST);
+		}
 	}
 
 }

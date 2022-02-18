@@ -1,6 +1,6 @@
 package com.system.demo.dto.specific;
 
-public class ModulusListDto {
+public class ConfigurationModulusListDto {
 	
 	private Long id;
 	private String identifier;
@@ -8,7 +8,7 @@ public class ModulusListDto {
 	private Integer index;
 	private Integer order;
 	private Character state;
-	public ModulusListDto(Long id, String identifier, String name, Integer index, Integer order, Character state) {
+	public ConfigurationModulusListDto(Long id, String identifier, String name, Integer index, Integer order, Character state) {
 		super();
 		this.id = id;
 		this.identifier = identifier;

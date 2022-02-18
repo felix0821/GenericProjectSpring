@@ -26,7 +26,8 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(name = "modulus", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"modulus_order", "modulus_identifier", "program_id"})})
+    @UniqueConstraint(columnNames = {"modulus_identifier", "program_id"}),
+    @UniqueConstraint(columnNames = {"modulus_order", "program_id"})})
 @NamedQueries({
     @NamedQuery(name = "Modulus.findAll", query = "SELECT m FROM Modulus m"),
     @NamedQuery(name = "Modulus.findByModulusId", query = "SELECT m FROM Modulus m WHERE m.modulusId = :modulusId"),
