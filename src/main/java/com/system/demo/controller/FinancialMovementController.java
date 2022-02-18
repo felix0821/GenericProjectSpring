@@ -52,15 +52,18 @@ public class FinancialMovementController {
 			Iterable<FinancialMovementDetail> financialMovDetailList = financialMovementDetailService.getAllFinancialMovementDetail();
 			List<FinancialMovementListDto> financialMovDetailListDto = new ArrayList<>();
 			for (FinancialMovementDetail fMovDetail : financialMovDetailList) {
-				FinancialMovementRequisition fMovReq = financialMovementRequisitionRepository.findByFinancialMovementDetailId(fMovDetail.getFinancialMovementDetailId()).get();
-				RequisitionDataDetailPK id = new RequisitionDataDetailPK(1L,10006L,fMovReq.getRequisitionDetail().getRequisitionDetailId());
+				Iterable<FinancialMovementRequisition> fMovReq = financialMovementRequisitionRepository.findByFinancialMovementDetailId(fMovDetail.getFinancialMovementDetailId());
+				FinancialMovementRequisition fmov= null;
+				for(FinancialMovementRequisition f:fMovReq) {
+					fmov=f;
+				}
+				RequisitionDataDetailPK id = new RequisitionDataDetailPK(1L,10006L,fmov.getRequisitionDetail().getRequisitionDetailId());
 				RequisitionDataDetail reqDataDet = requisitionDataDetailRepository.getById(id);
 				FinancialMovementListDto rec = new FinancialMovementListDto(fMovDetail.getFinancialMovementDetailId(),
 						fMovDetail.getFinancialMovementId().getFinancialMovementName(), fMovDetail.getFinancialMovementId().getFinancialMovementSymbol(),
 						fMovDetail.getFinancialMovementDetailAmount(),"Registro por solicitud", fMovDetail.getFinancialMovementDetailOperationNumber());
 				rec.setImage(reqDataDet.getRequisitionDataDetailValue());
 				financialMovDetailListDto.add(rec);
-				
 			}
 			return new ResponseEntity<List<FinancialMovementListDto>>(financialMovDetailListDto, HttpStatus.OK);
 		} catch (Exception e) {

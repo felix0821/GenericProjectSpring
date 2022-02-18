@@ -11,5 +11,5 @@ import com.system.demo.persistence.entity.FinancialMovementRequisitionPK;
 @Repository
 public interface FinancialMovementRequisitionRepository extends JpaRepository<FinancialMovementRequisition,FinancialMovementRequisitionPK> {
 
-	public Optional<FinancialMovementRequisition> findByFinancialMovementDetailId(Long financialMovementDetailId);
+	public Iterable<FinancialMovementRequisition> findByFinancialMovementDetailId(Long financialMovementDetailId);
 }
