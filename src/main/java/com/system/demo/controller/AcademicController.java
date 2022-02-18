@@ -360,17 +360,21 @@ public class AcademicController {
 		return new ResponseEntity(new Message(SYSTEM_SUCCESS_DELETE_PROGRAM), HttpStatus.OK);
 	}
 	
-	/*
+	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@GetMapping(value = URL_ACADEMIC_CYCLE_PROGRAM_ENROLLED_GET)
-	public ResponseEntity<?> academicProgramPeriodView(@PathVariable(name ="program-id")Long id) {
+	public ResponseEntity<?> academicProgramPeriodView(@PathVariable(name ="cycle")String cycle, @PathVariable(name ="program")String prog) {
+		Program program = null;
+		Period period = null;
 		try {
-			List<EnrollmentProgramPeriod> enrollProgList = enrollmentProgramPeriodService.getEnrollmentProgramPeriodByProgramPeriodId(id);
+			program = programService.getProgramByIdentifier(prog).get();
+			period = periodService.getPeriodByIdentifier(cycle).get();
+			Iterable<EnrollmentProgram> enrollProgList = enrollmentProgramService.getEnrollmentProgramPeriodByProgramPeriodId(program.getProgramId(), period.getPeriodId());
 			List<ProgramPeriodEnrollmentDto> progEnrollDto = new ArrayList<>();
-			for(EnrollmentProgramPeriod enrollProg:enrollProgList) {
+			for(EnrollmentProgram enrollProg:enrollProgList) {
 				Person person = enrollProg.getPerson();
 				progEnrollDto.add(new ProgramPeriodEnrollmentDto(person.getPersonName(), person.getPersonLastnameFather(),
-						person.getPersonLastnameMother(), enrollProg.getPersonProgramPeriodDate()));
+						person.getPersonLastnameMother(), enrollProg.getEnrollmentProgramDate()));
 			}
 			return new ResponseEntity<List<ProgramPeriodEnrollmentDto>>(progEnrollDto, HttpStatus.OK);
 		} catch(Exception e) {
@@ -378,7 +382,7 @@ public class AcademicController {
 			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
 		}
 	}
-	*/
+	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@GetMapping(value = URL_ACADEMIC_CYCLE_PROGRAM_COURSE_GET)
 	public ResponseEntity<?> getAcademicCycleProgramCourse(@PathVariable(name ="cycle")String cycle, @PathVariable(name ="program")String prog) {
