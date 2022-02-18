@@ -56,6 +56,13 @@ public class GenericProjectSystemDefinition {
 	public static String SYSTEM_ERROR_REGISTER_MODULUS = "Error de registro en modulo";
 	public static String SYSTEM_ERROR_REGISTER_COURSE = "Error de registro en curso";
 	public static String SYSTEM_ERROR_NO_MODULUS = "Modulo no encontrado";
+	
+//	Respuestas Controlador de configuración académica
+//	Respeusta concretada
+	public static String SYSTEM_SUCCESS_ALERT_VALIDATE = "Usuario matriculado exitosamente";
+//	Respuestas de error
+	public static String SYSTEM_ERROR_ALERT_VALIDATE = "El usuario ya esta matriculado o hay un campo no valido";
+	
 	/**
 	 * Global defined entities
 	 */

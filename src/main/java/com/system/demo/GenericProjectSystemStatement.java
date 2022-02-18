@@ -45,6 +45,10 @@ public class GenericProjectSystemStatement {
 	public static final Long SYSTEM_REQUISITION_STATUS_SEND = 500010001L;
 	public static final Long SYSTEM_REQUISITION_STATUS_ACCEPT = 500010002L;
 	public static final Long SYSTEM_REQUISITION_STATUS_OBSERVE = 500010003L;
+//	Recursos movimiento financiero
+	public static final Long SYSTEM_FINANTIAL_MOVEMENT_INCOME = 700010001L;
+	public static final Long SYSTEM_FINANTIAL_MOVEMENT_EGRESS = 700010002L;
+	
 	/**
 	 *	Route mapping for the system
 	 **/

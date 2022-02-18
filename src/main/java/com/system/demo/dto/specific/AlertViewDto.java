@@ -15,7 +15,12 @@ public class AlertViewDto {
 	private String sender;
 	
 	private Long periodId;
+	
 	private Long programId;
+	
+	private int monto;
+	
+	private int movement;
 	
 	private List<AlertViewDataDto> data;
 
@@ -82,6 +87,22 @@ public class AlertViewDto {
 
 	public void setProgramId(Long programId) {
 		this.programId = programId;
+	}
+
+	public int getMonto() {
+		return monto;
+	}
+
+	public void setMonto(int monto) {
+		this.monto = monto;
+	}
+
+	public int getMovement() {
+		return movement;
+	}
+
+	public void setMovement(int movement) {
+		this.movement = movement;
 	}
 
 }
