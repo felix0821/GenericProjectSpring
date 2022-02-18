@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.system.demo.dto.generic.DropdownDataDto;
 import com.system.demo.dto.generic.HeaderDataDto;
 import com.system.demo.dto.generic.Message;
+import com.system.demo.dto.generic.Relationship2Dto;
 import com.system.demo.dto.specific.ConfigurationProgramDto;
 import com.system.demo.dto.specific.ConfigurationProgramRegisterDto;
 import com.system.demo.dto.specific.ConfigurationCourseListDto;
@@ -39,6 +40,7 @@ import com.system.demo.persistence.entity.Course;
 import com.system.demo.persistence.entity.GroupTeaching;
 import com.system.demo.persistence.entity.Modulus;
 import com.system.demo.persistence.entity.OccupationalField;
+import com.system.demo.persistence.entity.PersonRole;
 import com.system.demo.persistence.entity.Program;
 import com.system.demo.persistence.entity.ProgramGroup;
 import com.system.demo.service.CourseService;
@@ -448,6 +450,29 @@ public class ConfigurationController {
 		} catch(Exception e) {
 			return new ResponseEntity(new Message(SYSTEM_ERROR), HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	/**
+	 * @implNote <b>idOne</b> refers to the <b>programId</b>
+	 * @implNote <b>idTwo</b> refers to the <b>groupId</b>
+	*/
+	@SuppressWarnings(value = { "rawtypes", "unchecked" })
+	@PostMapping(value = URL_CONFIGURATION_PROGRAM_GROUPxREGISTER_POST)
+    public ResponseEntity<?> personRoleRegister(@Valid @RequestBody Relationship2Dto programGroupRegDto, BindingResult bindingResult) {
+		//	Realizamos las validaciones pertinentes
+        if(bindingResult.hasErrors())
+            return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
+		try {
+			ProgramGroup programGroup = new ProgramGroup(programGroupRegDto.getIdOne(), programGroupRegDto.getIdTwo());
+			programGroup.setProgramGroupState(SYSTEM_STATE_ACTIVE);
+			//personRol.setPersonRoleState(SYSTEM_STATE_ACTIVE);
+			//personRoleService.createPersonRol(personRol);
+			return new ResponseEntity(new Message(SYSTEM_SUCCESS_REGISTER_PERSONxROLE), HttpStatus.CREATED);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity(new Message(SYSTEM_ERROR), HttpStatus.BAD_REQUEST);
+		}
+		
 	}
 
 }
