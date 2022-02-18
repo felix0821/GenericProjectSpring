@@ -475,5 +475,18 @@ public class ConfigurationController {
 		}
 		
 	}
+	
+	@SuppressWarnings(value = { "rawtypes", "unchecked" })
+	@GetMapping(URL_CONFIGURATION_PROGRAM_GROUPxDELETE_GET)
+	public ResponseEntity<?> personRoleDelete(@RequestParam(name="programId")Long programId, @RequestParam(name="groupId")Long groupId){
+		try {
+			programGroupService.deleteProgramGroup(programId, groupId);
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity(new Message(SYSTEM_SUCCESS_DELETE_PERSONxROLE), HttpStatus.OK);
+	}
 
 }
