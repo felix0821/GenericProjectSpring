@@ -1,5 +1,7 @@
 package com.system.demo.service.implementation;
 
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +45,14 @@ public class CourseServiceImplements implements CourseService{
 	@Override
 	public void deleteCourse(Long courseId) throws Exception {
 		// TODO Auto-generated method stub
-		
+		Course course = getCourseById(courseId).get();
+		courseRepository.delete(course);
+	}
+
+	@Override
+	public Optional<Course> getCourseById(Long id) {
+		// TODO Auto-generated method stub
+		return courseRepository.findById(id);
 	}
 
 }

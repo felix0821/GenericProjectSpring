@@ -51,6 +51,7 @@ public class GenericProjectSystemDefinition {
 	public static String SYSTEM_SUCCESS_REGISTER_MODULUS = "Modulo registrado exitosamente";
 	public static String SYSTEM_SUCCESS_DELETE_MODULUS= "Modulo eliminado exitosamente";
 	public static String SYSTEM_SUCCESS_REGISTER_COURSE = "Curso registrado exitosamente";
+	public static String SYSTEM_SUCCESS_DELETE_COURSE = "Curso eliminado exitosamente";
 	//	Respuestas de error
 	public static String SYSTEM_ERROR_REGISTER_MODULUS = "Error de registro en modulo";
 	public static String SYSTEM_ERROR_REGISTER_COURSE = "Error de registro en curso";
