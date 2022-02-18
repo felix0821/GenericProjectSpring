@@ -54,7 +54,7 @@ public class Requisition implements Serializable {
     private Collection<RequisitionData> requisitionDataCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisition")
     private Collection<RequisitionNotificationRole> requisitionNotificationRoleCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisitionId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisition")
     private Collection<RequisitionUses> requisitionUsesCollection;
 
     public Requisition() {

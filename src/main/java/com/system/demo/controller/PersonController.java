@@ -316,7 +316,6 @@ public class PersonController {
         if(bindingResult.hasErrors())
             return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
 		try {
-			
 			PersonRole personRol = new PersonRole(personRoleRegDto.getIdOne(), personRoleRegDto.getIdTwo());
 			personRol.setPersonRoleState(SYSTEM_STATE_ACTIVE);
 			personRoleService.createPersonRol(personRol);

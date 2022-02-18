@@ -28,8 +28,8 @@ import javax.persistence.Table;
     @NamedQuery(name = "PaymentDiscount.findByPaymentDiscountId", query = "SELECT p FROM PaymentDiscount p WHERE p.paymentDiscountId = :paymentDiscountId"),
     @NamedQuery(name = "PaymentDiscount.findByPaymentDiscountName", query = "SELECT p FROM PaymentDiscount p WHERE p.paymentDiscountName = :paymentDiscountName"),
     @NamedQuery(name = "PaymentDiscount.findByPaymentDiscountDescription", query = "SELECT p FROM PaymentDiscount p WHERE p.paymentDiscountDescription = :paymentDiscountDescription"),
-    @NamedQuery(name = "PaymentDiscount.findByPaymentDiscountState", query = "SELECT p FROM PaymentDiscount p WHERE p.paymentDiscountState = :paymentDiscountState"),
-    @NamedQuery(name = "PaymentDiscount.findByPaymentDiscountPercent", query = "SELECT p FROM PaymentDiscount p WHERE p.paymentDiscountPercent = :paymentDiscountPercent")})
+    @NamedQuery(name = "PaymentDiscount.findByPaymentDiscountPercent", query = "SELECT p FROM PaymentDiscount p WHERE p.paymentDiscountPercent = :paymentDiscountPercent"),
+    @NamedQuery(name = "PaymentDiscount.findByPaymentDiscountState", query = "SELECT p FROM PaymentDiscount p WHERE p.paymentDiscountState = :paymentDiscountState")})
 public class PaymentDiscount implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,11 +43,11 @@ public class PaymentDiscount implements Serializable {
     @Column(name = "payment_discount_description", length = 128)
     private String paymentDiscountDescription;
     @Basic(optional = false)
-    @Column(name = "payment_discount_state", nullable = false)
-    private Character paymentDiscountState;
-    @Basic(optional = false)
     @Column(name = "payment_discount_percent", nullable = false)
     private double paymentDiscountPercent;
+    @Basic(optional = false)
+    @Column(name = "payment_discount_state", nullable = false)
+    private Character paymentDiscountState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "paymentDiscount")
     private Collection<PaymentDiscountPerson> paymentDiscountPersonCollection;
 
@@ -58,11 +58,11 @@ public class PaymentDiscount implements Serializable {
         this.paymentDiscountId = paymentDiscountId;
     }
 
-    public PaymentDiscount(Long paymentDiscountId, String paymentDiscountName, Character paymentDiscountState, double paymentDiscountPercent) {
+    public PaymentDiscount(Long paymentDiscountId, String paymentDiscountName, double paymentDiscountPercent, Character paymentDiscountState) {
         this.paymentDiscountId = paymentDiscountId;
         this.paymentDiscountName = paymentDiscountName;
-        this.paymentDiscountState = paymentDiscountState;
         this.paymentDiscountPercent = paymentDiscountPercent;
+        this.paymentDiscountState = paymentDiscountState;
     }
 
     public Long getPaymentDiscountId() {
@@ -89,20 +89,20 @@ public class PaymentDiscount implements Serializable {
         this.paymentDiscountDescription = paymentDiscountDescription;
     }
 
-    public Character getPaymentDiscountState() {
-        return paymentDiscountState;
-    }
-
-    public void setPaymentDiscountState(Character paymentDiscountState) {
-        this.paymentDiscountState = paymentDiscountState;
-    }
-
     public double getPaymentDiscountPercent() {
         return paymentDiscountPercent;
     }
 
     public void setPaymentDiscountPercent(double paymentDiscountPercent) {
         this.paymentDiscountPercent = paymentDiscountPercent;
+    }
+
+    public Character getPaymentDiscountState() {
+        return paymentDiscountState;
+    }
+
+    public void setPaymentDiscountState(Character paymentDiscountState) {
+        this.paymentDiscountState = paymentDiscountState;
     }
 
     public Collection<PaymentDiscountPerson> getPaymentDiscountPersonCollection() {

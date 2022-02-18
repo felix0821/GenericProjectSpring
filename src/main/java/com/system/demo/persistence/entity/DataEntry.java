@@ -28,7 +28,8 @@ import javax.persistence.Table;
     @NamedQuery(name = "DataEntry.findByDataEntryId", query = "SELECT d FROM DataEntry d WHERE d.dataEntryId = :dataEntryId"),
     @NamedQuery(name = "DataEntry.findByDataEntryType", query = "SELECT d FROM DataEntry d WHERE d.dataEntryType = :dataEntryType"),
     @NamedQuery(name = "DataEntry.findByDataEntryAccept", query = "SELECT d FROM DataEntry d WHERE d.dataEntryAccept = :dataEntryAccept"),
-    @NamedQuery(name = "DataEntry.findByDataEntrySelection", query = "SELECT d FROM DataEntry d WHERE d.dataEntrySelection = :dataEntrySelection")})
+    @NamedQuery(name = "DataEntry.findByDataEntrySelection", query = "SELECT d FROM DataEntry d WHERE d.dataEntrySelection = :dataEntrySelection"),
+    @NamedQuery(name = "DataEntry.findByDataEntryName", query = "SELECT d FROM DataEntry d WHERE d.dataEntryName = :dataEntryName")})
 public class DataEntry implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -44,6 +45,9 @@ public class DataEntry implements Serializable {
     @Basic(optional = false)
     @Column(name = "data_entry_selection", nullable = false)
     private boolean dataEntrySelection;
+    @Basic(optional = false)
+    @Column(name = "data_entry_name", nullable = false, length = 64)
+    private String dataEntryName;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "dataEntryId")
     private Collection<Data> dataCollection;
 
@@ -54,10 +58,11 @@ public class DataEntry implements Serializable {
         this.dataEntryId = dataEntryId;
     }
 
-    public DataEntry(Long dataEntryId, String dataEntryType, boolean dataEntrySelection) {
+    public DataEntry(Long dataEntryId, String dataEntryType, boolean dataEntrySelection, String dataEntryName) {
         this.dataEntryId = dataEntryId;
         this.dataEntryType = dataEntryType;
         this.dataEntrySelection = dataEntrySelection;
+        this.dataEntryName = dataEntryName;
     }
 
     public Long getDataEntryId() {
@@ -90,6 +95,14 @@ public class DataEntry implements Serializable {
 
     public void setDataEntrySelection(boolean dataEntrySelection) {
         this.dataEntrySelection = dataEntrySelection;
+    }
+
+    public String getDataEntryName() {
+        return dataEntryName;
+    }
+
+    public void setDataEntryName(String dataEntryName) {
+        this.dataEntryName = dataEntryName;
     }
 
     public Collection<Data> getDataCollection() {

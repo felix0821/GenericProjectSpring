@@ -7,13 +7,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.system.demo.persistence.entity.EnrollmentProgramPeriod;
-import com.system.demo.persistence.entity.EnrollmentProgramPeriodPK;
+import com.system.demo.persistence.entity.EnrollmentProgram;
+import com.system.demo.persistence.entity.EnrollmentProgramPK;
 
 @Repository
-public interface EnrollmentProgramPeriodRepository extends JpaRepository<EnrollmentProgramPeriod,EnrollmentProgramPeriodPK>{
+public interface EnrollmentProgramPeriodRepository extends JpaRepository<EnrollmentProgram,EnrollmentProgramPK>{
 	
-	@Query("SELECT e FROM EnrollmentProgramPeriod e WHERE e.enrollmentProgramPeriodPK.programId = :programId AND e.enrollmentProgramPeriodPK.periodId = :periodId")
-	public List<EnrollmentProgramPeriod> findByProgramPeriodId(@Param(value="programId")long programId, @Param(value="periodId")long periodId);
+	@Query("SELECT e FROM EnrollmentProgram e WHERE e.enrollmentProgramPK.programId = :programId AND e.enrollmentProgramPK.periodId = :periodId")
+	public List<EnrollmentProgram> findByProgramPeriodId(@Param(value="programId")long programId, @Param(value="periodId")long periodId);
 
 }

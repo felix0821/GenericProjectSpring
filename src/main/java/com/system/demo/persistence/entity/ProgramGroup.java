@@ -26,12 +26,16 @@ import javax.persistence.Table;
     @NamedQuery(name = "ProgramGroup.findAll", query = "SELECT p FROM ProgramGroup p"),
     @NamedQuery(name = "ProgramGroup.findByProgramId", query = "SELECT p FROM ProgramGroup p WHERE p.programGroupPK.programId = :programId"),
     @NamedQuery(name = "ProgramGroup.findByGroupId", query = "SELECT p FROM ProgramGroup p WHERE p.programGroupPK.groupId = :groupId"),
+    @NamedQuery(name = "ProgramGroup.findByProgramGroupCapacity", query = "SELECT p FROM ProgramGroup p WHERE p.programGroupCapacity = :programGroupCapacity"),
     @NamedQuery(name = "ProgramGroup.findByProgramGroupState", query = "SELECT p FROM ProgramGroup p WHERE p.programGroupState = :programGroupState")})
 public class ProgramGroup implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected ProgramGroupPK programGroupPK;
+    @Basic(optional = false)
+    @Column(name = "program_group_capacity", nullable = false)
+    private int programGroupCapacity;
     @Basic(optional = false)
     @Column(name = "program_group_state", nullable = false)
     private Character programGroupState;
@@ -49,8 +53,9 @@ public class ProgramGroup implements Serializable {
         this.programGroupPK = programGroupPK;
     }
 
-    public ProgramGroup(ProgramGroupPK programGroupPK, Character programGroupState) {
+    public ProgramGroup(ProgramGroupPK programGroupPK, int programGroupCapacity, Character programGroupState) {
         this.programGroupPK = programGroupPK;
+        this.programGroupCapacity = programGroupCapacity;
         this.programGroupState = programGroupState;
     }
 
@@ -64,6 +69,14 @@ public class ProgramGroup implements Serializable {
 
     public void setProgramGroupPK(ProgramGroupPK programGroupPK) {
         this.programGroupPK = programGroupPK;
+    }
+
+    public int getProgramGroupCapacity() {
+        return programGroupCapacity;
+    }
+
+    public void setProgramGroupCapacity(int programGroupCapacity) {
+        this.programGroupCapacity = programGroupCapacity;
     }
 
     public Character getProgramGroupState() {

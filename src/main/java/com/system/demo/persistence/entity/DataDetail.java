@@ -6,7 +6,9 @@
 package com.system.demo.persistence.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -14,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -44,6 +47,10 @@ public class DataDetail implements Serializable {
     @Basic(optional = false)
     @Column(name = "data_detail_state", nullable = false)
     private Character dataDetailState;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "dataDetail")
+    private Collection<DataDetailPeriod> dataDetailPeriodCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "dataDetail")
+    private Collection<DataDetailProgram> dataDetailProgramCollection;
     @JoinColumn(name = "data_id", referencedColumnName = "data_id", nullable = false)
     @ManyToOne(optional = false)
     private Data dataId;
@@ -92,6 +99,22 @@ public class DataDetail implements Serializable {
 
     public void setDataDetailState(Character dataDetailState) {
         this.dataDetailState = dataDetailState;
+    }
+
+    public Collection<DataDetailPeriod> getDataDetailPeriodCollection() {
+        return dataDetailPeriodCollection;
+    }
+
+    public void setDataDetailPeriodCollection(Collection<DataDetailPeriod> dataDetailPeriodCollection) {
+        this.dataDetailPeriodCollection = dataDetailPeriodCollection;
+    }
+
+    public Collection<DataDetailProgram> getDataDetailProgramCollection() {
+        return dataDetailProgramCollection;
+    }
+
+    public void setDataDetailProgramCollection(Collection<DataDetailProgram> dataDetailProgramCollection) {
+        this.dataDetailProgramCollection = dataDetailProgramCollection;
     }
 
     public Data getDataId() {

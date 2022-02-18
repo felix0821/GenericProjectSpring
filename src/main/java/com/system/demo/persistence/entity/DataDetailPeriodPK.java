@@ -15,41 +15,29 @@ import javax.persistence.Embeddable;
  * @author Felix
  */
 @Embeddable
-public class EnrollmentProgramPeriodPK implements Serializable {
+public class DataDetailPeriodPK implements Serializable {
 
     @Basic(optional = false)
-    @Column(name = "person_id", nullable = false)
-    private long personId;
-    @Basic(optional = false)
-    @Column(name = "program_id", nullable = false)
-    private long programId;
+    @Column(name = "data_detail_id", nullable = false)
+    private long dataDetailId;
     @Basic(optional = false)
     @Column(name = "period_id", nullable = false)
     private long periodId;
 
-    public EnrollmentProgramPeriodPK() {
+    public DataDetailPeriodPK() {
     }
 
-    public EnrollmentProgramPeriodPK(long personId, long programId, long periodId) {
-        this.personId = personId;
-        this.programId = programId;
+    public DataDetailPeriodPK(long dataDetailId, long periodId) {
+        this.dataDetailId = dataDetailId;
         this.periodId = periodId;
     }
 
-    public long getPersonId() {
-        return personId;
+    public long getDataDetailId() {
+        return dataDetailId;
     }
 
-    public void setPersonId(long personId) {
-        this.personId = personId;
-    }
-
-    public long getProgramId() {
-        return programId;
-    }
-
-    public void setProgramId(long programId) {
-        this.programId = programId;
+    public void setDataDetailId(long dataDetailId) {
+        this.dataDetailId = dataDetailId;
     }
 
     public long getPeriodId() {
@@ -63,8 +51,7 @@ public class EnrollmentProgramPeriodPK implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (int) personId;
-        hash += (int) programId;
+        hash += (int) dataDetailId;
         hash += (int) periodId;
         return hash;
     }
@@ -72,14 +59,11 @@ public class EnrollmentProgramPeriodPK implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof EnrollmentProgramPeriodPK)) {
+        if (!(object instanceof DataDetailPeriodPK)) {
             return false;
         }
-        EnrollmentProgramPeriodPK other = (EnrollmentProgramPeriodPK) object;
-        if (this.personId != other.personId) {
-            return false;
-        }
-        if (this.programId != other.programId) {
+        DataDetailPeriodPK other = (DataDetailPeriodPK) object;
+        if (this.dataDetailId != other.dataDetailId) {
             return false;
         }
         if (this.periodId != other.periodId) {
@@ -90,7 +74,7 @@ public class EnrollmentProgramPeriodPK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.persistence.entity.EnrollmentProgramPeriodPK[ personId=" + personId + ", programId=" + programId + ", periodId=" + periodId + " ]";
+        return "com.system.demo.persistence.entity.DataDetailPeriodPK[ dataDetailId=" + dataDetailId + ", periodId=" + periodId + " ]";
     }
     
 }

@@ -27,8 +27,8 @@ import javax.persistence.Table;
     @NamedQuery(name = "IdentificationDocument.findAll", query = "SELECT i FROM IdentificationDocument i"),
     @NamedQuery(name = "IdentificationDocument.findByIdentificationDocumentId", query = "SELECT i FROM IdentificationDocument i WHERE i.identificationDocumentId = :identificationDocumentId"),
     @NamedQuery(name = "IdentificationDocument.findByIdentificationDocumentName", query = "SELECT i FROM IdentificationDocument i WHERE i.identificationDocumentName = :identificationDocumentName"),
-    @NamedQuery(name = "IdentificationDocument.findByIdentificationDocumentState", query = "SELECT i FROM IdentificationDocument i WHERE i.identificationDocumentState = :identificationDocumentState"),
-    @NamedQuery(name = "IdentificationDocument.findByIdentificationDocumentValidation", query = "SELECT i FROM IdentificationDocument i WHERE i.identificationDocumentValidation = :identificationDocumentValidation")})
+    @NamedQuery(name = "IdentificationDocument.findByIdentificationDocumentValidation", query = "SELECT i FROM IdentificationDocument i WHERE i.identificationDocumentValidation = :identificationDocumentValidation"),
+    @NamedQuery(name = "IdentificationDocument.findByIdentificationDocumentState", query = "SELECT i FROM IdentificationDocument i WHERE i.identificationDocumentState = :identificationDocumentState")})
 public class IdentificationDocument implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,11 +40,11 @@ public class IdentificationDocument implements Serializable {
     @Column(name = "identification_document_name", nullable = false, length = 64)
     private String identificationDocumentName;
     @Basic(optional = false)
-    @Column(name = "identification_document_state", nullable = false)
-    private Character identificationDocumentState;
-    @Basic(optional = false)
     @Column(name = "identification_document_validation", nullable = false)
     private Character identificationDocumentValidation;
+    @Basic(optional = false)
+    @Column(name = "identification_document_state", nullable = false)
+    private Character identificationDocumentState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "identificationDocument")
     private Collection<PersonIdentificationDocument> personIdentificationDocumentCollection;
 
@@ -55,11 +55,11 @@ public class IdentificationDocument implements Serializable {
         this.identificationDocumentId = identificationDocumentId;
     }
 
-    public IdentificationDocument(Long identificationDocumentId, String identificationDocumentName, Character identificationDocumentState, Character identificationDocumentValidation) {
+    public IdentificationDocument(Long identificationDocumentId, String identificationDocumentName, Character identificationDocumentValidation, Character identificationDocumentState) {
         this.identificationDocumentId = identificationDocumentId;
         this.identificationDocumentName = identificationDocumentName;
-        this.identificationDocumentState = identificationDocumentState;
         this.identificationDocumentValidation = identificationDocumentValidation;
+        this.identificationDocumentState = identificationDocumentState;
     }
 
     public Long getIdentificationDocumentId() {
@@ -78,20 +78,20 @@ public class IdentificationDocument implements Serializable {
         this.identificationDocumentName = identificationDocumentName;
     }
 
-    public Character getIdentificationDocumentState() {
-        return identificationDocumentState;
-    }
-
-    public void setIdentificationDocumentState(Character identificationDocumentState) {
-        this.identificationDocumentState = identificationDocumentState;
-    }
-
     public Character getIdentificationDocumentValidation() {
         return identificationDocumentValidation;
     }
 
     public void setIdentificationDocumentValidation(Character identificationDocumentValidation) {
         this.identificationDocumentValidation = identificationDocumentValidation;
+    }
+
+    public Character getIdentificationDocumentState() {
+        return identificationDocumentState;
+    }
+
+    public void setIdentificationDocumentState(Character identificationDocumentState) {
+        this.identificationDocumentState = identificationDocumentState;
     }
 
     public Collection<PersonIdentificationDocument> getPersonIdentificationDocumentCollection() {

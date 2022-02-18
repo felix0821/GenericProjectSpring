@@ -43,7 +43,7 @@ public class RequisitionEnrollmentProgram implements Serializable {
         @JoinColumn(name = "program_id", referencedColumnName = "program_id", nullable = false, insertable = false, updatable = false),
         @JoinColumn(name = "period_id", referencedColumnName = "period_id", nullable = false, insertable = false, updatable = false)})
     @ManyToOne(optional = false)
-    private EnrollmentProgramPeriod enrollmentProgramPeriod;
+    private EnrollmentProgram enrollmentProgram;
     @JoinColumn(name = "requisition_detail_id", referencedColumnName = "requisition_detail_id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private RequisitionDetail requisitionDetail;
@@ -80,12 +80,12 @@ public class RequisitionEnrollmentProgram implements Serializable {
         this.requisitionEnrollmentProgramState = requisitionEnrollmentProgramState;
     }
 
-    public EnrollmentProgramPeriod getEnrollmentProgramPeriod() {
-        return enrollmentProgramPeriod;
+    public EnrollmentProgram getEnrollmentProgram() {
+        return enrollmentProgram;
     }
 
-    public void setEnrollmentProgramPeriod(EnrollmentProgramPeriod enrollmentProgramPeriod) {
-        this.enrollmentProgramPeriod = enrollmentProgramPeriod;
+    public void setEnrollmentProgram(EnrollmentProgram enrollmentProgram) {
+        this.enrollmentProgram = enrollmentProgram;
     }
 
     public RequisitionDetail getRequisitionDetail() {

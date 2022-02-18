@@ -44,7 +44,7 @@ import com.system.demo.dto.specific.ProgramPeriodNewRegisterDto;
 import com.system.demo.dto.specific.ProgramPeriodSelectRegisterDto;
 import com.system.demo.persistence.entity.Course;
 import com.system.demo.persistence.entity.CourseDetail;
-import com.system.demo.persistence.entity.EnrollmentProgramPeriod;
+import com.system.demo.persistence.entity.EnrollmentProgram;
 import com.system.demo.persistence.entity.OccupationalField;
 import com.system.demo.persistence.entity.Period;
 import com.system.demo.persistence.entity.Person;
@@ -53,7 +53,7 @@ import com.system.demo.persistence.entity.ProgramPeriod;
 import com.system.demo.persistence.entity.ProgramPeriodPK;
 import com.system.demo.persistence.entity.Role;
 import com.system.demo.service.CourseDetailService;
-import com.system.demo.service.EnrollmentProgramPeriodService;
+import com.system.demo.service.EnrollmentProgramService;
 import com.system.demo.service.OccupationalFieldService;
 import com.system.demo.service.PeriodService;
 import com.system.demo.service.ProgramPeriodService;
@@ -81,7 +81,7 @@ public class AcademicController {
 	@Autowired
 	PeriodService periodService;
 	@Autowired
-	EnrollmentProgramPeriodService enrollmentProgramPeriodService;
+	EnrollmentProgramService enrollmentProgramService;
 	@Autowired
 	CourseDetailService courseDetailService;
 	

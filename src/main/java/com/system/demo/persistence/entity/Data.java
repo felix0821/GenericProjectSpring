@@ -59,6 +59,9 @@ public class Data implements Serializable {
     @JoinColumn(name = "data_entry_id", referencedColumnName = "data_entry_id", nullable = false)
     @ManyToOne(optional = false)
     private DataEntry dataEntryId;
+    @JoinColumn(name = "data_reference_id", referencedColumnName = "data_reference_id")
+    @ManyToOne
+    private DataReference dataReferenceId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "data")
     private Collection<ReportData> reportDataCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "data")
@@ -146,6 +149,14 @@ public class Data implements Serializable {
 
     public void setDataEntryId(DataEntry dataEntryId) {
         this.dataEntryId = dataEntryId;
+    }
+
+    public DataReference getDataReferenceId() {
+        return dataReferenceId;
+    }
+
+    public void setDataReferenceId(DataReference dataReferenceId) {
+        this.dataReferenceId = dataReferenceId;
     }
 
     public Collection<ReportData> getReportDataCollection() {

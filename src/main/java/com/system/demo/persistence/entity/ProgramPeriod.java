@@ -68,14 +68,14 @@ public class ProgramPeriod implements Serializable {
     @Basic(optional = false)
     @Column(name = "program_period_state", nullable = false)
     private Character programPeriodState;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "programPeriod")
-    private Collection<EnrollmentProgramPeriod> enrollmentProgramPeriodCollection;
     @JoinColumn(name = "period_id", referencedColumnName = "period_id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Period period;
     @JoinColumn(name = "program_id", referencedColumnName = "program_id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Program program;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "programPeriod")
+    private Collection<EnrollmentProgram> enrollmentProgramCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "programPeriod")
     private Collection<ModulusDetail> modulusDetailCollection;
 
@@ -165,14 +165,6 @@ public class ProgramPeriod implements Serializable {
         this.programPeriodState = programPeriodState;
     }
 
-    public Collection<EnrollmentProgramPeriod> getEnrollmentProgramPeriodCollection() {
-        return enrollmentProgramPeriodCollection;
-    }
-
-    public void setEnrollmentProgramPeriodCollection(Collection<EnrollmentProgramPeriod> enrollmentProgramPeriodCollection) {
-        this.enrollmentProgramPeriodCollection = enrollmentProgramPeriodCollection;
-    }
-
     public Period getPeriod() {
         return period;
     }
@@ -187,6 +179,14 @@ public class ProgramPeriod implements Serializable {
 
     public void setProgram(Program program) {
         this.program = program;
+    }
+
+    public Collection<EnrollmentProgram> getEnrollmentProgramCollection() {
+        return enrollmentProgramCollection;
+    }
+
+    public void setEnrollmentProgramCollection(Collection<EnrollmentProgram> enrollmentProgramCollection) {
+        this.enrollmentProgramCollection = enrollmentProgramCollection;
     }
 
     public Collection<ModulusDetail> getModulusDetailCollection() {

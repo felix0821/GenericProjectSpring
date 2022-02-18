@@ -7,25 +7,25 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.system.demo.persistence.entity.EnrollmentProgramPeriod;
+import com.system.demo.persistence.entity.EnrollmentProgram;
 import com.system.demo.persistence.repository.EnrollmentProgramPeriodRepository;
-import com.system.demo.service.EnrollmentProgramPeriodService;
+import com.system.demo.service.EnrollmentProgramService;
 
 @Service
 @Transactional
-public class EnrollmentProgramPeriodServiceImplements implements EnrollmentProgramPeriodService {
+public class EnrollmentProgramServiceImplements implements EnrollmentProgramService {
 	
 	@Autowired
 	EnrollmentProgramPeriodRepository enrollmentProgramPeriodRepository;
 
 	@Override
-	public EnrollmentProgramPeriod createEnrollmentProgramPeriod(EnrollmentProgramPeriod enrollmentProgramPeriod)
+	public EnrollmentProgram createEnrollmentProgramPeriod(EnrollmentProgram enrollmentProgramPeriod)
 			throws Exception {
 		return enrollmentProgramPeriodRepository.save(enrollmentProgramPeriod);
 	}
 	
 	@Override
-	public Iterable<EnrollmentProgramPeriod> getEnrollmentProgramPeriodByProgramPeriodId(long programId, long pedagogicalPeriodId) {
+	public Iterable<EnrollmentProgram> getEnrollmentProgramPeriodByProgramPeriodId(long programId, long pedagogicalPeriodId) {
 		return enrollmentProgramPeriodRepository.findByProgramPeriodId(programId, pedagogicalPeriodId);
 	}
 

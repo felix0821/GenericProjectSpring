@@ -22,12 +22,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.system.demo.dto.generic.HeaderDataDto;
 import com.system.demo.dto.generic.Message;
 import com.system.demo.dto.specific.ConfigurationProgramDto;
 import com.system.demo.dto.specific.ConfigurationProgramRegisterDto;
+import com.system.demo.dto.specific.ModulusListDto;
 import com.system.demo.dto.specific.ProgramDetailedDto;
 import com.system.demo.dto.specific.ProgramDetailedOccupationalDto;
 import com.system.demo.dto.specific.ProgramOccupationalRegisterDto;
+import com.system.demo.persistence.entity.Modulus;
 import com.system.demo.persistence.entity.OccupationalField;
 import com.system.demo.persistence.entity.Program;
 import com.system.demo.service.ModulusService;
@@ -239,6 +242,28 @@ public class ConfigurationController {
 			System.out.println(e);
 			return new ResponseEntity(new Message(SYSTEM_ERROR), HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	@SuppressWarnings(value = { "rawtypes", "unchecked" })
+	@GetMapping(value = URL_CONFIGURATION_PROGRAM_MODULUS_GET)
+	public ResponseEntity<?> programModulus(@PathVariable(name ="program")String identifier) {
+		//		Buscamos programa por id
+		Program program = null;
+		try {
+			program = programService.getProgramByIdentifier(identifier).get();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
+		}
+		HeaderDataDto<ModulusListDto> response = new HeaderDataDto(program.getProgramId().toString(),program.getProgramName());
+		List<ModulusListDto> list = new ArrayList<>();
+		Iterable<Modulus> modules = modulusService.getModulesByProgramId(program.getProgramId());
+		for(Modulus modulus: modules) {
+			list.add(new ModulusListDto(modulus.getModulusId(), modulus.getModulusIdentifier(), modulus.getModulusName(), 
+					modulus.getModulusIndex(), modulus.getModulusOrder(), modulus.getModulusState()));
+		}
+		response.setList(list);
+		return new ResponseEntity<HeaderDataDto<ModulusListDto>>(response, HttpStatus.OK);
 	}
 
 }

@@ -24,8 +24,6 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 /**
  *
  * @author Felix
@@ -85,8 +83,6 @@ public class Person implements Serializable {
     @Column(name = "person_state", nullable = false)
     private Character personState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
-    private Collection<EnrollmentProgramPeriod> enrollmentProgramPeriodCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
     private Collection<PersonRole> personRoleCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
     private Collection<PersonDataDetail> personDataDetailCollection;
@@ -104,6 +100,8 @@ public class Person implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId")
     private Collection<RequisitionRemark> requisitionRemarkCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
+    private Collection<EnrollmentProgram> enrollmentProgramCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
     private Collection<Assistance> assistanceCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
     private Collection<PersonIdentificationDocument> personIdentificationDocumentCollection;
@@ -117,7 +115,6 @@ public class Person implements Serializable {
     private Collection<RequisitionStatusDetail> requisitionStatusDetailCollection;
     
     @Transient
-    @JsonIgnore
 	private String confirmPassword;
 
     public Person() {
@@ -227,14 +224,6 @@ public class Person implements Serializable {
         this.personState = personState;
     }
 
-    public Collection<EnrollmentProgramPeriod> getEnrollmentProgramPeriodCollection() {
-        return enrollmentProgramPeriodCollection;
-    }
-
-    public void setEnrollmentProgramPeriodCollection(Collection<EnrollmentProgramPeriod> enrollmentProgramPeriodCollection) {
-        this.enrollmentProgramPeriodCollection = enrollmentProgramPeriodCollection;
-    }
-
     public Collection<PersonRole> getPersonRoleCollection() {
         return personRoleCollection;
     }
@@ -299,6 +288,14 @@ public class Person implements Serializable {
         this.requisitionRemarkCollection = requisitionRemarkCollection;
     }
 
+    public Collection<EnrollmentProgram> getEnrollmentProgramCollection() {
+        return enrollmentProgramCollection;
+    }
+
+    public void setEnrollmentProgramCollection(Collection<EnrollmentProgram> enrollmentProgramCollection) {
+        this.enrollmentProgramCollection = enrollmentProgramCollection;
+    }
+
     public Collection<Assistance> getAssistanceCollection() {
         return assistanceCollection;
     }
@@ -346,7 +343,7 @@ public class Person implements Serializable {
     public void setRequisitionStatusDetailCollection(Collection<RequisitionStatusDetail> requisitionStatusDetailCollection) {
         this.requisitionStatusDetailCollection = requisitionStatusDetailCollection;
     }
-    
+
     public String getConfirmPassword() {
 		return confirmPassword;
 	}
