@@ -9,8 +9,8 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -27,52 +27,55 @@ import javax.persistence.TemporalType;
 @Table(name = "requisition_status_detail")
 @NamedQueries({
     @NamedQuery(name = "RequisitionStatusDetail.findAll", query = "SELECT r FROM RequisitionStatusDetail r"),
-    @NamedQuery(name = "RequisitionStatusDetail.findByRequisitionStatusDetailId", query = "SELECT r FROM RequisitionStatusDetail r WHERE r.requisitionStatusDetailId = :requisitionStatusDetailId"),
+    @NamedQuery(name = "RequisitionStatusDetail.findByRequisitionDetailId", query = "SELECT r FROM RequisitionStatusDetail r WHERE r.requisitionStatusDetailPK.requisitionDetailId = :requisitionDetailId"),
+    @NamedQuery(name = "RequisitionStatusDetail.findByRequisitionStatusId", query = "SELECT r FROM RequisitionStatusDetail r WHERE r.requisitionStatusDetailPK.requisitionStatusId = :requisitionStatusId"),
     @NamedQuery(name = "RequisitionStatusDetail.findByRequisitionStatusDetailIndex", query = "SELECT r FROM RequisitionStatusDetail r WHERE r.requisitionStatusDetailIndex = :requisitionStatusDetailIndex"),
     @NamedQuery(name = "RequisitionStatusDetail.findByRequisitionStatusDetailDate", query = "SELECT r FROM RequisitionStatusDetail r WHERE r.requisitionStatusDetailDate = :requisitionStatusDetailDate")})
 public class RequisitionStatusDetail implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @Column(name = "requisition_status_detail_id", nullable = false)
-    private Long requisitionStatusDetailId;
+    @EmbeddedId
+    protected RequisitionStatusDetailPK requisitionStatusDetailPK;
     @Basic(optional = false)
     @Column(name = "requisition_status_detail_index", nullable = false)
     private int requisitionStatusDetailIndex;
     @Basic(optional = false)
     @Column(name = "requisition_status_detail_date", nullable = false)
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date requisitionStatusDetailDate;
     @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false)
     @ManyToOne(optional = false)
     private Person personId;
-    @JoinColumn(name = "requisition_detail_id", referencedColumnName = "requisition_detail_id", nullable = false)
+    @JoinColumn(name = "requisition_detail_id", referencedColumnName = "requisition_detail_id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
-    private RequisitionDetail requisitionDetailId;
-    @JoinColumn(name = "requisition_status_id", referencedColumnName = "requisition_status_id", nullable = false)
+    private RequisitionDetail requisitionDetail;
+    @JoinColumn(name = "requisition_status_id", referencedColumnName = "requisition_status_id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
-    private RequisitionStatus requisitionStatusId;
+    private RequisitionStatus requisitionStatus;
 
     public RequisitionStatusDetail() {
     }
 
-    public RequisitionStatusDetail(Long requisitionStatusDetailId) {
-        this.requisitionStatusDetailId = requisitionStatusDetailId;
+    public RequisitionStatusDetail(RequisitionStatusDetailPK requisitionStatusDetailPK) {
+        this.requisitionStatusDetailPK = requisitionStatusDetailPK;
     }
 
-    public RequisitionStatusDetail(Long requisitionStatusDetailId, int requisitionStatusDetailIndex, Date requisitionStatusDetailDate) {
-        this.requisitionStatusDetailId = requisitionStatusDetailId;
+    public RequisitionStatusDetail(RequisitionStatusDetailPK requisitionStatusDetailPK, int requisitionStatusDetailIndex, Date requisitionStatusDetailDate) {
+        this.requisitionStatusDetailPK = requisitionStatusDetailPK;
         this.requisitionStatusDetailIndex = requisitionStatusDetailIndex;
         this.requisitionStatusDetailDate = requisitionStatusDetailDate;
     }
 
-    public Long getRequisitionStatusDetailId() {
-        return requisitionStatusDetailId;
+    public RequisitionStatusDetail(long requisitionDetailId, long requisitionStatusId) {
+        this.requisitionStatusDetailPK = new RequisitionStatusDetailPK(requisitionDetailId, requisitionStatusId);
     }
 
-    public void setRequisitionStatusDetailId(Long requisitionStatusDetailId) {
-        this.requisitionStatusDetailId = requisitionStatusDetailId;
+    public RequisitionStatusDetailPK getRequisitionStatusDetailPK() {
+        return requisitionStatusDetailPK;
+    }
+
+    public void setRequisitionStatusDetailPK(RequisitionStatusDetailPK requisitionStatusDetailPK) {
+        this.requisitionStatusDetailPK = requisitionStatusDetailPK;
     }
 
     public int getRequisitionStatusDetailIndex() {
@@ -99,26 +102,26 @@ public class RequisitionStatusDetail implements Serializable {
         this.personId = personId;
     }
 
-    public RequisitionDetail getRequisitionDetailId() {
-        return requisitionDetailId;
+    public RequisitionDetail getRequisitionDetail() {
+        return requisitionDetail;
     }
 
-    public void setRequisitionDetailId(RequisitionDetail requisitionDetailId) {
-        this.requisitionDetailId = requisitionDetailId;
+    public void setRequisitionDetail(RequisitionDetail requisitionDetail) {
+        this.requisitionDetail = requisitionDetail;
     }
 
-    public RequisitionStatus getRequisitionStatusId() {
-        return requisitionStatusId;
+    public RequisitionStatus getRequisitionStatus() {
+        return requisitionStatus;
     }
 
-    public void setRequisitionStatusId(RequisitionStatus requisitionStatusId) {
-        this.requisitionStatusId = requisitionStatusId;
+    public void setRequisitionStatus(RequisitionStatus requisitionStatus) {
+        this.requisitionStatus = requisitionStatus;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (requisitionStatusDetailId != null ? requisitionStatusDetailId.hashCode() : 0);
+        hash += (requisitionStatusDetailPK != null ? requisitionStatusDetailPK.hashCode() : 0);
         return hash;
     }
 
@@ -129,7 +132,7 @@ public class RequisitionStatusDetail implements Serializable {
             return false;
         }
         RequisitionStatusDetail other = (RequisitionStatusDetail) object;
-        if ((this.requisitionStatusDetailId == null && other.requisitionStatusDetailId != null) || (this.requisitionStatusDetailId != null && !this.requisitionStatusDetailId.equals(other.requisitionStatusDetailId))) {
+        if ((this.requisitionStatusDetailPK == null && other.requisitionStatusDetailPK != null) || (this.requisitionStatusDetailPK != null && !this.requisitionStatusDetailPK.equals(other.requisitionStatusDetailPK))) {
             return false;
         }
         return true;
@@ -137,7 +140,7 @@ public class RequisitionStatusDetail implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.persistence.entity.RequisitionStatusDetail[ requisitionStatusDetailId=" + requisitionStatusDetailId + " ]";
+        return "com.system.demo.persistence.entity.RequisitionStatusDetail[ requisitionStatusDetailPK=" + requisitionStatusDetailPK + " ]";
     }
     
 }

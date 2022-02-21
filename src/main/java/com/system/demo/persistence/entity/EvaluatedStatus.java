@@ -43,8 +43,8 @@ public class EvaluatedStatus implements Serializable {
     @Column(name = "evaluated_status_name", nullable = false, length = 32)
     private String evaluatedStatusName;
     @Basic(optional = false)
-    @Column(name = "evaluated_status_color", nullable = false)
-    private Character evaluatedStatusColor;
+    @Column(name = "evaluated_status_color", nullable = false, length = 32)
+    private String evaluatedStatusColor;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "evaluatedStatusId")
     private Collection<EnrollmentQualification> enrollmentQualificationCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "evaluatedStatusId")
@@ -57,7 +57,7 @@ public class EvaluatedStatus implements Serializable {
         this.evaluatedStatusId = evaluatedStatusId;
     }
 
-    public EvaluatedStatus(Long evaluatedStatusId, int evaluatedStatusIndex, String evaluatedStatusName, Character evaluatedStatusColor) {
+    public EvaluatedStatus(Long evaluatedStatusId, int evaluatedStatusIndex, String evaluatedStatusName, String evaluatedStatusColor) {
         this.evaluatedStatusId = evaluatedStatusId;
         this.evaluatedStatusIndex = evaluatedStatusIndex;
         this.evaluatedStatusName = evaluatedStatusName;
@@ -88,11 +88,11 @@ public class EvaluatedStatus implements Serializable {
         this.evaluatedStatusName = evaluatedStatusName;
     }
 
-    public Character getEvaluatedStatusColor() {
+    public String getEvaluatedStatusColor() {
         return evaluatedStatusColor;
     }
 
-    public void setEvaluatedStatusColor(Character evaluatedStatusColor) {
+    public void setEvaluatedStatusColor(String evaluatedStatusColor) {
         this.evaluatedStatusColor = evaluatedStatusColor;
     }
 

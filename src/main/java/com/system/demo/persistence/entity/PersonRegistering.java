@@ -32,7 +32,7 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "PersonRegistering.findAll", query = "SELECT p FROM PersonRegistering p"),
     @NamedQuery(name = "PersonRegistering.findByPersonRegisteringId", query = "SELECT p FROM PersonRegistering p WHERE p.personRegisteringId = :personRegisteringId"),
     @NamedQuery(name = "PersonRegistering.findByPersonRegisteringDate", query = "SELECT p FROM PersonRegistering p WHERE p.personRegisteringDate = :personRegisteringDate"),
-    @NamedQuery(name = "PersonRegistering.findByPersonRegisteringType", query = "SELECT p FROM PersonRegistering p WHERE p.personRegisteringType = :personRegisteringType")})
+    @NamedQuery(name = "PersonRegistering.findByPersonRegisteringCategory", query = "SELECT p FROM PersonRegistering p WHERE p.personRegisteringCategory = :personRegisteringCategory")})
 public class PersonRegistering implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -42,11 +42,11 @@ public class PersonRegistering implements Serializable {
     private Long personRegisteringId;
     @Basic(optional = false)
     @Column(name = "person_registering_date", nullable = false)
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date personRegisteringDate;
     @Basic(optional = false)
-    @Column(name = "person_registering_type", nullable = false)
-    private Character personRegisteringType;
+    @Column(name = "person_registering_category", nullable = false)
+    private Character personRegisteringCategory;
     @OneToMany(mappedBy = "personRegisteringId")
     private Collection<PaymentDiscountPerson> paymentDiscountPersonCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "personRegisteringId")
@@ -70,10 +70,10 @@ public class PersonRegistering implements Serializable {
         this.personRegisteringId = personRegisteringId;
     }
 
-    public PersonRegistering(Long personRegisteringId, Date personRegisteringDate, Character personRegisteringType) {
+    public PersonRegistering(Long personRegisteringId, Date personRegisteringDate, Character personRegisteringCategory) {
         this.personRegisteringId = personRegisteringId;
         this.personRegisteringDate = personRegisteringDate;
-        this.personRegisteringType = personRegisteringType;
+        this.personRegisteringCategory = personRegisteringCategory;
     }
 
     public Long getPersonRegisteringId() {
@@ -92,12 +92,12 @@ public class PersonRegistering implements Serializable {
         this.personRegisteringDate = personRegisteringDate;
     }
 
-    public Character getPersonRegisteringType() {
-        return personRegisteringType;
+    public Character getPersonRegisteringCategory() {
+        return personRegisteringCategory;
     }
 
-    public void setPersonRegisteringType(Character personRegisteringType) {
-        this.personRegisteringType = personRegisteringType;
+    public void setPersonRegisteringCategory(Character personRegisteringCategory) {
+        this.personRegisteringCategory = personRegisteringCategory;
     }
 
     public Collection<PaymentDiscountPerson> getPaymentDiscountPersonCollection() {

@@ -31,7 +31,7 @@ public class DocumentaryController {
 	
 	@Autowired
 	RequisitionStatusService requisitionStatusService;
-	
+	/*
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@GetMapping
 	@ResponseBody
@@ -54,5 +54,5 @@ public class DocumentaryController {
 			return new ResponseEntity(new Message("BLOQUED"), HttpStatus.BAD_REQUEST);
 		}
 	}
-
+*/
 }

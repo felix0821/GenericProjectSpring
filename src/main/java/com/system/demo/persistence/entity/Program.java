@@ -78,6 +78,8 @@ public class Program implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "program")
     private Collection<ProgramPeriod> programPeriodCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "program")
+    private Collection<ProgramData> programDataCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "program")
     private Collection<DataDetailProgram> dataDetailProgramCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "programId")
     private Collection<Modulus> modulusCollection;
@@ -211,6 +213,14 @@ public class Program implements Serializable {
 
     public void setProgramPeriodCollection(Collection<ProgramPeriod> programPeriodCollection) {
         this.programPeriodCollection = programPeriodCollection;
+    }
+
+    public Collection<ProgramData> getProgramDataCollection() {
+        return programDataCollection;
+    }
+
+    public void setProgramDataCollection(Collection<ProgramData> programDataCollection) {
+        this.programDataCollection = programDataCollection;
     }
 
     public Collection<DataDetailProgram> getDataDetailProgramCollection() {

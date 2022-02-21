@@ -30,7 +30,8 @@ public class GenericProjectSystemStatement {
 	public static final Long SYSTEM_REFERENCE_PERIOD = 2000001000001L;
 	public static final Long SYSTEM_REFERENCE_PROGRAM = 2000001000002L;
 	//	Recursos de uso
-	public static final Long SYSTEM_USE_ENROLLMENT = 3000001000001L;
+	public static final Long SYSTEM_USE_ENROLLMENT_SELECT = 3000001000001L;
+	public static final Long SYSTEM_USE_PAYMENT_DEPOSIT = 3000002000001L;
 	//	Recursos id de roles
 	public static final Long SYSTEM_ID_ADMINISTRATOR = 1000001000001L;
 	public static final Long SYSTEM_ID_USER = 1000001000002L;

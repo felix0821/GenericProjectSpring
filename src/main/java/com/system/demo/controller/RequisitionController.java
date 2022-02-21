@@ -49,6 +49,7 @@ import com.system.demo.persistence.entity.RequisitionDataDetail;
 import com.system.demo.persistence.entity.RequisitionDetail;
 import com.system.demo.persistence.entity.RequisitionStatus;
 import com.system.demo.persistence.entity.RequisitionStatusDetail;
+import com.system.demo.persistence.entity.RequisitionStatusDetailPK;
 import com.system.demo.persistence.repository.FinancialMovementRepository;
 import com.system.demo.security.JwtProvider;
 import com.system.demo.service.DataDetailService;
@@ -157,12 +158,13 @@ public class RequisitionController {
 			requisitionDetail.setRequisitionId(requisition);
 			requisitionDetail = requisitionDetailService.createRequisitionDetail(requisitionDetail);
 //			Objeto control documental
-			Long idReqStatusDetail = uniqueId.getUniqId();
+			//Long idReqStatusDetail = uniqueId.getUniqId();
 			int reqStatusDetailIndex = preference.getIndex(INDEX_REQUISITION_STATUS_DETAIL);
-			RequisitionStatusDetail reqStatusDetail = new RequisitionStatusDetail(idReqStatusDetail, reqStatusDetailIndex, dateRegister);
+			RequisitionStatusDetailPK idReqStatusDetail = new RequisitionStatusDetailPK(idReqDetail, SYSTEM_REQUISITION_STATUS_SEND);
+			RequisitionStatusDetail reqStatusDetail = new RequisitionStatusDetail(idReqStatusDetail);
+			reqStatusDetail.setRequisitionStatusDetailIndex(reqStatusDetailIndex);
+			reqStatusDetail.setRequisitionStatusDetailDate(dateRegister);
 			reqStatusDetail.setPersonId(person);
-			reqStatusDetail.setRequisitionStatusId(reqStatus);
-			reqStatusDetail.setRequisitionDetailId(requisitionDetail);
 			requisitionStatusDetailService.createRequisitionStatusDetail(reqStatusDetail);
 //			Registrar datos detalle
 			List<DropdownDataDto> datas = requisitionRegisterDto.getList();

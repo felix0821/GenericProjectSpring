@@ -28,6 +28,7 @@ import javax.persistence.Table;
     @NamedQuery(name = "RequisitionStatus.findByRequisitionStatusId", query = "SELECT r FROM RequisitionStatus r WHERE r.requisitionStatusId = :requisitionStatusId"),
     @NamedQuery(name = "RequisitionStatus.findByRequisitionStatusName", query = "SELECT r FROM RequisitionStatus r WHERE r.requisitionStatusName = :requisitionStatusName"),
     @NamedQuery(name = "RequisitionStatus.findByRequisitionStatusDescription", query = "SELECT r FROM RequisitionStatus r WHERE r.requisitionStatusDescription = :requisitionStatusDescription"),
+    @NamedQuery(name = "RequisitionStatus.findByRequisitionStatusColor", query = "SELECT r FROM RequisitionStatus r WHERE r.requisitionStatusColor = :requisitionStatusColor"),
     @NamedQuery(name = "RequisitionStatus.findByRequisitionStatusState", query = "SELECT r FROM RequisitionStatus r WHERE r.requisitionStatusState = :requisitionStatusState")})
 public class RequisitionStatus implements Serializable {
 
@@ -43,9 +44,12 @@ public class RequisitionStatus implements Serializable {
     @Column(name = "requisition_status_description", nullable = false, length = 128)
     private String requisitionStatusDescription;
     @Basic(optional = false)
+    @Column(name = "requisition_status_color", nullable = false, length = 32)
+    private String requisitionStatusColor;
+    @Basic(optional = false)
     @Column(name = "requisition_status_state", nullable = false)
     private Character requisitionStatusState;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisitionStatusId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisitionStatus")
     private Collection<RequisitionStatusDetail> requisitionStatusDetailCollection;
 
     public RequisitionStatus() {
@@ -55,10 +59,11 @@ public class RequisitionStatus implements Serializable {
         this.requisitionStatusId = requisitionStatusId;
     }
 
-    public RequisitionStatus(Long requisitionStatusId, String requisitionStatusName, String requisitionStatusDescription, Character requisitionStatusState) {
+    public RequisitionStatus(Long requisitionStatusId, String requisitionStatusName, String requisitionStatusDescription, String requisitionStatusColor, Character requisitionStatusState) {
         this.requisitionStatusId = requisitionStatusId;
         this.requisitionStatusName = requisitionStatusName;
         this.requisitionStatusDescription = requisitionStatusDescription;
+        this.requisitionStatusColor = requisitionStatusColor;
         this.requisitionStatusState = requisitionStatusState;
     }
 
@@ -84,6 +89,14 @@ public class RequisitionStatus implements Serializable {
 
     public void setRequisitionStatusDescription(String requisitionStatusDescription) {
         this.requisitionStatusDescription = requisitionStatusDescription;
+    }
+
+    public String getRequisitionStatusColor() {
+        return requisitionStatusColor;
+    }
+
+    public void setRequisitionStatusColor(String requisitionStatusColor) {
+        this.requisitionStatusColor = requisitionStatusColor;
     }
 
     public Character getRequisitionStatusState() {

@@ -305,7 +305,8 @@ public class ConfigurationController {
 			}
 //			°Generar valores
 	        Long idModulus = uniqueId.getUniqId();
-	        String identifierModulus = uniqueId.getIdentifier(Arrays.asList(modulusRegister.getName()));
+	        String identifierModulus = uniqueId.getIdentifier(Arrays.asList(modulusRegister.getName(), 
+	        		String.valueOf(modulusRegister.getOrder())));
 	        Integer indexModulus = preference.getIndex(INDEX_MODULUS);
 	        Character stateModulus = SYSTEM_STATE_ACTIVE;
 //			°Generar entidad

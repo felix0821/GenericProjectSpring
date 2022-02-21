@@ -15,7 +15,7 @@ import javax.persistence.Embeddable;
  * @author Felix
  */
 @Embeddable
-public class PersonIdentificationDocumentPK implements Serializable {
+public class PersonIdentificationPK implements Serializable {
 
     @Basic(optional = false)
     @Column(name = "identification_document_id", nullable = false)
@@ -24,10 +24,10 @@ public class PersonIdentificationDocumentPK implements Serializable {
     @Column(name = "person_id", nullable = false)
     private long personId;
 
-    public PersonIdentificationDocumentPK() {
+    public PersonIdentificationPK() {
     }
 
-    public PersonIdentificationDocumentPK(long identificationDocumentId, long personId) {
+    public PersonIdentificationPK(long identificationDocumentId, long personId) {
         this.identificationDocumentId = identificationDocumentId;
         this.personId = personId;
     }
@@ -59,10 +59,10 @@ public class PersonIdentificationDocumentPK implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof PersonIdentificationDocumentPK)) {
+        if (!(object instanceof PersonIdentificationPK)) {
             return false;
         }
-        PersonIdentificationDocumentPK other = (PersonIdentificationDocumentPK) object;
+        PersonIdentificationPK other = (PersonIdentificationPK) object;
         if (this.identificationDocumentId != other.identificationDocumentId) {
             return false;
         }
@@ -74,7 +74,7 @@ public class PersonIdentificationDocumentPK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.persistence.entity.PersonIdentificationDocumentPK[ identificationDocumentId=" + identificationDocumentId + ", personId=" + personId + " ]";
+        return "com.system.demo.persistence.entity.PersonIdentificationPK[ identificationDocumentId=" + identificationDocumentId + ", personId=" + personId + " ]";
     }
     
 }

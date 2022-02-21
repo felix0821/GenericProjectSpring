@@ -36,8 +36,9 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "ProgramPeriod.findByProgramPeriodPayEnrollment", query = "SELECT p FROM ProgramPeriod p WHERE p.programPeriodPayEnrollment = :programPeriodPayEnrollment"),
     @NamedQuery(name = "ProgramPeriod.findByProgramPeriodPayPension", query = "SELECT p FROM ProgramPeriod p WHERE p.programPeriodPayPension = :programPeriodPayPension"),
     @NamedQuery(name = "ProgramPeriod.findByProgramPeriodOpening", query = "SELECT p FROM ProgramPeriod p WHERE p.programPeriodOpening = :programPeriodOpening"),
-    @NamedQuery(name = "ProgramPeriod.findByProgramPeriodClosingEnrollment", query = "SELECT p FROM ProgramPeriod p WHERE p.programPeriodClosingEnrollment = :programPeriodClosingEnrollment"),
+    @NamedQuery(name = "ProgramPeriod.findByProgramPeriodEnrollmentClosure", query = "SELECT p FROM ProgramPeriod p WHERE p.programPeriodEnrollmentClosure = :programPeriodEnrollmentClosure"),
     @NamedQuery(name = "ProgramPeriod.findByProgramPeriodClosing", query = "SELECT p FROM ProgramPeriod p WHERE p.programPeriodClosing = :programPeriodClosing"),
+    @NamedQuery(name = "ProgramPeriod.findByProgramPeriodWeeks", query = "SELECT p FROM ProgramPeriod p WHERE p.programPeriodWeeks = :programPeriodWeeks"),
     @NamedQuery(name = "ProgramPeriod.findByProgramPeriodState", query = "SELECT p FROM ProgramPeriod p WHERE p.programPeriodState = :programPeriodState")})
 public class ProgramPeriod implements Serializable {
 
@@ -58,13 +59,16 @@ public class ProgramPeriod implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date programPeriodOpening;
     @Basic(optional = false)
-    @Column(name = "program_period_closing_enrollment", nullable = false)
+    @Column(name = "program_period_enrollment_closure", nullable = false)
     @Temporal(TemporalType.DATE)
-    private Date programPeriodClosingEnrollment;
+    private Date programPeriodEnrollmentClosure;
     @Basic(optional = false)
     @Column(name = "program_period_closing", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date programPeriodClosing;
+    @Basic(optional = false)
+    @Column(name = "program_period_weeks", nullable = false)
+    private int programPeriodWeeks;
     @Basic(optional = false)
     @Column(name = "program_period_state", nullable = false)
     private Character programPeriodState;
@@ -86,14 +90,15 @@ public class ProgramPeriod implements Serializable {
         this.programPeriodPK = programPeriodPK;
     }
 
-    public ProgramPeriod(ProgramPeriodPK programPeriodPK, int programPeriodIndex, double programPeriodPayEnrollment, double programPeriodPayPension, Date programPeriodOpening, Date programPeriodClosingEnrollment, Date programPeriodClosing, Character programPeriodState) {
+    public ProgramPeriod(ProgramPeriodPK programPeriodPK, int programPeriodIndex, double programPeriodPayEnrollment, double programPeriodPayPension, Date programPeriodOpening, Date programPeriodEnrollmentClosure, Date programPeriodClosing, int programPeriodWeeks, Character programPeriodState) {
         this.programPeriodPK = programPeriodPK;
         this.programPeriodIndex = programPeriodIndex;
         this.programPeriodPayEnrollment = programPeriodPayEnrollment;
         this.programPeriodPayPension = programPeriodPayPension;
         this.programPeriodOpening = programPeriodOpening;
-        this.programPeriodClosingEnrollment = programPeriodClosingEnrollment;
+        this.programPeriodEnrollmentClosure = programPeriodEnrollmentClosure;
         this.programPeriodClosing = programPeriodClosing;
+        this.programPeriodWeeks = programPeriodWeeks;
         this.programPeriodState = programPeriodState;
     }
 
@@ -141,12 +146,12 @@ public class ProgramPeriod implements Serializable {
         this.programPeriodOpening = programPeriodOpening;
     }
 
-    public Date getProgramPeriodClosingEnrollment() {
-        return programPeriodClosingEnrollment;
+    public Date getProgramPeriodEnrollmentClosure() {
+        return programPeriodEnrollmentClosure;
     }
 
-    public void setProgramPeriodClosingEnrollment(Date programPeriodClosingEnrollment) {
-        this.programPeriodClosingEnrollment = programPeriodClosingEnrollment;
+    public void setProgramPeriodEnrollmentClosure(Date programPeriodEnrollmentClosure) {
+        this.programPeriodEnrollmentClosure = programPeriodEnrollmentClosure;
     }
 
     public Date getProgramPeriodClosing() {
@@ -155,6 +160,14 @@ public class ProgramPeriod implements Serializable {
 
     public void setProgramPeriodClosing(Date programPeriodClosing) {
         this.programPeriodClosing = programPeriodClosing;
+    }
+
+    public int getProgramPeriodWeeks() {
+        return programPeriodWeeks;
+    }
+
+    public void setProgramPeriodWeeks(int programPeriodWeeks) {
+        this.programPeriodWeeks = programPeriodWeeks;
     }
 
     public Character getProgramPeriodState() {

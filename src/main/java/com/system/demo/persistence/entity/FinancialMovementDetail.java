@@ -50,7 +50,7 @@ public class FinancialMovementDetail implements Serializable {
     private Integer financialMovementDetailOperationNumber;
     @Basic(optional = false)
     @Column(name = "financial_movement_detail_date", nullable = false)
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date financialMovementDetailDate;
     @Basic(optional = false)
     @Column(name = "financial_movement_detail_register_type", nullable = false)
@@ -63,8 +63,8 @@ public class FinancialMovementDetail implements Serializable {
     @JoinColumn(name = "financial_movement_id", referencedColumnName = "financial_movement_id", nullable = false)
     @ManyToOne(optional = false)
     private FinancialMovement financialMovementId;
-    @JoinColumn(name = "person_registering_id", referencedColumnName = "person_registering_id")
-    @ManyToOne(optional = true)
+    @JoinColumn(name = "person_registering_id", referencedColumnName = "person_registering_id", nullable = false)
+    @ManyToOne(optional = false)
     private PersonRegistering personRegisteringId;
 
     public FinancialMovementDetail() {

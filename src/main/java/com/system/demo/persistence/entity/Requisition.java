@@ -30,6 +30,7 @@ import javax.persistence.UniqueConstraint;
     @NamedQuery(name = "Requisition.findByRequisitionId", query = "SELECT r FROM Requisition r WHERE r.requisitionId = :requisitionId"),
     @NamedQuery(name = "Requisition.findByRequisitionName", query = "SELECT r FROM Requisition r WHERE r.requisitionName = :requisitionName"),
     @NamedQuery(name = "Requisition.findByRequisitionDescription", query = "SELECT r FROM Requisition r WHERE r.requisitionDescription = :requisitionDescription"),
+    @NamedQuery(name = "Requisition.findByRequisitionType", query = "SELECT r FROM Requisition r WHERE r.requisitionType = :requisitionType"),
     @NamedQuery(name = "Requisition.findByRequisitionState", query = "SELECT r FROM Requisition r WHERE r.requisitionState = :requisitionState")})
 public class Requisition implements Serializable {
 
@@ -43,6 +44,9 @@ public class Requisition implements Serializable {
     private String requisitionName;
     @Column(name = "requisition_description", length = 128)
     private String requisitionDescription;
+    @Basic(optional = false)
+    @Column(name = "requisition_type", nullable = false)
+    private Character requisitionType;
     @Basic(optional = false)
     @Column(name = "requisition_state", nullable = false)
     private Character requisitionState;
@@ -64,9 +68,10 @@ public class Requisition implements Serializable {
         this.requisitionId = requisitionId;
     }
 
-    public Requisition(Long requisitionId, String requisitionName, Character requisitionState) {
+    public Requisition(Long requisitionId, String requisitionName, Character requisitionType, Character requisitionState) {
         this.requisitionId = requisitionId;
         this.requisitionName = requisitionName;
+        this.requisitionType = requisitionType;
         this.requisitionState = requisitionState;
     }
 
@@ -92,6 +97,14 @@ public class Requisition implements Serializable {
 
     public void setRequisitionDescription(String requisitionDescription) {
         this.requisitionDescription = requisitionDescription;
+    }
+
+    public Character getRequisitionType() {
+        return requisitionType;
+    }
+
+    public void setRequisitionType(Character requisitionType) {
+        this.requisitionType = requisitionType;
     }
 
     public Character getRequisitionState() {

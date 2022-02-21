@@ -38,13 +38,13 @@ import com.system.demo.dto.specific.PersonRolesDetailDto;
 import com.system.demo.dto.specific.PersonRolesHeaderDto;
 import com.system.demo.persistence.entity.Gender;
 import com.system.demo.persistence.entity.Person;
-import com.system.demo.persistence.entity.PersonIdentificationDocument;
+import com.system.demo.persistence.entity.PersonIdentification;
 import com.system.demo.persistence.entity.PersonRole;
 import com.system.demo.persistence.entity.Role;
 import com.system.demo.security.AclFilterVerify;
 import com.system.demo.security.JwtProvider;
 import com.system.demo.service.GenderService;
-import com.system.demo.service.PersonIdentificationDocumentService;
+import com.system.demo.service.PersonIdentificationService;
 import com.system.demo.service.PersonRoleService;
 import com.system.demo.service.PersonService;
 import com.system.demo.service.RoleService;
@@ -78,7 +78,7 @@ public class PersonController {
 	GenderService genderService;
 	
 	@Autowired
-	PersonIdentificationDocumentService personIdentDocService;
+	PersonIdentificationService personIdentDocService;
 	
 	@Autowired
 	UniqIdUtility uI;
@@ -117,12 +117,12 @@ public class PersonController {
 		try {
 			String userFromToken = usernameFromToken(headers);
 	        Person person = personService.getPersonByUsername(userFromToken).get();
-	        PersonIdentificationDocument dniFromPerson = null;
+	        PersonIdentification dniFromPerson = null;
 	        String dni=null;
 	        try {
-	        	dniFromPerson = personIdentDocService.getPersonIdentificationDocumentById(SYSTEM_IDENTIFICATION_DNI, 
+	        	dniFromPerson = personIdentDocService.getPersonIdentificationById(SYSTEM_IDENTIFICATION_DNI, 
 	        			person.getPersonId()).get();
-	        	dni = dniFromPerson.getPersonIdentificationDocumentValue();
+	        	dni = dniFromPerson.getPersonIdentificationValue();
 	        } catch (Exception e) {
 	        	System.out.println(e);
 	        }
@@ -202,9 +202,9 @@ public class PersonController {
         person.setGenderId(gender);
         personService.createPerson(person);
         //Agregar documento de identidad a nuevo usuario
-        PersonIdentificationDocument personIdentificationDocument = new PersonIdentificationDocument(SYSTEM_IDENTIFICATION_DNI,personId);
-        personIdentificationDocument.setPersonIdentificationDocumentValue(personRegister.getDni());
-        personIdentDocService.createPersonIdentificationDocument(personIdentificationDocument);
+        PersonIdentification personIdentificationDocument = new PersonIdentification(SYSTEM_IDENTIFICATION_DNI,personId);
+        personIdentificationDocument.setPersonIdentificationValue(personRegister.getDni());
+        personIdentDocService.createPersonIdentification(personIdentificationDocument);
         //Agregar rol a nuevo usuario
         PersonRole personRol = new PersonRole(personId,SYSTEM_ID_USER);
 		personRol.setPersonRoleState(SYSTEM_STATE_ACTIVE);

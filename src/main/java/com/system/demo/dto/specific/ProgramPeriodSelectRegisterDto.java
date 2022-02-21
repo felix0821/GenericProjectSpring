@@ -3,6 +3,7 @@ package com.system.demo.dto.specific;
 import java.util.Date;
 
 import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -23,9 +24,8 @@ public class ProgramPeriodSelectRegisterDto {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date dateClosingEnrollmet;
 	
-	@NotNull(message = "Ingrese una fecha valida")
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date dateClosing;
+	@Min(value = 0, message = "Ingrese un número mayor a 0")
+	private int weeks;
 	
 	@DecimalMin(value = "0", message = "Ingrese un número mayor a 0")
 	private double payEnrollmet;
@@ -37,7 +37,7 @@ public class ProgramPeriodSelectRegisterDto {
 			@NotNull(message = "Ingrese un id valido") Long idProgram,
 			@NotNull(message = "Ingrese una fecha valida") Date dateOpening,
 			@NotNull(message = "Ingrese una fecha valida") Date dateClosingEnrollmet,
-			@NotNull(message = "Ingrese una fecha valida") Date dateClosing,
+			@Min(value = 0, message = "Ingrese un número mayor a 0") int weeks,
 			@DecimalMin(value = "0", message = "Ingrese un número mayor a 0") double payEnrollmet,
 			@DecimalMin(value = "0", message = "Ingrese un número mayor a 0") double payPension) {
 		super();
@@ -45,7 +45,7 @@ public class ProgramPeriodSelectRegisterDto {
 		this.idProgram = idProgram;
 		this.dateOpening = dateOpening;
 		this.dateClosingEnrollmet = dateClosingEnrollmet;
-		this.dateClosing = dateClosing;
+		this.weeks = weeks;
 		this.payEnrollmet = payEnrollmet;
 		this.payPension = payPension;
 	}
@@ -82,12 +82,12 @@ public class ProgramPeriodSelectRegisterDto {
 		this.dateClosingEnrollmet = dateClosingEnrollmet;
 	}
 
-	public Date getDateClosing() {
-		return dateClosing;
+	public int getWeeks() {
+		return weeks;
 	}
 
-	public void setDateClosing(Date dateClosing) {
-		this.dateClosing = dateClosing;
+	public void setWeeks(int weeks) {
+		this.weeks = weeks;
 	}
 
 	public double getPayEnrollmet() {

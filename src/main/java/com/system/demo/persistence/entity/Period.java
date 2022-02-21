@@ -66,6 +66,8 @@ public class Period implements Serializable {
     private Collection<DataDetailPeriod> dataDetailPeriodCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "period")
     private Collection<ProgramPeriod> programPeriodCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "period")
+    private Collection<PeriodData> periodDataCollection;
 
     public Period() {
     }
@@ -162,6 +164,14 @@ public class Period implements Serializable {
 
     public void setProgramPeriodCollection(Collection<ProgramPeriod> programPeriodCollection) {
         this.programPeriodCollection = programPeriodCollection;
+    }
+
+    public Collection<PeriodData> getPeriodDataCollection() {
+        return periodDataCollection;
+    }
+
+    public void setPeriodDataCollection(Collection<PeriodData> periodDataCollection) {
+        this.periodDataCollection = periodDataCollection;
     }
 
     @Override

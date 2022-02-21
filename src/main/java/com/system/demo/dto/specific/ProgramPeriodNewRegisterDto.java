@@ -3,6 +3,7 @@ package com.system.demo.dto.specific;
 import java.util.Date;
 
 import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -37,9 +38,8 @@ public class ProgramPeriodNewRegisterDto {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date dateClosingEnrollmet;
 	
-	@NotNull(message = "Ingrese una fecha valida")
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date dateClosing;
+	@Min(value = 0, message = "Ingrese un número mayor a 0")
+	private int weeks;
 	
 	@DecimalMin(value = "0", message = "Ingrese un número mayor a 0")
 	private double payEnrollmet;
@@ -103,12 +103,12 @@ public class ProgramPeriodNewRegisterDto {
 		this.dateClosingEnrollmet = dateClosingEnrollmet;
 	}
 
-	public Date getDateClosing() {
-		return dateClosing;
+	public int getWeeks() {
+		return weeks;
 	}
 
-	public void setDateClosing(Date dateClosing) {
-		this.dateClosing = dateClosing;
+	public void setWeeks(int weeks) {
+		this.weeks = weeks;
 	}
 
 	public double getPayEnrollmet() {

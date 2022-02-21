@@ -38,7 +38,8 @@ public class DataReference implements Serializable {
     @Basic(optional = false)
     @Column(name = "data_reference_name", nullable = false, length = 64)
     private String dataReferenceName;
-    @Column(name = "data_reference_description", length = 128)
+    @Basic(optional = false)
+    @Column(name = "data_reference_description", nullable = false, length = 128)
     private String dataReferenceDescription;
     @OneToMany(mappedBy = "dataReferenceId")
     private Collection<Data> dataCollection;
@@ -52,9 +53,10 @@ public class DataReference implements Serializable {
         this.dataReferenceId = dataReferenceId;
     }
 
-    public DataReference(Long dataReferenceId, String dataReferenceName) {
+    public DataReference(Long dataReferenceId, String dataReferenceName, String dataReferenceDescription) {
         this.dataReferenceId = dataReferenceId;
         this.dataReferenceName = dataReferenceName;
+        this.dataReferenceDescription = dataReferenceDescription;
     }
 
     public Long getDataReferenceId() {

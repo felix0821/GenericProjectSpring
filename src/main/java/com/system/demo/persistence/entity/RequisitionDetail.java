@@ -45,7 +45,7 @@ public class RequisitionDetail implements Serializable {
     private boolean requisitionDetailChecking;
     @Basic(optional = false)
     @Column(name = "requisition_detail_date", nullable = false)
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date requisitionDetailDate;
     @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false)
     @ManyToOne(optional = false)
@@ -59,11 +59,11 @@ public class RequisitionDetail implements Serializable {
     private Collection<FinancialMovementRequisition> financialMovementRequisitionCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisitionDetailId")
     private Collection<RequisitionRemark> requisitionRemarkCollection;
+    @OneToMany(mappedBy = "requisitionDetailId")
+    private Collection<EnrollmentProgram> enrollmentProgramCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisitionDetail")
     private Collection<RequisitionDataDetail> requisitionDataDetailCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisitionDetail")
-    private Collection<RequisitionEnrollmentProgram> requisitionEnrollmentProgramCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisitionDetailId")
     private Collection<RequisitionStatusDetail> requisitionStatusDetailCollection;
 
     public RequisitionDetail() {
@@ -143,20 +143,20 @@ public class RequisitionDetail implements Serializable {
         this.requisitionRemarkCollection = requisitionRemarkCollection;
     }
 
+    public Collection<EnrollmentProgram> getEnrollmentProgramCollection() {
+        return enrollmentProgramCollection;
+    }
+
+    public void setEnrollmentProgramCollection(Collection<EnrollmentProgram> enrollmentProgramCollection) {
+        this.enrollmentProgramCollection = enrollmentProgramCollection;
+    }
+
     public Collection<RequisitionDataDetail> getRequisitionDataDetailCollection() {
         return requisitionDataDetailCollection;
     }
 
     public void setRequisitionDataDetailCollection(Collection<RequisitionDataDetail> requisitionDataDetailCollection) {
         this.requisitionDataDetailCollection = requisitionDataDetailCollection;
-    }
-
-    public Collection<RequisitionEnrollmentProgram> getRequisitionEnrollmentProgramCollection() {
-        return requisitionEnrollmentProgramCollection;
-    }
-
-    public void setRequisitionEnrollmentProgramCollection(Collection<RequisitionEnrollmentProgram> requisitionEnrollmentProgramCollection) {
-        this.requisitionEnrollmentProgramCollection = requisitionEnrollmentProgramCollection;
     }
 
     public Collection<RequisitionStatusDetail> getRequisitionStatusDetailCollection() {

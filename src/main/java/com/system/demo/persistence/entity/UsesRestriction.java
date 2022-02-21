@@ -24,8 +24,8 @@ import javax.persistence.Table;
 @Table(name = "uses_restriction")
 @NamedQueries({
     @NamedQuery(name = "UsesRestriction.findAll", query = "SELECT u FROM UsesRestriction u"),
-    @NamedQuery(name = "UsesRestriction.findByDataReferenceId", query = "SELECT u FROM UsesRestriction u WHERE u.usesRestrictionPK.dataReferenceId = :dataReferenceId"),
     @NamedQuery(name = "UsesRestriction.findByUsesId", query = "SELECT u FROM UsesRestriction u WHERE u.usesRestrictionPK.usesId = :usesId"),
+    @NamedQuery(name = "UsesRestriction.findByDataReferenceId", query = "SELECT u FROM UsesRestriction u WHERE u.usesRestrictionPK.dataReferenceId = :dataReferenceId"),
     @NamedQuery(name = "UsesRestriction.findByUsesRestrictionState", query = "SELECT u FROM UsesRestriction u WHERE u.usesRestrictionState = :usesRestrictionState")})
 public class UsesRestriction implements Serializable {
 
@@ -54,8 +54,8 @@ public class UsesRestriction implements Serializable {
         this.usesRestrictionState = usesRestrictionState;
     }
 
-    public UsesRestriction(long dataReferenceId, long usesId) {
-        this.usesRestrictionPK = new UsesRestrictionPK(dataReferenceId, usesId);
+    public UsesRestriction(long usesId, long dataReferenceId) {
+        this.usesRestrictionPK = new UsesRestrictionPK(usesId, dataReferenceId);
     }
 
     public UsesRestrictionPK getUsesRestrictionPK() {

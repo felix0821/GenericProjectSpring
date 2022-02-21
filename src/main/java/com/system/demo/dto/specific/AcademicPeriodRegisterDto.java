@@ -24,8 +24,8 @@ public class AcademicPeriodRegisterDto {
 	private Date dateOpening;
 	@NotNull(message = "Ingrese una fecha valida")
 	private Date dateClosingEnrollmet;
-	@NotNull(message = "Ingrese una fecha valida")
-	private Date dateClosing;
+	@Min(value = 0, message = "Ingrese un número mayor a 0")
+	private int weeks;
 	@DecimalMin(value = "0", message = "Ingrese un número mayor a 0")
 	private double payEnrollmet;
 	@DecimalMin(value = "0", message = "Ingrese un número mayor a 0")
@@ -67,11 +67,14 @@ public class AcademicPeriodRegisterDto {
 	public void setDateClosingingEnrollmet(Date dateClosingEnrollmet) {
 		this.dateClosingEnrollmet = dateClosingEnrollmet;
 	}
-	public Date getDateClosing() {
-		return dateClosing;
+	public int getWeeks() {
+		return weeks;
 	}
-	public void setDateClosing(Date dateClosing) {
-		this.dateClosing = dateClosing;
+	public void setWeeks(int weeks) {
+		this.weeks = weeks;
+	}
+	public void setDateClosingEnrollmet(Date dateClosingEnrollmet) {
+		this.dateClosingEnrollmet = dateClosingEnrollmet;
 	}
 	public double getPayEnrollmet() {
 		return payEnrollmet;

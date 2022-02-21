@@ -30,7 +30,12 @@ import javax.persistence.Table;
     @NamedQuery(name = "Data.findByDataId", query = "SELECT d FROM Data d WHERE d.dataId = :dataId"),
     @NamedQuery(name = "Data.findByDataName", query = "SELECT d FROM Data d WHERE d.dataName = :dataName"),
     @NamedQuery(name = "Data.findByDataDescription", query = "SELECT d FROM Data d WHERE d.dataDescription = :dataDescription"),
+    @NamedQuery(name = "Data.findByDataValue", query = "SELECT d FROM Data d WHERE d.dataValue = :dataValue"),
     @NamedQuery(name = "Data.findByDataPlaceholder", query = "SELECT d FROM Data d WHERE d.dataPlaceholder = :dataPlaceholder"),
+    @NamedQuery(name = "Data.findByDataPattern", query = "SELECT d FROM Data d WHERE d.dataPattern = :dataPattern"),
+    @NamedQuery(name = "Data.findByDataRequired", query = "SELECT d FROM Data d WHERE d.dataRequired = :dataRequired"),
+    @NamedQuery(name = "Data.findByDataDisable", query = "SELECT d FROM Data d WHERE d.dataDisable = :dataDisable"),
+    @NamedQuery(name = "Data.findByDataHidden", query = "SELECT d FROM Data d WHERE d.dataHidden = :dataHidden"),
     @NamedQuery(name = "Data.findByDataType", query = "SELECT d FROM Data d WHERE d.dataType = :dataType"),
     @NamedQuery(name = "Data.findByDataState", query = "SELECT d FROM Data d WHERE d.dataState = :dataState")})
 public class Data implements Serializable {
@@ -45,8 +50,21 @@ public class Data implements Serializable {
     private String dataName;
     @Column(name = "data_description", length = 128)
     private String dataDescription;
+    @Column(name = "data_value", length = 256)
+    private String dataValue;
     @Column(name = "data_placeholder", length = 64)
     private String dataPlaceholder;
+    @Column(name = "data_pattern", length = 64)
+    private String dataPattern;
+    @Basic(optional = false)
+    @Column(name = "data_required", nullable = false)
+    private boolean dataRequired;
+    @Basic(optional = false)
+    @Column(name = "data_disable", nullable = false)
+    private boolean dataDisable;
+    @Basic(optional = false)
+    @Column(name = "data_hidden", nullable = false)
+    private boolean dataHidden;
     @Basic(optional = false)
     @Column(name = "data_type", nullable = false)
     private Character dataType;
@@ -70,6 +88,10 @@ public class Data implements Serializable {
     private Collection<RequisitionData> requisitionDataCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "data")
     private Collection<PersonData> personDataCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "data")
+    private Collection<PeriodData> periodDataCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "data")
+    private Collection<ProgramData> programDataCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "dataId")
     private Collection<DataDetail> dataDetailCollection;
 
@@ -80,9 +102,12 @@ public class Data implements Serializable {
         this.dataId = dataId;
     }
 
-    public Data(Long dataId, String dataName, Character dataType, Character dataState) {
+    public Data(Long dataId, String dataName, boolean dataRequired, boolean dataDisable, boolean dataHidden, Character dataType, Character dataState) {
         this.dataId = dataId;
         this.dataName = dataName;
+        this.dataRequired = dataRequired;
+        this.dataDisable = dataDisable;
+        this.dataHidden = dataHidden;
         this.dataType = dataType;
         this.dataState = dataState;
     }
@@ -111,12 +136,52 @@ public class Data implements Serializable {
         this.dataDescription = dataDescription;
     }
 
+    public String getDataValue() {
+        return dataValue;
+    }
+
+    public void setDataValue(String dataValue) {
+        this.dataValue = dataValue;
+    }
+
     public String getDataPlaceholder() {
         return dataPlaceholder;
     }
 
     public void setDataPlaceholder(String dataPlaceholder) {
         this.dataPlaceholder = dataPlaceholder;
+    }
+
+    public String getDataPattern() {
+        return dataPattern;
+    }
+
+    public void setDataPattern(String dataPattern) {
+        this.dataPattern = dataPattern;
+    }
+
+    public boolean getDataRequired() {
+        return dataRequired;
+    }
+
+    public void setDataRequired(boolean dataRequired) {
+        this.dataRequired = dataRequired;
+    }
+
+    public boolean getDataDisable() {
+        return dataDisable;
+    }
+
+    public void setDataDisable(boolean dataDisable) {
+        this.dataDisable = dataDisable;
+    }
+
+    public boolean getDataHidden() {
+        return dataHidden;
+    }
+
+    public void setDataHidden(boolean dataHidden) {
+        this.dataHidden = dataHidden;
     }
 
     public Character getDataType() {
@@ -189,6 +254,22 @@ public class Data implements Serializable {
 
     public void setPersonDataCollection(Collection<PersonData> personDataCollection) {
         this.personDataCollection = personDataCollection;
+    }
+
+    public Collection<PeriodData> getPeriodDataCollection() {
+        return periodDataCollection;
+    }
+
+    public void setPeriodDataCollection(Collection<PeriodData> periodDataCollection) {
+        this.periodDataCollection = periodDataCollection;
+    }
+
+    public Collection<ProgramData> getProgramDataCollection() {
+        return programDataCollection;
+    }
+
+    public void setProgramDataCollection(Collection<ProgramData> programDataCollection) {
+        this.programDataCollection = programDataCollection;
     }
 
     public Collection<DataDetail> getDataDetailCollection() {

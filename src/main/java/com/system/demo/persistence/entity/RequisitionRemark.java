@@ -46,7 +46,7 @@ public class RequisitionRemark implements Serializable {
     private String requisitionRemarkContent;
     @Basic(optional = false)
     @Column(name = "requisition_remark_date", nullable = false)
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date requisitionRemarkDate;
     @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false)
     @ManyToOne(optional = false)

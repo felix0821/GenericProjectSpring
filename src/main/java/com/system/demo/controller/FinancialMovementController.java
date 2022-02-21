@@ -55,15 +55,12 @@ public class FinancialMovementController {
 			Iterable<FinancialMovementDetail> financialMovDetailList = financialMovementDetailService.getAllFinancialMovementDetail();
 			List<FinancialMovementListDto> financialMovDetailListDto = new ArrayList<>();
 			for (FinancialMovementDetail fMovDetail : financialMovDetailList) {
-				//System.out.println("-----------------------"+fMovDetail.getFinancialMovementDetailId());
 				long idFmovDetail = fMovDetail.getFinancialMovementDetailId();
 				Iterable<FinancialMovementRequisition> fMovReq = financialMovementRequisitionService.findByFinancialMovementDetailId(idFmovDetail);
-				System.out.println("-----------------------"+fMovDetail.getFinancialMovementDetailId());
 				FinancialMovementRequisition fmov= null;
 				for(FinancialMovementRequisition f:fMovReq) {
 					fmov=f;
 				}
-				
 				RequisitionDataDetailPK id = new RequisitionDataDetailPK(1L,10006L,fmov.getRequisitionDetail().getRequisitionDetailId());
 				Optional<RequisitionDataDetail> reqDataDet = requisitionDataDetailRepository.findById(id);
 				FinancialMovementListDto rec = new FinancialMovementListDto(fMovDetail.getFinancialMovementDetailId(),

@@ -18,25 +18,17 @@ import javax.persistence.Embeddable;
 public class UsesRestrictionPK implements Serializable {
 
     @Basic(optional = false)
-    @Column(name = "data_reference_id", nullable = false)
-    private long dataReferenceId;
-    @Basic(optional = false)
     @Column(name = "uses_id", nullable = false)
     private long usesId;
+    @Basic(optional = false)
+    @Column(name = "data_reference_id", nullable = false)
+    private long dataReferenceId;
 
     public UsesRestrictionPK() {
     }
 
-    public UsesRestrictionPK(long dataReferenceId, long usesId) {
-        this.dataReferenceId = dataReferenceId;
+    public UsesRestrictionPK(long usesId, long dataReferenceId) {
         this.usesId = usesId;
-    }
-
-    public long getDataReferenceId() {
-        return dataReferenceId;
-    }
-
-    public void setDataReferenceId(long dataReferenceId) {
         this.dataReferenceId = dataReferenceId;
     }
 
@@ -48,11 +40,19 @@ public class UsesRestrictionPK implements Serializable {
         this.usesId = usesId;
     }
 
+    public long getDataReferenceId() {
+        return dataReferenceId;
+    }
+
+    public void setDataReferenceId(long dataReferenceId) {
+        this.dataReferenceId = dataReferenceId;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (int) dataReferenceId;
         hash += (int) usesId;
+        hash += (int) dataReferenceId;
         return hash;
     }
 
@@ -63,10 +63,10 @@ public class UsesRestrictionPK implements Serializable {
             return false;
         }
         UsesRestrictionPK other = (UsesRestrictionPK) object;
-        if (this.dataReferenceId != other.dataReferenceId) {
+        if (this.usesId != other.usesId) {
             return false;
         }
-        if (this.usesId != other.usesId) {
+        if (this.dataReferenceId != other.dataReferenceId) {
             return false;
         }
         return true;
@@ -74,7 +74,7 @@ public class UsesRestrictionPK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.persistence.entity.UsesRestrictionPK[ dataReferenceId=" + dataReferenceId + ", usesId=" + usesId + " ]";
+        return "com.system.demo.persistence.entity.UsesRestrictionPK[ usesId=" + usesId + ", dataReferenceId=" + dataReferenceId + " ]";
     }
     
 }

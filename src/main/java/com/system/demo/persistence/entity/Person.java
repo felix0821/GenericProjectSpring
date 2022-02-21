@@ -72,7 +72,7 @@ public class Person implements Serializable {
     private Date personDateBirth;
     @Basic(optional = false)
     @Column(name = "person_date_registration", nullable = false)
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date personDateRegistration;
     @Basic(optional = false)
     @Column(name = "person_email", nullable = false, length = 128)
@@ -103,14 +103,14 @@ public class Person implements Serializable {
     private Collection<EnrollmentProgram> enrollmentProgramCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
     private Collection<Assistance> assistanceCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
-    private Collection<PersonIdentificationDocument> personIdentificationDocumentCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId")
     private Collection<PersonRegistering> personRegisteringCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId")
     private Collection<PedagogicalSchedulePayment> pedagogicalSchedulePaymentCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
     private Collection<EnrollmentCourse> enrollmentCourseCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
+    private Collection<PersonIdentification> personIdentificationCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId")
     private Collection<RequisitionStatusDetail> requisitionStatusDetailCollection;
     
@@ -304,14 +304,6 @@ public class Person implements Serializable {
         this.assistanceCollection = assistanceCollection;
     }
 
-    public Collection<PersonIdentificationDocument> getPersonIdentificationDocumentCollection() {
-        return personIdentificationDocumentCollection;
-    }
-
-    public void setPersonIdentificationDocumentCollection(Collection<PersonIdentificationDocument> personIdentificationDocumentCollection) {
-        this.personIdentificationDocumentCollection = personIdentificationDocumentCollection;
-    }
-
     public Collection<PersonRegistering> getPersonRegisteringCollection() {
         return personRegisteringCollection;
     }
@@ -336,6 +328,14 @@ public class Person implements Serializable {
         this.enrollmentCourseCollection = enrollmentCourseCollection;
     }
 
+    public Collection<PersonIdentification> getPersonIdentificationCollection() {
+        return personIdentificationCollection;
+    }
+
+    public void setPersonIdentificationCollection(Collection<PersonIdentification> personIdentificationCollection) {
+        this.personIdentificationCollection = personIdentificationCollection;
+    }
+
     public Collection<RequisitionStatusDetail> getRequisitionStatusDetailCollection() {
         return requisitionStatusDetailCollection;
     }
@@ -343,6 +343,8 @@ public class Person implements Serializable {
     public void setRequisitionStatusDetailCollection(Collection<RequisitionStatusDetail> requisitionStatusDetailCollection) {
         this.requisitionStatusDetailCollection = requisitionStatusDetailCollection;
     }
+    
+    
 
     public String getConfirmPassword() {
 		return confirmPassword;

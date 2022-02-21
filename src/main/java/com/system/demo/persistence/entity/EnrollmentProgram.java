@@ -6,10 +6,8 @@
 package com.system.demo.persistence.entity;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -18,7 +16,6 @@ import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -44,7 +41,7 @@ public class EnrollmentProgram implements Serializable {
     protected EnrollmentProgramPK enrollmentProgramPK;
     @Basic(optional = false)
     @Column(name = "enrollment_program_date", nullable = false)
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date enrollmentProgramDate;
     @Basic(optional = false)
     @Column(name = "enrollment_program_checking", nullable = false)
@@ -60,8 +57,9 @@ public class EnrollmentProgram implements Serializable {
         @JoinColumn(name = "period_id", referencedColumnName = "period_id", nullable = false, insertable = false, updatable = false)})
     @ManyToOne(optional = false)
     private ProgramPeriod programPeriod;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "enrollmentProgram")
-    private Collection<RequisitionEnrollmentProgram> requisitionEnrollmentProgramCollection;
+    @JoinColumn(name = "requisition_detail_id", referencedColumnName = "requisition_detail_id")
+    @ManyToOne
+    private RequisitionDetail requisitionDetailId;
 
     public EnrollmentProgram() {
     }
@@ -129,12 +127,12 @@ public class EnrollmentProgram implements Serializable {
         this.programPeriod = programPeriod;
     }
 
-    public Collection<RequisitionEnrollmentProgram> getRequisitionEnrollmentProgramCollection() {
-        return requisitionEnrollmentProgramCollection;
+    public RequisitionDetail getRequisitionDetailId() {
+        return requisitionDetailId;
     }
 
-    public void setRequisitionEnrollmentProgramCollection(Collection<RequisitionEnrollmentProgram> requisitionEnrollmentProgramCollection) {
-        this.requisitionEnrollmentProgramCollection = requisitionEnrollmentProgramCollection;
+    public void setRequisitionDetailId(RequisitionDetail requisitionDetailId) {
+        this.requisitionDetailId = requisitionDetailId;
     }
 
     @Override
