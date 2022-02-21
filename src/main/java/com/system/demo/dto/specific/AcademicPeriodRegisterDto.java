@@ -26,6 +26,8 @@ public class AcademicPeriodRegisterDto {
 	private Date dateClosingEnrollmet;
 	@Min(value = 0, message = "Ingrese un número mayor a 0")
 	private int weeks;
+	@NotNull(message = "Ingrese una fecha valida")
+	private Date dateClosing;
 	@DecimalMin(value = "0", message = "Ingrese un número mayor a 0")
 	private double payEnrollmet;
 	@DecimalMin(value = "0", message = "Ingrese un número mayor a 0")
@@ -87,6 +89,12 @@ public class AcademicPeriodRegisterDto {
 	}
 	public void setPayPension(double payPension) {
 		this.payPension = payPension;
+	}
+	public Date getDateClosing() {
+		return dateClosing;
+	}
+	public void setDateClosing(Date dateClosing) {
+		this.dateClosing = dateClosing;
 	}
 
 	

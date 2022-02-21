@@ -225,13 +225,13 @@ public class AcademicController {
 		        	ProgramPeriodPK idProgPeriod = new ProgramPeriodPK(program.getProgramId(), pedPeriod.getPeriodId());
 		        	Integer indexProgPeriod = preference.getIndex(INDEX_PROGRAM_PERIOD);
 		        	Character stateProgPeriod = SYSTEM_STATE_ACTIVE;
-		        	LocalDateTime progClos =  convertToLocalDateTimeViaInstant(periodRegister.getDateOpening());
+		        	/*LocalDateTime progClos =  convertToLocalDateTimeViaInstant(periodRegister.getDateOpening());
 					progClos = LocalDateTime.now().plusWeeks(periodRegister.getWeeks());
-					convertToDateViaInstant(progClos);
+					convertToDateViaInstant(progClos);*/
 //			    	°Generar entidad
 		        	ProgramPeriod progPeriod = new ProgramPeriod(idProgPeriod, indexProgPeriod, periodRegister.getPayEnrollmet(), 
 		        			periodRegister.getPayPension(), periodRegister.getDateOpening(), periodRegister.getDateClosingEnrollmet(), 
-		        			convertToDateViaInstant(progClos), periodRegister.getWeeks(), stateProgPeriod);
+		        			periodRegister.getDateClosing(), periodRegister.getWeeks(), stateProgPeriod);
 		        	programPeriodService.createProgramPeriod(progPeriod);
 		        }
 	       }
