@@ -187,6 +187,7 @@ public class AlertController {
 			FinancialMovementRequisition finMovReq = new FinancialMovementRequisition(financial.getFinancialMovementDetailId(), 
 					requisition.getRequisitionDetailId());
 			finMovReq.setFinancialMovementRequisitionState(SYSTEM_STATE_ACTIVE);
+			
 			financialMovementRequisitionRepository.save(finMovReq);
 			return new ResponseEntity(new Message(SYSTEM_SUCCESS), HttpStatus.OK);
 		} catch(Exception e) {
