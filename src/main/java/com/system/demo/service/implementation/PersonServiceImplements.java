@@ -162,7 +162,8 @@ public class PersonServiceImplements implements PersonService{
 			}
 			return true;
 		}
-
+		
+		/*
 		private boolean checkPasswordValid(Person person) throws Exception {
 			if (person.getConfirmPassword() == null || person.getConfirmPassword().isEmpty()) {
 				throw new CustomeFieldValidationException("Confirm Password es obligatorio","confirmPassword");
@@ -173,5 +174,5 @@ public class PersonServiceImplements implements PersonService{
 			}
 			return true;
 		}
-
+*/
 }

@@ -24,8 +24,8 @@ import javax.persistence.Table;
 @Table(name = "person_identification")
 @NamedQueries({
     @NamedQuery(name = "PersonIdentification.findAll", query = "SELECT p FROM PersonIdentification p"),
-    @NamedQuery(name = "PersonIdentification.findByIdentificationDocumentId", query = "SELECT p FROM PersonIdentification p WHERE p.personIdentificationPK.identificationDocumentId = :identificationDocumentId"),
     @NamedQuery(name = "PersonIdentification.findByPersonId", query = "SELECT p FROM PersonIdentification p WHERE p.personIdentificationPK.personId = :personId"),
+    @NamedQuery(name = "PersonIdentification.findByIdentificationDocumentId", query = "SELECT p FROM PersonIdentification p WHERE p.personIdentificationPK.identificationDocumentId = :identificationDocumentId"),
     @NamedQuery(name = "PersonIdentification.findByPersonIdentificationValue", query = "SELECT p FROM PersonIdentification p WHERE p.personIdentificationValue = :personIdentificationValue")})
 public class PersonIdentification implements Serializable {
 
@@ -54,8 +54,8 @@ public class PersonIdentification implements Serializable {
         this.personIdentificationValue = personIdentificationValue;
     }
 
-    public PersonIdentification(long identificationDocumentId, long personId) {
-        this.personIdentificationPK = new PersonIdentificationPK(identificationDocumentId, personId);
+    public PersonIdentification(long personId, long identificationDocumentId) {
+        this.personIdentificationPK = new PersonIdentificationPK(personId, identificationDocumentId);
     }
 
     public PersonIdentificationPK getPersonIdentificationPK() {

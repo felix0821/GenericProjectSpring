@@ -152,6 +152,7 @@ public class AlertController {
 			alertDto.setData(dates);
 			return new ResponseEntity<AlertViewDto>(alertDto, HttpStatus.OK);
 		} catch(Exception e) {
+			e.printStackTrace();
 			return new ResponseEntity(new Message(SYSTEM_ERROR), HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -191,7 +192,7 @@ public class AlertController {
 			financialMovementRequisitionRepository.save(finMovReq);
 			return new ResponseEntity(new Message(SYSTEM_SUCCESS), HttpStatus.OK);
 		} catch(Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 			return new ResponseEntity(new Message(SYSTEM_ERROR_ALERT_VALIDATE), HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -216,7 +217,7 @@ public class AlertController {
 			requisitionDetailService.checkingRequisitionDetailById(id);
 			return new ResponseEntity(new Message(SYSTEM_SUCCESS), HttpStatus.OK);
 		} catch(Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 			return new ResponseEntity(new Message(SYSTEM_ERROR), HttpStatus.BAD_REQUEST);
 		}
 		

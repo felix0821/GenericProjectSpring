@@ -231,7 +231,7 @@ public class AcademicController {
 //			    	°Generar entidad
 		        	ProgramPeriod progPeriod = new ProgramPeriod(idProgPeriod, indexProgPeriod, periodRegister.getPayEnrollmet(), 
 		        			periodRegister.getPayPension(), periodRegister.getDateOpening(), periodRegister.getDateClosingEnrollmet(), 
-		        			periodRegister.getDateClosing(), periodRegister.getWeeks(), stateProgPeriod);
+		        			periodRegister.getDateClosing(), stateProgPeriod);
 		        	programPeriodService.createProgramPeriod(progPeriod);
 		        }
 	       }
@@ -310,7 +310,7 @@ public class AcademicController {
 //			°Generar entidad
 	        ProgramPeriod programPeriod = new ProgramPeriod(idProgPeriod, indexProgPeriod, progPeriodRegister.getPayEnrollmet(), 
 	        		progPeriodRegister.getPayPension(), progPeriodRegister.getDateOpening(), progPeriodRegister.getDateClosingEnrollmet(), 
-	        		convertToDateViaInstant(progClos),progPeriodRegister.getWeeks(), stateProgPeriod);
+	        		convertToDateViaInstant(progClos), stateProgPeriod);
 	        programPeriodService.createProgramPeriod(programPeriod);
 //			°Retornar mensaje
 	        return new ResponseEntity(new Message(SYSTEM_SUCCESS_REGISTER_PROGRAM), HttpStatus.CREATED);
@@ -351,7 +351,7 @@ public class AcademicController {
 //			°Generar entidad
 	        ProgramPeriod programPeriod = new ProgramPeriod(idProgPeriod, indexProgPeriod, progPeriodRegister.getPayEnrollmet(), 
 	        		progPeriodRegister.getPayPension(), progPeriodRegister.getDateOpening(), progPeriodRegister.getDateClosingEnrollmet(), 
-	        		convertToDateViaInstant(progClos),progPeriodRegister.getWeeks(), stateProgPeriod);
+	        		convertToDateViaInstant(progClos), stateProgPeriod);
 	        programPeriodService.createProgramPeriod(programPeriod);
 //			°Retornar mensaje
 	        return new ResponseEntity(new Message(SYSTEM_SUCCESS_REGISTER_PROGRAM), HttpStatus.CREATED);

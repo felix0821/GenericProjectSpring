@@ -1,9 +1,15 @@
 package com.system.demo.utility;
 /*
+import static com.system.demo.GenericProjectSystemStatement.ZONE_DATE_LIMA;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.prefs.Preferences;
 
 import org.springframework.core.io.ClassPathResource;
@@ -17,6 +23,11 @@ public class Main extends Thread {
     private static final Preferences prefs=Preferences.userRoot().node("system");
     
 	public static void main(String[] args) {
+		LocalDateTime fechaHoraPeru = LocalDateTime.now(ZoneId.of(ZONE_DATE_LIMA));
+		LocalDate fechaPeru=LocalDate.now(ZoneId.of(ZONE_DATE_LIMA));
+		fechaHoraPeru.atZone(ZoneId.systemDefault()).toInstant();
+		Date dateRegister=Date.from(fechaHoraPeru.atZone(ZoneId.systemDefault()).toInstant());
+		System.out.println(dateRegister);
 		Main thread = new Main();
 		Main thread1 = new Main();
 		Main thread2 = new Main();

@@ -21,7 +21,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
 /**
@@ -105,17 +104,12 @@ public class Person implements Serializable {
     private Collection<Assistance> assistanceCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId")
     private Collection<PersonRegistering> personRegisteringCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId")
-    private Collection<PedagogicalSchedulePayment> pedagogicalSchedulePaymentCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
     private Collection<EnrollmentCourse> enrollmentCourseCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
     private Collection<PersonIdentification> personIdentificationCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId")
     private Collection<RequisitionStatusDetail> requisitionStatusDetailCollection;
-    
-    @Transient
-	private String confirmPassword;
 
     public Person() {
     }
@@ -312,14 +306,6 @@ public class Person implements Serializable {
         this.personRegisteringCollection = personRegisteringCollection;
     }
 
-    public Collection<PedagogicalSchedulePayment> getPedagogicalSchedulePaymentCollection() {
-        return pedagogicalSchedulePaymentCollection;
-    }
-
-    public void setPedagogicalSchedulePaymentCollection(Collection<PedagogicalSchedulePayment> pedagogicalSchedulePaymentCollection) {
-        this.pedagogicalSchedulePaymentCollection = pedagogicalSchedulePaymentCollection;
-    }
-
     public Collection<EnrollmentCourse> getEnrollmentCourseCollection() {
         return enrollmentCourseCollection;
     }
@@ -343,18 +329,8 @@ public class Person implements Serializable {
     public void setRequisitionStatusDetailCollection(Collection<RequisitionStatusDetail> requisitionStatusDetailCollection) {
         this.requisitionStatusDetailCollection = requisitionStatusDetailCollection;
     }
-    
-    
 
-    public String getConfirmPassword() {
-		return confirmPassword;
-	}
-
-	public void setConfirmPassword(String confirmPassword) {
-		this.confirmPassword = confirmPassword;
-	}
-
-	@Override
+    @Override
     public int hashCode() {
         int hash = 0;
         hash += (personId != null ? personId.hashCode() : 0);

@@ -22,15 +22,15 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "pedagogical_schedule_payment")
+@Table(name = "payment_schedule")
 @NamedQueries({
-    @NamedQuery(name = "PedagogicalSchedulePayment.findAll", query = "SELECT p FROM PedagogicalSchedulePayment p"),
-    @NamedQuery(name = "PedagogicalSchedulePayment.findByPaymentScheduleId", query = "SELECT p FROM PedagogicalSchedulePayment p WHERE p.paymentScheduleId = :paymentScheduleId"),
-    @NamedQuery(name = "PedagogicalSchedulePayment.findByPaymentScheduleIndex", query = "SELECT p FROM PedagogicalSchedulePayment p WHERE p.paymentScheduleIndex = :paymentScheduleIndex"),
-    @NamedQuery(name = "PedagogicalSchedulePayment.findByPaymentScheduleStatus", query = "SELECT p FROM PedagogicalSchedulePayment p WHERE p.paymentScheduleStatus = :paymentScheduleStatus"),
-    @NamedQuery(name = "PedagogicalSchedulePayment.findByPaymentScheduleStartPayday", query = "SELECT p FROM PedagogicalSchedulePayment p WHERE p.paymentScheduleStartPayday = :paymentScheduleStartPayday"),
-    @NamedQuery(name = "PedagogicalSchedulePayment.findByPaymentScheduleFinalPayday", query = "SELECT p FROM PedagogicalSchedulePayment p WHERE p.paymentScheduleFinalPayday = :paymentScheduleFinalPayday")})
-public class PedagogicalSchedulePayment implements Serializable {
+    @NamedQuery(name = "PaymentSchedule.findAll", query = "SELECT p FROM PaymentSchedule p"),
+    @NamedQuery(name = "PaymentSchedule.findByPaymentScheduleId", query = "SELECT p FROM PaymentSchedule p WHERE p.paymentScheduleId = :paymentScheduleId"),
+    @NamedQuery(name = "PaymentSchedule.findByPaymentScheduleIndex", query = "SELECT p FROM PaymentSchedule p WHERE p.paymentScheduleIndex = :paymentScheduleIndex"),
+    @NamedQuery(name = "PaymentSchedule.findByPaymentScheduleMonth", query = "SELECT p FROM PaymentSchedule p WHERE p.paymentScheduleMonth = :paymentScheduleMonth"),
+    @NamedQuery(name = "PaymentSchedule.findByPaymentScheduleStartPayday", query = "SELECT p FROM PaymentSchedule p WHERE p.paymentScheduleStartPayday = :paymentScheduleStartPayday"),
+    @NamedQuery(name = "PaymentSchedule.findByPaymentScheduleFinalPayday", query = "SELECT p FROM PaymentSchedule p WHERE p.paymentScheduleFinalPayday = :paymentScheduleFinalPayday")})
+public class PaymentSchedule implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -41,38 +41,35 @@ public class PedagogicalSchedulePayment implements Serializable {
     @Column(name = "payment_schedule_index", nullable = false)
     private int paymentScheduleIndex;
     @Basic(optional = false)
-    @Column(name = "payment_schedule_status", nullable = false)
-    private Character paymentScheduleStatus;
+    @Column(name = "payment_schedule_month", nullable = false)
+    private int paymentScheduleMonth;
     @Basic(optional = false)
     @Column(name = "payment_schedule_start_payday", nullable = false)
     private int paymentScheduleStartPayday;
     @Basic(optional = false)
     @Column(name = "payment_schedule_final_payday", nullable = false)
     private int paymentScheduleFinalPayday;
-    @JoinColumn(name = "interest_arrears_id", referencedColumnName = "interest_arrears_id")
-    @ManyToOne
-    private InterestArrears interestArrearsId;
     @JoinColumns({
-        @JoinColumn(name = "modulus_id", referencedColumnName = "modulus_id"),
-        @JoinColumn(name = "program_id", referencedColumnName = "program_id"),
-        @JoinColumn(name = "period_id", referencedColumnName = "period_id")})
-    @ManyToOne
-    private ModulusDetail modulusDetail;
-    @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false)
+        @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false),
+        @JoinColumn(name = "program_id", referencedColumnName = "program_id", nullable = false),
+        @JoinColumn(name = "period_id", referencedColumnName = "period_id", nullable = false)})
     @ManyToOne(optional = false)
-    private Person personId;
+    private EnrollmentProgram enrollmentProgram;
+    @JoinColumn(name = "payment_status_id", referencedColumnName = "payment_status_id")
+    @ManyToOne
+    private PaymentStatus paymentStatusId;
 
-    public PedagogicalSchedulePayment() {
+    public PaymentSchedule() {
     }
 
-    public PedagogicalSchedulePayment(Long paymentScheduleId) {
+    public PaymentSchedule(Long paymentScheduleId) {
         this.paymentScheduleId = paymentScheduleId;
     }
 
-    public PedagogicalSchedulePayment(Long paymentScheduleId, int paymentScheduleIndex, Character paymentScheduleStatus, int paymentScheduleStartPayday, int paymentScheduleFinalPayday) {
+    public PaymentSchedule(Long paymentScheduleId, int paymentScheduleIndex, int paymentScheduleMonth, int paymentScheduleStartPayday, int paymentScheduleFinalPayday) {
         this.paymentScheduleId = paymentScheduleId;
         this.paymentScheduleIndex = paymentScheduleIndex;
-        this.paymentScheduleStatus = paymentScheduleStatus;
+        this.paymentScheduleMonth = paymentScheduleMonth;
         this.paymentScheduleStartPayday = paymentScheduleStartPayday;
         this.paymentScheduleFinalPayday = paymentScheduleFinalPayday;
     }
@@ -93,12 +90,12 @@ public class PedagogicalSchedulePayment implements Serializable {
         this.paymentScheduleIndex = paymentScheduleIndex;
     }
 
-    public Character getPaymentScheduleStatus() {
-        return paymentScheduleStatus;
+    public int getPaymentScheduleMonth() {
+        return paymentScheduleMonth;
     }
 
-    public void setPaymentScheduleStatus(Character paymentScheduleStatus) {
-        this.paymentScheduleStatus = paymentScheduleStatus;
+    public void setPaymentScheduleMonth(int paymentScheduleMonth) {
+        this.paymentScheduleMonth = paymentScheduleMonth;
     }
 
     public int getPaymentScheduleStartPayday() {
@@ -117,28 +114,20 @@ public class PedagogicalSchedulePayment implements Serializable {
         this.paymentScheduleFinalPayday = paymentScheduleFinalPayday;
     }
 
-    public InterestArrears getInterestArrearsId() {
-        return interestArrearsId;
+    public EnrollmentProgram getEnrollmentProgram() {
+        return enrollmentProgram;
     }
 
-    public void setInterestArrearsId(InterestArrears interestArrearsId) {
-        this.interestArrearsId = interestArrearsId;
+    public void setEnrollmentProgram(EnrollmentProgram enrollmentProgram) {
+        this.enrollmentProgram = enrollmentProgram;
     }
 
-    public ModulusDetail getModulusDetail() {
-        return modulusDetail;
+    public PaymentStatus getPaymentStatusId() {
+        return paymentStatusId;
     }
 
-    public void setModulusDetail(ModulusDetail modulusDetail) {
-        this.modulusDetail = modulusDetail;
-    }
-
-    public Person getPersonId() {
-        return personId;
-    }
-
-    public void setPersonId(Person personId) {
-        this.personId = personId;
+    public void setPaymentStatusId(PaymentStatus paymentStatusId) {
+        this.paymentStatusId = paymentStatusId;
     }
 
     @Override
@@ -151,10 +140,10 @@ public class PedagogicalSchedulePayment implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof PedagogicalSchedulePayment)) {
+        if (!(object instanceof PaymentSchedule)) {
             return false;
         }
-        PedagogicalSchedulePayment other = (PedagogicalSchedulePayment) object;
+        PaymentSchedule other = (PaymentSchedule) object;
         if ((this.paymentScheduleId == null && other.paymentScheduleId != null) || (this.paymentScheduleId != null && !this.paymentScheduleId.equals(other.paymentScheduleId))) {
             return false;
         }
@@ -163,7 +152,7 @@ public class PedagogicalSchedulePayment implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.persistence.entity.PedagogicalSchedulePayment[ paymentScheduleId=" + paymentScheduleId + " ]";
+        return "com.system.demo.persistence.entity.PaymentSchedule[ paymentScheduleId=" + paymentScheduleId + " ]";
     }
     
 }

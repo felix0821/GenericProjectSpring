@@ -42,11 +42,6 @@ public class ModulusDetail implements Serializable {
     private Character modulusDetailState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "modulusDetail")
     private Collection<CourseDetail> courseDetailCollection;
-    @OneToMany(mappedBy = "modulusDetail")
-    private Collection<PedagogicalSchedulePayment> pedagogicalSchedulePaymentCollection;
-    @JoinColumn(name = "interest_arrears_id", referencedColumnName = "interest_arrears_id")
-    @ManyToOne
-    private InterestArrears interestArrearsId;
     @JoinColumn(name = "modulus_id", referencedColumnName = "modulus_id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Modulus modulus;
@@ -97,22 +92,6 @@ public class ModulusDetail implements Serializable {
 
     public void setCourseDetailCollection(Collection<CourseDetail> courseDetailCollection) {
         this.courseDetailCollection = courseDetailCollection;
-    }
-
-    public Collection<PedagogicalSchedulePayment> getPedagogicalSchedulePaymentCollection() {
-        return pedagogicalSchedulePaymentCollection;
-    }
-
-    public void setPedagogicalSchedulePaymentCollection(Collection<PedagogicalSchedulePayment> pedagogicalSchedulePaymentCollection) {
-        this.pedagogicalSchedulePaymentCollection = pedagogicalSchedulePaymentCollection;
-    }
-
-    public InterestArrears getInterestArrearsId() {
-        return interestArrearsId;
-    }
-
-    public void setInterestArrearsId(InterestArrears interestArrearsId) {
-        this.interestArrearsId = interestArrearsId;
     }
 
     public Modulus getModulus() {

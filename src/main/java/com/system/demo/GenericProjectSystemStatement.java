@@ -8,7 +8,7 @@ public class GenericProjectSystemStatement {
 	 *	Predefined resources for the system
 	 **/
 	//	Declaraciones generales del sistema
-	//	Declaraciones de parametros nulos
+	//	Declaraciones de parametros para indices
 	public static final String INDEX_OCCUPATIONAL_FIELD = "occupational_field_index";
 	public static final String INDEX_PERIOD = "period_index";
 	public static final String INDEX_PROGRAM_PERIOD = "program_period_index";
@@ -16,6 +16,8 @@ public class GenericProjectSystemStatement {
 	public static final String INDEX_MODULUS = "modulus_index";
 	public static final String INDEX_COURSE = "course_index";
 	public static final String INDEX_REQUISITION_STATUS_DETAIL = "requisition_status_detail_index";
+	//	Declaraciones de parametros para ubicación
+	public static final String ZONE_DATE_LIMA = "America/Lima";
 	//	Recursos generales del sistema
 	//	Recursos estados de entidad
 	public static final Character SYSTEM_STATE_ACTIVE = 'A';

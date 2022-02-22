@@ -18,25 +18,17 @@ import javax.persistence.Embeddable;
 public class PersonIdentificationPK implements Serializable {
 
     @Basic(optional = false)
-    @Column(name = "identification_document_id", nullable = false)
-    private long identificationDocumentId;
-    @Basic(optional = false)
     @Column(name = "person_id", nullable = false)
     private long personId;
+    @Basic(optional = false)
+    @Column(name = "identification_document_id", nullable = false)
+    private long identificationDocumentId;
 
     public PersonIdentificationPK() {
     }
 
-    public PersonIdentificationPK(long identificationDocumentId, long personId) {
-        this.identificationDocumentId = identificationDocumentId;
+    public PersonIdentificationPK(long personId, long identificationDocumentId) {
         this.personId = personId;
-    }
-
-    public long getIdentificationDocumentId() {
-        return identificationDocumentId;
-    }
-
-    public void setIdentificationDocumentId(long identificationDocumentId) {
         this.identificationDocumentId = identificationDocumentId;
     }
 
@@ -48,11 +40,19 @@ public class PersonIdentificationPK implements Serializable {
         this.personId = personId;
     }
 
+    public long getIdentificationDocumentId() {
+        return identificationDocumentId;
+    }
+
+    public void setIdentificationDocumentId(long identificationDocumentId) {
+        this.identificationDocumentId = identificationDocumentId;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (int) identificationDocumentId;
         hash += (int) personId;
+        hash += (int) identificationDocumentId;
         return hash;
     }
 
@@ -63,10 +63,10 @@ public class PersonIdentificationPK implements Serializable {
             return false;
         }
         PersonIdentificationPK other = (PersonIdentificationPK) object;
-        if (this.identificationDocumentId != other.identificationDocumentId) {
+        if (this.personId != other.personId) {
             return false;
         }
-        if (this.personId != other.personId) {
+        if (this.identificationDocumentId != other.identificationDocumentId) {
             return false;
         }
         return true;
@@ -74,7 +74,7 @@ public class PersonIdentificationPK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.persistence.entity.PersonIdentificationPK[ identificationDocumentId=" + identificationDocumentId + ", personId=" + personId + " ]";
+        return "com.system.demo.persistence.entity.PersonIdentificationPK[ personId=" + personId + ", identificationDocumentId=" + identificationDocumentId + " ]";
     }
     
 }

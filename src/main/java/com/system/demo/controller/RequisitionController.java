@@ -4,6 +4,7 @@ import static com.system.demo.GenericProjectSystemStatement.*;
 import static com.system.demo.GenericProjectSystemDefinition.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
@@ -148,8 +149,8 @@ public class RequisitionController {
 			Requisition requisition = requisitionService.getRequisitionById(1L).get();
 			RequisitionStatus reqStatus = requisitionStatusService.getRequisitionStatusById(SYSTEM_REQUISITION_STATUS_SEND).get();
 //			Insertar fecha de registro
-			LocalDate fechaPeru=LocalDate.now(ZoneId.of("America/Lima"));
-			Date dateRegister=Date.from(fechaPeru.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+			LocalDateTime fechaHoraPeru = LocalDateTime.now(ZoneId.of(ZONE_DATE_LIMA));
+			Date dateRegister = Date.from(fechaHoraPeru.atZone(ZoneId.systemDefault()).toInstant());
 			boolean checking = false;
 //			Objeto Solicitud
 			Long idReqDetail = uniqueId.getUniqId();

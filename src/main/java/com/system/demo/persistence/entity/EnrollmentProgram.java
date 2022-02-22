@@ -6,8 +6,10 @@
 package com.system.demo.persistence.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -16,6 +18,7 @@ import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -49,6 +52,8 @@ public class EnrollmentProgram implements Serializable {
     @Basic(optional = false)
     @Column(name = "enrollment_program_state", nullable = false)
     private Character enrollmentProgramState;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "enrollmentProgram")
+    private Collection<PaymentSchedule> paymentScheduleCollection;
     @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Person person;
@@ -109,6 +114,14 @@ public class EnrollmentProgram implements Serializable {
 
     public void setEnrollmentProgramState(Character enrollmentProgramState) {
         this.enrollmentProgramState = enrollmentProgramState;
+    }
+
+    public Collection<PaymentSchedule> getPaymentScheduleCollection() {
+        return paymentScheduleCollection;
+    }
+
+    public void setPaymentScheduleCollection(Collection<PaymentSchedule> paymentScheduleCollection) {
+        this.paymentScheduleCollection = paymentScheduleCollection;
     }
 
     public Person getPerson() {
