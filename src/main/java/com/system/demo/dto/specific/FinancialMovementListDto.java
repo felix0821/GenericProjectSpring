@@ -1,42 +1,43 @@
 package com.system.demo.dto.specific;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 public class FinancialMovementListDto {
 	
-	@NotNull(message = "Ingrese un id valido")
 	private Long id;
 	
-	@NotBlank(message = "Ingrese un nombre.")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date date;
+	
 	private String name;
 	
-	@NotBlank(message = "Ingrese un simbolo.")
 	private String symbol;
 	
-	@NotNull(message = "Ingrese una cantidad.")
 	private Double amount;
 	
-	@NotBlank(message = "Ingrese un tipo de registro.")
 	private String registerType;
 
 	private int operationNumber;
 	
 	private String image;
-	
-	
-	public FinancialMovementListDto(@NotNull(message = "Ingrese un id valido") Long id,
-			@NotBlank(message = "Ingrese un nombre.") String name,
-			@NotBlank(message = "Ingrese un simbolo.") String symbol,
-			@NotNull(message = "Ingrese una cantidad.") Double amount,
-			@NotBlank(message = "Ingrese un tipo de registro.") String registerType, int operationNumber) {
+
+	public FinancialMovementListDto(Long id, Date date, String name, String symbol, Double amount, String registerType,
+			int operationNumber, String image) {
 		super();
 		this.id = id;
+		this.date = date;
 		this.name = name;
 		this.symbol = symbol;
 		this.amount = amount;
 		this.registerType = registerType;
 		this.operationNumber = operationNumber;
+		this.image = image;
 	}
 
 	public Long getId() {
@@ -45,6 +46,14 @@ public class FinancialMovementListDto {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
 	}
 
 	public String getName() {
