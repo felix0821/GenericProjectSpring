@@ -158,7 +158,7 @@ public class GenericProjectSystemStatement {
 	public static final String URL_ALERT_REQUEST = "/alert";
 	public static final String URL_ALERT_VIEW_GET = "/view";
 	public static final String URL_ALERT_VALIDATE_POST = "/validate";
-	public static final String URL_ALERT_OBSERVE_GET = "/observe";
+	public static final String URL_ALERT_OBSERVE_POST = "/observe";
 	
 	private static final HashMap<String,String> MAPPING_URL = new HashMap<String,String>(){
 		private static final long serialVersionUID = -5369868392053811478L;

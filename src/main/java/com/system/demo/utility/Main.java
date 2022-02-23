@@ -1,5 +1,5 @@
 package com.system.demo.utility;
-/*
+
 import static com.system.demo.GenericProjectSystemStatement.ZONE_DATE_LIMA;
 
 import java.io.File;
@@ -11,8 +11,10 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.prefs.Preferences;
-
+/*
 import org.springframework.core.io.ClassPathResource;
+
+import com.system.demo.persistence.sqlite.ConnectionSQLite;
 
 public class Main extends Thread {
 	
@@ -28,6 +30,9 @@ public class Main extends Thread {
 		fechaHoraPeru.atZone(ZoneId.systemDefault()).toInstant();
 		Date dateRegister=Date.from(fechaHoraPeru.atZone(ZoneId.systemDefault()).toInstant());
 		System.out.println(dateRegister);
+		ConnectionSQLite c = new ConnectionSQLite();
+		c.openConnect();
+		c.closeConnect();
 		Main thread = new Main();
 		Main thread1 = new Main();
 		Main thread2 = new Main();

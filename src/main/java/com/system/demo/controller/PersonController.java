@@ -202,7 +202,7 @@ public class PersonController {
         person.setGenderId(gender);
         personService.createPerson(person);
         //Agregar documento de identidad a nuevo usuario
-        PersonIdentification personIdentificationDocument = new PersonIdentification(SYSTEM_IDENTIFICATION_DNI,personId);
+        PersonIdentification personIdentificationDocument = new PersonIdentification(personId, SYSTEM_IDENTIFICATION_DNI);
         personIdentificationDocument.setPersonIdentificationValue(personRegister.getDni());
         personIdentDocService.createPersonIdentification(personIdentificationDocument);
         //Agregar rol a nuevo usuario

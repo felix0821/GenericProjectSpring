@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.system.demo.dto.generic.Message;
 import com.system.demo.dto.specific.AlertDto;
+import com.system.demo.dto.specific.AlertObserveDto;
 import com.system.demo.dto.specific.AlertViewDataDto;
 import com.system.demo.dto.specific.AlertViewDto;
 import com.system.demo.persistence.entity.Data;
@@ -44,6 +45,7 @@ import com.system.demo.persistence.entity.Program;
 import com.system.demo.persistence.entity.Requisition;
 import com.system.demo.persistence.entity.RequisitionDataDetail;
 import com.system.demo.persistence.entity.RequisitionDetail;
+import com.system.demo.persistence.entity.RequisitionRemark;
 import com.system.demo.persistence.entity.RequisitionStatus;
 import com.system.demo.persistence.entity.RequisitionStatusDetail;
 import com.system.demo.persistence.repository.FinancialMovementRepository;
@@ -209,23 +211,32 @@ public class AlertController {
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@GetMapping(URL_ALERT_OBSERVE_GET)
-	public ResponseEntity<?> getAlertObserve(@RequestParam(name ="id")Long id, @RequestHeader HttpHeaders headers) {
+	@PostMapping(URL_ALERT_OBSERVE_POST)
+	public ResponseEntity<?> getAlertObserve(@Valid @RequestBody AlertObserveDto observeDto, @RequestHeader HttpHeaders headers) {
 		String userFromToken = usernameFromToken(headers);
 		try {
-			/*RequisitionDetail requisition = requisitionDetailService.RequisitionDetailById(id).get();
-			Person person = personService.getPersonByUsername(userFromToken).get();
+//			Insertar ids
+			RequisitionDetail requisition = requisitionDetailService.RequisitionDetailById(observeDto.getId()).get();
 			RequisitionStatus reqStatus = requisitionStatusService.getRequisitionStatusById(SYSTEM_REQUISITION_STATUS_OBSERVE).get();
-			Long idReqStatusDetail = uniqueId.getUniqId();
+			Person person = personService.getPersonByUsername(userFromToken).get();
+//			Generar datos
+			Long idReqRemark = uniqueId.getUniqId();
 			int reqStatusDetailIndex = preference.getIndex(INDEX_REQUISITION_STATUS_DETAIL);
-			LocalDate fechaPeru=LocalDate.now(ZoneId.of("America/Lima"));
-			Date dateRegister=Date.from(fechaPeru.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-			RequisitionStatusDetail reqStatusDetail = new RequisitionStatusDetail(idReqStatusDetail, reqStatusDetailIndex, dateRegister);
+//			Insertar fecha de registro
+			LocalDateTime dateTimePeru = LocalDateTime.now(ZoneId.of(ZONE_DATE_LIMA));
+			Date dateRegister=Date.from(dateTimePeru.atZone(ZoneId.systemDefault()).toInstant());
+//			Generar entidad observación
+			RequisitionRemark reqRemark = new RequisitionRemark(idReqRemark, reqStatusDetailIndex, observeDto.getContent(), dateRegister);
+			reqRemark.setRequisitionDetailId(requisition);
+			reqRemark.setPersonId(person);
+//			Generar entidad estado
+			RequisitionStatusDetail reqStatusDetail = new RequisitionStatusDetail(requisition.getRequisitionDetailId(), 
+					reqStatus.getRequisitionStatusId());
 			reqStatusDetail.setPersonId(person);
-			reqStatusDetail.setRequisitionStatusId(reqStatus);
-			reqStatusDetail.setRequisitionDetailId(requisition);
-			requisitionStatusDetailService.createRequisitionStatusDetail(reqStatusDetail);*/
-			requisitionDetailService.checkingRequisitionDetailById(id);
+			reqStatusDetail.setRequisitionStatusDetailIndex(reqStatusDetailIndex);
+			reqStatusDetail.setRequisitionStatusDetailDate(dateRegister);
+			requisitionStatusDetailService.createRequisitionStatusDetail(reqStatusDetail);
+			requisitionDetailService.checkingRequisitionDetailById(observeDto.getId());
 			return new ResponseEntity(new Message(SYSTEM_SUCCESS), HttpStatus.OK);
 		} catch(Exception e) {
 			e.printStackTrace();
