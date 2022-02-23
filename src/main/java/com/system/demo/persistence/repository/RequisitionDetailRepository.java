@@ -9,6 +9,9 @@ import com.system.demo.persistence.entity.RequisitionDetail;
 
 public interface RequisitionDetailRepository extends JpaRepository<RequisitionDetail,Long>{
 	
+	@Query(value="SELECT r FROM RequisitionDetail r WHERE r.personId.personId = :personId")
+	public Iterable<RequisitionDetail> findByPersonId(@Param(value="personId")Long personId);
+	
 	@Query(value="SELECT r FROM RequisitionDetail r WHERE r.requisitionId.requisitionId = :requisitionId AND r.requisitionDetailChecking = false")
 	public Iterable<RequisitionDetail> findByRequisitionIdAndNotChecking(@Param(value="requisitionId")Long requisitionId);
 	

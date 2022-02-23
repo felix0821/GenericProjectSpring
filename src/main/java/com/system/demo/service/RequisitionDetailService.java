@@ -16,5 +16,7 @@ public interface RequisitionDetailService {
 	public Optional<RequisitionDetail> RequisitionDetailById(Long id);
 	
 	public void checkingRequisitionDetailById(Long id);
+	
+	public Iterable<RequisitionDetail> getRequisitionDetailsByPersonId(Long personId);
 
 }

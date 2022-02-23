@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -180,6 +181,7 @@ public class AlertController {
 			FinancialMovement income = financialMovementService.getById(SYSTEM_FINANTIAL_MOVEMENT_INCOME);
 //			Crear persona que registra
 			Long pRegisteringId = uniqueId.getUniqId();
+			int reqRemarkIndex = preference.getIndex(INDEX_REQUISITION_STATUS_DETAIL);
 			PersonRegistering pRegistering = new PersonRegistering(pRegisteringId, dateRegister, REGISTERING_FINANCIAL_MOVEMENT);
 			pRegistering.setPersonId(personService.getPersonByUsername(userFromToken).get());
 			personRegisteringService.createPersonRegistering(pRegistering);
@@ -198,6 +200,13 @@ public class AlertController {
 			financial.setPersonRegisteringId(pRegistering);
 			financial.setFinancialMovementDetailOperationNumber(alertDto.getMovement());
 			financialMovementDetailService.createFinancialMovementDetail(financial);
+//			Generar entidad estado
+			RequisitionStatusDetail reqStatusDetail = new RequisitionStatusDetail(requisition.getRequisitionDetailId(), 
+					SYSTEM_REQUISITION_STATUS_ACCEPT);
+			reqStatusDetail.setPersonId(person);
+			reqStatusDetail.setRequisitionStatusDetailIndex(reqRemarkIndex);
+			reqStatusDetail.setRequisitionStatusDetailDate(dateRegister);
+			requisitionStatusDetailService.createRequisitionStatusDetail(reqStatusDetail);
 			requisitionDetailService.checkingRequisitionDetailById(alertDto.getId());
 			FinancialMovementRequisition finMovReq = new FinancialMovementRequisition(financial.getFinancialMovementDetailId(), 
 					requisition.getRequisitionDetailId());
@@ -212,8 +221,12 @@ public class AlertController {
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@PostMapping(URL_ALERT_OBSERVE_POST)
-	public ResponseEntity<?> getAlertObserve(@Valid @RequestBody AlertObserveDto observeDto, @RequestHeader HttpHeaders headers) {
+	public ResponseEntity<?> getAlertObserve(@Valid @RequestBody AlertObserveDto observeDto, @RequestHeader HttpHeaders headers, 
+			BindingResult bindingResult) {
 		String userFromToken = usernameFromToken(headers);
+		//Realizamos las validaciones pertinentes
+        if(bindingResult.hasErrors())
+            return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
 		try {
 //			Insertar ids
 			RequisitionDetail requisition = requisitionDetailService.RequisitionDetailById(observeDto.getId()).get();
@@ -221,19 +234,19 @@ public class AlertController {
 			Person person = personService.getPersonByUsername(userFromToken).get();
 //			Generar datos
 			Long idReqRemark = uniqueId.getUniqId();
-			int reqStatusDetailIndex = preference.getIndex(INDEX_REQUISITION_STATUS_DETAIL);
+			int reqIndex = preference.getIndex(INDEX_REQUISITION_STATUS_DETAIL);
 //			Insertar fecha de registro
 			LocalDateTime dateTimePeru = LocalDateTime.now(ZoneId.of(ZONE_DATE_LIMA));
 			Date dateRegister=Date.from(dateTimePeru.atZone(ZoneId.systemDefault()).toInstant());
 //			Generar entidad observación
-			RequisitionRemark reqRemark = new RequisitionRemark(idReqRemark, reqStatusDetailIndex, observeDto.getContent(), dateRegister);
+			RequisitionRemark reqRemark = new RequisitionRemark(idReqRemark, reqIndex, observeDto.getContent(), dateRegister);
 			reqRemark.setRequisitionDetailId(requisition);
 			reqRemark.setPersonId(person);
 //			Generar entidad estado
 			RequisitionStatusDetail reqStatusDetail = new RequisitionStatusDetail(requisition.getRequisitionDetailId(), 
 					reqStatus.getRequisitionStatusId());
 			reqStatusDetail.setPersonId(person);
-			reqStatusDetail.setRequisitionStatusDetailIndex(reqStatusDetailIndex);
+			reqStatusDetail.setRequisitionStatusDetailIndex(reqIndex);
 			reqStatusDetail.setRequisitionStatusDetailDate(dateRegister);
 			requisitionStatusDetailService.createRequisitionStatusDetail(reqStatusDetail);
 			requisitionDetailService.checkingRequisitionDetailById(observeDto.getId());
@@ -242,7 +255,6 @@ public class AlertController {
 			e.printStackTrace();
 			return new ResponseEntity(new Message(SYSTEM_ERROR), HttpStatus.BAD_REQUEST);
 		}
-		
 	}
 	
 	

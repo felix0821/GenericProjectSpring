@@ -50,4 +50,10 @@ public class RequisitionDetailServiceImplements implements RequisitionDetailServ
 		requisitionDetailRepository.checkingByRequisitionDetailId(id);
 	}
 
+	@Override
+	public Iterable<RequisitionDetail> getRequisitionDetailsByPersonId(Long personId) {
+		// TODO Auto-generated method stub
+		return requisitionDetailRepository.findByPersonId(personId);
+	}
+
 }

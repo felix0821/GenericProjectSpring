@@ -160,6 +160,9 @@ public class GenericProjectSystemStatement {
 	public static final String URL_ALERT_VALIDATE_POST = "/validate";
 	public static final String URL_ALERT_OBSERVE_POST = "/observe";
 	
+//	Mapeo para el controlador "Gestion de mis tramites"
+	public static final String URL_MYxPROCEDURES_REQUEST = "/my-procedures";
+	
 	private static final HashMap<String,String> MAPPING_URL = new HashMap<String,String>(){
 		private static final long serialVersionUID = -5369868392053811478L;
 	{
