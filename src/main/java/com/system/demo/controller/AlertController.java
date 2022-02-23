@@ -181,7 +181,7 @@ public class AlertController {
 			Person person = personService.getPersonById(requisition.getPersonId().getPersonId());
 			Period period = periodService.getPeriodById(alertDto.getPeriodId());
 			Program program = programService.getProgramById(alertDto.getProgramId());
-			FinancialMovement income = financialMovementService.getById(SYSTEM_FINANTIAL_MOVEMENT_INCOME);
+			FinancialMovement income = financialMovementService.getById(SYSTEM_FINANTIAL_MOVEMENT_INCOME_SOLES);
 //			Crear persona que registra
 			Long pRegisteringId = uniqueId.getUniqId();
 			int reqRemarkIndex = preference.getIndex(INDEX_REQUISITION_STATUS_DETAIL);
