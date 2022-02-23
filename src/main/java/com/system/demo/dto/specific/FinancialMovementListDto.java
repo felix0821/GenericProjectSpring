@@ -1,18 +1,11 @@
 package com.system.demo.dto.specific;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 public class FinancialMovementListDto {
 	
 	private Long id;
 	
-	@Temporal(TemporalType.TIMESTAMP)
 	private Date date;
 	
 	private String name;

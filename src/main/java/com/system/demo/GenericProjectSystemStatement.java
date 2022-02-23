@@ -162,6 +162,7 @@ public class GenericProjectSystemStatement {
 	
 //	Mapeo para el controlador "Gestion de mis tramites"
 	public static final String URL_MYxPROCEDURES_REQUEST = "/my-procedures";
+	public static final String URL_MYxPROCEDURES_VIEW_GET = "/view";
 	
 	private static final HashMap<String,String> MAPPING_URL = new HashMap<String,String>(){
 		private static final long serialVersionUID = -5369868392053811478L;

@@ -35,4 +35,11 @@ public class RequisitionStatusDetailServiceImplements implements RequisitionStat
 		
 	}
 
+	@Override
+	public Iterable<RequisitionStatusDetail> getRequisitionStatusDetailsByRequisitionDetailId(
+			long requisitionStatusDetailId) {
+		// TODO Auto-generated method stub
+		return requisitionStatusDetailRepository.findByRequisitionDetailId(requisitionStatusDetailId);
+	}
+
 }

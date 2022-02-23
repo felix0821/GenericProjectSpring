@@ -61,6 +61,7 @@ import com.system.demo.service.PersonService;
 import com.system.demo.service.ProgramService;
 import com.system.demo.service.RequisitionDataDetailService;
 import com.system.demo.service.RequisitionDetailService;
+import com.system.demo.service.RequisitionRemarkService;
 import com.system.demo.service.RequisitionStatusDetailService;
 import com.system.demo.service.RequisitionStatusService;
 import com.system.demo.utility.PreferenceUtility;
@@ -104,6 +105,8 @@ public class AlertController {
 	FinancialMovementRequisitionRepository financialMovementRequisitionRepository;
 	@Autowired
 	PersonRegisteringService personRegisteringService;
+	@Autowired
+	RequisitionRemarkService requisitionRemarkService;
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@GetMapping
@@ -126,7 +129,7 @@ public class AlertController {
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@GetMapping(URL_ALERT_VIEW_GET)
-	public ResponseEntity<?> academicPeriodForm(@RequestParam(name ="id")Long id){
+	public ResponseEntity<?> academicPeriodForm(@RequestParam(name ="id")Long id) {
 		try {
 			Period period = null;
 			Program program = null;
@@ -242,6 +245,7 @@ public class AlertController {
 			RequisitionRemark reqRemark = new RequisitionRemark(idReqRemark, reqIndex, observeDto.getContent(), dateRegister);
 			reqRemark.setRequisitionDetailId(requisition);
 			reqRemark.setPersonId(person);
+			requisitionRemarkService.createRequisitionRemark(reqRemark);
 //			Generar entidad estado
 			RequisitionStatusDetail reqStatusDetail = new RequisitionStatusDetail(requisition.getRequisitionDetailId(), 
 					reqStatus.getRequisitionStatusId());
