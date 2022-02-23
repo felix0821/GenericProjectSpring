@@ -15,9 +15,9 @@ public interface FinancialMovementDetailRepository extends JpaRepository<Financi
 	@Query(value = "SELECT f FROM FinancialMovementDetail f WHERE f.financialMovementDetailDate BETWEEN :startDate AND :endDate ORDER BY f.financialMovementDetailDate DESC")
 	public Iterable<FinancialMovementDetail> findByFinancialMovementDetailDateRange(@Param("startDate")Date startDate, @Param("endDate")Date endDate);
 	//, nativeQuery = true
-	@Query(value = "SELECT SUM(f.financial_Movement_Detail_Amount) FROM Financial_Movement_Detail f "
-			+ "INNER JOIN (SELECT m.financial_MovementId, m.financial_Movement_Type FROM Financial_Movement m WHERE m.financialMovementType = :financialMovementType) fm ON f.financial_Movement_Id = fm.financial_Movement_Id "
-			+ "WHERE f.financial_Movement_Detail_Date BETWEEN :startDate AND :endDate", nativeQuery = true)
+	@Query(value = "SELECT SUM(f.financial_movement_detail_amount) FROM public.financial_movement_detail f "
+			+ "INNER JOIN (SELECT n.financial_movement_id, n.financial_movement_type FROM public.financial_movement n WHERE n.financial_movement_type = :financialMovementType) fm ON f.financial_movement_id = fm.financial_movement_id "
+			+ "WHERE f.financial_movement_detail_date BETWEEN :startDate AND :endDate", nativeQuery = true)
 	public Double sumAmountTypeByFinancialMovementDetailDateRange(@Param("startDate")Date startDate, @Param("endDate")Date endDate, @Param("financialMovementType")Character financialMovementType);
 
 }
