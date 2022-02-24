@@ -70,8 +70,8 @@ public class FinancialMovementController {
 				Optional<RequisitionDataDetail> reqDataDet = requisitionDataDetailRepository.findById(id);
 				FinancialMovementListDto rec = new FinancialMovementListDto(fMovDetail.getFinancialMovementDetailId(), fMovDetail.getFinancialMovementDetailDate(),
 						fMovDetail.getFinancialMovementId().getFinancialMovementName(), fMovDetail.getFinancialMovementId().getFinancialMovementSymbol(),
-						fMovDetail.getFinancialMovementDetailAmount(),"Registro por solicitud", fMovDetail.getFinancialMovementDetailOperationNumber(), 
-						reqDataDet.get().getRequisitionDataDetailValue());
+						fMovDetail.getFinancialMovementDetailAmount(),"Registro por solicitud", 0, 
+						reqDataDet.get().getRequisitionDataDetailValue()); //Eliminar numero de operaciones
 				financialMovDetailListDto.add(rec);
 			}
 			return new ResponseEntity<List<FinancialMovementListDto>>(financialMovDetailListDto, HttpStatus.OK);
@@ -104,8 +104,8 @@ public class FinancialMovementController {
 				Optional<RequisitionDataDetail> reqDataDet = requisitionDataDetailRepository.findById(id);
 				FinancialMovementListDto rec = new FinancialMovementListDto(fMovDetail.getFinancialMovementDetailId(), fMovDetail.getFinancialMovementDetailDate(),
 						fMovDetail.getFinancialMovementId().getFinancialMovementName(), fMovDetail.getFinancialMovementId().getFinancialMovementSymbol(),
-						fMovDetail.getFinancialMovementDetailAmount(),"Registro por solicitud", fMovDetail.getFinancialMovementDetailOperationNumber(), 
-						reqDataDet.get().getRequisitionDataDetailValue());
+						fMovDetail.getFinancialMovementDetailAmount(),"Registro por solicitud", 0, 
+						reqDataDet.get().getRequisitionDataDetailValue()); //Eliminar numero de operaciones
 				financialMovDetailListDto.add(rec);
 			}
 			result.setList(financialMovDetailListDto);

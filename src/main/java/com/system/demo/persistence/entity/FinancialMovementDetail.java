@@ -46,8 +46,6 @@ public class FinancialMovementDetail implements Serializable {
     @Basic(optional = false)
     @Column(name = "financial_movement_detail_amount", nullable = false)
     private double financialMovementDetailAmount;
-    @Column(name = "financial_movement_detail_operation_number")
-    private Integer financialMovementDetailOperationNumber;
     @Basic(optional = false)
     @Column(name = "financial_movement_detail_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -96,14 +94,6 @@ public class FinancialMovementDetail implements Serializable {
 
     public void setFinancialMovementDetailAmount(double financialMovementDetailAmount) {
         this.financialMovementDetailAmount = financialMovementDetailAmount;
-    }
-
-    public Integer getFinancialMovementDetailOperationNumber() {
-        return financialMovementDetailOperationNumber;
-    }
-
-    public void setFinancialMovementDetailOperationNumber(Integer financialMovementDetailOperationNumber) {
-        this.financialMovementDetailOperationNumber = financialMovementDetailOperationNumber;
     }
 
     public Date getFinancialMovementDetailDate() {
