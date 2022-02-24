@@ -32,7 +32,6 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "FinancialMovementDetail.findAll", query = "SELECT f FROM FinancialMovementDetail f"),
     @NamedQuery(name = "FinancialMovementDetail.findByFinancialMovementDetailId", query = "SELECT f FROM FinancialMovementDetail f WHERE f.financialMovementDetailId = :financialMovementDetailId"),
     @NamedQuery(name = "FinancialMovementDetail.findByFinancialMovementDetailAmount", query = "SELECT f FROM FinancialMovementDetail f WHERE f.financialMovementDetailAmount = :financialMovementDetailAmount"),
-    @NamedQuery(name = "FinancialMovementDetail.findByFinancialMovementDetailOperationNumber", query = "SELECT f FROM FinancialMovementDetail f WHERE f.financialMovementDetailOperationNumber = :financialMovementDetailOperationNumber"),
     @NamedQuery(name = "FinancialMovementDetail.findByFinancialMovementDetailDate", query = "SELECT f FROM FinancialMovementDetail f WHERE f.financialMovementDetailDate = :financialMovementDetailDate"),
     @NamedQuery(name = "FinancialMovementDetail.findByFinancialMovementDetailRegisterType", query = "SELECT f FROM FinancialMovementDetail f WHERE f.financialMovementDetailRegisterType = :financialMovementDetailRegisterType"),
     @NamedQuery(name = "FinancialMovementDetail.findByFinancialMovementDetailState", query = "SELECT f FROM FinancialMovementDetail f WHERE f.financialMovementDetailState = :financialMovementDetailState")})
