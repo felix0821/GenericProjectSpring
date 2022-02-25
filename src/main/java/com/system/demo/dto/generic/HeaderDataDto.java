@@ -47,5 +47,9 @@ public class HeaderDataDto<T> {
 	public void setList(List<T> list) {
 		this.list = list;
 	}
+	
+	public void setItemList(T item) {
+		this.list.add(item);
+	}
 
 }

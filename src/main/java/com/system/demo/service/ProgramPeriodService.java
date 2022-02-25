@@ -1,5 +1,6 @@
 package com.system.demo.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,5 +18,7 @@ public interface ProgramPeriodService {
 	public Optional<ProgramPeriod> getProgramPeriodById(long programId, long periodId);
 	
 	public long getTotalProgramPeriodByPeriodId(long periodId);
+	
+	public Iterable<ProgramPeriod> getAllProgramPeriodByProgramIdAndEnrollmentAvailable(long periodId, Date currentDate);
 
 }

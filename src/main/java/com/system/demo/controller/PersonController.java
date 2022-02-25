@@ -181,7 +181,7 @@ public class PersonController {
         Long personId = uI.getUniqId();
         String password = bCryptPasswordEncoder.encode(personRegister.getPassword());
         //Insertar fecha de registro
-		LocalDate fechaPeru=LocalDate.now(ZoneId.of("America/Lima"));
+		LocalDate fechaPeru=LocalDate.now(ZoneId.of(ZONE_DATE_LIMA));
 		Date dateRegister=Date.from(fechaPeru.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
 		//Insertar nombres por dni
 		String dniQuery[] = apiQueriesUtility.checkDniApiPeru(personRegister.getDni());

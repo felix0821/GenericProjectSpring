@@ -1,5 +1,6 @@
 package com.system.demo.service;
 
+import java.util.Date;
 import java.util.Optional;
 
 import com.system.demo.persistence.entity.Period;
@@ -15,5 +16,7 @@ public interface PeriodService {
 	public boolean existsPeriodById(Long periodId);
 	public Optional<Period> getPeriodByIdentifier(String periodIdentifier);
 	public Period getPeriodById(Long periodId) throws Exception;
+	
+	public Iterable<Period> getAllPeriodByProgramPeriodEnrollmentAvailable(Date currentDate);
 
 }
