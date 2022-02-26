@@ -214,7 +214,7 @@ public class AcademicController {
 	        		periodRegister.getModality().toString(), Integer.toString(periodRegister.getYear())));
 	        int indexPeriod = preference.getIndex(INDEX_PERIOD);
 //	    	°Generar entidad
-	        Period period = new Period(idPeriod, indexPeriod, identifierPeriod, periodRegister.getName(),
+	        Period period = new Period(idPeriod, null, identifierPeriod, periodRegister.getName(),
 	        		periodRegister.getYear(), periodRegister.getModality(), SYSTEM_STATE_ACTIVE);
 	        Period pedPeriod = periodService.createPeriod(period);
 //	    	°Realizar registro en bloque

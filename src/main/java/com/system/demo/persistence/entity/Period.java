@@ -44,7 +44,7 @@ public class Period implements Serializable {
     private Long periodId;
     @Basic(optional = false)
     @Column(name = "period_index", nullable = false)
-    private int periodIndex;
+    private Integer periodIndex;
     @Basic(optional = false)
     @Column(name = "period_identifier", nullable = false, length = 40)
     private String periodIdentifier;
@@ -76,7 +76,7 @@ public class Period implements Serializable {
         this.periodId = periodId;
     }
 
-    public Period(Long periodId, int periodIndex, String periodIdentifier, String periodName, int periodYear, Character periodModality, Character periodState) {
+    public Period(Long periodId, Integer periodIndex, String periodIdentifier, String periodName, int periodYear, Character periodModality, Character periodState) {
         this.periodId = periodId;
         this.periodIndex = periodIndex;
         this.periodIdentifier = periodIdentifier;
