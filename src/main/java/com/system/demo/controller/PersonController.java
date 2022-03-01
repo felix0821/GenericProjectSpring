@@ -38,6 +38,7 @@ import com.system.demo.dto.specific.PersonRegisterDto;
 import com.system.demo.dto.specific.PersonRolesDetailDto;
 import com.system.demo.dto.specific.PersonRolesHeaderDto;
 import com.system.demo.exception.ApiDniNotFoundException;
+import com.system.demo.exception.PasswordErrorException;
 import com.system.demo.persistence.entity.PersonGender;
 import com.system.demo.persistence.entity.Person;
 import com.system.demo.persistence.entity.PersonIdentification;
@@ -199,7 +200,7 @@ public class PersonController {
                     		dniQuery[2], dateRegister, SYSTEM_STATE_ACTIVE);
             person.setPersonDateBirth(dateBirth);
             person.setGenderId(gender);
-            personService.createPerson(person);
+            personService.createPerson(person, personRegister.getConfirmation());
             //Agregar documento de identidad a nuevo usuario
             PersonIdentification personIdentificationDocument = new PersonIdentification(personId, SYSTEM_IDENTIFICATION_DNI);
             personIdentificationDocument.setPersonIdentificationValue(personRegister.getDni());
@@ -209,7 +210,7 @@ public class PersonController {
     		personRol.setPersonRoleState(SYSTEM_STATE_ACTIVE);
     		personRoleService.createPersonRol(personRol);
             return new ResponseEntity(new Message("Usted se registro exitosamente"), HttpStatus.CREATED);
-        } catch(ApiDniNotFoundException e) {
+        } catch(PasswordErrorException | ApiDniNotFoundException e) {
         	return new ResponseEntity(new Message(e.getMessage()), HttpStatus.BAD_REQUEST);
         } catch(Exception e) {
         	e.printStackTrace();

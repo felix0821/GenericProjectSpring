@@ -16,6 +16,11 @@ public class PersonRegisterDto {
 	@Size(min = 6, message = "La contraseña necesita al menos 6 caracteres.")
 	private String password;
 	
+	@NotBlank(message = "Ingrese una contraseña.")
+	@Size(max = 128, message = "Él limite de carácteres para la contraseña no debe sobrepasar los 128.")
+	@Size(min = 6, message = "La contraseña necesita al menos 6 caracteres.")
+	private String confirmation;
+	
 	/*@NotBlank(message = "Ingrese un correo electronico")
 	@Size(max = 128, message = "Él limite de carácteres para el correo electrónico no debe sobrepasar los 128.")
 	@Email(message = "Correo electrónico invalido")
@@ -40,6 +45,15 @@ public class PersonRegisterDto {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	public String getConfirmation() {
+		return confirmation;
+	}
+
+	public void setConfirmation(String confirmation) {
+		this.confirmation = confirmation;
+	}
+
 	/*
 	public String getEmail() {
 		return email;

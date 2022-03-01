@@ -301,7 +301,7 @@ public class AppController {
 			// SuperAdmin
 			superadmin = new Person(idPerson, "admin@ucps.com", password, "ADMIN", "Sin apellido paterno", "Sin apellido materno",
 					  dateRegister, SYSTEM_STATE_ACTIVE);
-			personService.createPerson(superadmin);
+			personService.createPerson(superadmin, password);
 	        //Agregar rol a nuevo usuario
 	        Long idRoleAdmin = 1L;
 	        PersonRole personRole = new PersonRole(idPerson,idRoleAdmin);

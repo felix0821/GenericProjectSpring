@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.system.demo.dto.specific.ChangePasswordDto;
 import com.system.demo.exception.CustomeFieldValidationException;
+import com.system.demo.exception.PasswordErrorException;
 import com.system.demo.exception.UsernameOrIdNotFound;
 import com.system.demo.persistence.entity.Person;
 import com.system.demo.persistence.repository.PersonRepository;
@@ -38,12 +39,16 @@ public class PersonServiceImplements implements PersonService{
 		//----------------------------------Querys Methods----------------------------------//
 		
 		@Override
-		public Person createPerson(Person person) throws Exception {
+		public Person createPerson(Person person, String passConfirmation) throws Exception, PasswordErrorException {
 			/*if (checkUsernameAvailable(user) && checkPasswordValid(user)) {
 				String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
 				user.setPassword(encodedPassword);
 				user = repository.save(user);
 			}*/
+			if (checkPasswordValid(person, passConfirmation)) {
+				String encodedPassword = bCryptPasswordEncoder.encode(person.getPersonPassword());
+				person.setPersonPassword(encodedPassword);
+			}
 			return repository.save(person);
 		}
 		@Override
@@ -163,16 +168,16 @@ public class PersonServiceImplements implements PersonService{
 			return true;
 		}
 		
-		/*
-		private boolean checkPasswordValid(Person person) throws Exception {
-			if (person.getConfirmPassword() == null || person.getConfirmPassword().isEmpty()) {
-				throw new CustomeFieldValidationException("Confirm Password es obligatorio","confirmPassword");
+		
+		private boolean checkPasswordValid(Person person, String passConfirmation) throws PasswordErrorException {
+			if (passConfirmation == null || passConfirmation.isEmpty()) {
+				throw new PasswordErrorException("Confirmar Contraseña es obligatorio");
 			}
 			
-			if ( !person.getPersonPassword().equals(person.getConfirmPassword())) {
-				throw new CustomeFieldValidationException("Password y Confirm Password no son iguales","password");
+			if ( !person.getPersonPassword().equals(passConfirmation)) {
+				throw new PasswordErrorException("Contraseña y Confirmar Contraseña no son iguales");
 			}
 			return true;
 		}
-*/
+
 }

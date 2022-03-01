@@ -11,7 +11,7 @@ public interface PersonService {
 	//Iteradores
 	Iterable<Person> getAllPersons();
 	//Consultas CRUD
-	public Person createPerson(Person person) throws Exception;
+	public Person createPerson(Person person, String passConfirmation) throws Exception;
 	public Person updatePerson(Person person) throws Exception;
 	public void deletePerson(Long id) throws UsernameOrIdNotFound;
 	//Consultas Operaciones

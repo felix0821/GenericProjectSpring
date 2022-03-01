@@ -1,6 +1,6 @@
 package com.system.demo.exception;
 
-public class CustomeFieldValidationException extends Exception{
+public class CustomeFieldValidationException extends Exception {
 
 	private static final long serialVersionUID = -4995433707591853255L;
 	
