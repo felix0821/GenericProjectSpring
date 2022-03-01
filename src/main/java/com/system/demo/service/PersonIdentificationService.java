@@ -8,5 +8,6 @@ public interface PersonIdentificationService {
 	
 	public PersonIdentification createPersonIdentification(PersonIdentification personIdentificationDocument);
 	public Optional<PersonIdentification> getPersonIdentificationById(long identificationDocumentId, long personId);
+	public boolean existsPersonIdentificationByValue(String value);
 
 }

@@ -8,5 +8,7 @@ import com.system.demo.persistence.entity.PersonIdentificationPK;
 
 @Repository
 public interface PersonIdentificationRepository extends JpaRepository<PersonIdentification,PersonIdentificationPK> {
+	
+	public boolean existsByPersonIdentificationValue(String personIdentificationValue);
 
 }

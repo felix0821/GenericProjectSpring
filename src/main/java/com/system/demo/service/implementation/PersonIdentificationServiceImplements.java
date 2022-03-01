@@ -21,12 +21,20 @@ public class PersonIdentificationServiceImplements implements PersonIdentificati
 	
 	@Override
 	public PersonIdentification createPersonIdentification(PersonIdentification personIdentification) {
+		// TODO Auto-generated method stub
 		return personIdentificationRepository.save(personIdentification);
 	}
 
 	@Override
-	public Optional<PersonIdentification> getPersonIdentificationById(long identificationDocumentId, long personId) {
-		return personIdentificationRepository.findById(new PersonIdentificationPK(identificationDocumentId, personId));
+	public Optional<PersonIdentification> getPersonIdentificationById(long personId, long identificationDocumentId) {
+		// TODO Auto-generated method stub
+		return personIdentificationRepository.findById(new PersonIdentificationPK(personId, identificationDocumentId));
+	}
+
+	@Override
+	public boolean existsPersonIdentificationByValue(String value) {
+		// TODO Auto-generated method stub
+		return personIdentificationRepository.existsByPersonIdentificationValue(value);
 	}
 
 }

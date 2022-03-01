@@ -44,7 +44,7 @@ import com.system.demo.persistence.entity.PersonRole;
 import com.system.demo.persistence.entity.Role;
 import com.system.demo.security.AclFilterVerify;
 import com.system.demo.security.JwtProvider;
-import com.system.demo.service.GenderService;
+import com.system.demo.service.PersonGenderService;
 import com.system.demo.service.PersonIdentificationService;
 import com.system.demo.service.PersonRoleService;
 import com.system.demo.service.PersonService;
@@ -68,16 +68,12 @@ public class PersonController {
 	
 	@Autowired
 	PersonService personService;
-	
 	@Autowired
 	PersonRoleService personRoleService;
-	
 	@Autowired
 	RoleService roleService;
-	
 	@Autowired
-	GenderService genderService;
-	
+	PersonGenderService personGenderService;
 	@Autowired
 	PersonIdentificationService personIdentDocService;
 	
@@ -178,8 +174,8 @@ public class PersonController {
             return new ResponseEntity(new Message("Ese nombre de usuario ya existe"), HttpStatus.BAD_REQUEST);
         if(personService.existsByEmail(personRegister.getEmail()))
             return new ResponseEntity(new Message("Ese email ya existe"), HttpStatus.BAD_REQUEST);
-        /*if(personService.existsByDni(userRegister.getDni()))
-            return new ResponseEntity(new Message("Ese dni ya existe"), HttpStatus.BAD_REQUEST);*/
+        if(personIdentDocService.existsPersonIdentificationByValue(personRegister.getDni()))
+            return new ResponseEntity(new Message("Ese dni ya existe"), HttpStatus.BAD_REQUEST);
         try {
         	Long personId = uI.getUniqId();
             String password = bCryptPasswordEncoder.encode(personRegister.getPassword());
@@ -195,7 +191,7 @@ public class PersonController {
     		if (!dniQuery[4].equals(SYSTEM_GENDER_UNDEFINED.toString())) {
     			if (dniQuery[4].equals("MASCULINO")) genderId = SYSTEM_GENDER_MALE;
     			else genderId = SYSTEM_GENDER_FEMALE;
-    			gender = genderService.getGenderById(genderId.toString()).get();
+    			gender = personGenderService.getGenderById(genderId.toString()).get();
     		}
     		//Crear un usuario para persistir
             Person person =

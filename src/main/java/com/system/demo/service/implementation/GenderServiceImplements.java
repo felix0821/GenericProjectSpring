@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 
 import com.system.demo.persistence.entity.PersonGender;
 import com.system.demo.persistence.repository.PersonGenderRepository;
-import com.system.demo.service.GenderService;
+import com.system.demo.service.PersonGenderService;
 
 @Service
 @Transactional
-public class GenderServiceImplements implements GenderService{
+public class GenderServiceImplements implements PersonGenderService{
 	
 	@Autowired
 	PersonGenderRepository personGenderRepository;
