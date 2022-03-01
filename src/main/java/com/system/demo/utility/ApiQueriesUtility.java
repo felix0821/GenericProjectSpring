@@ -91,19 +91,17 @@ public class ApiQueriesUtility {
 					    }
 					    //Extraemos el objeto json del 'response'
 					    JSONObject jo = new JSONObject(response.toString());
-					    if(jo.getBoolean("success")) {
-					    	JSONObject jos = jo.getJSONObject("data");
-						    data[0] = jos.getString("nombres").toString();
-						    data[1] = jos.getString("apellido_paterno").toString();
-						    data[2] = jos.getString("apellido_materno").toString();
-						    data[3] = jos.getString("fecha_nacimiento").toString();
-						    data[4] = jos.getString("sexo").toString();
-					    } else {
-					    	throw new ApiDniNotFoundException("Dni incorrecto");
-					    }
+					    JSONObject jos = jo.getJSONObject("data");
+					    data[0] = jos.getString("nombres").toString();
+					    data[1] = jos.getString("apellido_paterno").toString();
+					    data[2] = jos.getString("apellido_materno").toString();
+					    data[3] = jos.getString("fecha_nacimiento").toString();
+					    data[4] = jos.getString("sexo").toString();
+					    //if(jo.getBoolean("success"))
 			} catch(Exception e){
 				e.printStackTrace();
 				System.out.println("Error de parseo");
+				throw new ApiDniNotFoundException("Dni incorrecto");
 			}
 			http.disconnect();
 		} catch (MalformedURLException e1) {
