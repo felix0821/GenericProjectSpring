@@ -11,6 +11,8 @@ import java.nio.charset.StandardCharsets;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 
+import com.system.demo.exception.ApiDniNotFoundException;
+
 @Component
 public class ApiQueriesUtility {
 	
@@ -71,7 +73,7 @@ public class ApiQueriesUtility {
 	}
 	
 	//Api consumida de https://api-peru.com/
-	public String[] checkDniApiPeru(String dni) throws Exception {
+	public String[] checkDniApiPeru(String dni) throws Exception, ApiDniNotFoundException {
 		String data[]= {"Sin nombres","Sin apellido paterno","Sin apellido materno","2000-01-01","X"};
 		URL url;
 		try {
@@ -81,9 +83,7 @@ public class ApiQueriesUtility {
 			http.setDoOutput(true);
 			http.setRequestProperty("Content-Type", "application/json");
 			http.setRequestProperty("Accept", "application/json");
-
-			try(BufferedReader br = new BufferedReader(
-					  new InputStreamReader(http.getInputStream(), "utf-8"))) {
+			try(BufferedReader br = new BufferedReader(new InputStreamReader(http.getInputStream(), "utf-8"))) {
 					    StringBuilder response = new StringBuilder();
 					    String responseLine = null;
 					    while ((responseLine = br.readLine()) != null) {
@@ -97,10 +97,10 @@ public class ApiQueriesUtility {
 					    data[2] = jos.getString("apellido_materno").toString();
 					    data[3] = jos.getString("fecha_nacimiento").toString();
 					    data[4] = jos.getString("sexo").toString();
-					}
-			catch(Exception e){
+			} catch(Exception e){
 				e.printStackTrace();
 				System.out.println("Error de parseo");
+				throw new ApiDniNotFoundException("Dni incorrecto");
 			}
 			http.disconnect();
 		} catch (MalformedURLException e1) {

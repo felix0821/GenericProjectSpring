@@ -37,6 +37,7 @@ import com.system.demo.dto.specific.PersonProfileDto;
 import com.system.demo.dto.specific.PersonRegisterDto;
 import com.system.demo.dto.specific.PersonRolesDetailDto;
 import com.system.demo.dto.specific.PersonRolesHeaderDto;
+import com.system.demo.exception.ApiDniNotFoundException;
 import com.system.demo.persistence.entity.PersonGender;
 import com.system.demo.persistence.entity.Person;
 import com.system.demo.persistence.entity.PersonIdentification;
@@ -167,13 +168,13 @@ public class PersonController {
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@PostMapping(value=URL_PERSON_REGISTER_POST)
     public ResponseEntity<?> save(@Valid @RequestBody PersonRegisterDto personRegister, BindingResult bindingResult) throws Exception{
-		//Realizamos las validaciones pertinentes
+//		°Realizamos las validaciones pertinentes
         if(bindingResult.hasErrors())
             return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
         if(personService.existsByUsername(personRegister.getUsername()))
-            return new ResponseEntity(new Message("Ese nombre de usuario ya existe"), HttpStatus.BAD_REQUEST);
-        if(personService.existsByEmail(personRegister.getEmail()))
-            return new ResponseEntity(new Message("Ese email ya existe"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Message("Ese nombre de usuario o correo ya existe"), HttpStatus.BAD_REQUEST);
+        /*if(personService.existsByEmail(personRegister.getEmail()))
+            return new ResponseEntity(new Message("Ese email ya existe"), HttpStatus.BAD_REQUEST);*/
         if(personIdentDocService.existsPersonIdentificationByValue(personRegister.getDni()))
             return new ResponseEntity(new Message("Ese dni ya existe"), HttpStatus.BAD_REQUEST);
         try {
@@ -185,7 +186,6 @@ public class PersonController {
     		//Insertar nombres por dni
     		String dniQuery[] = apiQueriesUtility.checkDniApiPeru(personRegister.getDni());
     		Date dateBirth=new SimpleDateFormat("yyyy-MM-dd").parse(dniQuery[3]);
-    		String emailPerson = personRegister.getEmail();
     		Character genderId;
     		PersonGender gender = null;
     		if (!dniQuery[4].equals(SYSTEM_GENDER_UNDEFINED.toString())) {
@@ -196,7 +196,7 @@ public class PersonController {
     		//Crear un usuario para persistir
             Person person =
                     new Person(personId, personRegister.getUsername(), password, dniQuery[0], dniQuery[1], 
-                    		dniQuery[2], dateRegister, emailPerson, SYSTEM_STATE_ACTIVE);
+                    		dniQuery[2], dateRegister, SYSTEM_STATE_ACTIVE);
             person.setPersonDateBirth(dateBirth);
             person.setGenderId(gender);
             personService.createPerson(person);
@@ -209,6 +209,8 @@ public class PersonController {
     		personRol.setPersonRoleState(SYSTEM_STATE_ACTIVE);
     		personRoleService.createPersonRol(personRol);
             return new ResponseEntity(new Message("Usted se registro exitosamente"), HttpStatus.CREATED);
+        } catch(ApiDniNotFoundException e) {
+        	return new ResponseEntity(new Message(e.getMessage()), HttpStatus.BAD_REQUEST);
         } catch(Exception e) {
         	e.printStackTrace();
         	return new ResponseEntity(new Message(SYSTEM_ERROR), HttpStatus.BAD_REQUEST);

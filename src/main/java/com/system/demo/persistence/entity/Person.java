@@ -29,7 +29,6 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(name = "person", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"person_email"}),
     @UniqueConstraint(columnNames = {"person_username"})})
 @NamedQueries({
     @NamedQuery(name = "Person.findAll", query = "SELECT p FROM Person p"),
@@ -73,8 +72,7 @@ public class Person implements Serializable {
     @Column(name = "person_date_registration", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date personDateRegistration;
-    @Basic(optional = false)
-    @Column(name = "person_email", nullable = false, length = 128)
+    @Column(name = "person_email", length = 128)
     private String personEmail;
     @Column(name = "person_url_profilepicture", length = 256)
     private String personUrlProfilepicture;
@@ -116,7 +114,7 @@ public class Person implements Serializable {
         this.personId = personId;
     }
 
-    public Person(Long personId, String personUsername, String personPassword, String personName, String personLastnameFather, String personLastnameMother, Date personDateRegistration, String personEmail, Character personState) {
+    public Person(Long personId, String personUsername, String personPassword, String personName, String personLastnameFather, String personLastnameMother, Date personDateRegistration, Character personState) {
         this.personId = personId;
         this.personUsername = personUsername;
         this.personPassword = personPassword;
@@ -124,7 +122,6 @@ public class Person implements Serializable {
         this.personLastnameFather = personLastnameFather;
         this.personLastnameMother = personLastnameMother;
         this.personDateRegistration = personDateRegistration;
-        this.personEmail = personEmail;
         this.personState = personState;
     }
 

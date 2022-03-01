@@ -121,8 +121,8 @@ public class PersonControllerTest {
 		Date dateRegister=Date.from(datePeru.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
 		String contraseña = "1234";
 		//Crear usuario
-		Person person = new Person(1L, "felix123", contraseña, "FELIX", "MONTALICO", "LAQUIHUANACO", 
-	    		dateRegister, "felixmontalico@gmail.com", 'A');
+		Person person = new Person(1L, "felixmontalico@gmail.com", contraseña, "FELIX", "MONTALICO", "LAQUIHUANACO", 
+	    		dateRegister, 'A');
 		person.setPersonDateBirth(dateBirth);
 		return person;
 	}

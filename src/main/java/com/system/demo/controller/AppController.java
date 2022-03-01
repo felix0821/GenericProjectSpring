@@ -299,8 +299,8 @@ public class AppController {
 			String password = bCryptPasswordEncoder.encode("admin");
 			Date dateRegister=Date.from(datePeru.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
 			// SuperAdmin
-			superadmin = new Person(idPerson, "admin", password, "ADMIN", "Sin apellido paterno", "Sin apellido materno",
-					  dateRegister, "admin@ucps", SYSTEM_STATE_ACTIVE);
+			superadmin = new Person(idPerson, "admin@ucps.com", password, "ADMIN", "Sin apellido paterno", "Sin apellido materno",
+					  dateRegister, SYSTEM_STATE_ACTIVE);
 			personService.createPerson(superadmin);
 	        //Agregar rol a nuevo usuario
 	        Long idRoleAdmin = 1L;
