@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.prefs.Preferences;
 
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.system.demo.persistence.sqlite.ConnectionSQLite;
 
@@ -22,9 +23,13 @@ public class Main extends Thread {
     static final String KeyInt = "KEY_INT";
     static final String KeyBoolean = "KEY_BOOLEAN";
     
+    private static BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+    private static ApiQueriesUtility api = new ApiQueriesUtility();
+    
     private static final Preferences prefs=Preferences.userRoot().node("system");
     
 	public static void main(String[] args) {
+		System.out.println(bCryptPasswordEncoder.encode("Admin321"));
 		LocalDateTime fechaHoraPeru = LocalDateTime.now(ZoneId.of(ZONE_DATE_LIMA));
 		LocalDate fechaPeru=LocalDate.now(ZoneId.of(ZONE_DATE_LIMA));
 		fechaHoraPeru.atZone(ZoneId.systemDefault()).toInstant();
@@ -81,4 +86,5 @@ public class Main extends Thread {
 	    System.out.println("This code is running in a thread");
 	  }
 
-}*/
+}
+*/
