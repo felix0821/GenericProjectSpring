@@ -133,7 +133,8 @@ public class PersonController {
 	        return new ResponseEntity<PersonProfileDto>(personProfileDto, HttpStatus.OK);
 		}
 		catch (Exception e) {
-        	return new ResponseEntity(new Message("BLOQUED"), HttpStatus.BAD_REQUEST);
+			e.printStackTrace();
+        	return new ResponseEntity(new Message(SYSTEM_ERROR), HttpStatus.BAD_REQUEST);
         }
 	} 
 	
@@ -179,38 +180,43 @@ public class PersonController {
             return new ResponseEntity(new Message("Ese email ya existe"), HttpStatus.BAD_REQUEST);
         /*if(personService.existsByDni(userRegister.getDni()))
             return new ResponseEntity(new Message("Ese dni ya existe"), HttpStatus.BAD_REQUEST);*/
-        Long personId = uI.getUniqId();
-        String password = bCryptPasswordEncoder.encode(personRegister.getPassword());
-        //Insertar fecha de registro
-		LocalDateTime fechaHoraPeru = LocalDateTime.now(ZoneId.of(ZONE_DATE_LIMA));
-		Date dateRegister = Date.from(fechaHoraPeru.atZone(ZoneId.systemDefault()).toInstant());
-		//Insertar nombres por dni
-		String dniQuery[] = apiQueriesUtility.checkDniApiPeru(personRegister.getDni());
-		Date dateBirth=new SimpleDateFormat("yyyy-MM-dd").parse(dniQuery[3]);
-		String emailPerson = personRegister.getEmail();
-		Character genderId;
-		PersonGender gender = null;
-		if (!dniQuery[4].equals(SYSTEM_GENDER_UNDEFINED.toString())) {
-			if (dniQuery[4].equals("MASCULINO")) genderId = SYSTEM_GENDER_MALE;
-			else genderId = SYSTEM_GENDER_FEMALE;
-			gender = genderService.getGenderById(genderId.toString()).get();
-		}
-		//Crear un usuario para persistir
-        Person person =
-                new Person(personId, personRegister.getUsername(), password, dniQuery[0], dniQuery[1], 
-                		dniQuery[2], dateRegister, emailPerson, SYSTEM_STATE_ACTIVE);
-        person.setPersonDateBirth(dateBirth);
-        person.setGenderId(gender);
-        personService.createPerson(person);
-        //Agregar documento de identidad a nuevo usuario
-        PersonIdentification personIdentificationDocument = new PersonIdentification(personId, SYSTEM_IDENTIFICATION_DNI);
-        personIdentificationDocument.setPersonIdentificationValue(personRegister.getDni());
-        personIdentDocService.createPersonIdentification(personIdentificationDocument);
-        //Agregar rol a nuevo usuario
-        PersonRole personRol = new PersonRole(personId,SYSTEM_ID_USER);
-		personRol.setPersonRoleState(SYSTEM_STATE_ACTIVE);
-		personRoleService.createPersonRol(personRol);
-        return new ResponseEntity(new Message("Usted se registro exitosamente"), HttpStatus.CREATED);
+        try {
+        	Long personId = uI.getUniqId();
+            String password = bCryptPasswordEncoder.encode(personRegister.getPassword());
+            //Insertar fecha de registro
+    		LocalDateTime fechaHoraPeru = LocalDateTime.now(ZoneId.of(ZONE_DATE_LIMA));
+    		Date dateRegister = Date.from(fechaHoraPeru.atZone(ZoneId.systemDefault()).toInstant());
+    		//Insertar nombres por dni
+    		String dniQuery[] = apiQueriesUtility.checkDniApiPeru(personRegister.getDni());
+    		Date dateBirth=new SimpleDateFormat("yyyy-MM-dd").parse(dniQuery[3]);
+    		String emailPerson = personRegister.getEmail();
+    		Character genderId;
+    		PersonGender gender = null;
+    		if (!dniQuery[4].equals(SYSTEM_GENDER_UNDEFINED.toString())) {
+    			if (dniQuery[4].equals("MASCULINO")) genderId = SYSTEM_GENDER_MALE;
+    			else genderId = SYSTEM_GENDER_FEMALE;
+    			gender = genderService.getGenderById(genderId.toString()).get();
+    		}
+    		//Crear un usuario para persistir
+            Person person =
+                    new Person(personId, personRegister.getUsername(), password, dniQuery[0], dniQuery[1], 
+                    		dniQuery[2], dateRegister, emailPerson, SYSTEM_STATE_ACTIVE);
+            person.setPersonDateBirth(dateBirth);
+            person.setGenderId(gender);
+            personService.createPerson(person);
+            //Agregar documento de identidad a nuevo usuario
+            PersonIdentification personIdentificationDocument = new PersonIdentification(personId, SYSTEM_IDENTIFICATION_DNI);
+            personIdentificationDocument.setPersonIdentificationValue(personRegister.getDni());
+            personIdentDocService.createPersonIdentification(personIdentificationDocument);
+            //Agregar rol a nuevo usuario
+            PersonRole personRol = new PersonRole(personId,SYSTEM_ID_USER);
+    		personRol.setPersonRoleState(SYSTEM_STATE_ACTIVE);
+    		personRoleService.createPersonRol(personRol);
+            return new ResponseEntity(new Message("Usted se registro exitosamente"), HttpStatus.CREATED);
+        } catch(Exception e) {
+        	e.printStackTrace();
+        	return new ResponseEntity(new Message(SYSTEM_ERROR), HttpStatus.BAD_REQUEST);
+        }
     }
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
