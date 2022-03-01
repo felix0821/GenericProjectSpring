@@ -5,10 +5,13 @@ import javax.validation.constraints.Size;
 
 public class PersonLoginDto {
 	@NotBlank(message = "Ingrese un nombre de usuario.")
-	@Size(max = 20, min = 3, message = "Ingrese entre 3 a 30 caracteres.")
+	@Size(max = 128, message = "Él limite de carácteres para el nombre de usuario o correo no debe sobrepasar los 128.")
+	@Size(min = 6, message = "El nombre de usuario o correo necesita al menos 5 caracteres.")
     private String username;
+	
     @NotBlank(message = "Ingrese una contraseña.")
-    @Size(min = 4, message = "Ingrese al menos 4 caracteres.")
+    @Size(max = 128, message = "Él limite de carácteres para la contraseña no debe sobrepasar los 128.")
+	@Size(min = 6, message = "La contraseña necesita al menos 6 caracteres.")
     private String password;
     
 	public String getUsername() {
