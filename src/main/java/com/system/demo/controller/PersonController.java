@@ -2,6 +2,7 @@ package com.system.demo.controller;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,7 +37,7 @@ import com.system.demo.dto.specific.PersonProfileDto;
 import com.system.demo.dto.specific.PersonRegisterDto;
 import com.system.demo.dto.specific.PersonRolesDetailDto;
 import com.system.demo.dto.specific.PersonRolesHeaderDto;
-import com.system.demo.persistence.entity.Gender;
+import com.system.demo.persistence.entity.PersonGender;
 import com.system.demo.persistence.entity.Person;
 import com.system.demo.persistence.entity.PersonIdentification;
 import com.system.demo.persistence.entity.PersonRole;
@@ -181,14 +182,14 @@ public class PersonController {
         Long personId = uI.getUniqId();
         String password = bCryptPasswordEncoder.encode(personRegister.getPassword());
         //Insertar fecha de registro
-		LocalDate fechaPeru=LocalDate.now(ZoneId.of(ZONE_DATE_LIMA));
-		Date dateRegister=Date.from(fechaPeru.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+		LocalDateTime fechaHoraPeru = LocalDateTime.now(ZoneId.of(ZONE_DATE_LIMA));
+		Date dateRegister = Date.from(fechaHoraPeru.atZone(ZoneId.systemDefault()).toInstant());
 		//Insertar nombres por dni
 		String dniQuery[] = apiQueriesUtility.checkDniApiPeru(personRegister.getDni());
 		Date dateBirth=new SimpleDateFormat("yyyy-MM-dd").parse(dniQuery[3]);
 		String emailPerson = personRegister.getEmail();
 		Character genderId;
-		Gender gender = null;
+		PersonGender gender = null;
 		if (!dniQuery[4].equals(SYSTEM_GENDER_UNDEFINED.toString())) {
 			if (dniQuery[4].equals("MASCULINO")) genderId = SYSTEM_GENDER_MALE;
 			else genderId = SYSTEM_GENDER_FEMALE;

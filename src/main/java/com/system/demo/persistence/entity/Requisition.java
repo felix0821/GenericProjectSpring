@@ -54,6 +54,8 @@ public class Requisition implements Serializable {
     private Collection<RequisitionDetail> requisitionDetailCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisition")
     private Collection<RequisitionAccessRole> requisitionAccessRoleCollection;
+    @OneToMany(mappedBy = "requisitionId")
+    private Collection<ProgramPeriod> programPeriodCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisition")
     private Collection<RequisitionData> requisitionDataCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisition")
@@ -129,6 +131,14 @@ public class Requisition implements Serializable {
 
     public void setRequisitionAccessRoleCollection(Collection<RequisitionAccessRole> requisitionAccessRoleCollection) {
         this.requisitionAccessRoleCollection = requisitionAccessRoleCollection;
+    }
+
+    public Collection<ProgramPeriod> getProgramPeriodCollection() {
+        return programPeriodCollection;
+    }
+
+    public void setProgramPeriodCollection(Collection<ProgramPeriod> programPeriodCollection) {
+        this.programPeriodCollection = programPeriodCollection;
     }
 
     public Collection<RequisitionData> getRequisitionDataCollection() {

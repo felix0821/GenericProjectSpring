@@ -2,10 +2,10 @@ package com.system.demo.service;
 
 import java.util.Optional;
 
-import com.system.demo.persistence.entity.Gender;
+import com.system.demo.persistence.entity.PersonGender;
 
 public interface GenderService {
 	
-	public Optional<Gender> getGenderById(String genderId);
+	public Optional<PersonGender> getGenderById(String genderId);
 
 }

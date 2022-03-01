@@ -7,9 +7,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class GenericProjectSystemApplication {
 
 	public static void main(String[] args) {
+		startSettingsSystem();
 		SpringApplication.run(GenericProjectSystemApplication.class, args);
 	}
 	
-	
+	private static void startSettingsSystem() {
+		
+	}
 
 }

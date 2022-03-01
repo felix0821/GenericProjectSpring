@@ -90,12 +90,10 @@ public class Person implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId")
     private Collection<RequisitionDetail> requisitionDetailCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
-    private Collection<RequisitionDetailPerson> requisitionDetailPersonCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
-    private Collection<PaymentDiscountPerson> paymentDiscountPersonCollection;
+    private Collection<DiscountPerson> discountPersonCollection;
     @JoinColumn(name = "gender_id", referencedColumnName = "gender_id")
     @ManyToOne
-    private Gender genderId;
+    private PersonGender genderId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId")
     private Collection<RequisitionRemark> requisitionRemarkCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
@@ -250,27 +248,19 @@ public class Person implements Serializable {
         this.requisitionDetailCollection = requisitionDetailCollection;
     }
 
-    public Collection<RequisitionDetailPerson> getRequisitionDetailPersonCollection() {
-        return requisitionDetailPersonCollection;
+    public Collection<DiscountPerson> getDiscountPersonCollection() {
+        return discountPersonCollection;
     }
 
-    public void setRequisitionDetailPersonCollection(Collection<RequisitionDetailPerson> requisitionDetailPersonCollection) {
-        this.requisitionDetailPersonCollection = requisitionDetailPersonCollection;
+    public void setDiscountPersonCollection(Collection<DiscountPerson> discountPersonCollection) {
+        this.discountPersonCollection = discountPersonCollection;
     }
 
-    public Collection<PaymentDiscountPerson> getPaymentDiscountPersonCollection() {
-        return paymentDiscountPersonCollection;
-    }
-
-    public void setPaymentDiscountPersonCollection(Collection<PaymentDiscountPerson> paymentDiscountPersonCollection) {
-        this.paymentDiscountPersonCollection = paymentDiscountPersonCollection;
-    }
-
-    public Gender getGenderId() {
+    public PersonGender getGenderId() {
         return genderId;
     }
 
-    public void setGenderId(Gender genderId) {
+    public void setGenderId(PersonGender genderId) {
         this.genderId = genderId;
     }
 

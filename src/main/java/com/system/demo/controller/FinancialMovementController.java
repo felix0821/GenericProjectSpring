@@ -28,10 +28,10 @@ import com.system.demo.dto.specific.FinancialMovementHeaderDto;
 import com.system.demo.dto.specific.FinancialMovementListDto;
 import com.system.demo.dto.specific.FinancialMovementRangeDto;
 import com.system.demo.persistence.entity.FinancialMovementDetail;
-import com.system.demo.persistence.entity.FinancialMovementRequisition;
+import com.system.demo.persistence.entity.FinancialRequisition;
 import com.system.demo.persistence.entity.RequisitionDataDetail;
 import com.system.demo.persistence.entity.RequisitionDataDetailPK;
-import com.system.demo.persistence.repository.FinancialMovementRequisitionRepository;
+import com.system.demo.persistence.repository.FinancialRequisitionRepository;
 import com.system.demo.persistence.repository.RequisitionDataDetailRepository;
 import com.system.demo.service.FinancialMovementDetailService;
 import com.system.demo.service.FinancialMovementRequisitionService;
@@ -48,7 +48,7 @@ public class FinancialMovementController {
 	@Autowired
 	FinancialMovementDetailService financialMovementDetailService;
 	@Autowired
-	FinancialMovementRequisitionRepository financialMovementRequisitionService;
+	FinancialRequisitionRepository financialMovementRequisitionService;
 	@Autowired
 	RequisitionDataDetailRepository requisitionDataDetailRepository;
 
@@ -61,9 +61,9 @@ public class FinancialMovementController {
 			List<FinancialMovementListDto> financialMovDetailListDto = new ArrayList<>();
 			for (FinancialMovementDetail fMovDetail : financialMovDetailList) {
 				long idFmovDetail = fMovDetail.getFinancialMovementDetailId();
-				Iterable<FinancialMovementRequisition> fMovReq = financialMovementRequisitionService.findByFinancialMovementDetailId(idFmovDetail);
-				FinancialMovementRequisition fmov= null;
-				for(FinancialMovementRequisition f:fMovReq) {
+				Iterable<FinancialRequisition> fMovReq = financialMovementRequisitionService.findByFinancialMovementDetailId(idFmovDetail);
+				FinancialRequisition fmov= null;
+				for(FinancialRequisition f:fMovReq) {
 					fmov=f;
 				}
 				RequisitionDataDetailPK id = new RequisitionDataDetailPK(1L,10006L,fmov.getRequisitionDetail().getRequisitionDetailId());
@@ -95,9 +95,9 @@ public class FinancialMovementController {
 			List<FinancialMovementListDto> financialMovDetailListDto = new ArrayList<>();
 			for (FinancialMovementDetail fMovDetail : financialMovDetailList) {
 				long idFmovDetail = fMovDetail.getFinancialMovementDetailId();
-				Iterable<FinancialMovementRequisition> fMovReq = financialMovementRequisitionService.findByFinancialMovementDetailId(idFmovDetail);
-				FinancialMovementRequisition fmov= null;
-				for(FinancialMovementRequisition f:fMovReq) {
+				Iterable<FinancialRequisition> fMovReq = financialMovementRequisitionService.findByFinancialMovementDetailId(idFmovDetail);
+				FinancialRequisition fmov= null;
+				for(FinancialRequisition f:fMovReq) {
 					fmov=f;
 				}
 				RequisitionDataDetailPK id = new RequisitionDataDetailPK(1L,10006L,fmov.getRequisitionDetail().getRequisitionDetailId());

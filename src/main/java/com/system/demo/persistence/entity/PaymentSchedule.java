@@ -6,6 +6,7 @@
 package com.system.demo.persistence.entity;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,10 +27,7 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(name = "PaymentSchedule.findAll", query = "SELECT p FROM PaymentSchedule p"),
     @NamedQuery(name = "PaymentSchedule.findByPaymentScheduleId", query = "SELECT p FROM PaymentSchedule p WHERE p.paymentScheduleId = :paymentScheduleId"),
-    @NamedQuery(name = "PaymentSchedule.findByPaymentScheduleIndex", query = "SELECT p FROM PaymentSchedule p WHERE p.paymentScheduleIndex = :paymentScheduleIndex"),
-    @NamedQuery(name = "PaymentSchedule.findByPaymentScheduleMonth", query = "SELECT p FROM PaymentSchedule p WHERE p.paymentScheduleMonth = :paymentScheduleMonth"),
-    @NamedQuery(name = "PaymentSchedule.findByPaymentScheduleStartPayday", query = "SELECT p FROM PaymentSchedule p WHERE p.paymentScheduleStartPayday = :paymentScheduleStartPayday"),
-    @NamedQuery(name = "PaymentSchedule.findByPaymentScheduleFinalPayday", query = "SELECT p FROM PaymentSchedule p WHERE p.paymentScheduleFinalPayday = :paymentScheduleFinalPayday")})
+    @NamedQuery(name = "PaymentSchedule.findByPaymentScheduleIndex", query = "SELECT p FROM PaymentSchedule p WHERE p.paymentScheduleIndex = :paymentScheduleIndex")})
 public class PaymentSchedule implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -37,41 +35,26 @@ public class PaymentSchedule implements Serializable {
     @Basic(optional = false)
     @Column(name = "payment_schedule_id", nullable = false)
     private Long paymentScheduleId;
-    @Basic(optional = false)
-    @Column(name = "payment_schedule_index", nullable = false)
-    private int paymentScheduleIndex;
-    @Basic(optional = false)
-    @Column(name = "payment_schedule_month", nullable = false)
-    private int paymentScheduleMonth;
-    @Basic(optional = false)
-    @Column(name = "payment_schedule_start_payday", nullable = false)
-    private int paymentScheduleStartPayday;
-    @Basic(optional = false)
-    @Column(name = "payment_schedule_final_payday", nullable = false)
-    private int paymentScheduleFinalPayday;
+    @Column(name = "payment_schedule_index")
+    private BigInteger paymentScheduleIndex;
     @JoinColumns({
         @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false),
         @JoinColumn(name = "program_id", referencedColumnName = "program_id", nullable = false),
         @JoinColumn(name = "period_id", referencedColumnName = "period_id", nullable = false)})
     @ManyToOne(optional = false)
     private EnrollmentProgram enrollmentProgram;
-    @JoinColumn(name = "payment_status_id", referencedColumnName = "payment_status_id")
-    @ManyToOne
+    @JoinColumn(name = "payment_status_id", referencedColumnName = "payment_status_id", nullable = false)
+    @ManyToOne(optional = false)
     private PaymentStatus paymentStatusId;
+    @JoinColumn(name = "shedule_id", referencedColumnName = "shedule_id", nullable = false)
+    @ManyToOne(optional = false)
+    private ProgramShedule sheduleId;
 
     public PaymentSchedule() {
     }
 
     public PaymentSchedule(Long paymentScheduleId) {
         this.paymentScheduleId = paymentScheduleId;
-    }
-
-    public PaymentSchedule(Long paymentScheduleId, int paymentScheduleIndex, int paymentScheduleMonth, int paymentScheduleStartPayday, int paymentScheduleFinalPayday) {
-        this.paymentScheduleId = paymentScheduleId;
-        this.paymentScheduleIndex = paymentScheduleIndex;
-        this.paymentScheduleMonth = paymentScheduleMonth;
-        this.paymentScheduleStartPayday = paymentScheduleStartPayday;
-        this.paymentScheduleFinalPayday = paymentScheduleFinalPayday;
     }
 
     public Long getPaymentScheduleId() {
@@ -82,36 +65,12 @@ public class PaymentSchedule implements Serializable {
         this.paymentScheduleId = paymentScheduleId;
     }
 
-    public int getPaymentScheduleIndex() {
+    public BigInteger getPaymentScheduleIndex() {
         return paymentScheduleIndex;
     }
 
-    public void setPaymentScheduleIndex(int paymentScheduleIndex) {
+    public void setPaymentScheduleIndex(BigInteger paymentScheduleIndex) {
         this.paymentScheduleIndex = paymentScheduleIndex;
-    }
-
-    public int getPaymentScheduleMonth() {
-        return paymentScheduleMonth;
-    }
-
-    public void setPaymentScheduleMonth(int paymentScheduleMonth) {
-        this.paymentScheduleMonth = paymentScheduleMonth;
-    }
-
-    public int getPaymentScheduleStartPayday() {
-        return paymentScheduleStartPayday;
-    }
-
-    public void setPaymentScheduleStartPayday(int paymentScheduleStartPayday) {
-        this.paymentScheduleStartPayday = paymentScheduleStartPayday;
-    }
-
-    public int getPaymentScheduleFinalPayday() {
-        return paymentScheduleFinalPayday;
-    }
-
-    public void setPaymentScheduleFinalPayday(int paymentScheduleFinalPayday) {
-        this.paymentScheduleFinalPayday = paymentScheduleFinalPayday;
     }
 
     public EnrollmentProgram getEnrollmentProgram() {
@@ -128,6 +87,14 @@ public class PaymentSchedule implements Serializable {
 
     public void setPaymentStatusId(PaymentStatus paymentStatusId) {
         this.paymentStatusId = paymentStatusId;
+    }
+
+    public ProgramShedule getSheduleId() {
+        return sheduleId;
+    }
+
+    public void setSheduleId(ProgramShedule sheduleId) {
+        this.sheduleId = sheduleId;
     }
 
     @Override

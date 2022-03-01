@@ -12,6 +12,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -33,7 +35,6 @@ import javax.persistence.UniqueConstraint;
     @NamedQuery(name = "Period.findByPeriodName", query = "SELECT p FROM Period p WHERE p.periodName = :periodName"),
     @NamedQuery(name = "Period.findByPeriodYear", query = "SELECT p FROM Period p WHERE p.periodYear = :periodYear"),
     @NamedQuery(name = "Period.findByPeriodDescription", query = "SELECT p FROM Period p WHERE p.periodDescription = :periodDescription"),
-    @NamedQuery(name = "Period.findByPeriodModality", query = "SELECT p FROM Period p WHERE p.periodModality = :periodModality"),
     @NamedQuery(name = "Period.findByPeriodState", query = "SELECT p FROM Period p WHERE p.periodState = :periodState")})
 public class Period implements Serializable {
 
@@ -42,8 +43,7 @@ public class Period implements Serializable {
     @Basic(optional = false)
     @Column(name = "period_id", nullable = false)
     private Long periodId;
-    @Basic(optional = false)
-    @Column(name = "period_index", nullable = false)
+    @Column(name = "period_index")
     private Integer periodIndex;
     @Basic(optional = false)
     @Column(name = "period_identifier", nullable = false, length = 40)
@@ -57,15 +57,15 @@ public class Period implements Serializable {
     @Column(name = "period_description", length = 128)
     private String periodDescription;
     @Basic(optional = false)
-    @Column(name = "period_modality", nullable = false)
-    private Character periodModality;
-    @Basic(optional = false)
     @Column(name = "period_state", nullable = false)
     private Character periodState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "period")
     private Collection<DataDetailPeriod> dataDetailPeriodCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "period")
     private Collection<ProgramPeriod> programPeriodCollection;
+    @JoinColumn(name = "modality_id", referencedColumnName = "modality_id", nullable = false)
+    @ManyToOne(optional = false)
+    private PeriodModality modalityId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "period")
     private Collection<PeriodData> periodDataCollection;
 
@@ -76,13 +76,11 @@ public class Period implements Serializable {
         this.periodId = periodId;
     }
 
-    public Period(Long periodId, Integer periodIndex, String periodIdentifier, String periodName, int periodYear, Character periodModality, Character periodState) {
+    public Period(Long periodId, String periodIdentifier, String periodName, int periodYear, Character periodState) {
         this.periodId = periodId;
-        this.periodIndex = periodIndex;
         this.periodIdentifier = periodIdentifier;
         this.periodName = periodName;
         this.periodYear = periodYear;
-        this.periodModality = periodModality;
         this.periodState = periodState;
     }
 
@@ -94,11 +92,11 @@ public class Period implements Serializable {
         this.periodId = periodId;
     }
 
-    public int getPeriodIndex() {
+    public Integer getPeriodIndex() {
         return periodIndex;
     }
 
-    public void setPeriodIndex(int periodIndex) {
+    public void setPeriodIndex(Integer periodIndex) {
         this.periodIndex = periodIndex;
     }
 
@@ -134,14 +132,6 @@ public class Period implements Serializable {
         this.periodDescription = periodDescription;
     }
 
-    public Character getPeriodModality() {
-        return periodModality;
-    }
-
-    public void setPeriodModality(Character periodModality) {
-        this.periodModality = periodModality;
-    }
-
     public Character getPeriodState() {
         return periodState;
     }
@@ -164,6 +154,14 @@ public class Period implements Serializable {
 
     public void setProgramPeriodCollection(Collection<ProgramPeriod> programPeriodCollection) {
         this.programPeriodCollection = programPeriodCollection;
+    }
+
+    public PeriodModality getModalityId() {
+        return modalityId;
+    }
+
+    public void setModalityId(PeriodModality modalityId) {
+        this.modalityId = modalityId;
     }
 
     public Collection<PeriodData> getPeriodDataCollection() {

@@ -49,7 +49,7 @@ public class PaymentDiscount implements Serializable {
     @Column(name = "payment_discount_state", nullable = false)
     private Character paymentDiscountState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "paymentDiscount")
-    private Collection<PaymentDiscountPerson> paymentDiscountPersonCollection;
+    private Collection<DiscountPerson> discountPersonCollection;
 
     public PaymentDiscount() {
     }
@@ -105,12 +105,12 @@ public class PaymentDiscount implements Serializable {
         this.paymentDiscountState = paymentDiscountState;
     }
 
-    public Collection<PaymentDiscountPerson> getPaymentDiscountPersonCollection() {
-        return paymentDiscountPersonCollection;
+    public Collection<DiscountPerson> getDiscountPersonCollection() {
+        return discountPersonCollection;
     }
 
-    public void setPaymentDiscountPersonCollection(Collection<PaymentDiscountPerson> paymentDiscountPersonCollection) {
-        this.paymentDiscountPersonCollection = paymentDiscountPersonCollection;
+    public void setDiscountPersonCollection(Collection<DiscountPerson> discountPersonCollection) {
+        this.discountPersonCollection = discountPersonCollection;
     }
 
     @Override

@@ -44,9 +44,8 @@ public class Modulus implements Serializable {
     @Basic(optional = false)
     @Column(name = "modulus_id", nullable = false)
     private Long modulusId;
-    @Basic(optional = false)
-    @Column(name = "modulus_index", nullable = false)
-    private int modulusIndex;
+    @Column(name = "modulus_index")
+    private Integer modulusIndex;
     @Basic(optional = false)
     @Column(name = "modulus_identifier", nullable = false, length = 64)
     private String modulusIdentifier;
@@ -76,9 +75,8 @@ public class Modulus implements Serializable {
         this.modulusId = modulusId;
     }
 
-    public Modulus(Long modulusId, int modulusIndex, String modulusIdentifier, String modulusName, int modulusOrder, Character modulusState) {
+    public Modulus(Long modulusId, String modulusIdentifier, String modulusName, int modulusOrder, Character modulusState) {
         this.modulusId = modulusId;
-        this.modulusIndex = modulusIndex;
         this.modulusIdentifier = modulusIdentifier;
         this.modulusName = modulusName;
         this.modulusOrder = modulusOrder;
@@ -93,11 +91,11 @@ public class Modulus implements Serializable {
         this.modulusId = modulusId;
     }
 
-    public int getModulusIndex() {
+    public Integer getModulusIndex() {
         return modulusIndex;
     }
 
-    public void setModulusIndex(int modulusIndex) {
+    public void setModulusIndex(Integer modulusIndex) {
         this.modulusIndex = modulusIndex;
     }
 

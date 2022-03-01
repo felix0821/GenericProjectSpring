@@ -65,7 +65,7 @@ public class CourseDetail implements Serializable {
     private ModulusDetail modulusDetail;
     @JoinColumn(name = "schedule_id", referencedColumnName = "schedule_id")
     @ManyToOne
-    private Schedule scheduleId;
+    private ModulusSchedule scheduleId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "courseDetailId")
     private Collection<QualificationCriteria> qualificationCriteriaCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "courseDetail")
@@ -150,11 +150,11 @@ public class CourseDetail implements Serializable {
         this.modulusDetail = modulusDetail;
     }
 
-    public Schedule getScheduleId() {
+    public ModulusSchedule getScheduleId() {
         return scheduleId;
     }
 
-    public void setScheduleId(Schedule scheduleId) {
+    public void setScheduleId(ModulusSchedule scheduleId) {
         this.scheduleId = scheduleId;
     }
 

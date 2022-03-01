@@ -45,14 +45,14 @@ public class ModulusDetail implements Serializable {
     @JoinColumn(name = "modulus_id", referencedColumnName = "modulus_id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Modulus modulus;
+    @JoinColumn(name = "schedule_id", referencedColumnName = "schedule_id", nullable = false)
+    @ManyToOne(optional = false)
+    private ModulusSchedule scheduleId;
     @JoinColumns({
         @JoinColumn(name = "program_id", referencedColumnName = "program_id", nullable = false, insertable = false, updatable = false),
         @JoinColumn(name = "period_id", referencedColumnName = "period_id", nullable = false, insertable = false, updatable = false)})
     @ManyToOne(optional = false)
     private ProgramPeriod programPeriod;
-    @JoinColumn(name = "schedule_id", referencedColumnName = "schedule_id", nullable = false)
-    @ManyToOne(optional = false)
-    private Schedule scheduleId;
 
     public ModulusDetail() {
     }
@@ -102,20 +102,20 @@ public class ModulusDetail implements Serializable {
         this.modulus = modulus;
     }
 
+    public ModulusSchedule getScheduleId() {
+        return scheduleId;
+    }
+
+    public void setScheduleId(ModulusSchedule scheduleId) {
+        this.scheduleId = scheduleId;
+    }
+
     public ProgramPeriod getProgramPeriod() {
         return programPeriod;
     }
 
     public void setProgramPeriod(ProgramPeriod programPeriod) {
         this.programPeriod = programPeriod;
-    }
-
-    public Schedule getScheduleId() {
-        return scheduleId;
-    }
-
-    public void setScheduleId(Schedule scheduleId) {
-        this.scheduleId = scheduleId;
     }
 
     @Override

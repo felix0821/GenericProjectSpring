@@ -56,7 +56,6 @@ public class PeriodServiceImplements implements PeriodService{
 		to.setPeriodName(from.getPeriodName());
 		to.setPeriodDescription(from.getPeriodDescription());
 		to.setPeriodYear(from.getPeriodYear());
-		to.setPeriodModality(from.getPeriodModality());
 		to.setPeriodState(from.getPeriodState());
 	}
 

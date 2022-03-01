@@ -53,16 +53,19 @@ public class RequisitionDetail implements Serializable {
     @JoinColumn(name = "requisition_id", referencedColumnName = "requisition_id", nullable = false)
     @ManyToOne(optional = false)
     private Requisition requisitionId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisitionDetail")
-    private Collection<RequisitionDetailPerson> requisitionDetailPersonCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisitionDetail")
-    private Collection<FinancialMovementRequisition> financialMovementRequisitionCollection;
+    @OneToMany(mappedBy = "requisitionDetailReferenceId")
+    private Collection<RequisitionDetail> requisitionDetailCollection;
+    @JoinColumn(name = "requisition_detail_reference_id", referencedColumnName = "requisition_detail_id")
+    @ManyToOne
+    private RequisitionDetail requisitionDetailReferenceId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisitionDetailId")
     private Collection<RequisitionRemark> requisitionRemarkCollection;
     @OneToMany(mappedBy = "requisitionDetailId")
     private Collection<EnrollmentProgram> enrollmentProgramCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisitionDetail")
     private Collection<RequisitionDataDetail> requisitionDataDetailCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisitionDetail")
+    private Collection<FinancialRequisition> financialRequisitionCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisitionDetail")
     private Collection<RequisitionStatusDetail> requisitionStatusDetailCollection;
 
@@ -119,20 +122,20 @@ public class RequisitionDetail implements Serializable {
         this.requisitionId = requisitionId;
     }
 
-    public Collection<RequisitionDetailPerson> getRequisitionDetailPersonCollection() {
-        return requisitionDetailPersonCollection;
+    public Collection<RequisitionDetail> getRequisitionDetailCollection() {
+        return requisitionDetailCollection;
     }
 
-    public void setRequisitionDetailPersonCollection(Collection<RequisitionDetailPerson> requisitionDetailPersonCollection) {
-        this.requisitionDetailPersonCollection = requisitionDetailPersonCollection;
+    public void setRequisitionDetailCollection(Collection<RequisitionDetail> requisitionDetailCollection) {
+        this.requisitionDetailCollection = requisitionDetailCollection;
     }
 
-    public Collection<FinancialMovementRequisition> getFinancialMovementRequisitionCollection() {
-        return financialMovementRequisitionCollection;
+    public RequisitionDetail getRequisitionDetailReferenceId() {
+        return requisitionDetailReferenceId;
     }
 
-    public void setFinancialMovementRequisitionCollection(Collection<FinancialMovementRequisition> financialMovementRequisitionCollection) {
-        this.financialMovementRequisitionCollection = financialMovementRequisitionCollection;
+    public void setRequisitionDetailReferenceId(RequisitionDetail requisitionDetailReferenceId) {
+        this.requisitionDetailReferenceId = requisitionDetailReferenceId;
     }
 
     public Collection<RequisitionRemark> getRequisitionRemarkCollection() {
@@ -157,6 +160,14 @@ public class RequisitionDetail implements Serializable {
 
     public void setRequisitionDataDetailCollection(Collection<RequisitionDataDetail> requisitionDataDetailCollection) {
         this.requisitionDataDetailCollection = requisitionDataDetailCollection;
+    }
+
+    public Collection<FinancialRequisition> getFinancialRequisitionCollection() {
+        return financialRequisitionCollection;
+    }
+
+    public void setFinancialRequisitionCollection(Collection<FinancialRequisition> financialRequisitionCollection) {
+        this.financialRequisitionCollection = financialRequisitionCollection;
     }
 
     public Collection<RequisitionStatusDetail> getRequisitionStatusDetailCollection() {

@@ -7,8 +7,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.system.demo.persistence.entity.Gender;
-import com.system.demo.persistence.repository.GenderRepository;
+import com.system.demo.persistence.entity.PersonGender;
+import com.system.demo.persistence.repository.PersonGenderRepository;
 import com.system.demo.service.GenderService;
 
 @Service
@@ -16,11 +16,11 @@ import com.system.demo.service.GenderService;
 public class GenderServiceImplements implements GenderService{
 	
 	@Autowired
-	GenderRepository genderRepository;
+	PersonGenderRepository personGenderRepository;
 
 	@Override
-	public Optional<Gender> getGenderById(String genderId) {
-		return genderRepository.findById(genderId);
+	public Optional<PersonGender> getGenderById(String genderId) {
+		return personGenderRepository.findById(genderId);
 	}
 
 }

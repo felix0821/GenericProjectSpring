@@ -25,15 +25,14 @@ import javax.persistence.TemporalType;
  * @author Felix
  */
 @Entity
-@Table(name = "schedule")
+@Table(name = "modulus_schedule")
 @NamedQueries({
-    @NamedQuery(name = "Schedule.findAll", query = "SELECT s FROM Schedule s"),
-    @NamedQuery(name = "Schedule.findByScheduleId", query = "SELECT s FROM Schedule s WHERE s.scheduleId = :scheduleId"),
-    @NamedQuery(name = "Schedule.findByScheduleStartDate", query = "SELECT s FROM Schedule s WHERE s.scheduleStartDate = :scheduleStartDate"),
-    @NamedQuery(name = "Schedule.findByScheduleClosingDate", query = "SELECT s FROM Schedule s WHERE s.scheduleClosingDate = :scheduleClosingDate"),
-    @NamedQuery(name = "Schedule.findByScheduleFinalDate", query = "SELECT s FROM Schedule s WHERE s.scheduleFinalDate = :scheduleFinalDate"),
-    @NamedQuery(name = "Schedule.findByScheduleState", query = "SELECT s FROM Schedule s WHERE s.scheduleState = :scheduleState")})
-public class Schedule implements Serializable {
+    @NamedQuery(name = "ModulusSchedule.findAll", query = "SELECT m FROM ModulusSchedule m"),
+    @NamedQuery(name = "ModulusSchedule.findByScheduleId", query = "SELECT m FROM ModulusSchedule m WHERE m.scheduleId = :scheduleId"),
+    @NamedQuery(name = "ModulusSchedule.findByScheduleStartDate", query = "SELECT m FROM ModulusSchedule m WHERE m.scheduleStartDate = :scheduleStartDate"),
+    @NamedQuery(name = "ModulusSchedule.findByScheduleFinalDate", query = "SELECT m FROM ModulusSchedule m WHERE m.scheduleFinalDate = :scheduleFinalDate"),
+    @NamedQuery(name = "ModulusSchedule.findByScheduleState", query = "SELECT m FROM ModulusSchedule m WHERE m.scheduleState = :scheduleState")})
+public class ModulusSchedule implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -43,9 +42,6 @@ public class Schedule implements Serializable {
     @Column(name = "schedule_start_date")
     @Temporal(TemporalType.DATE)
     private Date scheduleStartDate;
-    @Column(name = "schedule_closing_date")
-    @Temporal(TemporalType.DATE)
-    private Date scheduleClosingDate;
     @Column(name = "schedule_final_date")
     @Temporal(TemporalType.DATE)
     private Date scheduleFinalDate;
@@ -59,14 +55,14 @@ public class Schedule implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "scheduleId")
     private Collection<ModulusDetail> modulusDetailCollection;
 
-    public Schedule() {
+    public ModulusSchedule() {
     }
 
-    public Schedule(Long scheduleId) {
+    public ModulusSchedule(Long scheduleId) {
         this.scheduleId = scheduleId;
     }
 
-    public Schedule(Long scheduleId, Character scheduleState) {
+    public ModulusSchedule(Long scheduleId, Character scheduleState) {
         this.scheduleId = scheduleId;
         this.scheduleState = scheduleState;
     }
@@ -85,14 +81,6 @@ public class Schedule implements Serializable {
 
     public void setScheduleStartDate(Date scheduleStartDate) {
         this.scheduleStartDate = scheduleStartDate;
-    }
-
-    public Date getScheduleClosingDate() {
-        return scheduleClosingDate;
-    }
-
-    public void setScheduleClosingDate(Date scheduleClosingDate) {
-        this.scheduleClosingDate = scheduleClosingDate;
     }
 
     public Date getScheduleFinalDate() {
@@ -145,10 +133,10 @@ public class Schedule implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Schedule)) {
+        if (!(object instanceof ModulusSchedule)) {
             return false;
         }
-        Schedule other = (Schedule) object;
+        ModulusSchedule other = (ModulusSchedule) object;
         if ((this.scheduleId == null && other.scheduleId != null) || (this.scheduleId != null && !this.scheduleId.equals(other.scheduleId))) {
             return false;
         }
@@ -157,7 +145,7 @@ public class Schedule implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.persistence.entity.Schedule[ scheduleId=" + scheduleId + " ]";
+        return "com.system.demo.persistence.entity.ModulusSchedule[ scheduleId=" + scheduleId + " ]";
     }
     
 }

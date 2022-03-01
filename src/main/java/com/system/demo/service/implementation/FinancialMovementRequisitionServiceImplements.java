@@ -5,8 +5,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.system.demo.persistence.entity.FinancialMovementRequisition;
-import com.system.demo.persistence.repository.FinancialMovementRequisitionRepository;
+import com.system.demo.persistence.entity.FinancialRequisition;
+import com.system.demo.persistence.repository.FinancialRequisitionRepository;
 import com.system.demo.service.FinancialMovementRequisitionService;
 
 @Service
@@ -14,13 +14,13 @@ import com.system.demo.service.FinancialMovementRequisitionService;
 public class FinancialMovementRequisitionServiceImplements implements FinancialMovementRequisitionService {
 	
 	@Autowired
-	FinancialMovementRequisitionRepository financialMovementRequisitionRepository;
+	FinancialRequisitionRepository financialRequisitionRepository;
 
 	@Override
-	public Iterable<FinancialMovementRequisition> getFinancialMovementRequisitionByFinancialMovementDetailId(
+	public Iterable<FinancialRequisition> getFinancialMovementRequisitionByFinancialMovementDetailId(
 			long financialMovementDetailId) {
 		// TODO Auto-generated method stub
-		return financialMovementRequisitionRepository.findByFinancialMovementDetailId(financialMovementDetailId);
+		return financialRequisitionRepository.findByFinancialMovementDetailId(financialMovementDetailId);
 	}
 
 }

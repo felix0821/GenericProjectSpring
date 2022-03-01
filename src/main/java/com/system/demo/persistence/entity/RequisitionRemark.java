@@ -38,9 +38,8 @@ public class RequisitionRemark implements Serializable {
     @Basic(optional = false)
     @Column(name = "requisition_remark_id", nullable = false)
     private Long requisitionRemarkId;
-    @Basic(optional = false)
-    @Column(name = "requisition_remark_index", nullable = false)
-    private int requisitionRemarkIndex;
+    @Column(name = "requisition_remark_index")
+    private Integer requisitionRemarkIndex;
     @Basic(optional = false)
     @Column(name = "requisition_remark_content", nullable = false, length = 256)
     private String requisitionRemarkContent;
@@ -62,9 +61,8 @@ public class RequisitionRemark implements Serializable {
         this.requisitionRemarkId = requisitionRemarkId;
     }
 
-    public RequisitionRemark(Long requisitionRemarkId, int requisitionRemarkIndex, String requisitionRemarkContent, Date requisitionRemarkDate) {
+    public RequisitionRemark(Long requisitionRemarkId, String requisitionRemarkContent, Date requisitionRemarkDate) {
         this.requisitionRemarkId = requisitionRemarkId;
-        this.requisitionRemarkIndex = requisitionRemarkIndex;
         this.requisitionRemarkContent = requisitionRemarkContent;
         this.requisitionRemarkDate = requisitionRemarkDate;
     }
@@ -77,11 +75,11 @@ public class RequisitionRemark implements Serializable {
         this.requisitionRemarkId = requisitionRemarkId;
     }
 
-    public int getRequisitionRemarkIndex() {
+    public Integer getRequisitionRemarkIndex() {
         return requisitionRemarkIndex;
     }
 
-    public void setRequisitionRemarkIndex(int requisitionRemarkIndex) {
+    public void setRequisitionRemarkIndex(Integer requisitionRemarkIndex) {
         this.requisitionRemarkIndex = requisitionRemarkIndex;
     }
 

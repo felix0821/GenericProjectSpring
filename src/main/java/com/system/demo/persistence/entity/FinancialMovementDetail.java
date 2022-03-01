@@ -56,7 +56,7 @@ public class FinancialMovementDetail implements Serializable {
     @Column(name = "financial_movement_detail_state", nullable = false)
     private Character financialMovementDetailState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "financialMovementDetail")
-    private Collection<FinancialMovementRequisition> financialMovementRequisitionCollection;
+    private Collection<FinancialRequisition> financialRequisitionCollection;
     @JoinColumn(name = "financial_movement_id", referencedColumnName = "financial_movement_id", nullable = false)
     @ManyToOne(optional = false)
     private FinancialMovement financialMovementId;
@@ -119,12 +119,12 @@ public class FinancialMovementDetail implements Serializable {
         this.financialMovementDetailState = financialMovementDetailState;
     }
 
-    public Collection<FinancialMovementRequisition> getFinancialMovementRequisitionCollection() {
-        return financialMovementRequisitionCollection;
+    public Collection<FinancialRequisition> getFinancialRequisitionCollection() {
+        return financialRequisitionCollection;
     }
 
-    public void setFinancialMovementRequisitionCollection(Collection<FinancialMovementRequisition> financialMovementRequisitionCollection) {
-        this.financialMovementRequisitionCollection = financialMovementRequisitionCollection;
+    public void setFinancialRequisitionCollection(Collection<FinancialRequisition> financialRequisitionCollection) {
+        this.financialRequisitionCollection = financialRequisitionCollection;
     }
 
     public FinancialMovement getFinancialMovementId() {

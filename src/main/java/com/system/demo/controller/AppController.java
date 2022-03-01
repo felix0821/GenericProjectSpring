@@ -28,7 +28,7 @@ import com.system.demo.persistence.entity.DataCategory;
 import com.system.demo.persistence.entity.DataDetail;
 import com.system.demo.persistence.entity.DataEntry;
 import com.system.demo.persistence.entity.FinancialMovement;
-import com.system.demo.persistence.entity.Gender;
+import com.system.demo.persistence.entity.PersonGender;
 import com.system.demo.persistence.entity.IdentificationDocument;
 import com.system.demo.persistence.entity.Person;
 import com.system.demo.persistence.entity.PersonIdentification;

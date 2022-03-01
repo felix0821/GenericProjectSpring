@@ -38,7 +38,7 @@ import com.system.demo.persistence.entity.Data;
 import com.system.demo.persistence.entity.EnrollmentProgram;
 import com.system.demo.persistence.entity.FinancialMovement;
 import com.system.demo.persistence.entity.FinancialMovementDetail;
-import com.system.demo.persistence.entity.FinancialMovementRequisition;
+import com.system.demo.persistence.entity.FinancialRequisition;
 import com.system.demo.persistence.entity.Period;
 import com.system.demo.persistence.entity.Person;
 import com.system.demo.persistence.entity.PersonRegistering;
@@ -50,7 +50,7 @@ import com.system.demo.persistence.entity.RequisitionRemark;
 import com.system.demo.persistence.entity.RequisitionStatus;
 import com.system.demo.persistence.entity.RequisitionStatusDetail;
 import com.system.demo.persistence.repository.FinancialMovementRepository;
-import com.system.demo.persistence.repository.FinancialMovementRequisitionRepository;
+import com.system.demo.persistence.repository.FinancialRequisitionRepository;
 import com.system.demo.security.JwtProvider;
 import com.system.demo.service.DataService;
 import com.system.demo.service.EnrollmentProgramService;
@@ -102,7 +102,7 @@ public class AlertController {
 	@Autowired
 	FinancialMovementRepository financialMovementService;
 	@Autowired
-	FinancialMovementRequisitionRepository financialMovementRequisitionRepository;
+	FinancialRequisitionRepository financialRequisitionRepository;
 	@Autowired
 	PersonRegisteringService personRegisteringService;
 	@Autowired
@@ -184,7 +184,6 @@ public class AlertController {
 			FinancialMovement income = financialMovementService.getById(SYSTEM_FINANTIAL_MOVEMENT_INCOME_SOLES);
 //			Crear persona que registra
 			Long pRegisteringId = uniqueId.getUniqId();
-			int reqRemarkIndex = preference.getIndex(INDEX_REQUISITION_STATUS_DETAIL);
 			PersonRegistering pRegistering = new PersonRegistering(pRegisteringId, dateRegister, REGISTERING_FINANCIAL_MOVEMENT);
 			pRegistering.setPersonId(personService.getPersonByUsername(userFromToken).get());
 			personRegisteringService.createPersonRegistering(pRegistering);
@@ -206,14 +205,13 @@ public class AlertController {
 			RequisitionStatusDetail reqStatusDetail = new RequisitionStatusDetail(requisition.getRequisitionDetailId(), 
 					SYSTEM_REQUISITION_STATUS_ACCEPT);
 			reqStatusDetail.setPersonId(person);
-			reqStatusDetail.setRequisitionStatusDetailIndex(reqRemarkIndex);
 			reqStatusDetail.setRequisitionStatusDetailDate(dateRegister);
 			requisitionStatusDetailService.createRequisitionStatusDetail(reqStatusDetail);
 			requisitionDetailService.checkingRequisitionDetailById(alertDto.getId());
-			FinancialMovementRequisition finMovReq = new FinancialMovementRequisition(financial.getFinancialMovementDetailId(), 
+			FinancialRequisition finMovReq = new FinancialRequisition(financial.getFinancialMovementDetailId(), 
 					requisition.getRequisitionDetailId());
-			finMovReq.setFinancialMovementRequisitionState(SYSTEM_STATE_ACTIVE);
-			financialMovementRequisitionRepository.save(finMovReq);
+			finMovReq.setFinancialRequisitionState(SYSTEM_STATE_ACTIVE);
+			financialRequisitionRepository.save(finMovReq);
 			return new ResponseEntity(new Message(SYSTEM_SUCCESS), HttpStatus.OK);
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -236,21 +234,19 @@ public class AlertController {
 			Person person = personService.getPersonByUsername(userFromToken).get();
 //			Generar datos
 			Long idReqRemark = uniqueId.getUniqId();
-			int reqIndex = preference.getIndex(INDEX_REQUISITION_STATUS_DETAIL);
 //			Insertar fecha de registro
 			LocalDateTime dateTimePeru = LocalDateTime.now(ZoneId.of(ZONE_DATE_LIMA));
 			Date dateRegister=Date.from(dateTimePeru.atZone(ZoneId.systemDefault()).toInstant());
 //			Generar entidad observación
-			RequisitionRemark reqRemark = new RequisitionRemark(idReqRemark, reqIndex, observeDto.getContent(), dateRegister);
+			RequisitionRemark reqRemark = new RequisitionRemark(idReqRemark, observeDto.getContent(), dateRegister);
 			reqRemark.setRequisitionDetailId(requisition);
 			reqRemark.setPersonId(person);
 			requisitionRemarkService.createRequisitionRemark(reqRemark);
 //			Generar entidad estado
 			RequisitionStatusDetail reqStatusDetail = new RequisitionStatusDetail(requisition.getRequisitionDetailId(), 
 					reqStatus.getRequisitionStatusId());
-			reqStatusDetail.setPersonId(person);
-			reqStatusDetail.setRequisitionStatusDetailIndex(reqIndex);
 			reqStatusDetail.setRequisitionStatusDetailDate(dateRegister);
+			reqStatusDetail.setPersonId(person);
 			requisitionStatusDetailService.createRequisitionStatusDetail(reqStatusDetail);
 			requisitionDetailService.checkingRequisitionDetailById(observeDto.getId());
 			return new ResponseEntity(new Message(SYSTEM_SUCCESS), HttpStatus.OK);

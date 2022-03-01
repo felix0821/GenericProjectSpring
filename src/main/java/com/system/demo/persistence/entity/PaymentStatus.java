@@ -8,6 +8,7 @@ package com.system.demo.persistence.entity;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -47,7 +48,7 @@ public class PaymentStatus implements Serializable {
     @Basic(optional = false)
     @Column(name = "payment_status_state", nullable = false)
     private Character paymentStatusState;
-    @OneToMany(mappedBy = "paymentStatusId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "paymentStatusId")
     private Collection<PaymentSchedule> paymentScheduleCollection;
 
     public PaymentStatus() {

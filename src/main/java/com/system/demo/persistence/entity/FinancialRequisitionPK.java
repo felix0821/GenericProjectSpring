@@ -15,7 +15,7 @@ import javax.persistence.Embeddable;
  * @author Felix
  */
 @Embeddable
-public class FinancialMovementRequisitionPK implements Serializable {
+public class FinancialRequisitionPK implements Serializable {
 
     @Basic(optional = false)
     @Column(name = "financial_movement_detail_id", nullable = false)
@@ -24,10 +24,10 @@ public class FinancialMovementRequisitionPK implements Serializable {
     @Column(name = "requisition_detail_id", nullable = false)
     private long requisitionDetailId;
 
-    public FinancialMovementRequisitionPK() {
+    public FinancialRequisitionPK() {
     }
 
-    public FinancialMovementRequisitionPK(long financialMovementDetailId, long requisitionDetailId) {
+    public FinancialRequisitionPK(long financialMovementDetailId, long requisitionDetailId) {
         this.financialMovementDetailId = financialMovementDetailId;
         this.requisitionDetailId = requisitionDetailId;
     }
@@ -59,10 +59,10 @@ public class FinancialMovementRequisitionPK implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof FinancialMovementRequisitionPK)) {
+        if (!(object instanceof FinancialRequisitionPK)) {
             return false;
         }
-        FinancialMovementRequisitionPK other = (FinancialMovementRequisitionPK) object;
+        FinancialRequisitionPK other = (FinancialRequisitionPK) object;
         if (this.financialMovementDetailId != other.financialMovementDetailId) {
             return false;
         }
@@ -74,7 +74,7 @@ public class FinancialMovementRequisitionPK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.persistence.entity.FinancialMovementRequisitionPK[ financialMovementDetailId=" + financialMovementDetailId + ", requisitionDetailId=" + requisitionDetailId + " ]";
+        return "com.system.demo.persistence.entity.FinancialRequisitionPK[ financialMovementDetailId=" + financialMovementDetailId + ", requisitionDetailId=" + requisitionDetailId + " ]";
     }
     
 }

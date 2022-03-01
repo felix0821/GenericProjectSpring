@@ -21,13 +21,13 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "gender")
+@Table(name = "person_gender")
 @NamedQueries({
-    @NamedQuery(name = "Gender.findAll", query = "SELECT g FROM Gender g"),
-    @NamedQuery(name = "Gender.findByGenderId", query = "SELECT g FROM Gender g WHERE g.genderId = :genderId"),
-    @NamedQuery(name = "Gender.findByGenderName", query = "SELECT g FROM Gender g WHERE g.genderName = :genderName"),
-    @NamedQuery(name = "Gender.findByGenderState", query = "SELECT g FROM Gender g WHERE g.genderState = :genderState")})
-public class Gender implements Serializable {
+    @NamedQuery(name = "PersonGender.findAll", query = "SELECT p FROM PersonGender p"),
+    @NamedQuery(name = "PersonGender.findByGenderId", query = "SELECT p FROM PersonGender p WHERE p.genderId = :genderId"),
+    @NamedQuery(name = "PersonGender.findByGenderName", query = "SELECT p FROM PersonGender p WHERE p.genderName = :genderName"),
+    @NamedQuery(name = "PersonGender.findByGenderState", query = "SELECT p FROM PersonGender p WHERE p.genderState = :genderState")})
+public class PersonGender implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -43,14 +43,14 @@ public class Gender implements Serializable {
     @OneToMany(mappedBy = "genderId")
     private Collection<Person> personCollection;
 
-    public Gender() {
+    public PersonGender() {
     }
 
-    public Gender(String genderId) {
+    public PersonGender(String genderId) {
         this.genderId = genderId;
     }
 
-    public Gender(String genderId, String genderName, Character genderState) {
+    public PersonGender(String genderId, String genderName, Character genderState) {
         this.genderId = genderId;
         this.genderName = genderName;
         this.genderState = genderState;
@@ -98,10 +98,10 @@ public class Gender implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Gender)) {
+        if (!(object instanceof PersonGender)) {
             return false;
         }
-        Gender other = (Gender) object;
+        PersonGender other = (PersonGender) object;
         if ((this.genderId == null && other.genderId != null) || (this.genderId != null && !this.genderId.equals(other.genderId))) {
             return false;
         }
@@ -110,7 +110,7 @@ public class Gender implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.persistence.entity.Gender[ genderId=" + genderId + " ]";
+        return "com.system.demo.persistence.entity.PersonGender[ genderId=" + genderId + " ]";
     }
     
 }

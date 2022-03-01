@@ -42,12 +42,12 @@ public class CourseRole implements Serializable {
     @JoinColumn(name = "course_detail_id", referencedColumnName = "course_detail_id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private CourseDetail courseDetail;
+    @JoinColumn(name = "schedule_id", referencedColumnName = "schedule_id")
+    @ManyToOne
+    private ModulusSchedule scheduleId;
     @JoinColumn(name = "role_id", referencedColumnName = "role_id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Role role;
-    @JoinColumn(name = "schedule_id", referencedColumnName = "schedule_id")
-    @ManyToOne
-    private Schedule scheduleId;
 
     public CourseRole() {
     }
@@ -98,20 +98,20 @@ public class CourseRole implements Serializable {
         this.courseDetail = courseDetail;
     }
 
+    public ModulusSchedule getScheduleId() {
+        return scheduleId;
+    }
+
+    public void setScheduleId(ModulusSchedule scheduleId) {
+        this.scheduleId = scheduleId;
+    }
+
     public Role getRole() {
         return role;
     }
 
     public void setRole(Role role) {
         this.role = role;
-    }
-
-    public Schedule getScheduleId() {
-        return scheduleId;
-    }
-
-    public void setScheduleId(Schedule scheduleId) {
-        this.scheduleId = scheduleId;
     }
 
     @Override

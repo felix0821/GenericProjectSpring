@@ -1,9 +1,9 @@
 package com.system.demo.service;
 
-import com.system.demo.persistence.entity.FinancialMovementRequisition;
+import com.system.demo.persistence.entity.FinancialRequisition;
 
 public interface FinancialMovementRequisitionService {
 	
-	public Iterable<FinancialMovementRequisition> getFinancialMovementRequisitionByFinancialMovementDetailId(long financialMovementDetailId);
+	public Iterable<FinancialRequisition> getFinancialMovementRequisitionByFinancialMovementDetailId(long financialMovementDetailId);
 
 }

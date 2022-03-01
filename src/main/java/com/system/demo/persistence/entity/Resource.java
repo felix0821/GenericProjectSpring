@@ -40,9 +40,8 @@ public class Resource implements Serializable {
     @Basic(optional = false)
     @Column(name = "resource_id", nullable = false)
     private Long resourceId;
-    @Basic(optional = false)
-    @Column(name = "resource_index", nullable = false)
-    private int resourceIndex;
+    @Column(name = "resource_index")
+    private Integer resourceIndex;
     @Basic(optional = false)
     @Column(name = "resource_name", nullable = false, length = 64)
     private String resourceName;
@@ -69,9 +68,8 @@ public class Resource implements Serializable {
         this.resourceId = resourceId;
     }
 
-    public Resource(Long resourceId, int resourceIndex, String resourceName, String resourceUrl, Character resourceType, Character resourceState) {
+    public Resource(Long resourceId, String resourceName, String resourceUrl, Character resourceType, Character resourceState) {
         this.resourceId = resourceId;
-        this.resourceIndex = resourceIndex;
         this.resourceName = resourceName;
         this.resourceUrl = resourceUrl;
         this.resourceType = resourceType;
@@ -86,11 +84,11 @@ public class Resource implements Serializable {
         this.resourceId = resourceId;
     }
 
-    public int getResourceIndex() {
+    public Integer getResourceIndex() {
         return resourceIndex;
     }
 
-    public void setResourceIndex(int resourceIndex) {
+    public void setResourceIndex(Integer resourceIndex) {
         this.resourceIndex = resourceIndex;
     }
 

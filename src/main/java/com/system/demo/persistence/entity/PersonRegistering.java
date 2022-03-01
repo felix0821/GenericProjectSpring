@@ -47,10 +47,10 @@ public class PersonRegistering implements Serializable {
     @Basic(optional = false)
     @Column(name = "person_registering_category", nullable = false)
     private Character personRegisteringCategory;
-    @OneToMany(mappedBy = "personRegisteringId")
-    private Collection<PaymentDiscountPerson> paymentDiscountPersonCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "personRegisteringId")
     private Collection<EnrollmentQualification> enrollmentQualificationCollection;
+    @OneToMany(mappedBy = "personRegisteringId")
+    private Collection<DiscountPerson> discountPersonCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "personRegisteringId")
     private Collection<Assistance> assistanceCollection;
     @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false)
@@ -100,20 +100,20 @@ public class PersonRegistering implements Serializable {
         this.personRegisteringCategory = personRegisteringCategory;
     }
 
-    public Collection<PaymentDiscountPerson> getPaymentDiscountPersonCollection() {
-        return paymentDiscountPersonCollection;
-    }
-
-    public void setPaymentDiscountPersonCollection(Collection<PaymentDiscountPerson> paymentDiscountPersonCollection) {
-        this.paymentDiscountPersonCollection = paymentDiscountPersonCollection;
-    }
-
     public Collection<EnrollmentQualification> getEnrollmentQualificationCollection() {
         return enrollmentQualificationCollection;
     }
 
     public void setEnrollmentQualificationCollection(Collection<EnrollmentQualification> enrollmentQualificationCollection) {
         this.enrollmentQualificationCollection = enrollmentQualificationCollection;
+    }
+
+    public Collection<DiscountPerson> getDiscountPersonCollection() {
+        return discountPersonCollection;
+    }
+
+    public void setDiscountPersonCollection(Collection<DiscountPerson> discountPersonCollection) {
+        this.discountPersonCollection = discountPersonCollection;
     }
 
     public Collection<Assistance> getAssistanceCollection() {

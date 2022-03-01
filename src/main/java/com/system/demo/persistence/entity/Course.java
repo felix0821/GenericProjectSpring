@@ -43,9 +43,8 @@ public class Course implements Serializable {
     @Basic(optional = false)
     @Column(name = "course_id", nullable = false)
     private Long courseId;
-    @Basic(optional = false)
-    @Column(name = "course_index", nullable = false)
-    private int courseIndex;
+    @Column(name = "course_index")
+    private Integer courseIndex;
     @Basic(optional = false)
     @Column(name = "course_identifier", nullable = false, length = 64)
     private String courseIdentifier;
@@ -82,9 +81,8 @@ public class Course implements Serializable {
         this.courseId = courseId;
     }
 
-    public Course(Long courseId, int courseIndex, String courseIdentifier, String courseName, String courseAcronym, Character courseState) {
+    public Course(Long courseId, String courseIdentifier, String courseName, String courseAcronym, Character courseState) {
         this.courseId = courseId;
-        this.courseIndex = courseIndex;
         this.courseIdentifier = courseIdentifier;
         this.courseName = courseName;
         this.courseAcronym = courseAcronym;
@@ -99,11 +97,11 @@ public class Course implements Serializable {
         this.courseId = courseId;
     }
 
-    public int getCourseIndex() {
+    public Integer getCourseIndex() {
         return courseIndex;
     }
 
-    public void setCourseIndex(int courseIndex) {
+    public void setCourseIndex(Integer courseIndex) {
         this.courseIndex = courseIndex;
     }
 

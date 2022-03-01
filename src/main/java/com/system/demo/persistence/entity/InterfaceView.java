@@ -38,9 +38,8 @@ public class InterfaceView implements Serializable {
     @Basic(optional = false)
     @Column(name = "interface_view_id", nullable = false)
     private Long interfaceViewId;
-    @Basic(optional = false)
-    @Column(name = "interface_view_index", nullable = false)
-    private int interfaceViewIndex;
+    @Column(name = "interface_view_index")
+    private Integer interfaceViewIndex;
     @Basic(optional = false)
     @Column(name = "interface_view_name", nullable = false, length = 64)
     private String interfaceViewName;
@@ -65,9 +64,8 @@ public class InterfaceView implements Serializable {
         this.interfaceViewId = interfaceViewId;
     }
 
-    public InterfaceView(Long interfaceViewId, int interfaceViewIndex, String interfaceViewName, Character interfaceViewSite) {
+    public InterfaceView(Long interfaceViewId, String interfaceViewName, Character interfaceViewSite) {
         this.interfaceViewId = interfaceViewId;
-        this.interfaceViewIndex = interfaceViewIndex;
         this.interfaceViewName = interfaceViewName;
         this.interfaceViewSite = interfaceViewSite;
     }
@@ -80,11 +78,11 @@ public class InterfaceView implements Serializable {
         this.interfaceViewId = interfaceViewId;
     }
 
-    public int getInterfaceViewIndex() {
+    public Integer getInterfaceViewIndex() {
         return interfaceViewIndex;
     }
 
-    public void setInterfaceViewIndex(int interfaceViewIndex) {
+    public void setInterfaceViewIndex(Integer interfaceViewIndex) {
         this.interfaceViewIndex = interfaceViewIndex;
     }
 

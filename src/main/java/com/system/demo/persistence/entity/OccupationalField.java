@@ -35,9 +35,8 @@ public class OccupationalField implements Serializable {
     @Basic(optional = false)
     @Column(name = "occupational_field_id", nullable = false)
     private Long occupationalFieldId;
-    @Basic(optional = false)
-    @Column(name = "occupational_field_index", nullable = false)
-    private int occupationalFieldIndex;
+    @Column(name = "occupational_field_index")
+    private Integer occupationalFieldIndex;
     @Basic(optional = false)
     @Column(name = "occupational_field_name", nullable = false, length = 64)
     private String occupationalFieldName;
@@ -55,9 +54,8 @@ public class OccupationalField implements Serializable {
         this.occupationalFieldId = occupationalFieldId;
     }
 
-    public OccupationalField(Long occupationalFieldId, int occupationalFieldIndex, String occupationalFieldName, Character occupationalFieldState) {
+    public OccupationalField(Long occupationalFieldId, String occupationalFieldName, Character occupationalFieldState) {
         this.occupationalFieldId = occupationalFieldId;
-        this.occupationalFieldIndex = occupationalFieldIndex;
         this.occupationalFieldName = occupationalFieldName;
         this.occupationalFieldState = occupationalFieldState;
     }
@@ -70,11 +68,11 @@ public class OccupationalField implements Serializable {
         this.occupationalFieldId = occupationalFieldId;
     }
 
-    public int getOccupationalFieldIndex() {
+    public Integer getOccupationalFieldIndex() {
         return occupationalFieldIndex;
     }
 
-    public void setOccupationalFieldIndex(int occupationalFieldIndex) {
+    public void setOccupationalFieldIndex(Integer occupationalFieldIndex) {
         this.occupationalFieldIndex = occupationalFieldIndex;
     }
 

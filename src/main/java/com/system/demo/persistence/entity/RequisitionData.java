@@ -36,9 +36,8 @@ public class RequisitionData implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected RequisitionDataPK requisitionDataPK;
-    @Basic(optional = false)
-    @Column(name = "requisition_data_index", nullable = false)
-    private int requisitionDataIndex;
+    @Column(name = "requisition_data_index")
+    private Integer requisitionDataIndex;
     @Basic(optional = false)
     @Column(name = "requisition_data_state", nullable = false)
     private Character requisitionDataState;
@@ -58,9 +57,8 @@ public class RequisitionData implements Serializable {
         this.requisitionDataPK = requisitionDataPK;
     }
 
-    public RequisitionData(RequisitionDataPK requisitionDataPK, int requisitionDataIndex, Character requisitionDataState) {
+    public RequisitionData(RequisitionDataPK requisitionDataPK, Character requisitionDataState) {
         this.requisitionDataPK = requisitionDataPK;
-        this.requisitionDataIndex = requisitionDataIndex;
         this.requisitionDataState = requisitionDataState;
     }
 
@@ -76,11 +74,11 @@ public class RequisitionData implements Serializable {
         this.requisitionDataPK = requisitionDataPK;
     }
 
-    public int getRequisitionDataIndex() {
+    public Integer getRequisitionDataIndex() {
         return requisitionDataIndex;
     }
 
-    public void setRequisitionDataIndex(int requisitionDataIndex) {
+    public void setRequisitionDataIndex(Integer requisitionDataIndex) {
         this.requisitionDataIndex = requisitionDataIndex;
     }
 

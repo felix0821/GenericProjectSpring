@@ -1,7 +1,7 @@
 package com.system.demo.utility;
 
 import static com.system.demo.GenericProjectSystemStatement.ZONE_DATE_LIMA;
-
+/*
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.prefs.Preferences;
-/*
+
 import org.springframework.core.io.ClassPathResource;
 
 import com.system.demo.persistence.sqlite.ConnectionSQLite;
@@ -81,5 +81,4 @@ public class Main extends Thread {
 	    System.out.println("This code is running in a thread");
 	  }
 
-}
-*/
+}*/

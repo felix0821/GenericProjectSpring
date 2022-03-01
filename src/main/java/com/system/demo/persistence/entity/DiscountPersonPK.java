@@ -15,7 +15,7 @@ import javax.persistence.Embeddable;
  * @author Felix
  */
 @Embeddable
-public class PaymentDiscountPersonPK implements Serializable {
+public class DiscountPersonPK implements Serializable {
 
     @Basic(optional = false)
     @Column(name = "payment_discount_id", nullable = false)
@@ -24,10 +24,10 @@ public class PaymentDiscountPersonPK implements Serializable {
     @Column(name = "person_id", nullable = false)
     private long personId;
 
-    public PaymentDiscountPersonPK() {
+    public DiscountPersonPK() {
     }
 
-    public PaymentDiscountPersonPK(long paymentDiscountId, long personId) {
+    public DiscountPersonPK(long paymentDiscountId, long personId) {
         this.paymentDiscountId = paymentDiscountId;
         this.personId = personId;
     }
@@ -59,10 +59,10 @@ public class PaymentDiscountPersonPK implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof PaymentDiscountPersonPK)) {
+        if (!(object instanceof DiscountPersonPK)) {
             return false;
         }
-        PaymentDiscountPersonPK other = (PaymentDiscountPersonPK) object;
+        DiscountPersonPK other = (DiscountPersonPK) object;
         if (this.paymentDiscountId != other.paymentDiscountId) {
             return false;
         }
@@ -74,7 +74,7 @@ public class PaymentDiscountPersonPK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.system.demo.persistence.entity.PaymentDiscountPersonPK[ paymentDiscountId=" + paymentDiscountId + ", personId=" + personId + " ]";
+        return "com.system.demo.persistence.entity.DiscountPersonPK[ paymentDiscountId=" + paymentDiscountId + ", personId=" + personId + " ]";
     }
     
 }

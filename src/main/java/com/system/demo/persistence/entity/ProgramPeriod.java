@@ -44,9 +44,8 @@ public class ProgramPeriod implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected ProgramPeriodPK programPeriodPK;
-    @Basic(optional = false)
-    @Column(name = "program_period_index", nullable = false)
-    private int programPeriodIndex;
+    @Column(name = "program_period_index")
+    private Integer programPeriodIndex;
     @Basic(optional = false)
     @Column(name = "program_period_pay_enrollment", nullable = false)
     private double programPeriodPayEnrollment;
@@ -74,6 +73,11 @@ public class ProgramPeriod implements Serializable {
     @JoinColumn(name = "program_id", referencedColumnName = "program_id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Program program;
+    @JoinColumn(name = "requisition_id", referencedColumnName = "requisition_id")
+    @ManyToOne
+    private Requisition requisitionId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "programPeriod")
+    private Collection<ProgramShedule> programSheduleCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "programPeriod")
     private Collection<EnrollmentProgram> enrollmentProgramCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "programPeriod")
@@ -86,9 +90,8 @@ public class ProgramPeriod implements Serializable {
         this.programPeriodPK = programPeriodPK;
     }
 
-    public ProgramPeriod(ProgramPeriodPK programPeriodPK, int programPeriodIndex, double programPeriodPayEnrollment, double programPeriodPayPension, Date programPeriodOpening, Date programPeriodEnrollmentClosure, Date programPeriodClosing, Character programPeriodState) {
+    public ProgramPeriod(ProgramPeriodPK programPeriodPK, double programPeriodPayEnrollment, double programPeriodPayPension, Date programPeriodOpening, Date programPeriodEnrollmentClosure, Date programPeriodClosing, Character programPeriodState) {
         this.programPeriodPK = programPeriodPK;
-        this.programPeriodIndex = programPeriodIndex;
         this.programPeriodPayEnrollment = programPeriodPayEnrollment;
         this.programPeriodPayPension = programPeriodPayPension;
         this.programPeriodOpening = programPeriodOpening;
@@ -109,11 +112,11 @@ public class ProgramPeriod implements Serializable {
         this.programPeriodPK = programPeriodPK;
     }
 
-    public int getProgramPeriodIndex() {
+    public Integer getProgramPeriodIndex() {
         return programPeriodIndex;
     }
 
-    public void setProgramPeriodIndex(int programPeriodIndex) {
+    public void setProgramPeriodIndex(Integer programPeriodIndex) {
         this.programPeriodIndex = programPeriodIndex;
     }
 
@@ -179,6 +182,22 @@ public class ProgramPeriod implements Serializable {
 
     public void setProgram(Program program) {
         this.program = program;
+    }
+
+    public Requisition getRequisitionId() {
+        return requisitionId;
+    }
+
+    public void setRequisitionId(Requisition requisitionId) {
+        this.requisitionId = requisitionId;
+    }
+
+    public Collection<ProgramShedule> getProgramSheduleCollection() {
+        return programSheduleCollection;
+    }
+
+    public void setProgramSheduleCollection(Collection<ProgramShedule> programSheduleCollection) {
+        this.programSheduleCollection = programSheduleCollection;
     }
 
     public Collection<EnrollmentProgram> getEnrollmentProgramCollection() {

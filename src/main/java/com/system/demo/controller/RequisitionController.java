@@ -160,10 +160,8 @@ public class RequisitionController {
 			requisitionDetail = requisitionDetailService.createRequisitionDetail(requisitionDetail);
 //			Objeto control documental
 			//Long idReqStatusDetail = uniqueId.getUniqId();
-			int reqStatusDetailIndex = preference.getIndex(INDEX_REQUISITION_STATUS_DETAIL);
 			RequisitionStatusDetailPK idReqStatusDetail = new RequisitionStatusDetailPK(idReqDetail, SYSTEM_REQUISITION_STATUS_SEND);
 			RequisitionStatusDetail reqStatusDetail = new RequisitionStatusDetail(idReqStatusDetail);
-			reqStatusDetail.setRequisitionStatusDetailIndex(reqStatusDetailIndex);
 			reqStatusDetail.setRequisitionStatusDetailDate(dateRegister);
 			reqStatusDetail.setPersonId(person);
 			requisitionStatusDetailService.createRequisitionStatusDetail(reqStatusDetail);

@@ -45,9 +45,8 @@ public class Program implements Serializable {
     @Basic(optional = false)
     @Column(name = "program_id", nullable = false)
     private Long programId;
-    @Basic(optional = false)
-    @Column(name = "program_index", nullable = false)
-    private int programIndex;
+    @Column(name = "program_index")
+    private Integer programIndex;
     @Basic(optional = false)
     @Column(name = "program_identifier", nullable = false, length = 64)
     private String programIdentifier;
@@ -93,9 +92,8 @@ public class Program implements Serializable {
         this.programId = programId;
     }
 
-    public Program(Long programId, int programIndex, String programIdentifier, String programName, String programAcronym, Character programArea, Character programState) {
+    public Program(Long programId, String programIdentifier, String programName, String programAcronym, Character programArea, Character programState) {
         this.programId = programId;
-        this.programIndex = programIndex;
         this.programIdentifier = programIdentifier;
         this.programName = programName;
         this.programAcronym = programAcronym;
@@ -111,11 +109,11 @@ public class Program implements Serializable {
         this.programId = programId;
     }
 
-    public int getProgramIndex() {
+    public Integer getProgramIndex() {
         return programIndex;
     }
 
-    public void setProgramIndex(int programIndex) {
+    public void setProgramIndex(Integer programIndex) {
         this.programIndex = programIndex;
     }
 

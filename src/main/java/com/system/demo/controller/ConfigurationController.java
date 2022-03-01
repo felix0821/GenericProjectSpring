@@ -102,10 +102,9 @@ public class ConfigurationController {
 //			°Generar valores
 	        Long idProgram = uniqueId.getUniqId();
 	        String identifierProgram = uniqueId.getIdentifier(Arrays.asList(programRegister.getName()));
-	        Integer indexProgram = preference.getIndex(INDEX_PROGRAM);
 	        Character stateProgram = SYSTEM_STATE_ACTIVE;
 //			°Generar entidad
-	        Program program = new Program(idProgram, indexProgram, identifierProgram, programRegister.getName(), programRegister.getAcronym(),
+	        Program program = new Program(idProgram, identifierProgram, programRegister.getName(), programRegister.getAcronym(),
 	        		programRegister.getArea(), stateProgram);
 	        program.setProgramDescription(programRegister.getDescription());
 	        if(programRegister.getImage()!=null) program.setProgramImage(programRegister.getImage());
@@ -244,11 +243,10 @@ public class ConfigurationController {
 	            return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
 //	    	°Generar valores
 	        Long idOccupationalField = uniqueId.getUniqId();
-	        Integer indexOccupationalField = preference.getIndex(INDEX_OCCUPATIONAL_FIELD);
 	        Character stateOccupationalField = SYSTEM_STATE_ACTIVE;
 //	    	°Generar entidad
 	        Program programId = programService.getProgramById(programOccupationalRegister.getIdProgram());
-	        OccupationalField occupationalField = new OccupationalField(idOccupationalField, indexOccupationalField, 
+	        OccupationalField occupationalField = new OccupationalField(idOccupationalField, 
 	        		programOccupationalRegister.getName(), stateOccupationalField);
 	        occupationalField.setProgramId(programId);
 	        try {
@@ -307,10 +305,9 @@ public class ConfigurationController {
 	        Long idModulus = uniqueId.getUniqId();
 	        String identifierModulus = uniqueId.getIdentifier(Arrays.asList(modulusRegister.getName(), 
 	        		String.valueOf(modulusRegister.getOrder())));
-	        Integer indexModulus = preference.getIndex(INDEX_MODULUS);
 	        Character stateModulus = SYSTEM_STATE_ACTIVE;
 //			°Generar entidad
-	        Modulus modulus = new Modulus(idModulus, indexModulus, identifierModulus, modulusRegister.getName(), 
+	        Modulus modulus = new Modulus(idModulus, identifierModulus, modulusRegister.getName(), 
 	        		modulusRegister.getOrder(), stateModulus);
 	        modulus.setModulusDescription(modulusRegister.getDescription());
 	        modulus.setProgramId(program);
@@ -381,10 +378,9 @@ public class ConfigurationController {
 //			°Generar valores
 	        Long idCourse = uniqueId.getUniqId();
 	        String identifierCourse = uniqueId.getIdentifier(Arrays.asList(courseRegister.getName()));
-	        Integer indexCourse = preference.getIndex(INDEX_COURSE);
 	        Character stateCourse = SYSTEM_STATE_ACTIVE;
 //			°Generar entidad
-	        Course course = new Course(idCourse, indexCourse, identifierCourse, courseRegister.getName(), 
+	        Course course = new Course(idCourse, identifierCourse, courseRegister.getName(), 
 	        		courseRegister.getAcronym(), stateCourse);
 	        course.setCourseDescription(courseRegister.getDescription());
 	        course.setModulusId(modulus);

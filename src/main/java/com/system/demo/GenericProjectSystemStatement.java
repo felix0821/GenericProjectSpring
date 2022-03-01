@@ -5,21 +5,26 @@ import java.util.HashMap;
 public class GenericProjectSystemStatement {
 	
 	/**
+	 *	Predefined settings for the system
+	 **/
+//	°Configuración inicial del sistema
+//	°Declaraciones de configuraciones del periodo academico
+	public static final String SETTINGS_PERIOD_INITIAL_BREAK = "period_initial_break";
+	public static final String SETTINGS_PERIOD_DURATION_MONTHS = "period_duration_months";
+	public static final String SETTINGS_PERIOD_FINAL_BREAK = "period_final_break";
+	public static final String SETTINGS_MODULUS_SCHEDULE_BREAK = "modulus_schedule_break";
+	public static final String[] SETTINGS_MODULUS_DURATION_WEEKS = {"modulus_1_duration_weeks", "modulus_2_duration_weeks", 
+			"modulus_3_duration_weeks", "modulus_4_duration_weeks"};
+	public static final String SETTINGS_PAYMENT_SCHEDULE_INTEREST = "payment_schedule_interest";
+	
+	/**
 	 *	Predefined resources for the system
 	 **/
-	//	Declaraciones generales del sistema
-	//	Declaraciones de parametros para indices
-	public static final String INDEX_OCCUPATIONAL_FIELD = "occupational_field_index";
-	public static final String INDEX_PERIOD = "period_index";
-	public static final String INDEX_PROGRAM_PERIOD = "program_period_index";
-	public static final String INDEX_PROGRAM = "program_index";
-	public static final String INDEX_MODULUS = "modulus_index";
-	public static final String INDEX_COURSE = "course_index";
-	public static final String INDEX_REQUISITION_STATUS_DETAIL = "requisition_status_detail_index";
-	//	Declaraciones de parametros para ubicación
+//	°Declaraciones generales del sistema
+//	°Declaraciones de parametros para ubicación
 	public static final String ZONE_DATE_LIMA = "America/Lima";
-	//	Recursos generales del sistema
-	//	Recursos estados de entidad
+//	°Recursos generales del sistema
+//	°Recursos estados de entidad
 	public static final Character SYSTEM_STATE_ACTIVE = 'A';
 	public static final Character SYSTEM_STATE_INACTIVE = 'I';
 	public static final Character SYSTEM_STATE_DELETE = '*';

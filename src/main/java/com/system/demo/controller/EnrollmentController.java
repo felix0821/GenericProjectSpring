@@ -55,7 +55,7 @@ public class EnrollmentController {
 			Iterable<Period> periods = periodService.getAllPeriodByProgramPeriodEnrollmentAvailable(dateCurrent);
 			List<HeaderDataDto> response = new ArrayList<>();
 			for(Period period: periods) {
-				String modality = getModality(period.getPeriodModality());
+				String modality = period.getModalityId().getModalityName();
 				String namePeriod = period.getPeriodName()+" "+modality+" "+period.getPeriodYear();
 				HeaderDataDto headerData = new HeaderDataDto<EnrollmentAreaProgramDto>(period.getPeriodId().toString(), namePeriod);
 				// Agregar programas disponibles

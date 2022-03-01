@@ -38,9 +38,8 @@ public class QualificationCriteria implements Serializable {
     @Basic(optional = false)
     @Column(name = "qualification_criteria_id", nullable = false)
     private Long qualificationCriteriaId;
-    @Basic(optional = false)
-    @Column(name = "qualification_criteria_index", nullable = false)
-    private int qualificationCriteriaIndex;
+    @Column(name = "qualification_criteria_index")
+    private Integer qualificationCriteriaIndex;
     @Basic(optional = false)
     @Column(name = "qualification_criteria_name", nullable = false, length = 64)
     private String qualificationCriteriaName;
@@ -60,9 +59,8 @@ public class QualificationCriteria implements Serializable {
         this.qualificationCriteriaId = qualificationCriteriaId;
     }
 
-    public QualificationCriteria(Long qualificationCriteriaId, int qualificationCriteriaIndex, String qualificationCriteriaName, double qualificationCriteriaPorcentual) {
+    public QualificationCriteria(Long qualificationCriteriaId, String qualificationCriteriaName, double qualificationCriteriaPorcentual) {
         this.qualificationCriteriaId = qualificationCriteriaId;
-        this.qualificationCriteriaIndex = qualificationCriteriaIndex;
         this.qualificationCriteriaName = qualificationCriteriaName;
         this.qualificationCriteriaPorcentual = qualificationCriteriaPorcentual;
     }
@@ -75,11 +73,11 @@ public class QualificationCriteria implements Serializable {
         this.qualificationCriteriaId = qualificationCriteriaId;
     }
 
-    public int getQualificationCriteriaIndex() {
+    public Integer getQualificationCriteriaIndex() {
         return qualificationCriteriaIndex;
     }
 
-    public void setQualificationCriteriaIndex(int qualificationCriteriaIndex) {
+    public void setQualificationCriteriaIndex(Integer qualificationCriteriaIndex) {
         this.qualificationCriteriaIndex = qualificationCriteriaIndex;
     }
 

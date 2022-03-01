@@ -6,6 +6,7 @@
 package com.system.demo.persistence.entity;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -36,9 +37,8 @@ public class RequisitionStatusDetail implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected RequisitionStatusDetailPK requisitionStatusDetailPK;
-    @Basic(optional = false)
-    @Column(name = "requisition_status_detail_index", nullable = false)
-    private int requisitionStatusDetailIndex;
+    @Column(name = "requisition_status_detail_index")
+    private BigInteger requisitionStatusDetailIndex;
     @Basic(optional = false)
     @Column(name = "requisition_status_detail_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -60,9 +60,8 @@ public class RequisitionStatusDetail implements Serializable {
         this.requisitionStatusDetailPK = requisitionStatusDetailPK;
     }
 
-    public RequisitionStatusDetail(RequisitionStatusDetailPK requisitionStatusDetailPK, int requisitionStatusDetailIndex, Date requisitionStatusDetailDate) {
+    public RequisitionStatusDetail(RequisitionStatusDetailPK requisitionStatusDetailPK, Date requisitionStatusDetailDate) {
         this.requisitionStatusDetailPK = requisitionStatusDetailPK;
-        this.requisitionStatusDetailIndex = requisitionStatusDetailIndex;
         this.requisitionStatusDetailDate = requisitionStatusDetailDate;
     }
 
@@ -78,11 +77,11 @@ public class RequisitionStatusDetail implements Serializable {
         this.requisitionStatusDetailPK = requisitionStatusDetailPK;
     }
 
-    public int getRequisitionStatusDetailIndex() {
+    public BigInteger getRequisitionStatusDetailIndex() {
         return requisitionStatusDetailIndex;
     }
 
-    public void setRequisitionStatusDetailIndex(int requisitionStatusDetailIndex) {
+    public void setRequisitionStatusDetailIndex(BigInteger requisitionStatusDetailIndex) {
         this.requisitionStatusDetailIndex = requisitionStatusDetailIndex;
     }
 

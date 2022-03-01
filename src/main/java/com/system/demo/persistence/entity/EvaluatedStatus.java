@@ -26,7 +26,6 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(name = "EvaluatedStatus.findAll", query = "SELECT e FROM EvaluatedStatus e"),
     @NamedQuery(name = "EvaluatedStatus.findByEvaluatedStatusId", query = "SELECT e FROM EvaluatedStatus e WHERE e.evaluatedStatusId = :evaluatedStatusId"),
-    @NamedQuery(name = "EvaluatedStatus.findByEvaluatedStatusIndex", query = "SELECT e FROM EvaluatedStatus e WHERE e.evaluatedStatusIndex = :evaluatedStatusIndex"),
     @NamedQuery(name = "EvaluatedStatus.findByEvaluatedStatusName", query = "SELECT e FROM EvaluatedStatus e WHERE e.evaluatedStatusName = :evaluatedStatusName"),
     @NamedQuery(name = "EvaluatedStatus.findByEvaluatedStatusColor", query = "SELECT e FROM EvaluatedStatus e WHERE e.evaluatedStatusColor = :evaluatedStatusColor")})
 public class EvaluatedStatus implements Serializable {
@@ -36,9 +35,6 @@ public class EvaluatedStatus implements Serializable {
     @Basic(optional = false)
     @Column(name = "evaluated_status_id", nullable = false)
     private Long evaluatedStatusId;
-    @Basic(optional = false)
-    @Column(name = "evaluated_status_index", nullable = false)
-    private int evaluatedStatusIndex;
     @Basic(optional = false)
     @Column(name = "evaluated_status_name", nullable = false, length = 32)
     private String evaluatedStatusName;
@@ -57,9 +53,8 @@ public class EvaluatedStatus implements Serializable {
         this.evaluatedStatusId = evaluatedStatusId;
     }
 
-    public EvaluatedStatus(Long evaluatedStatusId, int evaluatedStatusIndex, String evaluatedStatusName, String evaluatedStatusColor) {
+    public EvaluatedStatus(Long evaluatedStatusId, String evaluatedStatusName, String evaluatedStatusColor) {
         this.evaluatedStatusId = evaluatedStatusId;
-        this.evaluatedStatusIndex = evaluatedStatusIndex;
         this.evaluatedStatusName = evaluatedStatusName;
         this.evaluatedStatusColor = evaluatedStatusColor;
     }
@@ -70,14 +65,6 @@ public class EvaluatedStatus implements Serializable {
 
     public void setEvaluatedStatusId(Long evaluatedStatusId) {
         this.evaluatedStatusId = evaluatedStatusId;
-    }
-
-    public int getEvaluatedStatusIndex() {
-        return evaluatedStatusIndex;
-    }
-
-    public void setEvaluatedStatusIndex(int evaluatedStatusIndex) {
-        this.evaluatedStatusIndex = evaluatedStatusIndex;
     }
 
     public String getEvaluatedStatusName() {

@@ -105,7 +105,7 @@ public class AcademicController {
 				count = programPeriodService.getTotalProgramPeriodByPeriodId(pedPeriod.getPeriodId());
 				academicPedPeriodDto.add(new AcademicPeriodDto(pedPeriod.getPeriodId(), pedPeriod.getPeriodIdentifier(), 
 						pedPeriod.getPeriodYear(), pedPeriod.getPeriodName(), "", count,
-						pedPeriod.getPeriodModality(), pedPeriod.getPeriodState()));
+						' ', pedPeriod.getPeriodState())); //pedPeriod.getPeriodModality()---------------------------------------
 			}
 			return new ResponseEntity<List<AcademicPeriodDto>>(academicPedPeriodDto, HttpStatus.OK);
 		} catch(Exception e) {
@@ -126,7 +126,7 @@ public class AcademicController {
 		}
 		AcademicPeriodDto resultDto = new AcademicPeriodDto(periodEdit.getPeriodId(), periodEdit.getPeriodIdentifier(), 
 				periodEdit.getPeriodYear(), periodEdit.getPeriodName(), periodEdit.getPeriodDescription(), 0L,
-				periodEdit.getPeriodModality(), periodEdit.getPeriodState());
+				' ', periodEdit.getPeriodState()); //periodEdit.getPeriodModality()---------------------------------------
 		return new ResponseEntity<AcademicPeriodDto>(resultDto, HttpStatus.OK);
 	}
 	
@@ -147,7 +147,7 @@ public class AcademicController {
 		periodEdit.setPeriodName(periodEditDto.getName());
 		periodEdit.setPeriodYear(periodEditDto.getYear());
 		periodEdit.setPeriodDescription(periodEditDto.getDescription());
-		periodEdit.setPeriodModality(periodEditDto.getModality());
+		//periodEdit.setPeriodModality(periodEditDto.getModality());-------------------------------------------------------------
 		periodEdit.setPeriodState(periodEditDto.getState());
 		try {
 			periodService.updatePeriod(periodEdit);
@@ -212,10 +212,9 @@ public class AcademicController {
 	        Long idPeriod = uniqueId.getUniqId();
 	        String identifierPeriod = uniqueId.getIdentifier(Arrays.asList(periodRegister.getName(), 
 	        		periodRegister.getModality().toString(), Integer.toString(periodRegister.getYear())));
-	        int indexPeriod = preference.getIndex(INDEX_PERIOD);
 //	    	°Generar entidad
-	        Period period = new Period(idPeriod, null, identifierPeriod, periodRegister.getName(),
-	        		periodRegister.getYear(), periodRegister.getModality(), SYSTEM_STATE_ACTIVE);
+	        Period period = new Period(idPeriod, identifierPeriod, periodRegister.getName(),
+	        		periodRegister.getYear(), SYSTEM_STATE_ACTIVE); //periodRegister.getModality()-------------------------------------
 	        Period pedPeriod = periodService.createPeriod(period);
 //	    	°Realizar registro en bloque
 	       if(periodRegister.isBlockRegistration()) {
@@ -223,13 +222,12 @@ public class AcademicController {
 		        for(Program program:programs) {
 //			    	°Generar valores
 		        	ProgramPeriodPK idProgPeriod = new ProgramPeriodPK(program.getProgramId(), pedPeriod.getPeriodId());
-		        	Integer indexProgPeriod = preference.getIndex(INDEX_PROGRAM_PERIOD);
 		        	Character stateProgPeriod = SYSTEM_STATE_ACTIVE;
 		        	/*LocalDateTime progClos =  convertToLocalDateTimeViaInstant(periodRegister.getDateOpening());
 					progClos = LocalDateTime.now().plusWeeks(periodRegister.getWeeks());
 					convertToDateViaInstant(progClos);*/
 //			    	°Generar entidad
-		        	ProgramPeriod progPeriod = new ProgramPeriod(idProgPeriod, indexProgPeriod, periodRegister.getPayEnrollmet(), 
+		        	ProgramPeriod progPeriod = new ProgramPeriod(idProgPeriod, periodRegister.getPayEnrollmet(), 
 		        			periodRegister.getPayPension(), periodRegister.getDateOpening(), periodRegister.getDateClosingEnrollmet(), 
 		        			periodRegister.getDateClosing(), stateProgPeriod);
 		        	programPeriodService.createProgramPeriod(progPeriod);
@@ -302,13 +300,12 @@ public class AcademicController {
 	            return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
 //			°Generar valores
 	        ProgramPeriodPK idProgPeriod = new ProgramPeriodPK(progPeriodRegister.getIdProgram(), progPeriodRegister.getIdPeriod());
-	        Integer indexProgPeriod = preference.getIndex(INDEX_PROGRAM_PERIOD);
 	        Character stateProgPeriod = SYSTEM_STATE_ACTIVE;
 	        LocalDateTime progClos =  convertToLocalDateTimeViaInstant(progPeriodRegister.getDateOpening());
 			progClos = LocalDateTime.now().plusWeeks(progPeriodRegister.getWeeks());
 			convertToDateViaInstant(progClos);
 //			°Generar entidad
-	        ProgramPeriod programPeriod = new ProgramPeriod(idProgPeriod, indexProgPeriod, progPeriodRegister.getPayEnrollmet(), 
+	        ProgramPeriod programPeriod = new ProgramPeriod(idProgPeriod, progPeriodRegister.getPayEnrollmet(), 
 	        		progPeriodRegister.getPayPension(), progPeriodRegister.getDateOpening(), progPeriodRegister.getDateClosingEnrollmet(), 
 	        		convertToDateViaInstant(progClos), stateProgPeriod);
 	        programPeriodService.createProgramPeriod(programPeriod);
@@ -330,10 +327,9 @@ public class AcademicController {
 //			°Generar valores
 	        Long idProgram = uniqueId.getUniqId();
 	        String identifierProgram = uniqueId.getIdentifier(Arrays.asList(progPeriodRegister.getName()));
-	        Integer indexProgram = preference.getIndex(INDEX_PROGRAM);
 	        Character stateProgram = SYSTEM_STATE_ACTIVE;
 //			°Generar entidad
-	        Program program = new Program(idProgram, indexProgram, identifierProgram,  progPeriodRegister.getName(),  
+	        Program program = new Program(idProgram, identifierProgram,  progPeriodRegister.getName(),  
 	        		progPeriodRegister.getAcronym(), progPeriodRegister.getArea(), stateProgram);
 	        program.setProgramDescription(progPeriodRegister.getDescription());
 	        try {
@@ -343,13 +339,12 @@ public class AcademicController {
 			}
 //			°Generar valores
 	        ProgramPeriodPK idProgPeriod = new ProgramPeriodPK(program.getProgramId(), progPeriodRegister.getIdPeriod());
-	        Integer indexProgPeriod = preference.getIndex(INDEX_PROGRAM_PERIOD);
 	        Character stateProgPeriod = SYSTEM_STATE_ACTIVE;
 	        LocalDateTime progClos =  convertToLocalDateTimeViaInstant(progPeriodRegister.getDateOpening());
 			progClos = LocalDateTime.now().plusWeeks(progPeriodRegister.getWeeks());
 			convertToDateViaInstant(progClos);
 //			°Generar entidad
-	        ProgramPeriod programPeriod = new ProgramPeriod(idProgPeriod, indexProgPeriod, progPeriodRegister.getPayEnrollmet(), 
+	        ProgramPeriod programPeriod = new ProgramPeriod(idProgPeriod, progPeriodRegister.getPayEnrollmet(), 
 	        		progPeriodRegister.getPayPension(), progPeriodRegister.getDateOpening(), progPeriodRegister.getDateClosingEnrollmet(), 
 	        		convertToDateViaInstant(progClos), stateProgPeriod);
 	        programPeriodService.createProgramPeriod(programPeriod);
