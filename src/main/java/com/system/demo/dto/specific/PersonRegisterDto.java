@@ -16,7 +16,7 @@ public class PersonRegisterDto {
 	@Size(min = 6, message = "La contraseña necesita al menos 6 caracteres.")
 	private String password;
 	
-	@NotBlank(message = "Ingrese una contraseña.")
+	@NotBlank(message = "Ingrese una confirmación de contraseña.")
 	@Size(max = 128, message = "Él limite de carácteres para la contraseña no debe sobrepasar los 128.")
 	@Size(min = 6, message = "La confirmación de Contraseña necesita al menos 6 caracteres.")
 	private String confirmation;
