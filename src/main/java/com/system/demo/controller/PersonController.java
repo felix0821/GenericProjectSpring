@@ -180,7 +180,7 @@ public class PersonController {
             return new ResponseEntity(new Message("Ese dni ya existe"), HttpStatus.BAD_REQUEST);
         try {
         	Long personId = uI.getUniqId();
-            String password = bCryptPasswordEncoder.encode(personRegister.getPassword());
+            //String password = bCryptPasswordEncoder.encode(personRegister.getPassword());
             //Insertar fecha de registro
     		LocalDateTime fechaHoraPeru = LocalDateTime.now(ZoneId.of(ZONE_DATE_LIMA));
     		Date dateRegister = Date.from(fechaHoraPeru.atZone(ZoneId.systemDefault()).toInstant());
@@ -196,7 +196,7 @@ public class PersonController {
     		}
     		//Crear un usuario para persistir
             Person person =
-                    new Person(personId, personRegister.getUsername(), password, dniQuery[0], dniQuery[1], 
+                    new Person(personId, personRegister.getUsername(), personRegister.getPassword(), dniQuery[0], dniQuery[1], 
                     		dniQuery[2], dateRegister, SYSTEM_STATE_ACTIVE);
             person.setPersonDateBirth(dateBirth);
             person.setGenderId(gender);
