@@ -114,7 +114,7 @@ public class RequisitionController {
 			Requisition requisition = requisitionService.getRequisitionById(requisitionId).get();
 			RequisitionHeaderDto<DataDto> response = new RequisitionHeaderDto(requisition.getRequisitionId().toString(), 
 					requisition.getRequisitionName(), referenceId);
-			Iterable<Data> datas = dataService.getDatasByRequisitionId(1L);
+			Iterable<Data> datas = dataService.getDatasByRequisitionId(requisitionId);
 			List<DataDto> datasDto = new ArrayList<>();
 			for(Data data: datas) {
 				DataEntry dataEntry = data.getDataEntryId();
