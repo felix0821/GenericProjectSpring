@@ -203,8 +203,9 @@ public class RequisitionController {
 			for(Data data: datas) {
 				DataEntry dataEntry = data.getDataEntryId();
 				List<DataDetailDto> dataDetailsDto = new ArrayList<>();
-				DataDto dataDto = new DataDto(data.getDataId(), data.getDataName(), data.getDataDescription(), data.getDataPlaceholder(),
-						dataEntry.getDataEntryType(), dataEntry.getDataEntrySelection(), dataEntry.getDataEntryAccept(), data.getDataRequired());
+				DataDto dataDto = new DataDto(data.getDataId(), data.getDataName(), data.getDataValue(), data.getDataDescription(), data.getDataPlaceholder(),
+						dataEntry.getDataEntryType(), dataEntry.getDataEntrySelection(), dataEntry.getDataEntryAccept(), data.getDataRequired(),
+						data.getDataDisable());
 				if(dataEntry.getDataEntrySelection()) {
 					Iterable<DataDetail> dataDetails = dataDetailService.getDataDetailsByDataId(data.getDataId());
 					for(DataDetail dataDetail: dataDetails) {
