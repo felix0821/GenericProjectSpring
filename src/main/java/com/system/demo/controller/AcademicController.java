@@ -242,7 +242,8 @@ public class AcademicController {
 	        Period period = new Period(idPeriod, identifierPeriod, periodRegister.getName(),
 	        		periodRegister.getYear(), SYSTEM_STATE_ACTIVE);
 	        period.setModalityId(periodModality);
-	        period = periodService.createPeriod(period);/*
+	        period = periodService.createPeriod(period);
+	        /*
 //	    	°Realizar registro en bloque
 	       if(periodRegister.isBlockRegistration()) {
 	    	   	List<Program> programs = programService.getProgramByState(SYSTEM_STATE_ACTIVE);
@@ -261,9 +262,9 @@ public class AcademicController {
 		        }
 	       	}*/
 //			°Generar valores para dato de entrada
-	        DataEntry dataEntry = dataEntryRepository.getById(SYSTEM_DATA_ENTRY_TEXT);
+	        DataEntry dataEntry = dataEntryRepository.findById(SYSTEM_DATA_ENTRY_TEXT).get();
 	        DataCategory dataCategory = dataCategoryService.getDataCategoryById(SYSTEM_DATA_CATEGORY_REQUISITION);
-	        DataReference periodReference = dataReferenceRepository.getById(SYSTEM_REFERENCE_PERIOD_DEFINED);
+	        DataReference periodReference = dataReferenceRepository.findById(SYSTEM_REFERENCE_PERIOD_DEFINED).get();
 //			°Generar valores para dato de periodo
 	        Long dataId = uniqueId.getUniqId();
 	        String nameData = period.getPeriodName();
