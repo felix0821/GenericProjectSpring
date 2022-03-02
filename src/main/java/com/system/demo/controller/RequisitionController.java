@@ -143,7 +143,7 @@ public class RequisitionController {
 	@PostMapping
 	@ResponseBody
     public ResponseEntity<?> registerRequisition(@Valid @RequestBody RequisitionHeaderDto<DropdownDataDto> requisitionRegisterDto,
-    		@RequestHeader HttpHeaders headers, HttpServletRequest request, BindingResult bindingResult){
+    		@RequestHeader HttpHeaders headers, HttpServletRequest request, BindingResult bindingResult) {
 		if(bindingResult.hasErrors())
             return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
 		String userFromToken = usernameFromToken(headers);
@@ -160,12 +160,6 @@ public class RequisitionController {
 			requisitionDetail.setPersonId(person);
 			requisitionDetail.setRequisitionId(requisition);
 			requisitionDetail = requisitionDetailService.createRequisitionDetail(requisitionDetail);
-//			Objeto control documental
-			RequisitionStatusDetailPK idReqStatusDetail = new RequisitionStatusDetailPK(idReqDetail, SYSTEM_REQUISITION_STATUS_SEND);
-			RequisitionStatusDetail reqStatusDetail = new RequisitionStatusDetail(idReqStatusDetail);
-			reqStatusDetail.setRequisitionStatusDetailDate(dateRegister);
-			reqStatusDetail.setPersonId(person);
-			requisitionStatusDetailService.createRequisitionStatusDetail(reqStatusDetail);
 //			Registrar datos detalle
 			List<DropdownDataDto> datas = requisitionRegisterDto.getList();
 			for(DropdownDataDto data: datas) {

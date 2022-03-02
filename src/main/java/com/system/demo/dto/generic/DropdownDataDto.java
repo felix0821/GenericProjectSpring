@@ -5,14 +5,11 @@ import javax.validation.constraints.NotNull;
 
 public class DropdownDataDto {
 	
-	@NotNull(message = "Ingrese un id valido")
 	private Long id;
 	
-	@NotBlank(message = "Ingrese un nombre.")
 	private String name;
 
-	public DropdownDataDto(@NotNull(message = "Ingrese un id valido") Long id,
-			@NotBlank(message = "Ingrese un nombre.") String name) {
+	public DropdownDataDto(Long id, String name) {
 		super();
 		this.id = id;
 		this.name = name;
