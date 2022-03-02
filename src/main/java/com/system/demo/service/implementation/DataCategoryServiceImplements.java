@@ -18,7 +18,14 @@ public class DataCategoryServiceImplements implements DataCategoryService {
 
 	@Override
 	public DataCategory createDataCategory(DataCategory dataCategory) throws Exception {
+		// TODO Auto-generated method stub
 		return dtaCategoryRepository.save(dataCategory);
+	}
+
+	@Override
+	public DataCategory getDataCategoryById(Long id) throws Exception {
+		// TODO Auto-generated method stub
+		return dtaCategoryRepository.findById(id).orElseThrow();
 	}
 
 }

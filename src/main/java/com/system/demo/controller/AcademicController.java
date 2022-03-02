@@ -48,16 +48,27 @@ import com.system.demo.dto.specific.ProgramPeriodNewRegisterDto;
 import com.system.demo.dto.specific.ProgramPeriodSelectRegisterDto;
 import com.system.demo.persistence.entity.Course;
 import com.system.demo.persistence.entity.CourseDetail;
+import com.system.demo.persistence.entity.Data;
+import com.system.demo.persistence.entity.DataCategory;
+import com.system.demo.persistence.entity.DataEntry;
+import com.system.demo.persistence.entity.DataReference;
 import com.system.demo.persistence.entity.EnrollmentProgram;
 import com.system.demo.persistence.entity.OccupationalField;
 import com.system.demo.persistence.entity.Period;
+import com.system.demo.persistence.entity.PeriodData;
+import com.system.demo.persistence.entity.PeriodDataPK;
 import com.system.demo.persistence.entity.PeriodModality;
 import com.system.demo.persistence.entity.Person;
 import com.system.demo.persistence.entity.Program;
 import com.system.demo.persistence.entity.ProgramPeriod;
 import com.system.demo.persistence.entity.ProgramPeriodPK;
 import com.system.demo.persistence.entity.Role;
+import com.system.demo.persistence.repository.DataEntryRepository;
+import com.system.demo.persistence.repository.DataReferenceRepository;
+import com.system.demo.persistence.repository.PeriodDataRepository;
 import com.system.demo.service.CourseDetailService;
+import com.system.demo.service.DataCategoryService;
+import com.system.demo.service.DataService;
 import com.system.demo.service.EnrollmentProgramService;
 import com.system.demo.service.OccupationalFieldService;
 import com.system.demo.service.PeriodModalityService;
@@ -77,7 +88,12 @@ public class AcademicController {
 	@Autowired
 	PreferenceUtility preference;
 	
+	//	Repository
+	DataReferenceRepository dataReferenceRepository;
+	DataEntryRepository dataEntryRepository;
+	PeriodDataRepository periodDataRepository;
 	
+	//	Service
 	@Autowired
 	ProgramService programService;
 	@Autowired
@@ -92,6 +108,10 @@ public class AcademicController {
 	CourseDetailService courseDetailService;
 	@Autowired
 	PeriodModalityService periodModalityService;
+	@Autowired
+	DataCategoryService dataCategoryService;
+	@Autowired
+	DataService dataService;
 	/*
 	 * ENLACE PRINCIPAL - GESTION ACADEMICA
 	 */
@@ -222,7 +242,7 @@ public class AcademicController {
 	        Period period = new Period(idPeriod, identifierPeriod, periodRegister.getName(),
 	        		periodRegister.getYear(), SYSTEM_STATE_ACTIVE);
 	        period.setModalityId(periodModality);
-	        Period pedPeriod = periodService.createPeriod(period);/*
+	        period = periodService.createPeriod(period);/*
 //	    	°Realizar registro en bloque
 	       if(periodRegister.isBlockRegistration()) {
 	    	   	List<Program> programs = programService.getProgramByState(SYSTEM_STATE_ACTIVE);
@@ -239,11 +259,32 @@ public class AcademicController {
 		        			periodRegister.getDateClosing(), stateProgPeriod);
 		        	programPeriodService.createProgramPeriod(progPeriod);
 		        }
-	       }*/
+	       	}*/
+//			°Generar valores para dato de entrada
+	        DataEntry dataEntry = dataEntryRepository.getById(SYSTEM_DATA_ENTRY_TEXT);
+	        DataCategory dataCategory = dataCategoryService.getDataCategoryById(SYSTEM_DATA_CATEGORY_REQUISITION);
+	        DataReference periodReference = dataReferenceRepository.getById(SYSTEM_REFERENCE_PERIOD_DEFINED);
+//			°Generar valores para dato de periodo
+	        Long dataId = uniqueId.getUniqId();
+	        String nameData = period.getPeriodName();
+	        boolean required = true;
+	        boolean disable = true;
+	        boolean hidden = true;
+	        Data data = new Data(dataId, nameData, required, disable, hidden, SYSTEM_DATA_TYPE_LONG, SYSTEM_STATE_ACTIVE);
+	        data.setDataValue(period.getPeriodId().toString());
+	        data.setDataEntryId(dataEntry);
+	        data.setDataCategoryId(dataCategory);
+	        data.setDataReferenceId(periodReference);
+	        dataService.createData(data);
+//			°Generar valores para la relacion entre dato y periodo
+	        PeriodDataPK periodDataId = new PeriodDataPK(idPeriod, dataId);
+	        PeriodData periodData = new PeriodData(periodDataId);
+	        periodData.setPeriodDataState(SYSTEM_STATE_ACTIVE);
+	        periodDataRepository.save(periodData);
 //	    	°Retornar mensaje
 	        return new ResponseEntity(new Message(SYSTEM_SUCCESS_REGISTER_PROGRAM), HttpStatus.CREATED);
 		} catch (Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 			return new ResponseEntity(new Message(SYSTEM_ERROR), HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -305,17 +346,29 @@ public class AcademicController {
 //			°Realizar validaciones
 	        if(bindingResult.hasErrors())
 	            return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
-//			°Generar valores
+//			°Generar valores para programa
 	        ProgramPeriodPK idProgPeriod = new ProgramPeriodPK(progPeriodRegister.getIdProgram(), progPeriodRegister.getIdPeriod());
 	        Character stateProgPeriod = SYSTEM_STATE_ACTIVE;
 	        LocalDateTime progClos =  convertToLocalDateTimeViaInstant(progPeriodRegister.getDateOpening());
 			progClos = LocalDateTime.now().plusWeeks(progPeriodRegister.getWeeks());
 			convertToDateViaInstant(progClos);
-//			°Generar entidad
+//			°Generar entidad para programa
 	        ProgramPeriod programPeriod = new ProgramPeriod(idProgPeriod, progPeriodRegister.getPayEnrollmet(), 
 	        		progPeriodRegister.getPayPension(), progPeriodRegister.getDateOpening(), progPeriodRegister.getDateClosingEnrollmet(), 
 	        		convertToDateViaInstant(progClos), stateProgPeriod);
-	        programPeriodService.createProgramPeriod(programPeriod);
+	        programPeriod = programPeriodService.createProgramPeriod(programPeriod);
+	        
+//			°Generar valores para dato de entrada
+	        DataEntry dataEntry = dataEntryRepository.getById(SYSTEM_DATA_ENTRY_TEXT);
+//			°Generar valores para dato de periodo
+	        Long dataId = uniqueId.getUniqId();
+	        Period period = periodService.getPeriodById(progPeriodRegister.getIdPeriod());
+	        DataReference periodReference = dataReferenceRepository.getById(SYSTEM_REFERENCE_PERIOD_DEFINED);
+	        Data periodData = new Data();
+	        
+	        DataReference programReference = dataReferenceRepository.getById(SYSTEM_REFERENCE_PROGRAM_DEFINED);
+	        Program program = programService.getProgramById(progPeriodRegister.getIdPeriod());
+	        Data programData = new Data();
 //			°Retornar mensaje
 	        return new ResponseEntity(new Message(SYSTEM_SUCCESS_REGISTER_PROGRAM), HttpStatus.CREATED);
 		} catch (Exception e) {
