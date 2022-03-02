@@ -142,14 +142,14 @@ public class RequisitionController {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@PostMapping
 	@ResponseBody
-    public ResponseEntity<?> registerRequisition(@Valid @RequestBody HeaderDataDto<DropdownDataDto> requisitionRegisterDto,
+    public ResponseEntity<?> registerRequisition(@Valid @RequestBody RequisitionHeaderDto<DropdownDataDto> requisitionRegisterDto,
     		@RequestHeader HttpHeaders headers, HttpServletRequest request, BindingResult bindingResult){
 		if(bindingResult.hasErrors())
             return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
 		String userFromToken = usernameFromToken(headers);
 		try {
 			Person person = personService.getPersonByUsername(userFromToken).get();
-			Requisition requisition = requisitionService.getRequisitionById(1L).get();
+			Requisition requisition = requisitionService.getRequisitionById(Long.parseLong(requisitionRegisterDto.getId())).get();
 //			Insertar fecha de registro
 			LocalDateTime fechaHoraPeru = LocalDateTime.now(ZoneId.of(ZONE_DATE_LIMA));
 			Date dateRegister = Date.from(fechaHoraPeru.atZone(ZoneId.systemDefault()).toInstant());
