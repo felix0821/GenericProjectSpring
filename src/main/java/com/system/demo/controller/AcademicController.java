@@ -89,8 +89,11 @@ public class AcademicController {
 	PreferenceUtility preference;
 	
 	//	Repository
+	@Autowired
 	DataReferenceRepository dataReferenceRepository;
+	@Autowired
 	DataEntryRepository dataEntryRepository;
+	@Autowired
 	PeriodDataRepository periodDataRepository;
 	
 	//	Service
@@ -262,9 +265,9 @@ public class AcademicController {
 		        }
 	       	}*/
 //			°Generar valores para dato de entrada
-	        DataEntry dataEntry = dataEntryRepository.findById(SYSTEM_DATA_ENTRY_TEXT).get();
+	        DataEntry dataEntry = dataEntryRepository.getById(SYSTEM_DATA_ENTRY_TEXT);
 	        DataCategory dataCategory = dataCategoryService.getDataCategoryById(SYSTEM_DATA_CATEGORY_REQUISITION);
-	        DataReference periodReference = dataReferenceRepository.findById(SYSTEM_REFERENCE_PERIOD_DEFINED).get();
+	        DataReference periodReference = dataReferenceRepository.getById(SYSTEM_REFERENCE_PERIOD_DEFINED);
 //			°Generar valores para dato de periodo
 	        Long dataId = uniqueId.getUniqId();
 	        String nameData = period.getPeriodName();
