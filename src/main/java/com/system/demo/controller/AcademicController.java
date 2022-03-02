@@ -398,6 +398,7 @@ public class AcademicController {
 //			°Generar uso de matricula para la solicitud
 	        RequisitionUsesPK useEnrollId = new RequisitionUsesPK(requisitionId, SYSTEM_USE_ENROLLMENT_SELECT);
 	        RequisitionUses useEnroll = new RequisitionUses(useEnrollId);
+	        useEnroll.setRequisitionUsesState(SYSTEM_STATE_ACTIVE);
 	        requisitionUsesService.createRequisitionUses(useEnroll);
 	        //Dato ciclo academico
 	        Data periodData = dataService.getDataByPeriodIdAndReferenceId(progPeriodRegister.getIdPeriod(), SYSTEM_REFERENCE_PERIOD_DEFINED).get();
@@ -414,6 +415,7 @@ public class AcademicController {
 //			°Generar uso de pago para la solicitud
 	        RequisitionUsesPK usePayId = new RequisitionUsesPK(requisitionId, SYSTEM_USE_PAYMENT_DEPOSIT);
 	        RequisitionUses usePay = new RequisitionUses(usePayId);
+	        usePay.setRequisitionUsesState(SYSTEM_STATE_ACTIVE);
 	        requisitionUsesService.createRequisitionUses(usePay);
 	        //Datos de pago
 	        Iterable<UsesRestriction> usesPays = usesRestrictionRepository.findByUsesId(SYSTEM_USE_PAYMENT_DEPOSIT);
