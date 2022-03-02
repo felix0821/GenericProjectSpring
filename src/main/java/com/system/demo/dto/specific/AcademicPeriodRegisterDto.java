@@ -20,17 +20,17 @@ public class AcademicPeriodRegisterDto {
 	private int year;
 	@NotNull
 	private boolean blockRegistration;
-	@NotNull(message = "Ingrese una fecha valida")
+	//@NotNull(message = "Ingrese una fecha valida")
 	private Date dateOpening;
-	@NotNull(message = "Ingrese una fecha valida")
+	//@NotNull(message = "Ingrese una fecha valida")
 	private Date dateClosingEnrollmet;
-	@Min(value = 0, message = "Ingrese un número mayor a 0")
+	//@Min(value = 0, message = "Ingrese un número mayor a 0")
 	private int weeks;
-	@NotNull(message = "Ingrese una fecha valida")
+	//@NotNull(message = "Ingrese una fecha valida")
 	private Date dateClosing;
-	@DecimalMin(value = "0", message = "Ingrese un número mayor a 0")
+	//@DecimalMin(value = "0", message = "Ingrese un número mayor a 0")
 	private double payEnrollmet;
-	@DecimalMin(value = "0", message = "Ingrese un número mayor a 0")
+	//@DecimalMin(value = "0", message = "Ingrese un número mayor a 0")
 	private double payPension;
 	
 	public String getName() {
