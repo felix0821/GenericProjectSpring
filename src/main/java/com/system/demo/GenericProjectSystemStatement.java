@@ -35,6 +35,8 @@ public class GenericProjectSystemStatement {
 //	Recursos categoria de persona registro
 	public static final Character REGISTERING_FINANCIAL_MOVEMENT = 'F';
 	//	Recursos especificos del sistema
+//	°Recursos de datos
+	public static final Long SYSTEM_DATA_COMMENT = 10007L;
 //	°Recursos de referencia
 	public static final Long SYSTEM_DATA_CATEGORY_REQUISITION = 101L;
 	//	Recursos de referencia

@@ -41,6 +41,9 @@ public class DataReference implements Serializable {
     @Basic(optional = false)
     @Column(name = "data_reference_description", nullable = false, length = 128)
     private String dataReferenceDescription;
+    @Basic(optional = false)
+    @Column(name = "data_reference_multitarget", nullable = false)
+    private boolean dataReferenceMultitarget;
     @OneToMany(mappedBy = "dataReferenceId")
     private Collection<Data> dataCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "dataReference")
@@ -83,7 +86,15 @@ public class DataReference implements Serializable {
         this.dataReferenceDescription = dataReferenceDescription;
     }
 
-    public Collection<Data> getDataCollection() {
+    public boolean isDataReferenceMultitarget() {
+		return dataReferenceMultitarget;
+	}
+
+	public void setDataReferenceMultitarget(boolean dataReferenceMultitarget) {
+		this.dataReferenceMultitarget = dataReferenceMultitarget;
+	}
+
+	public Collection<Data> getDataCollection() {
         return dataCollection;
     }
 

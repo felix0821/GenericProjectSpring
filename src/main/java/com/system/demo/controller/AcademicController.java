@@ -62,11 +62,18 @@ import com.system.demo.persistence.entity.Person;
 import com.system.demo.persistence.entity.Program;
 import com.system.demo.persistence.entity.ProgramPeriod;
 import com.system.demo.persistence.entity.ProgramPeriodPK;
+import com.system.demo.persistence.entity.Requisition;
+import com.system.demo.persistence.entity.RequisitionData;
+import com.system.demo.persistence.entity.RequisitionDataPK;
+import com.system.demo.persistence.entity.RequisitionUses;
+import com.system.demo.persistence.entity.RequisitionUsesPK;
 import com.system.demo.persistence.entity.Role;
+import com.system.demo.persistence.entity.UsesRestriction;
 import com.system.demo.persistence.repository.DataEntryRepository;
 import com.system.demo.persistence.repository.DataReferenceRepository;
 import com.system.demo.persistence.repository.PeriodDataRepository;
 import com.system.demo.persistence.repository.ProgramDataRepository;
+import com.system.demo.persistence.repository.UsesRestrictionRepository;
 import com.system.demo.service.CourseDetailService;
 import com.system.demo.service.DataCategoryService;
 import com.system.demo.service.DataService;
@@ -76,6 +83,9 @@ import com.system.demo.service.PeriodModalityService;
 import com.system.demo.service.PeriodService;
 import com.system.demo.service.ProgramPeriodService;
 import com.system.demo.service.ProgramService;
+import com.system.demo.service.RequisitionDataService;
+import com.system.demo.service.RequisitionService;
+import com.system.demo.service.RequisitionUsesService;
 import com.system.demo.utility.PreferenceUtility;
 import com.system.demo.utility.UniqIdUtility;
 
@@ -98,6 +108,8 @@ public class AcademicController {
 	PeriodDataRepository periodDataRepository;
 	@Autowired
 	ProgramDataRepository programDataRepository;
+	@Autowired
+	UsesRestrictionRepository usesRestrictionRepository;
 	
 //	*Service
 	@Autowired
@@ -118,6 +130,13 @@ public class AcademicController {
 	DataCategoryService dataCategoryService;
 	@Autowired
 	DataService dataService;
+	@Autowired
+	RequisitionUsesService requisitionUsesService;
+	@Autowired
+	RequisitionService requisitionService;
+	@Autowired
+	RequisitionDataService requisitionDataService;
+	
 	/*
 	 * ENLACE PRINCIPAL - GESTION ACADEMICA
 	 */
@@ -276,12 +295,12 @@ public class AcademicController {
 	        DataReference periodReference = dataReferenceRepository.getById(SYSTEM_REFERENCE_PERIOD_DEFINED);
 //			°Generar valores para dato de periodo
 	        Long dataId = uniqueId.getUniqId();
-	        String nameData = period.getPeriodIdentifier();
+	        String nameData = "Ciclo"; //OPTIMIZAR
 	        boolean required = true;
 	        boolean disable = true;
-	        boolean hidden = true;
+	        boolean hidden = false;
 	        Data data = new Data(dataId, nameData, required, disable, hidden, SYSTEM_DATA_TYPE_LONG, SYSTEM_STATE_ACTIVE);
-	        data.setDataValue(period.getPeriodId().toString());
+	        data.setDataValue(period.getPeriodIdentifier());
 	        data.setDataEntryId(dataEntry);
 	        data.setDataCategoryId(dataCategory);
 	        data.setDataReferenceId(periodReference);
@@ -366,23 +385,55 @@ public class AcademicController {
 	        ProgramPeriod programPeriod = new ProgramPeriod(idProgPeriod, progPeriodRegister.getPayEnrollmet(), 
 	        		progPeriodRegister.getPayPension(), progPeriodRegister.getDateOpening(), progPeriodRegister.getDateClosingEnrollmet(), 
 	        		convertToDateViaInstant(progClos), stateProgPeriod);
+//			°Generar solicitud para programa periodo
+	        Long requisitionId = uniqueId.getUniqId();
+	        String requisitionName = "Pago de matrícula ";
+	        String description = "Solicitud de pago de matrícula seleccionando un programa en un ciclo.";
+	        Requisition requisition = new Requisition(requisitionId, requisitionName, SYSTEM_TYPE_LOCAL_GENERATED, SYSTEM_STATE_ACTIVE);
+	        requisition.setRequisitionDescription(description);
+	        requisition = requisitionService.createRequisition(requisition);
+	        programPeriod.setRequisitionId(requisition);
 	        programPeriod = programPeriodService.createProgramPeriod(programPeriod);
 	        
-//			°Generar valores para dato de entrada
-	        DataEntry dataEntry = dataEntryRepository.getById(SYSTEM_DATA_ENTRY_TEXT);
-//			°Generar valores para dato de periodo
-	        Long dataId = uniqueId.getUniqId();
-	        Period period = periodService.getPeriodById(progPeriodRegister.getIdPeriod());
-	        DataReference periodReference = dataReferenceRepository.getById(SYSTEM_REFERENCE_PERIOD_DEFINED);
-	        Data periodData = new Data();
-	        
-	        DataReference programReference = dataReferenceRepository.getById(SYSTEM_REFERENCE_PROGRAM_DEFINED);
-	        Program program = programService.getProgramById(progPeriodRegister.getIdPeriod());
-	        Data programData = new Data();
+//			°Generar uso de matricula para la solicitud
+	        RequisitionUsesPK useEnrollId = new RequisitionUsesPK(requisitionId, SYSTEM_USE_ENROLLMENT_SELECT);
+	        RequisitionUses useEnroll = new RequisitionUses(useEnrollId);
+	        requisitionUsesService.createRequisitionUses(useEnroll);
+	        //Dato ciclo academico
+	        Data periodData = dataService.getDataByPeriodIdAndReferenceId(progPeriodRegister.getIdPeriod(), SYSTEM_REFERENCE_PERIOD_DEFINED).get();
+	        RequisitionDataPK requisitionPeriodId = new RequisitionDataPK(requisitionId, periodData.getDataId());
+	        RequisitionData requisitionPeriod = new RequisitionData(requisitionPeriodId);
+	        requisitionPeriod.setRequisitionDataState(SYSTEM_STATE_ACTIVE);
+	        requisitionDataService.createRequisitionData(requisitionPeriod);
+	        //Dato programa
+	        Data programData = dataService.getDataByProgramIdAndReferenceId(progPeriodRegister.getIdProgram(), SYSTEM_REFERENCE_PROGRAM_DEFINED).get();
+	        RequisitionDataPK requisitionProgramId = new RequisitionDataPK(requisitionId, programData.getDataId());
+	        RequisitionData requisitionProgram = new RequisitionData(requisitionProgramId);
+	        requisitionProgram.setRequisitionDataState(SYSTEM_STATE_ACTIVE);
+	        requisitionDataService.createRequisitionData(requisitionProgram);
+//			°Generar uso de pago para la solicitud
+	        RequisitionUsesPK usePayId = new RequisitionUsesPK(requisitionId, SYSTEM_USE_PAYMENT_DEPOSIT);
+	        RequisitionUses usePay = new RequisitionUses(usePayId);
+	        requisitionUsesService.createRequisitionUses(usePay);
+	        //Datos de pago
+	        Iterable<UsesRestriction> usesPays = usesRestrictionRepository.findByUsesId(SYSTEM_USE_PAYMENT_DEPOSIT);
+	        for(UsesRestriction usesPay: usesPays) {
+	        	Data payData = dataService.getDataByReferenceId(usesPay.getDataReference().getDataReferenceId()).get();
+	        	RequisitionDataPK requisitionPayId = new RequisitionDataPK(requisitionId, payData.getDataId());
+	        	RequisitionData requisitionPay = new RequisitionData(requisitionPayId);
+	        	requisitionPay.setRequisitionDataState(SYSTEM_STATE_ACTIVE);
+	        	requisitionDataService.createRequisitionData(requisitionPay);
+	        }
+//			°Generar comentario para la solicitud
+	        Data commentData = dataService.getDataById(SYSTEM_DATA_COMMENT).get();
+	        RequisitionDataPK requisitionCommentId = new RequisitionDataPK(requisitionId, commentData.getDataId());
+	        RequisitionData requisitionComment = new RequisitionData(requisitionCommentId);
+	        requisitionComment.setRequisitionDataState(SYSTEM_STATE_ACTIVE);
+	        requisitionDataService.createRequisitionData(requisitionComment);
 //			°Retornar mensaje
 	        return new ResponseEntity(new Message(SYSTEM_SUCCESS_REGISTER_PROGRAM), HttpStatus.CREATED);
 		} catch (Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 			return new ResponseEntity(new Message(SYSTEM_ERROR), HttpStatus.BAD_REQUEST);
 		}
 	}

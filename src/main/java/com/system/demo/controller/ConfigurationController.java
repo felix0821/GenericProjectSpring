@@ -152,12 +152,12 @@ public class ConfigurationController {
 	        DataReference prgramReference = dataReferenceRepository.getById(SYSTEM_REFERENCE_PROGRAM_DEFINED);
 //			°Generar valores para dato de programa
 	        Long dataId = uniqueId.getUniqId();
-	        String nameData = program.getProgramName();
+	        String nameData = "Programa"; //OPTIMIZAR
 	        boolean required = true;
 	        boolean disable = true;
-	        boolean hidden = true;
+	        boolean hidden = false;
 	        Data data = new Data(dataId, nameData, required, disable, hidden, SYSTEM_DATA_TYPE_LONG, SYSTEM_STATE_ACTIVE);
-	        data.setDataValue(program.getProgramId().toString());
+	        data.setDataValue(program.getProgramName());
 	        data.setDataEntryId(dataEntry);
 	        data.setDataCategoryId(dataCategory);
 	        data.setDataReferenceId(prgramReference);
