@@ -66,7 +66,7 @@ public class EnrollmentController {
 					Program program = programPeriod.getProgram();
 					EnrollmentProgramDto enrollmentProgramDto = new EnrollmentProgramDto(program.getProgramId(), programPeriod.getProgramPeriodIndex(),
 							false, 0, programPeriod.getProgramPeriodPayEnrollment(), programPeriod.getProgramPeriodPayPension(), program.getProgramName(), 
-							program.getProgramImage());
+							program.getProgramImage(), programPeriod.getRequisitionId().getRequisitionId());
 					if(program.getProgramArea() == 'A') administrativeArea.setProgram(enrollmentProgramDto);
 					else technicalArea.setProgram(enrollmentProgramDto);
 				}

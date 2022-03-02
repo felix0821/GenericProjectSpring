@@ -109,9 +109,9 @@ public class RequisitionController {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@GetMapping
 	@ResponseBody
-    public ResponseEntity<?> formRequisition(@RequestParam(required=false, name ="refId")Long referenceId){
+    public ResponseEntity<?> formRequisition(@RequestParam(name ="reqId")Long requisitionId, @RequestParam(required=false, name ="refId")Long referenceId){
 		try {
-			Requisition requisition = requisitionService.getRequisitionById(1L).get();
+			Requisition requisition = requisitionService.getRequisitionById(requisitionId).get();
 			RequisitionHeaderDto<DataDto> response = new RequisitionHeaderDto(requisition.getRequisitionId().toString(), 
 					requisition.getRequisitionName(), referenceId);
 			Iterable<Data> datas = dataService.getDatasByRequisitionId(1L);

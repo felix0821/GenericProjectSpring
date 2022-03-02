@@ -17,9 +17,11 @@ public class EnrollmentProgramDto {
 	private String name;
 	
 	private String image;
+	
+	private Long requisitionId;
 
 	public EnrollmentProgramDto(long id, int index, boolean discount, double descount_enrollment, double pay_enrollment,
-			double pay_pension, String name, String image) {
+			double pay_pension, String name, String image, Long requisitionId) {
 		super();
 		this.id = id;
 		this.index = index;
@@ -29,6 +31,7 @@ public class EnrollmentProgramDto {
 		this.pay_pension = pay_pension;
 		this.name = name;
 		this.image = image;
+		this.requisitionId = requisitionId;
 	}
 
 	public long getId() {
@@ -93,6 +96,14 @@ public class EnrollmentProgramDto {
 
 	public void setImage(String image) {
 		this.image = image;
+	}
+
+	public Long getRequisitionId() {
+		return requisitionId;
+	}
+
+	public void setRequisitionId(Long requisitionId) {
+		this.requisitionId = requisitionId;
 	}
 
 }
