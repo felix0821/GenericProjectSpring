@@ -387,7 +387,7 @@ public class AcademicController {
 	        		convertToDateViaInstant(progClos), stateProgPeriod);
 //			°Generar solicitud para programa periodo
 	        Long requisitionId = uniqueId.getUniqId();
-	        String requisitionName = "Pago de matrícula ";
+	        String requisitionName = "Pago de matrícula";
 	        String description = "Solicitud de pago de matrícula seleccionando un programa en un ciclo.";
 	        Requisition requisition = new Requisition(requisitionId, requisitionName, SYSTEM_TYPE_LOCAL_GENERATED, SYSTEM_STATE_ACTIVE);
 	        requisition.setRequisitionDescription(description);
