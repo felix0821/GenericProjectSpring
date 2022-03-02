@@ -9,6 +9,8 @@ public class DataDto {
 	
 	private String name;
 	
+	private String value;
+	
 	private String description;
 	
 	private String placeholder;
@@ -21,19 +23,23 @@ public class DataDto {
 	
 	private boolean requisition;
 	
+	private boolean disable;
+	
 	private List<DataDetailDto> data_detail;
 
-	public DataDto(Long id, String name, String description, String placeholder, String type, Boolean selection,
-			String accept, boolean requisition) {
+	public DataDto(Long id, String name, String value, String description, String placeholder, String type, Boolean selection,
+			String accept, boolean requisition, boolean disable) {
 		super();
 		this.id = id;
 		this.name = name;
+		this.value = value;
 		this.description = description;
 		this.placeholder = placeholder;
 		this.type = type;
 		this.selection = selection;
 		this.accept = accept;
 		this.requisition = requisition;
+		this.disable = disable;
 		this.data_detail = new ArrayList<>();
 	}
 
@@ -51,6 +57,14 @@ public class DataDto {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
 	}
 
 	public String getDescription() {
@@ -107,6 +121,14 @@ public class DataDto {
 
 	public void setData_detail(List<DataDetailDto> data_detail) {
 		this.data_detail = data_detail;
+	}
+
+	public boolean isDisable() {
+		return disable;
+	}
+
+	public void setDisable(boolean disable) {
+		this.disable = disable;
 	}
 	
 
