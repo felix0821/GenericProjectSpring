@@ -66,6 +66,7 @@ import com.system.demo.persistence.entity.Role;
 import com.system.demo.persistence.repository.DataEntryRepository;
 import com.system.demo.persistence.repository.DataReferenceRepository;
 import com.system.demo.persistence.repository.PeriodDataRepository;
+import com.system.demo.persistence.repository.ProgramDataRepository;
 import com.system.demo.service.CourseDetailService;
 import com.system.demo.service.DataCategoryService;
 import com.system.demo.service.DataService;
@@ -88,15 +89,17 @@ public class AcademicController {
 	@Autowired
 	PreferenceUtility preference;
 	
-	//	Repository
+//	*Repository
 	@Autowired
 	DataReferenceRepository dataReferenceRepository;
 	@Autowired
 	DataEntryRepository dataEntryRepository;
 	@Autowired
 	PeriodDataRepository periodDataRepository;
+	@Autowired
+	ProgramDataRepository programDataRepository;
 	
-	//	Service
+//	*Service
 	@Autowired
 	ProgramService programService;
 	@Autowired
@@ -264,13 +267,16 @@ public class AcademicController {
 		        	programPeriodService.createProgramPeriod(progPeriod);
 		        }
 	       	}*/
+	        /*
+	         * Registro de dato para periodo
+	         */
 //			°Generar valores para dato de entrada
 	        DataEntry dataEntry = dataEntryRepository.getById(SYSTEM_DATA_ENTRY_TEXT);
 	        DataCategory dataCategory = dataCategoryService.getDataCategoryById(SYSTEM_DATA_CATEGORY_REQUISITION);
 	        DataReference periodReference = dataReferenceRepository.getById(SYSTEM_REFERENCE_PERIOD_DEFINED);
 //			°Generar valores para dato de periodo
 	        Long dataId = uniqueId.getUniqId();
-	        String nameData = period.getPeriodName();
+	        String nameData = period.getPeriodIdentifier();
 	        boolean required = true;
 	        boolean disable = true;
 	        boolean hidden = true;

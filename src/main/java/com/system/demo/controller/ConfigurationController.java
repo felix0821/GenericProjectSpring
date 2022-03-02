@@ -37,13 +37,25 @@ import com.system.demo.dto.specific.ProgramDetailedDto;
 import com.system.demo.dto.specific.ProgramDetailedOccupationalDto;
 import com.system.demo.dto.specific.ProgramOccupationalRegisterDto;
 import com.system.demo.persistence.entity.Course;
+import com.system.demo.persistence.entity.Data;
+import com.system.demo.persistence.entity.DataCategory;
+import com.system.demo.persistence.entity.DataEntry;
+import com.system.demo.persistence.entity.DataReference;
 import com.system.demo.persistence.entity.GroupTeaching;
 import com.system.demo.persistence.entity.Modulus;
 import com.system.demo.persistence.entity.OccupationalField;
 import com.system.demo.persistence.entity.PersonRole;
 import com.system.demo.persistence.entity.Program;
+import com.system.demo.persistence.entity.ProgramData;
+import com.system.demo.persistence.entity.ProgramDataPK;
 import com.system.demo.persistence.entity.ProgramGroup;
+import com.system.demo.persistence.repository.DataEntryRepository;
+import com.system.demo.persistence.repository.DataReferenceRepository;
+import com.system.demo.persistence.repository.PeriodDataRepository;
+import com.system.demo.persistence.repository.ProgramDataRepository;
 import com.system.demo.service.CourseService;
+import com.system.demo.service.DataCategoryService;
+import com.system.demo.service.DataService;
 import com.system.demo.service.GroupTeachingService;
 import com.system.demo.service.ModulusService;
 import com.system.demo.service.OccupationalFieldService;
@@ -62,6 +74,17 @@ public class ConfigurationController {
 	@Autowired
 	PreferenceUtility preference;
 	
+//	*Repository
+	@Autowired
+	DataReferenceRepository dataReferenceRepository;
+	@Autowired
+	DataEntryRepository dataEntryRepository;
+	@Autowired
+	PeriodDataRepository periodDataRepository;
+	@Autowired
+	ProgramDataRepository programDataRepository;
+	
+//	*Service
 	@Autowired
 	ProgramService programService;
 	@Autowired
@@ -74,6 +97,10 @@ public class ConfigurationController {
 	ProgramGroupService programGroupService;
 	@Autowired
 	GroupTeachingService groupTeachingService;
+	@Autowired
+	DataCategoryService dataCategoryService;
+	@Autowired
+	DataService dataService;
 	
 	@SuppressWarnings(value = { "rawtypes", "unchecked" })
 	@GetMapping(value=URL_CONFIGURATION_PROGRAM_GET)
@@ -108,13 +135,40 @@ public class ConfigurationController {
 	        		programRegister.getArea(), stateProgram);
 	        program.setProgramDescription(programRegister.getDescription());
 	        if(programRegister.getImage()!=null) program.setProgramImage(programRegister.getImage());
-	        try {
+	        program = programService.createProgram(program);
+	        /*try {
 				programService.createProgram(program);
 				return new ResponseEntity(new Message(SYSTEM_SUCCESS_REGISTER_PROGRAM), HttpStatus.CREATED);
 			} catch (Exception e) {
 				e.printStackTrace();
 				return new ResponseEntity(new Message(SYSTEM_ERROR_REGISTER_PROGRAM), HttpStatus.BAD_REQUEST);
-			}
+			}*/
+	        /*
+	         * Registro de dato para programa
+	         */
+//			°Generar valores para dato de entrada
+	        DataEntry dataEntry = dataEntryRepository.getById(SYSTEM_DATA_ENTRY_TEXT);
+	        DataCategory dataCategory = dataCategoryService.getDataCategoryById(SYSTEM_DATA_CATEGORY_REQUISITION);
+	        DataReference prgramReference = dataReferenceRepository.getById(SYSTEM_REFERENCE_PROGRAM_DEFINED);
+//			°Generar valores para dato de programa
+	        Long dataId = uniqueId.getUniqId();
+	        String nameData = program.getProgramName();
+	        boolean required = true;
+	        boolean disable = true;
+	        boolean hidden = true;
+	        Data data = new Data(dataId, nameData, required, disable, hidden, SYSTEM_DATA_TYPE_LONG, SYSTEM_STATE_ACTIVE);
+	        data.setDataValue(program.getProgramId().toString());
+	        data.setDataEntryId(dataEntry);
+	        data.setDataCategoryId(dataCategory);
+	        data.setDataReferenceId(prgramReference);
+	        dataService.createData(data);
+//			°Generar valores para la relacion entre dato y programa
+	        ProgramDataPK programDataId = new ProgramDataPK(idProgram, dataId);
+	        ProgramData programData = new ProgramData(programDataId);
+	        programData.setProgramDataState(SYSTEM_STATE_ACTIVE);
+	        programDataRepository.save(programData);
+//	    	°Retornar mensaje
+	        return new ResponseEntity(new Message(SYSTEM_SUCCESS_REGISTER_PROGRAM), HttpStatus.CREATED);
 		} catch (Exception e) {
 			System.out.println(e);
 			return new ResponseEntity(new Message(SYSTEM_ERROR), HttpStatus.BAD_REQUEST);
