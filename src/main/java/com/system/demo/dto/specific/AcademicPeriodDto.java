@@ -22,7 +22,7 @@ public class AcademicPeriodDto {
 	private Long countPrograms;
 	
 	@NotNull
-	private Character modality;
+	private String modality;
 	
 	@NotNull
 	private Character state;
@@ -30,7 +30,7 @@ public class AcademicPeriodDto {
 	public AcademicPeriodDto(@NotNull(message = "Ingrese un id valido") Long id,
 			@NotNull(message = "Ingrese un id valido") String identifier,
 			@NotNull(message = "Ingrese un año valido") int year, @NotBlank(message = "Ingrese un nombre.") String name,
-			String description, Long countPrograms, @NotNull Character modality, @NotNull Character state) {
+			String description, Long countPrograms, @NotNull String  modality, @NotNull Character state) {
 		super();
 		this.id = id;
 		this.identifier = identifier;
@@ -90,11 +90,11 @@ public class AcademicPeriodDto {
 		this.countPrograms = countPrograms;
 	}
 
-	public Character getModality() {
+	public String  getModality() {
 		return modality;
 	}
 
-	public void setModality(Character modality) {
+	public void setModality(String  modality) {
 		this.modality = modality;
 	}
 

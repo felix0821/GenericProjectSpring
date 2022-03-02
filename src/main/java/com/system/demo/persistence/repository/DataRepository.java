@@ -10,7 +10,7 @@ import com.system.demo.persistence.entity.Data;
 @Repository
 public interface DataRepository extends JpaRepository<Data,Long> {
 	
-	@Query(value="SELECT d FROM Data d WHERE d.dataId IN (SELECT r.requisitionDataPK.dataId FROM RequisitionData r WHERE r.requisitionDataPK.requisitionId = :requisitionId ORDER BY r.requisitionDataIndex)")
+	@Query(value="SELECT d FROM Data d INNER JOIN RequisitionData r ON d.dataId = r.requisitionDataPK.dataId WHERE r.requisitionDataPK.requisitionId = :requisitionId ORDER BY r.requisitionDataIndex")
 	public Iterable<Data> findByRequisitionId(@Param("requisitionId")Long requisitionId);
 
 }

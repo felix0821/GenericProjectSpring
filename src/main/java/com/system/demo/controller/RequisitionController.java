@@ -35,6 +35,7 @@ import com.system.demo.dto.generic.Message;
 import com.system.demo.dto.specific.DataDetailDto;
 import com.system.demo.dto.specific.DataDto;
 import com.system.demo.dto.specific.RequisitionEnrollDto;
+import com.system.demo.dto.specific.RequisitionHeaderDto;
 import com.system.demo.dto.specific.RequisitionRegisterDto;
 import com.system.demo.dto.specific.RequisitionTypeDto;
 import com.system.demo.persistence.entity.Data;
@@ -108,17 +109,18 @@ public class RequisitionController {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@GetMapping
 	@ResponseBody
-    public ResponseEntity<?> formRequisition(@RequestHeader HttpHeaders headers, HttpServletRequest request){
+    public ResponseEntity<?> formRequisition(@RequestParam(required=false, name ="refId")Long referenceId){
 		try {
 			Requisition requisition = requisitionService.getRequisitionById(1L).get();
-			HeaderDataDto response = new HeaderDataDto(requisition.getRequisitionId().toString(), requisition.getRequisitionName());
+			RequisitionHeaderDto<DataDto> response = new RequisitionHeaderDto(requisition.getRequisitionId().toString(), 
+					requisition.getRequisitionName(), referenceId);
 			Iterable<Data> datas = dataService.getDatasByRequisitionId(1L);
 			List<DataDto> datasDto = new ArrayList<>();
 			for(Data data: datas) {
 				DataEntry dataEntry = data.getDataEntryId();
 				List<DataDetailDto> dataDetailsDto = new ArrayList<>();
 				DataDto dataDto = new DataDto(data.getDataId(), data.getDataName(), data.getDataDescription(), data.getDataPlaceholder(),
-						dataEntry.getDataEntryType(), dataEntry.getDataEntrySelection(), dataEntry.getDataEntryAccept());
+						dataEntry.getDataEntryType(), dataEntry.getDataEntrySelection(), dataEntry.getDataEntryAccept(), data.getDataRequired());
 				if(dataEntry.getDataEntrySelection()) {
 					Iterable<DataDetail> dataDetails = dataDetailService.getDataDetailsByDataId(data.getDataId());
 					for(DataDetail dataDetail: dataDetails) {
@@ -129,10 +131,10 @@ public class RequisitionController {
 				datasDto.add(dataDto);
 			}
 			response.setList(datasDto);
-			return new ResponseEntity<HeaderDataDto>(response, HttpStatus.OK);
+			return new ResponseEntity<RequisitionHeaderDto>(response, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity(new Message("BLOQUED"), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity(new Message(SYSTEM_ERROR), HttpStatus.BAD_REQUEST);
 		}
 	}
 	
@@ -147,7 +149,6 @@ public class RequisitionController {
 		try {
 			Person person = personService.getPersonByUsername(userFromToken).get();
 			Requisition requisition = requisitionService.getRequisitionById(1L).get();
-			RequisitionStatus reqStatus = requisitionStatusService.getRequisitionStatusById(SYSTEM_REQUISITION_STATUS_SEND).get();
 //			Insertar fecha de registro
 			LocalDateTime fechaHoraPeru = LocalDateTime.now(ZoneId.of(ZONE_DATE_LIMA));
 			Date dateRegister = Date.from(fechaHoraPeru.atZone(ZoneId.systemDefault()).toInstant());
@@ -159,7 +160,6 @@ public class RequisitionController {
 			requisitionDetail.setRequisitionId(requisition);
 			requisitionDetail = requisitionDetailService.createRequisitionDetail(requisitionDetail);
 //			Objeto control documental
-			//Long idReqStatusDetail = uniqueId.getUniqId();
 			RequisitionStatusDetailPK idReqStatusDetail = new RequisitionStatusDetailPK(idReqDetail, SYSTEM_REQUISITION_STATUS_SEND);
 			RequisitionStatusDetail reqStatusDetail = new RequisitionStatusDetail(idReqStatusDetail);
 			reqStatusDetail.setRequisitionStatusDetailDate(dateRegister);
@@ -203,7 +203,7 @@ public class RequisitionController {
 				DataEntry dataEntry = data.getDataEntryId();
 				List<DataDetailDto> dataDetailsDto = new ArrayList<>();
 				DataDto dataDto = new DataDto(data.getDataId(), data.getDataName(), data.getDataDescription(), data.getDataPlaceholder(),
-						dataEntry.getDataEntryType(), dataEntry.getDataEntrySelection(), dataEntry.getDataEntryAccept());
+						dataEntry.getDataEntryType(), dataEntry.getDataEntrySelection(), dataEntry.getDataEntryAccept(), data.getDataRequired());
 				if(dataEntry.getDataEntrySelection()) {
 					Iterable<DataDetail> dataDetails = dataDetailService.getDataDetailsByDataId(data.getDataId());
 					for(DataDetail dataDetail: dataDetails) {

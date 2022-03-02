@@ -98,7 +98,7 @@ public class ApiQueriesUtility {
 					    data[3] = jos.getString("fecha_nacimiento").toString();
 					    data[4] = jos.getString("sexo").toString();
 					    //if(jo.getBoolean("success"))
-			} catch(Exception e){
+			} catch(Exception e) {
 				e.printStackTrace();
 				System.out.println("Error de parseo");
 				throw new ApiDniNotFoundException("Dni incorrecto");

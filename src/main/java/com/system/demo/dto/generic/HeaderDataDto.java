@@ -6,7 +6,7 @@ import java.util.List;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-public class HeaderDataDto<T> {
+public class HeaderDataDto<Type> {
 	
 	@NotNull(message = "Ingrese un id valido")
 	private String id;
@@ -14,7 +14,7 @@ public class HeaderDataDto<T> {
 	@NotBlank(message = "Ingrese un nombre.")
 	private String name;
 	
-	private List<T> list;
+	private List<Type> list;
 
 	public HeaderDataDto(@NotNull(message = "Ingrese un id valido") String id,
 			@NotBlank(message = "Ingrese un nombre.") String name) {
@@ -40,15 +40,15 @@ public class HeaderDataDto<T> {
 		this.name = name;
 	}
 
-	public List<T> getList() {
+	public List<Type> getList() {
 		return list;
 	}
 
-	public void setList(List<T> list) {
+	public void setList(List<Type> list) {
 		this.list = list;
 	}
 	
-	public void setItemList(T item) {
+	public void setItemList(Type item) {
 		this.list.add(item);
 	}
 

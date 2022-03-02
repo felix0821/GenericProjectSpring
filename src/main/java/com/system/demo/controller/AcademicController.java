@@ -51,6 +51,7 @@ import com.system.demo.persistence.entity.CourseDetail;
 import com.system.demo.persistence.entity.EnrollmentProgram;
 import com.system.demo.persistence.entity.OccupationalField;
 import com.system.demo.persistence.entity.Period;
+import com.system.demo.persistence.entity.PeriodModality;
 import com.system.demo.persistence.entity.Person;
 import com.system.demo.persistence.entity.Program;
 import com.system.demo.persistence.entity.ProgramPeriod;
@@ -59,6 +60,7 @@ import com.system.demo.persistence.entity.Role;
 import com.system.demo.service.CourseDetailService;
 import com.system.demo.service.EnrollmentProgramService;
 import com.system.demo.service.OccupationalFieldService;
+import com.system.demo.service.PeriodModalityService;
 import com.system.demo.service.PeriodService;
 import com.system.demo.service.ProgramPeriodService;
 import com.system.demo.service.ProgramService;
@@ -88,7 +90,8 @@ public class AcademicController {
 	EnrollmentProgramService enrollmentProgramService;
 	@Autowired
 	CourseDetailService courseDetailService;
-	
+	@Autowired
+	PeriodModalityService periodModalityService;
 	/*
 	 * ENLACE PRINCIPAL - GESTION ACADEMICA
 	 */
@@ -105,7 +108,7 @@ public class AcademicController {
 				count = programPeriodService.getTotalProgramPeriodByPeriodId(pedPeriod.getPeriodId());
 				academicPedPeriodDto.add(new AcademicPeriodDto(pedPeriod.getPeriodId(), pedPeriod.getPeriodIdentifier(), 
 						pedPeriod.getPeriodYear(), pedPeriod.getPeriodName(), "", count,
-						' ', pedPeriod.getPeriodState())); //pedPeriod.getPeriodModality()---------------------------------------
+						pedPeriod.getModalityId().getModalityId(), pedPeriod.getPeriodState())); //pedPeriod.getPeriodModality()---------------------------------------
 			}
 			return new ResponseEntity<List<AcademicPeriodDto>>(academicPedPeriodDto, HttpStatus.OK);
 		} catch(Exception e) {
@@ -126,7 +129,7 @@ public class AcademicController {
 		}
 		AcademicPeriodDto resultDto = new AcademicPeriodDto(periodEdit.getPeriodId(), periodEdit.getPeriodIdentifier(), 
 				periodEdit.getPeriodYear(), periodEdit.getPeriodName(), periodEdit.getPeriodDescription(), 0L,
-				' ', periodEdit.getPeriodState()); //periodEdit.getPeriodModality()---------------------------------------
+				periodEdit.getModalityId().getModalityId(), periodEdit.getPeriodState());
 		return new ResponseEntity<AcademicPeriodDto>(resultDto, HttpStatus.OK);
 	}
 	
@@ -138,8 +141,10 @@ public class AcademicController {
             return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
         //	Buscamos programa por id
         Period periodEdit = null;
+        PeriodModality periodModality;
 		try {
 			periodEdit = periodService.getPeriodById(periodEditDto.getId());
+			periodModality = periodModalityService.getPeriodModalityById(periodEditDto.getModality());
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity(new Message(SYSTEM_ERROR_NO_ID), HttpStatus.BAD_REQUEST);
@@ -147,8 +152,8 @@ public class AcademicController {
 		periodEdit.setPeriodName(periodEditDto.getName());
 		periodEdit.setPeriodYear(periodEditDto.getYear());
 		periodEdit.setPeriodDescription(periodEditDto.getDescription());
-		//periodEdit.setPeriodModality(periodEditDto.getModality());-------------------------------------------------------------
 		periodEdit.setPeriodState(periodEditDto.getState());
+		periodEdit.setModalityId(periodModality);
 		try {
 			periodService.updatePeriod(periodEdit);
 		} catch(Exception e) {
@@ -210,12 +215,14 @@ public class AcademicController {
 	            return new ResponseEntity(new Message(bindingResult.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
 //	    	°Generar valores
 	        Long idPeriod = uniqueId.getUniqId();
+	        PeriodModality periodModality = periodModalityService.getPeriodModalityById(periodRegister.getModality());
 	        String identifierPeriod = uniqueId.getIdentifier(Arrays.asList(periodRegister.getName(), 
-	        		periodRegister.getModality().toString(), Integer.toString(periodRegister.getYear())));
+	        		periodModality.getModalityId(), Integer.toString(periodRegister.getYear())));
 //	    	°Generar entidad
 	        Period period = new Period(idPeriod, identifierPeriod, periodRegister.getName(),
-	        		periodRegister.getYear(), SYSTEM_STATE_ACTIVE); //periodRegister.getModality()-------------------------------------
-	        Period pedPeriod = periodService.createPeriod(period);
+	        		periodRegister.getYear(), SYSTEM_STATE_ACTIVE);
+	        period.setModalityId(periodModality);
+	        Period pedPeriod = periodService.createPeriod(period);/*
 //	    	°Realizar registro en bloque
 	       if(periodRegister.isBlockRegistration()) {
 	    	   	List<Program> programs = programService.getProgramByState(SYSTEM_STATE_ACTIVE);
@@ -223,16 +230,16 @@ public class AcademicController {
 //			    	°Generar valores
 		        	ProgramPeriodPK idProgPeriod = new ProgramPeriodPK(program.getProgramId(), pedPeriod.getPeriodId());
 		        	Character stateProgPeriod = SYSTEM_STATE_ACTIVE;
-		        	/*LocalDateTime progClos =  convertToLocalDateTimeViaInstant(periodRegister.getDateOpening());
-					progClos = LocalDateTime.now().plusWeeks(periodRegister.getWeeks());
-					convertToDateViaInstant(progClos);*/
+		        	//LocalDateTime progClos =  convertToLocalDateTimeViaInstant(periodRegister.getDateOpening());
+					//progClos = LocalDateTime.now().plusWeeks(periodRegister.getWeeks());
+					//convertToDateViaInstant(progClos);
 //			    	°Generar entidad
 		        	ProgramPeriod progPeriod = new ProgramPeriod(idProgPeriod, periodRegister.getPayEnrollmet(), 
 		        			periodRegister.getPayPension(), periodRegister.getDateOpening(), periodRegister.getDateClosingEnrollmet(), 
 		        			periodRegister.getDateClosing(), stateProgPeriod);
 		        	programPeriodService.createProgramPeriod(progPeriod);
 		        }
-	       }
+	       }*/
 //	    	°Retornar mensaje
 	        return new ResponseEntity(new Message(SYSTEM_SUCCESS_REGISTER_PROGRAM), HttpStatus.CREATED);
 		} catch (Exception e) {

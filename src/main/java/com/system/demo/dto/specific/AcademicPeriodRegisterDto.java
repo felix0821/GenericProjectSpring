@@ -14,7 +14,7 @@ public class AcademicPeriodRegisterDto {
 	@Size(max = 64, min = 3, message = "Ingrese entre 3 a 32 caracteres.")
 	private String name;
 	@NotNull(message = "Ingrese una modalidad.")
-	private Character modality;
+	private String modality;
 	@NotNull(message = "Ingrese un año valido")
 	@Min(value = 2000, message = "Ingrese un número mayor a 2000")
 	private int year;
@@ -39,10 +39,10 @@ public class AcademicPeriodRegisterDto {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Character getModality() {
+	public String getModality() {
 		return modality;
 	}
-	public void setModality(Character modality) {
+	public void setModality(String modality) {
 		this.modality = modality;
 	}
 	public int getYear() {

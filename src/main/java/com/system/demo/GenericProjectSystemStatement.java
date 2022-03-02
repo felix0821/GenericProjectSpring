@@ -36,10 +36,11 @@ public class GenericProjectSystemStatement {
 	public static final Character REGISTERING_FINANCIAL_MOVEMENT = 'F';
 	//	Recursos especificos del sistema
 	//	Recursos de referencia
-	public static final Long SYSTEM_REFERENCE_PERIOD = 2000001000001L;
-	public static final Long SYSTEM_REFERENCE_PROGRAM = 2000001000002L;
+	public static final Long SYSTEM_REFERENCE_PERIOD_DEFINED = 2000001000001L;
+	public static final Long SYSTEM_REFERENCE_PROGRAM_DEFINED = 2000001000002L;
 	//	Recursos de uso
-	public static final Long SYSTEM_USE_ENROLLMENT_SELECT = 3000001000001L;
+	public static final Long SYSTEM_USE_ENROLLMENT_REQUEST = 3000001000001L;
+	public static final Long SYSTEM_USE_ENROLLMENT_SELECT = 3000001000002L;
 	public static final Long SYSTEM_USE_PAYMENT_DEPOSIT = 3000002000001L;
 	//	Recursos id de roles
 	public static final Long SYSTEM_ID_ADMINISTRATOR = 1000001000001L;

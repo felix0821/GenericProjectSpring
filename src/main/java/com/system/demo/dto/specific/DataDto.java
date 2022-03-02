@@ -19,10 +19,12 @@ public class DataDto {
 	
 	private String accept;
 	
+	private boolean requisition;
+	
 	private List<DataDetailDto> data_detail;
 
 	public DataDto(Long id, String name, String description, String placeholder, String type, Boolean selection,
-			String accept) {
+			String accept, boolean requisition) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -31,6 +33,7 @@ public class DataDto {
 		this.type = type;
 		this.selection = selection;
 		this.accept = accept;
+		this.requisition = requisition;
 		this.data_detail = new ArrayList<>();
 	}
 
@@ -88,6 +91,14 @@ public class DataDto {
 
 	public void setAccept(String accept) {
 		this.accept = accept;
+	}
+
+	public boolean isRequisition() {
+		return requisition;
+	}
+
+	public void setRequisition(boolean requisition) {
+		this.requisition = requisition;
 	}
 
 	public List<DataDetailDto> getData_detail() {
