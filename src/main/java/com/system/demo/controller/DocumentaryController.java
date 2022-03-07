@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -68,7 +69,7 @@ public class DocumentaryController {
 	}
 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@GetMapping(value=URL_DOCUMENTARY_REQUISITION_GET)
+	@PostMapping(value=URL_DOCUMENTARY_REQUISITION_GET)
 	public ResponseEntity<?> getRequisitions(@Valid @RequestBody FinancialMovementRangeDto reqRangeDto) {
 		try {
 			List<DocumentaryRequisitionDto> listDto = new ArrayList<>();
