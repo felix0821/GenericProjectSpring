@@ -1,5 +1,5 @@
 package com.system.demo.utility;
-/*
+
 import static com.system.demo.GenericProjectSystemStatement.ZONE_DATE_LIMA;
 
 import java.io.File;
@@ -29,18 +29,18 @@ public class Main extends Thread {
     
     private static final Preferences prefs=Preferences.userRoot().node("system");
     
-	public static void main(String[] args) {
-		try {
+	//public static void main(String[] args) {
+		/*try {
 			System.out.println(api.checkDniApiPeru("7728338")[0]);
 		} catch(ApiDniNotFoundException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
+		} */
 		
-		System.out.println(bCryptPasswordEncoder.encode("Admin321"));
-		LocalDateTime fechaHoraPeru = LocalDateTime.now(ZoneId.of(ZONE_DATE_LIMA));
+		//System.out.println(bCryptPasswordEncoder.encode("Olenka567"));
+		/*LocalDateTime fechaHoraPeru = LocalDateTime.now(ZoneId.of(ZONE_DATE_LIMA));
 		LocalDate fechaPeru=LocalDate.now(ZoneId.of(ZONE_DATE_LIMA));
 		fechaHoraPeru.atZone(ZoneId.systemDefault()).toInstant();
 		Date dateRegister=Date.from(fechaHoraPeru.atZone(ZoneId.systemDefault()).toInstant());
@@ -74,8 +74,8 @@ public class Main extends Thread {
 		}
 		
 		//Preferences preferences = Preferences.systemRoot().node("java-buddy");
-        
-	}
+        */
+	//}
 	
 	public void run() {
 		try {
@@ -97,4 +97,3 @@ public class Main extends Thread {
 	  }
 
 }
-*/

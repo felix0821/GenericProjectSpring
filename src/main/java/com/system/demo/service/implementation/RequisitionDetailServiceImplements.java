@@ -1,5 +1,6 @@
 package com.system.demo.service.implementation;
 
+import java.util.Date;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -54,6 +55,12 @@ public class RequisitionDetailServiceImplements implements RequisitionDetailServ
 	public Iterable<RequisitionDetail> getRequisitionDetailsByPersonId(Long personId) {
 		// TODO Auto-generated method stub
 		return requisitionDetailRepository.findByPersonId(personId);
+	}
+
+	@Override
+	public Iterable<RequisitionDetail> getAllRequisitionDetailsByDateRange(Date startDate, Date endDate) {
+		// TODO Auto-generated method stub
+		return requisitionDetailRepository.findByRequisitionDetailDateRange(startDate, endDate);
 	}
 
 }

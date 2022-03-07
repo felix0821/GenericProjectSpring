@@ -111,7 +111,7 @@ public class AlertController {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@GetMapping
 	@ResponseBody
-    public ResponseEntity<?> getAlerts(@RequestHeader HttpHeaders headers, HttpServletRequest request){
+    public ResponseEntity<?> getAlerts(@RequestHeader HttpHeaders headers){
 		try {
 			Iterable<RequisitionDetail> requisitionDetails = requisitionDetailService.getRequisitionDetailsByRequisitionIdNotChecking(1L);
 			List<AlertDto> alertsDto = new ArrayList<>();

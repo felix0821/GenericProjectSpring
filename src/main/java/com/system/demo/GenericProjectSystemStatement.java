@@ -106,6 +106,7 @@ public class GenericProjectSystemStatement {
 	
 //	Mapeo para el controlador "Control documental"
 	public static final String URL_DOCUMENTARY_REQUEST = "/documentary";
+	public static final String URL_DOCUMENTARY_REQUISITION_GET = "/requisition";
 	
 //	Mapeo para el controlador "Gestion academica"
 	public static final String URL_ACADEMIC_REQUEST = "/academic";

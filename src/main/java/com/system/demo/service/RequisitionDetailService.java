@@ -1,5 +1,6 @@
 package com.system.demo.service;
 
+import java.util.Date;
 import java.util.Optional;
 
 import com.system.demo.persistence.entity.RequisitionDetail;
@@ -18,5 +19,7 @@ public interface RequisitionDetailService {
 	public void checkingRequisitionDetailById(Long id);
 	
 	public Iterable<RequisitionDetail> getRequisitionDetailsByPersonId(Long personId);
+	
+	public Iterable<RequisitionDetail> getAllRequisitionDetailsByDateRange(Date startDate, Date endDate);
 
 }
