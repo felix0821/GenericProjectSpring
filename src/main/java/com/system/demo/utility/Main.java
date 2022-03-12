@@ -39,7 +39,7 @@ public class Main extends Thread {
 			e.printStackTrace();
 		} */
 		
-		//System.out.println(bCryptPasswordEncoder.encode("Olenka567"));
+		//System.out.println(bCryptPasswordEncoder.encode("Lucero567"));
 		/*LocalDateTime fechaHoraPeru = LocalDateTime.now(ZoneId.of(ZONE_DATE_LIMA));
 		LocalDate fechaPeru=LocalDate.now(ZoneId.of(ZONE_DATE_LIMA));
 		fechaHoraPeru.atZone(ZoneId.systemDefault()).toInstant();
