@@ -22,7 +22,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "qualification_recovery")
+@Table(name = "qualification_recovery", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "QualificationRecovery.findAll", query = "SELECT q FROM QualificationRecovery q"),
     @NamedQuery(name = "QualificationRecovery.findByQualificationRecoveryId", query = "SELECT q FROM QualificationRecovery q WHERE q.qualificationRecoveryId = :qualificationRecoveryId"),
@@ -32,20 +32,20 @@ public class QualificationRecovery implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "qualification_recovery_id", nullable = false)
+    @Column(name = "qualification_recovery_id")
     private Long qualificationRecoveryId;
     @Basic(optional = false)
-    @Column(name = "qualification_recovery_value", nullable = false)
+    @Column(name = "qualification_recovery_value")
     private double qualificationRecoveryValue;
     @JoinColumns({
-        @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false),
+        @JoinColumn(name = "person_id", referencedColumnName = "person_id"),
         @JoinColumn(name = "course_detail_id", referencedColumnName = "course_detail_id")})
     @ManyToOne(optional = false)
     private EnrollmentCourse enrollmentCourse;
-    @JoinColumn(name = "evaluated_status_id", referencedColumnName = "evaluated_status_id", nullable = false)
+    @JoinColumn(name = "evaluated_status_id", referencedColumnName = "evaluated_status_id")
     @ManyToOne(optional = false)
     private EvaluatedStatus evaluatedStatusId;
-    @JoinColumn(name = "person_registering_id", referencedColumnName = "person_registering_id", nullable = false)
+    @JoinColumn(name = "person_registering_id", referencedColumnName = "person_registering_id")
     @ManyToOne(optional = false)
     private PersonRegistering personRegisteringId;
 

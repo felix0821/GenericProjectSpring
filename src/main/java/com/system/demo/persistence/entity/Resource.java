@@ -16,15 +16,13 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 /**
  *
  * @author Felix
  */
 @Entity
-@Table(name = "resource", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"resource_name", "resource_url"})})
+@Table(name = "resource", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "Resource.findAll", query = "SELECT r FROM Resource r"),
     @NamedQuery(name = "Resource.findByResourceId", query = "SELECT r FROM Resource r WHERE r.resourceId = :resourceId"),
@@ -38,21 +36,21 @@ public class Resource implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "resource_id", nullable = false)
+    @Column(name = "resource_id")
     private Long resourceId;
     @Column(name = "resource_index")
     private Integer resourceIndex;
     @Basic(optional = false)
-    @Column(name = "resource_name", nullable = false, length = 64)
+    @Column(name = "resource_name")
     private String resourceName;
     @Basic(optional = false)
-    @Column(name = "resource_url", nullable = false, length = 128)
+    @Column(name = "resource_url")
     private String resourceUrl;
     @Basic(optional = false)
-    @Column(name = "resource_type", nullable = false)
+    @Column(name = "resource_type")
     private Character resourceType;
     @Basic(optional = false)
-    @Column(name = "resource_state", nullable = false)
+    @Column(name = "resource_state")
     private Character resourceState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "resource")
     private Collection<Access> accessCollection;

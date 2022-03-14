@@ -18,15 +18,13 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 /**
  *
  * @author Felix
  */
 @Entity
-@Table(name = "period", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"period_identifier"})})
+@Table(name = "period", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "Period.findAll", query = "SELECT p FROM Period p"),
     @NamedQuery(name = "Period.findByPeriodId", query = "SELECT p FROM Period p WHERE p.periodId = :periodId"),
@@ -41,29 +39,29 @@ public class Period implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "period_id", nullable = false)
+    @Column(name = "period_id")
     private Long periodId;
     @Column(name = "period_index")
     private Integer periodIndex;
     @Basic(optional = false)
-    @Column(name = "period_identifier", nullable = false, length = 40)
+    @Column(name = "period_identifier")
     private String periodIdentifier;
     @Basic(optional = false)
-    @Column(name = "period_name", nullable = false, length = 32)
+    @Column(name = "period_name")
     private String periodName;
     @Basic(optional = false)
-    @Column(name = "period_year", nullable = false)
+    @Column(name = "period_year")
     private int periodYear;
-    @Column(name = "period_description", length = 128)
+    @Column(name = "period_description")
     private String periodDescription;
     @Basic(optional = false)
-    @Column(name = "period_state", nullable = false)
+    @Column(name = "period_state")
     private Character periodState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "period")
     private Collection<DataDetailPeriod> dataDetailPeriodCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "period")
     private Collection<ProgramPeriod> programPeriodCollection;
-    @JoinColumn(name = "modality_id", referencedColumnName = "modality_id", nullable = false)
+    @JoinColumn(name = "modality_id", referencedColumnName = "modality_id")
     @ManyToOne(optional = false)
     private PeriodModality modalityId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "period")

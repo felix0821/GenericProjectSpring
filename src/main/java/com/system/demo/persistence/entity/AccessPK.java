@@ -18,10 +18,10 @@ import javax.persistence.Embeddable;
 public class AccessPK implements Serializable {
 
     @Basic(optional = false)
-    @Column(name = "role_id", nullable = false)
+    @Column(name = "role_id")
     private long roleId;
     @Basic(optional = false)
-    @Column(name = "resource_id", nullable = false)
+    @Column(name = "resource_id")
     private long resourceId;
 
     public AccessPK() {

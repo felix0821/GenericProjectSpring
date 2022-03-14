@@ -24,7 +24,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "enrollment_course")
+@Table(name = "enrollment_course", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "EnrollmentCourse.findAll", query = "SELECT e FROM EnrollmentCourse e"),
     @NamedQuery(name = "EnrollmentCourse.findByPersonId", query = "SELECT e FROM EnrollmentCourse e WHERE e.enrollmentCoursePK.personId = :personId"),
@@ -36,20 +36,20 @@ public class EnrollmentCourse implements Serializable {
     @EmbeddedId
     protected EnrollmentCoursePK enrollmentCoursePK;
     @Basic(optional = false)
-    @Column(name = "enrollment_state", nullable = false)
+    @Column(name = "enrollment_state")
     private Character enrollmentState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "enrollmentCourse")
     private Collection<EnrollmentQualification> enrollmentQualificationCollection;
-    @JoinColumn(name = "course_detail_id", referencedColumnName = "course_detail_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "course_detail_id", referencedColumnName = "course_detail_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private CourseDetail courseDetail;
-    @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "person_id", referencedColumnName = "person_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Person person;
-    @JoinColumn(name = "person_registering_id", referencedColumnName = "person_registering_id", nullable = false)
+    @JoinColumn(name = "person_registering_id", referencedColumnName = "person_registering_id")
     @ManyToOne(optional = false)
     private PersonRegistering personRegisteringId;
-    @JoinColumn(name = "role_id", referencedColumnName = "role_id", nullable = false)
+    @JoinColumn(name = "role_id", referencedColumnName = "role_id")
     @ManyToOne(optional = false)
     private Role roleId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "enrollmentCourse")

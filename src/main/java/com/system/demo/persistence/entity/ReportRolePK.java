@@ -18,10 +18,10 @@ import javax.persistence.Embeddable;
 public class ReportRolePK implements Serializable {
 
     @Basic(optional = false)
-    @Column(name = "role_id", nullable = false)
+    @Column(name = "role_id")
     private long roleId;
     @Basic(optional = false)
-    @Column(name = "report_id", nullable = false)
+    @Column(name = "report_id")
     private long reportId;
 
     public ReportRolePK() {

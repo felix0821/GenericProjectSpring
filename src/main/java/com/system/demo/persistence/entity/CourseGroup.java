@@ -21,7 +21,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "course_group")
+@Table(name = "course_group", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "CourseGroup.findAll", query = "SELECT c FROM CourseGroup c"),
     @NamedQuery(name = "CourseGroup.findByCourseId", query = "SELECT c FROM CourseGroup c WHERE c.courseGroupPK.courseId = :courseId"),
@@ -33,12 +33,12 @@ public class CourseGroup implements Serializable {
     @EmbeddedId
     protected CourseGroupPK courseGroupPK;
     @Basic(optional = false)
-    @Column(name = "course_group_state", nullable = false, length = 20)
+    @Column(name = "course_group_state")
     private String courseGroupState;
-    @JoinColumn(name = "course_id", referencedColumnName = "course_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "course_id", referencedColumnName = "course_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Course course;
-    @JoinColumn(name = "group_id", referencedColumnName = "group_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "group_id", referencedColumnName = "group_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private GroupTeaching groupTeaching;
 

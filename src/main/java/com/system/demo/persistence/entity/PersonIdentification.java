@@ -21,7 +21,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "person_identification")
+@Table(name = "person_identification", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "PersonIdentification.findAll", query = "SELECT p FROM PersonIdentification p"),
     @NamedQuery(name = "PersonIdentification.findByPersonId", query = "SELECT p FROM PersonIdentification p WHERE p.personIdentificationPK.personId = :personId"),
@@ -33,12 +33,12 @@ public class PersonIdentification implements Serializable {
     @EmbeddedId
     protected PersonIdentificationPK personIdentificationPK;
     @Basic(optional = false)
-    @Column(name = "person_identification_value", nullable = false, length = 128)
+    @Column(name = "person_identification_value")
     private String personIdentificationValue;
-    @JoinColumn(name = "identification_document_id", referencedColumnName = "identification_document_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "identification_document_id", referencedColumnName = "identification_document_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private IdentificationDocument identificationDocument;
-    @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "person_id", referencedColumnName = "person_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Person person;
 

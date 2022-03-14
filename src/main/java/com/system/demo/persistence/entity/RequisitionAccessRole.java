@@ -21,7 +21,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "requisition_access_role")
+@Table(name = "requisition_access_role", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "RequisitionAccessRole.findAll", query = "SELECT r FROM RequisitionAccessRole r"),
     @NamedQuery(name = "RequisitionAccessRole.findByRequisitionId", query = "SELECT r FROM RequisitionAccessRole r WHERE r.requisitionAccessRolePK.requisitionId = :requisitionId"),
@@ -33,12 +33,12 @@ public class RequisitionAccessRole implements Serializable {
     @EmbeddedId
     protected RequisitionAccessRolePK requisitionAccessRolePK;
     @Basic(optional = false)
-    @Column(name = "requisition_access_role_state", nullable = false)
+    @Column(name = "requisition_access_role_state")
     private Character requisitionAccessRoleState;
-    @JoinColumn(name = "requisition_id", referencedColumnName = "requisition_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "requisition_id", referencedColumnName = "requisition_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Requisition requisition;
-    @JoinColumn(name = "role_id", referencedColumnName = "role_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "role_id", referencedColumnName = "role_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Role role;
 

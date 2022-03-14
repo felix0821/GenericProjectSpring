@@ -18,10 +18,10 @@ import javax.persistence.Embeddable;
 public class CourseGroupPK implements Serializable {
 
     @Basic(optional = false)
-    @Column(name = "course_id", nullable = false)
+    @Column(name = "course_id")
     private long courseId;
     @Basic(optional = false)
-    @Column(name = "group_id", nullable = false)
+    @Column(name = "group_id")
     private long groupId;
 
     public CourseGroupPK() {

@@ -21,7 +21,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "discount_person")
+@Table(name = "discount_person", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "DiscountPerson.findAll", query = "SELECT d FROM DiscountPerson d"),
     @NamedQuery(name = "DiscountPerson.findByPaymentDiscountId", query = "SELECT d FROM DiscountPerson d WHERE d.discountPersonPK.paymentDiscountId = :paymentDiscountId"),
@@ -34,15 +34,15 @@ public class DiscountPerson implements Serializable {
     @EmbeddedId
     protected DiscountPersonPK discountPersonPK;
     @Basic(optional = false)
-    @Column(name = "discount_person_resource", nullable = false, length = 256)
+    @Column(name = "discount_person_resource")
     private String discountPersonResource;
     @Basic(optional = false)
-    @Column(name = "discount_person_state", nullable = false)
+    @Column(name = "discount_person_state")
     private Character discountPersonState;
-    @JoinColumn(name = "payment_discount_id", referencedColumnName = "payment_discount_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "payment_discount_id", referencedColumnName = "payment_discount_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private PaymentDiscount paymentDiscount;
-    @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "person_id", referencedColumnName = "person_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Person person;
     @JoinColumn(name = "person_registering_id", referencedColumnName = "person_registering_id")

@@ -22,7 +22,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "financial_movement")
+@Table(name = "financial_movement", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "FinancialMovement.findAll", query = "SELECT f FROM FinancialMovement f"),
     @NamedQuery(name = "FinancialMovement.findByFinancialMovementId", query = "SELECT f FROM FinancialMovement f WHERE f.financialMovementId = :financialMovementId"),
@@ -35,19 +35,19 @@ public class FinancialMovement implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "financial_movement_id", nullable = false)
+    @Column(name = "financial_movement_id")
     private Long financialMovementId;
     @Basic(optional = false)
-    @Column(name = "financial_movement_name", nullable = false, length = 64)
+    @Column(name = "financial_movement_name")
     private String financialMovementName;
     @Basic(optional = false)
-    @Column(name = "financial_movement_symbol", nullable = false, length = 16)
+    @Column(name = "financial_movement_symbol")
     private String financialMovementSymbol;
     @Basic(optional = false)
-    @Column(name = "financial_movement_type", nullable = false)
+    @Column(name = "financial_movement_type")
     private Character financialMovementType;
     @Basic(optional = false)
-    @Column(name = "financial_movement_state", nullable = false)
+    @Column(name = "financial_movement_state")
     private Character financialMovementState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "financialMovement")
     private Collection<FinancialMovementData> financialMovementDataCollection;

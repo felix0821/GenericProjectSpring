@@ -18,16 +18,13 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 /**
  *
  * @author Felix
  */
 @Entity
-@Table(name = "modulus", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"modulus_identifier", "program_id"}),
-    @UniqueConstraint(columnNames = {"modulus_order", "program_id"})})
+@Table(name = "modulus", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "Modulus.findAll", query = "SELECT m FROM Modulus m"),
     @NamedQuery(name = "Modulus.findByModulusId", query = "SELECT m FROM Modulus m WHERE m.modulusId = :modulusId"),
@@ -42,27 +39,27 @@ public class Modulus implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "modulus_id", nullable = false)
+    @Column(name = "modulus_id")
     private Long modulusId;
     @Column(name = "modulus_index")
     private Integer modulusIndex;
     @Basic(optional = false)
-    @Column(name = "modulus_identifier", nullable = false, length = 64)
+    @Column(name = "modulus_identifier")
     private String modulusIdentifier;
     @Basic(optional = false)
-    @Column(name = "modulus_name", nullable = false, length = 64)
+    @Column(name = "modulus_name")
     private String modulusName;
     @Basic(optional = false)
-    @Column(name = "modulus_order", nullable = false)
+    @Column(name = "modulus_order")
     private int modulusOrder;
-    @Column(name = "modulus_description", length = 512)
+    @Column(name = "modulus_description")
     private String modulusDescription;
     @Basic(optional = false)
-    @Column(name = "modulus_state", nullable = false)
+    @Column(name = "modulus_state")
     private Character modulusState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "modulusId")
     private Collection<Course> courseCollection;
-    @JoinColumn(name = "program_id", referencedColumnName = "program_id", nullable = false)
+    @JoinColumn(name = "program_id", referencedColumnName = "program_id")
     @ManyToOne(optional = false)
     private Program programId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "modulus")

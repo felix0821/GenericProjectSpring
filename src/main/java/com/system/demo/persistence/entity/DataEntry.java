@@ -22,7 +22,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "data_entry")
+@Table(name = "data_entry", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "DataEntry.findAll", query = "SELECT d FROM DataEntry d"),
     @NamedQuery(name = "DataEntry.findByDataEntryId", query = "SELECT d FROM DataEntry d WHERE d.dataEntryId = :dataEntryId"),
@@ -35,18 +35,18 @@ public class DataEntry implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "data_entry_id", nullable = false)
+    @Column(name = "data_entry_id")
     private Long dataEntryId;
     @Basic(optional = false)
-    @Column(name = "data_entry_type", nullable = false, length = 32)
+    @Column(name = "data_entry_type")
     private String dataEntryType;
-    @Column(name = "data_entry_accept", length = 128)
+    @Column(name = "data_entry_accept")
     private String dataEntryAccept;
     @Basic(optional = false)
-    @Column(name = "data_entry_selection", nullable = false)
+    @Column(name = "data_entry_selection")
     private boolean dataEntrySelection;
     @Basic(optional = false)
-    @Column(name = "data_entry_name", nullable = false, length = 64)
+    @Column(name = "data_entry_name")
     private String dataEntryName;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "dataEntryId")
     private Collection<Data> dataCollection;

@@ -22,7 +22,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "identification_document")
+@Table(name = "identification_document", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "IdentificationDocument.findAll", query = "SELECT i FROM IdentificationDocument i"),
     @NamedQuery(name = "IdentificationDocument.findByIdentificationDocumentId", query = "SELECT i FROM IdentificationDocument i WHERE i.identificationDocumentId = :identificationDocumentId"),
@@ -34,16 +34,16 @@ public class IdentificationDocument implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "identification_document_id", nullable = false)
+    @Column(name = "identification_document_id")
     private Long identificationDocumentId;
     @Basic(optional = false)
-    @Column(name = "identification_document_name", nullable = false, length = 64)
+    @Column(name = "identification_document_name")
     private String identificationDocumentName;
     @Basic(optional = false)
-    @Column(name = "identification_document_validation", nullable = false)
+    @Column(name = "identification_document_validation")
     private Character identificationDocumentValidation;
     @Basic(optional = false)
-    @Column(name = "identification_document_state", nullable = false)
+    @Column(name = "identification_document_state")
     private Character identificationDocumentState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "identificationDocument")
     private Collection<PersonIdentification> personIdentificationCollection;

@@ -21,7 +21,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "financial_requisition")
+@Table(name = "financial_requisition", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "FinancialRequisition.findAll", query = "SELECT f FROM FinancialRequisition f"),
     @NamedQuery(name = "FinancialRequisition.findByFinancialMovementDetailId", query = "SELECT f FROM FinancialRequisition f WHERE f.financialRequisitionPK.financialMovementDetailId = :financialMovementDetailId"),
@@ -33,12 +33,12 @@ public class FinancialRequisition implements Serializable {
     @EmbeddedId
     protected FinancialRequisitionPK financialRequisitionPK;
     @Basic(optional = false)
-    @Column(name = "financial_requisition_state", nullable = false)
+    @Column(name = "financial_requisition_state")
     private Character financialRequisitionState;
-    @JoinColumn(name = "financial_movement_detail_id", referencedColumnName = "financial_movement_detail_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "financial_movement_detail_id", referencedColumnName = "financial_movement_detail_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private FinancialMovementDetail financialMovementDetail;
-    @JoinColumn(name = "requisition_detail_id", referencedColumnName = "requisition_detail_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "requisition_detail_id", referencedColumnName = "requisition_detail_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private RequisitionDetail requisitionDetail;
 

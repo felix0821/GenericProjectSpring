@@ -21,7 +21,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "certificate_studies_detail")
+@Table(name = "certificate_studies_detail", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "CertificateStudiesDetail.findAll", query = "SELECT c FROM CertificateStudiesDetail c"),
     @NamedQuery(name = "CertificateStudiesDetail.findByCertificateStudiesDetailId", query = "SELECT c FROM CertificateStudiesDetail c WHERE c.certificateStudiesDetailId = :certificateStudiesDetailId"),
@@ -31,15 +31,15 @@ public class CertificateStudiesDetail implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "certificate_studies_detail_id", nullable = false)
+    @Column(name = "certificate_studies_detail_id")
     private Long certificateStudiesDetailId;
     @Basic(optional = false)
-    @Column(name = "certificate_studies_detail_qualification", nullable = false)
+    @Column(name = "certificate_studies_detail_qualification")
     private int certificateStudiesDetailQualification;
-    @JoinColumn(name = "certificate_studies_id", referencedColumnName = "certificate_studies_id", nullable = false)
+    @JoinColumn(name = "certificate_studies_id", referencedColumnName = "certificate_studies_id")
     @ManyToOne(optional = false)
     private CertificateStudies certificateStudiesId;
-    @JoinColumn(name = "course_id", referencedColumnName = "course_id", nullable = false)
+    @JoinColumn(name = "course_id", referencedColumnName = "course_id")
     @ManyToOne(optional = false)
     private Course courseId;
 

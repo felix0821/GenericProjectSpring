@@ -18,13 +18,13 @@ import javax.persistence.Embeddable;
 public class EnrollmentProgramPK implements Serializable {
 
     @Basic(optional = false)
-    @Column(name = "person_id", nullable = false)
+    @Column(name = "person_id")
     private long personId;
     @Basic(optional = false)
-    @Column(name = "program_id", nullable = false)
+    @Column(name = "program_id")
     private long programId;
     @Basic(optional = false)
-    @Column(name = "period_id", nullable = false)
+    @Column(name = "period_id")
     private long periodId;
 
     public EnrollmentProgramPK() {

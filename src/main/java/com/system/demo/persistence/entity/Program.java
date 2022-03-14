@@ -16,15 +16,13 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 /**
  *
  * @author Felix
  */
 @Entity
-@Table(name = "program", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"program_identifier"})})
+@Table(name = "program", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "Program.findAll", query = "SELECT p FROM Program p"),
     @NamedQuery(name = "Program.findByProgramId", query = "SELECT p FROM Program p WHERE p.programId = :programId"),
@@ -43,32 +41,32 @@ public class Program implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "program_id", nullable = false)
+    @Column(name = "program_id")
     private Long programId;
     @Column(name = "program_index")
     private Integer programIndex;
     @Basic(optional = false)
-    @Column(name = "program_identifier", nullable = false, length = 64)
+    @Column(name = "program_identifier")
     private String programIdentifier;
     @Basic(optional = false)
-    @Column(name = "program_name", nullable = false, length = 64)
+    @Column(name = "program_name")
     private String programName;
     @Basic(optional = false)
-    @Column(name = "program_acronym", nullable = false, length = 4)
+    @Column(name = "program_acronym")
     private String programAcronym;
-    @Column(name = "program_description", length = 512)
+    @Column(name = "program_description")
     private String programDescription;
-    @Column(name = "program_requirement", length = 128)
+    @Column(name = "program_requirement")
     private String programRequirement;
-    @Column(name = "program_curriculum", length = 256)
+    @Column(name = "program_curriculum")
     private String programCurriculum;
-    @Column(name = "program_image", length = 256)
+    @Column(name = "program_image")
     private String programImage;
     @Basic(optional = false)
-    @Column(name = "program_area", nullable = false)
+    @Column(name = "program_area")
     private Character programArea;
     @Basic(optional = false)
-    @Column(name = "program_state", nullable = false)
+    @Column(name = "program_state")
     private Character programState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "programId")
     private Collection<CertificateStudies> certificateStudiesCollection;

@@ -23,7 +23,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "payment_schedule")
+@Table(name = "payment_schedule", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "PaymentSchedule.findAll", query = "SELECT p FROM PaymentSchedule p"),
     @NamedQuery(name = "PaymentSchedule.findByPaymentScheduleId", query = "SELECT p FROM PaymentSchedule p WHERE p.paymentScheduleId = :paymentScheduleId"),
@@ -33,20 +33,20 @@ public class PaymentSchedule implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "payment_schedule_id", nullable = false)
+    @Column(name = "payment_schedule_id")
     private Long paymentScheduleId;
     @Column(name = "payment_schedule_index")
     private BigInteger paymentScheduleIndex;
     @JoinColumns({
-        @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false),
-        @JoinColumn(name = "program_id", referencedColumnName = "program_id", nullable = false),
-        @JoinColumn(name = "period_id", referencedColumnName = "period_id", nullable = false)})
+        @JoinColumn(name = "person_id", referencedColumnName = "person_id"),
+        @JoinColumn(name = "program_id", referencedColumnName = "program_id"),
+        @JoinColumn(name = "period_id", referencedColumnName = "period_id")})
     @ManyToOne(optional = false)
     private EnrollmentProgram enrollmentProgram;
-    @JoinColumn(name = "payment_status_id", referencedColumnName = "payment_status_id", nullable = false)
+    @JoinColumn(name = "payment_status_id", referencedColumnName = "payment_status_id")
     @ManyToOne(optional = false)
     private PaymentStatus paymentStatusId;
-    @JoinColumn(name = "shedule_id", referencedColumnName = "shedule_id", nullable = false)
+    @JoinColumn(name = "shedule_id", referencedColumnName = "shedule_id")
     @ManyToOne(optional = false)
     private ProgramShedule sheduleId;
 

@@ -18,15 +18,13 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 /**
  *
  * @author Felix
  */
 @Entity
-@Table(name = "course", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"course_identifier", "modulus_id"})})
+@Table(name = "course", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "Course.findAll", query = "SELECT c FROM Course c"),
     @NamedQuery(name = "Course.findByCourseId", query = "SELECT c FROM Course c WHERE c.courseId = :courseId"),
@@ -41,23 +39,23 @@ public class Course implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "course_id", nullable = false)
+    @Column(name = "course_id")
     private Long courseId;
     @Column(name = "course_index")
     private Integer courseIndex;
     @Basic(optional = false)
-    @Column(name = "course_identifier", nullable = false, length = 64)
+    @Column(name = "course_identifier")
     private String courseIdentifier;
     @Basic(optional = false)
-    @Column(name = "course_name", nullable = false, length = 64)
+    @Column(name = "course_name")
     private String courseName;
     @Basic(optional = false)
-    @Column(name = "course_acronym", nullable = false, length = 4)
+    @Column(name = "course_acronym")
     private String courseAcronym;
-    @Column(name = "course_description", length = 256)
+    @Column(name = "course_description")
     private String courseDescription;
     @Basic(optional = false)
-    @Column(name = "course_state", nullable = false)
+    @Column(name = "course_state")
     private Character courseState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "courseId")
     private Collection<CertificateStudiesDetail> certificateStudiesDetailCollection;
@@ -70,7 +68,7 @@ public class Course implements Serializable {
     @JoinColumn(name = "course_equivalent_id", referencedColumnName = "course_id")
     @ManyToOne
     private Course courseEquivalentId;
-    @JoinColumn(name = "modulus_id", referencedColumnName = "modulus_id", nullable = false)
+    @JoinColumn(name = "modulus_id", referencedColumnName = "modulus_id")
     @ManyToOne(optional = false)
     private Modulus modulusId;
 

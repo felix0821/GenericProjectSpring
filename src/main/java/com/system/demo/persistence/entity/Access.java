@@ -21,7 +21,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "access")
+@Table(name = "access", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "Access.findAll", query = "SELECT a FROM Access a"),
     @NamedQuery(name = "Access.findByRoleId", query = "SELECT a FROM Access a WHERE a.accessPK.roleId = :roleId"),
@@ -33,12 +33,12 @@ public class Access implements Serializable {
     @EmbeddedId
     protected AccessPK accessPK;
     @Basic(optional = false)
-    @Column(name = "access_state", nullable = false)
+    @Column(name = "access_state")
     private Character accessState;
-    @JoinColumn(name = "resource_id", referencedColumnName = "resource_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "resource_id", referencedColumnName = "resource_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Resource resource;
-    @JoinColumn(name = "role_id", referencedColumnName = "role_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "role_id", referencedColumnName = "role_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Role role;
 

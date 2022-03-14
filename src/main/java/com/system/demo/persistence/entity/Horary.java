@@ -27,7 +27,7 @@ import javax.persistence.TemporalType;
  * @author Felix
  */
 @Entity
-@Table(name = "horary")
+@Table(name = "horary", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "Horary.findAll", query = "SELECT h FROM Horary h"),
     @NamedQuery(name = "Horary.findByHoraryId", query = "SELECT h FROM Horary h WHERE h.horaryId = :horaryId"),
@@ -40,25 +40,25 @@ public class Horary implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "horary_id", nullable = false)
+    @Column(name = "horary_id")
     private Long horaryId;
     @Basic(optional = false)
-    @Column(name = "horary_day", nullable = false)
+    @Column(name = "horary_day")
     private Character horaryDay;
     @Basic(optional = false)
-    @Column(name = "horary_time_start", nullable = false)
+    @Column(name = "horary_time_start")
     @Temporal(TemporalType.TIME)
     private Date horaryTimeStart;
     @Basic(optional = false)
-    @Column(name = "horary_time_final", nullable = false)
+    @Column(name = "horary_time_final")
     @Temporal(TemporalType.TIME)
     private Date horaryTimeFinal;
     @Basic(optional = false)
-    @Column(name = "horary_state", nullable = false)
+    @Column(name = "horary_state")
     private Character horaryState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "horaryId")
     private Collection<HoraryDetail> horaryDetailCollection;
-    @JoinColumn(name = "course_detail_id", referencedColumnName = "course_detail_id", nullable = false)
+    @JoinColumn(name = "course_detail_id", referencedColumnName = "course_detail_id")
     @ManyToOne(optional = false)
     private CourseDetail courseDetailId;
 

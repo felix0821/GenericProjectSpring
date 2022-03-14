@@ -22,27 +22,28 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "data_reference")
+@Table(name = "data_reference", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "DataReference.findAll", query = "SELECT d FROM DataReference d"),
     @NamedQuery(name = "DataReference.findByDataReferenceId", query = "SELECT d FROM DataReference d WHERE d.dataReferenceId = :dataReferenceId"),
     @NamedQuery(name = "DataReference.findByDataReferenceName", query = "SELECT d FROM DataReference d WHERE d.dataReferenceName = :dataReferenceName"),
-    @NamedQuery(name = "DataReference.findByDataReferenceDescription", query = "SELECT d FROM DataReference d WHERE d.dataReferenceDescription = :dataReferenceDescription")})
+    @NamedQuery(name = "DataReference.findByDataReferenceDescription", query = "SELECT d FROM DataReference d WHERE d.dataReferenceDescription = :dataReferenceDescription"),
+    @NamedQuery(name = "DataReference.findByDataReferenceMultitarget", query = "SELECT d FROM DataReference d WHERE d.dataReferenceMultitarget = :dataReferenceMultitarget")})
 public class DataReference implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "data_reference_id", nullable = false)
+    @Column(name = "data_reference_id")
     private Long dataReferenceId;
     @Basic(optional = false)
-    @Column(name = "data_reference_name", nullable = false, length = 64)
+    @Column(name = "data_reference_name")
     private String dataReferenceName;
     @Basic(optional = false)
-    @Column(name = "data_reference_description", nullable = false, length = 128)
+    @Column(name = "data_reference_description")
     private String dataReferenceDescription;
     @Basic(optional = false)
-    @Column(name = "data_reference_multitarget", nullable = false)
+    @Column(name = "data_reference_multitarget")
     private boolean dataReferenceMultitarget;
     @OneToMany(mappedBy = "dataReferenceId")
     private Collection<Data> dataCollection;
@@ -56,10 +57,11 @@ public class DataReference implements Serializable {
         this.dataReferenceId = dataReferenceId;
     }
 
-    public DataReference(Long dataReferenceId, String dataReferenceName, String dataReferenceDescription) {
+    public DataReference(Long dataReferenceId, String dataReferenceName, String dataReferenceDescription, boolean dataReferenceMultitarget) {
         this.dataReferenceId = dataReferenceId;
         this.dataReferenceName = dataReferenceName;
         this.dataReferenceDescription = dataReferenceDescription;
+        this.dataReferenceMultitarget = dataReferenceMultitarget;
     }
 
     public Long getDataReferenceId() {
@@ -86,15 +88,15 @@ public class DataReference implements Serializable {
         this.dataReferenceDescription = dataReferenceDescription;
     }
 
-    public boolean isDataReferenceMultitarget() {
-		return dataReferenceMultitarget;
-	}
+    public boolean getDataReferenceMultitarget() {
+        return dataReferenceMultitarget;
+    }
 
-	public void setDataReferenceMultitarget(boolean dataReferenceMultitarget) {
-		this.dataReferenceMultitarget = dataReferenceMultitarget;
-	}
+    public void setDataReferenceMultitarget(boolean dataReferenceMultitarget) {
+        this.dataReferenceMultitarget = dataReferenceMultitarget;
+    }
 
-	public Collection<Data> getDataCollection() {
+    public Collection<Data> getDataCollection() {
         return dataCollection;
     }
 

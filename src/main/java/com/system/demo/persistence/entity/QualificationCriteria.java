@@ -24,7 +24,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "qualification_criteria")
+@Table(name = "qualification_criteria", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "QualificationCriteria.findAll", query = "SELECT q FROM QualificationCriteria q"),
     @NamedQuery(name = "QualificationCriteria.findByQualificationCriteriaId", query = "SELECT q FROM QualificationCriteria q WHERE q.qualificationCriteriaId = :qualificationCriteriaId"),
@@ -36,19 +36,19 @@ public class QualificationCriteria implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "qualification_criteria_id", nullable = false)
+    @Column(name = "qualification_criteria_id")
     private Long qualificationCriteriaId;
     @Column(name = "qualification_criteria_index")
     private Integer qualificationCriteriaIndex;
     @Basic(optional = false)
-    @Column(name = "qualification_criteria_name", nullable = false, length = 64)
+    @Column(name = "qualification_criteria_name")
     private String qualificationCriteriaName;
     @Basic(optional = false)
-    @Column(name = "qualification_criteria_porcentual", nullable = false)
+    @Column(name = "qualification_criteria_porcentual")
     private double qualificationCriteriaPorcentual;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "qualificationCriteria")
     private Collection<EnrollmentQualification> enrollmentQualificationCollection;
-    @JoinColumn(name = "course_detail_id", referencedColumnName = "course_detail_id", nullable = false)
+    @JoinColumn(name = "course_detail_id", referencedColumnName = "course_detail_id")
     @ManyToOne(optional = false)
     private CourseDetail courseDetailId;
 

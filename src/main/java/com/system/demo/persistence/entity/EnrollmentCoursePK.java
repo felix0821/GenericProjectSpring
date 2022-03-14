@@ -18,10 +18,10 @@ import javax.persistence.Embeddable;
 public class EnrollmentCoursePK implements Serializable {
 
     @Basic(optional = false)
-    @Column(name = "person_id", nullable = false)
+    @Column(name = "person_id")
     private long personId;
     @Basic(optional = false)
-    @Column(name = "course_detail_id", nullable = false)
+    @Column(name = "course_detail_id")
     private long courseDetailId;
 
     public EnrollmentCoursePK() {

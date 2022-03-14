@@ -18,10 +18,10 @@ import javax.persistence.Embeddable;
 public class DataDetailProgramPK implements Serializable {
 
     @Basic(optional = false)
-    @Column(name = "data_detail_id", nullable = false)
+    @Column(name = "data_detail_id")
     private long dataDetailId;
     @Basic(optional = false)
-    @Column(name = "program_id", nullable = false)
+    @Column(name = "program_id")
     private long programId;
 
     public DataDetailProgramPK() {

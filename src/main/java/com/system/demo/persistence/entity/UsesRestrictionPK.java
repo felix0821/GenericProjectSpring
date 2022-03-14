@@ -18,10 +18,10 @@ import javax.persistence.Embeddable;
 public class UsesRestrictionPK implements Serializable {
 
     @Basic(optional = false)
-    @Column(name = "uses_id", nullable = false)
+    @Column(name = "uses_id")
     private long usesId;
     @Basic(optional = false)
-    @Column(name = "data_reference_id", nullable = false)
+    @Column(name = "data_reference_id")
     private long dataReferenceId;
 
     public UsesRestrictionPK() {

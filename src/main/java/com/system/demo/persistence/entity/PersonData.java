@@ -24,7 +24,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "person_data")
+@Table(name = "person_data", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "PersonData.findAll", query = "SELECT p FROM PersonData p"),
     @NamedQuery(name = "PersonData.findByDataId", query = "SELECT p FROM PersonData p WHERE p.personDataPK.dataId = :dataId"),
@@ -36,18 +36,17 @@ public class PersonData implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected PersonDataPK personDataPK;
+    @Column(name = "person_data_index")
+    private Integer personDataIndex;
     @Basic(optional = false)
-    @Column(name = "person_data_index", nullable = false)
-    private int personDataIndex;
-    @Basic(optional = false)
-    @Column(name = "person_data_state", nullable = false)
+    @Column(name = "person_data_state")
     private Character personDataState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "personData")
     private Collection<PersonDataDetail> personDataDetailCollection;
-    @JoinColumn(name = "data_id", referencedColumnName = "data_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "data_id", referencedColumnName = "data_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Data data;
-    @JoinColumn(name = "role_id", referencedColumnName = "role_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "role_id", referencedColumnName = "role_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Role role;
 
@@ -58,9 +57,8 @@ public class PersonData implements Serializable {
         this.personDataPK = personDataPK;
     }
 
-    public PersonData(PersonDataPK personDataPK, int personDataIndex, Character personDataState) {
+    public PersonData(PersonDataPK personDataPK, Character personDataState) {
         this.personDataPK = personDataPK;
-        this.personDataIndex = personDataIndex;
         this.personDataState = personDataState;
     }
 
@@ -76,11 +74,11 @@ public class PersonData implements Serializable {
         this.personDataPK = personDataPK;
     }
 
-    public int getPersonDataIndex() {
+    public Integer getPersonDataIndex() {
         return personDataIndex;
     }
 
-    public void setPersonDataIndex(int personDataIndex) {
+    public void setPersonDataIndex(Integer personDataIndex) {
         this.personDataIndex = personDataIndex;
     }
 

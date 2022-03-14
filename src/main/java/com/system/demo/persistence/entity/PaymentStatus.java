@@ -22,7 +22,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "payment_status")
+@Table(name = "payment_status", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "PaymentStatus.findAll", query = "SELECT p FROM PaymentStatus p"),
     @NamedQuery(name = "PaymentStatus.findByPaymentStatusId", query = "SELECT p FROM PaymentStatus p WHERE p.paymentStatusId = :paymentStatusId"),
@@ -35,18 +35,18 @@ public class PaymentStatus implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "payment_status_id", nullable = false)
+    @Column(name = "payment_status_id")
     private Long paymentStatusId;
     @Basic(optional = false)
-    @Column(name = "payment_status_name", nullable = false, length = 64)
+    @Column(name = "payment_status_name")
     private String paymentStatusName;
-    @Column(name = "payment_status_description", length = 128)
+    @Column(name = "payment_status_description")
     private String paymentStatusDescription;
     @Basic(optional = false)
-    @Column(name = "payment_status_color", nullable = false, length = 32)
+    @Column(name = "payment_status_color")
     private String paymentStatusColor;
     @Basic(optional = false)
-    @Column(name = "payment_status_state", nullable = false)
+    @Column(name = "payment_status_state")
     private Character paymentStatusState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "paymentStatusId")
     private Collection<PaymentSchedule> paymentScheduleCollection;

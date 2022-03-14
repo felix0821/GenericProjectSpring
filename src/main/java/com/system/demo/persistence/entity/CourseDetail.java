@@ -19,15 +19,13 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 /**
  *
  * @author Felix
  */
 @Entity
-@Table(name = "course_detail", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"group_id", "course_id", "modulus_id", "program_id", "period_id"})})
+@Table(name = "course_detail", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "CourseDetail.findAll", query = "SELECT c FROM CourseDetail c"),
     @NamedQuery(name = "CourseDetail.findByCourseDetailId", query = "SELECT c FROM CourseDetail c WHERE c.courseDetailId = :courseDetailId"),
@@ -39,28 +37,28 @@ public class CourseDetail implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "course_detail_id", nullable = false)
+    @Column(name = "course_detail_id")
     private Long courseDetailId;
     @Basic(optional = false)
-    @Column(name = "course_detail_capacity", nullable = false)
+    @Column(name = "course_detail_capacity")
     private int courseDetailCapacity;
-    @Column(name = "course_detail_teaching_curriculum", length = 256)
+    @Column(name = "course_detail_teaching_curriculum")
     private String courseDetailTeachingCurriculum;
     @Basic(optional = false)
-    @Column(name = "course_detail_state", nullable = false)
+    @Column(name = "course_detail_state")
     private Character courseDetailState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "courseDetail")
     private Collection<CourseRole> courseRoleCollection;
-    @JoinColumn(name = "course_id", referencedColumnName = "course_id", nullable = false)
+    @JoinColumn(name = "course_id", referencedColumnName = "course_id")
     @ManyToOne(optional = false)
     private Course courseId;
-    @JoinColumn(name = "group_id", referencedColumnName = "group_id", nullable = false)
+    @JoinColumn(name = "group_id", referencedColumnName = "group_id")
     @ManyToOne(optional = false)
     private GroupTeaching groupId;
     @JoinColumns({
-        @JoinColumn(name = "modulus_id", referencedColumnName = "modulus_id", nullable = false),
-        @JoinColumn(name = "program_id", referencedColumnName = "program_id", nullable = false),
-        @JoinColumn(name = "period_id", referencedColumnName = "period_id", nullable = false)})
+        @JoinColumn(name = "modulus_id", referencedColumnName = "modulus_id"),
+        @JoinColumn(name = "program_id", referencedColumnName = "program_id"),
+        @JoinColumn(name = "period_id", referencedColumnName = "period_id")})
     @ManyToOne(optional = false)
     private ModulusDetail modulusDetail;
     @JoinColumn(name = "schedule_id", referencedColumnName = "schedule_id")

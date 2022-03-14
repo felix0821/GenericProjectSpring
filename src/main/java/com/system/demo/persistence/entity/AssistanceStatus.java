@@ -22,7 +22,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "assistance_status")
+@Table(name = "assistance_status", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "AssistanceStatus.findAll", query = "SELECT a FROM AssistanceStatus a"),
     @NamedQuery(name = "AssistanceStatus.findByAssistanceStatusId", query = "SELECT a FROM AssistanceStatus a WHERE a.assistanceStatusId = :assistanceStatusId"),
@@ -34,16 +34,16 @@ public class AssistanceStatus implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "assistance_status_id", nullable = false)
+    @Column(name = "assistance_status_id")
     private Long assistanceStatusId;
     @Basic(optional = false)
-    @Column(name = "assistance_status_name", nullable = false, length = 64)
+    @Column(name = "assistance_status_name")
     private String assistanceStatusName;
     @Basic(optional = false)
-    @Column(name = "assistance_status_color", nullable = false)
+    @Column(name = "assistance_status_color")
     private Character assistanceStatusColor;
     @Basic(optional = false)
-    @Column(name = "assistance_status_score", nullable = false)
+    @Column(name = "assistance_status_score")
     private int assistanceStatusScore;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "assistanceStatusId")
     private Collection<Assistance> assistanceCollection;

@@ -25,7 +25,7 @@ import javax.persistence.TemporalType;
  * @author Felix
  */
 @Entity
-@Table(name = "requisition_status_detail")
+@Table(name = "requisition_status_detail", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "RequisitionStatusDetail.findAll", query = "SELECT r FROM RequisitionStatusDetail r"),
     @NamedQuery(name = "RequisitionStatusDetail.findByRequisitionDetailId", query = "SELECT r FROM RequisitionStatusDetail r WHERE r.requisitionStatusDetailPK.requisitionDetailId = :requisitionDetailId"),
@@ -40,16 +40,16 @@ public class RequisitionStatusDetail implements Serializable {
     @Column(name = "requisition_status_detail_index")
     private BigInteger requisitionStatusDetailIndex;
     @Basic(optional = false)
-    @Column(name = "requisition_status_detail_date", nullable = false)
+    @Column(name = "requisition_status_detail_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date requisitionStatusDetailDate;
-    @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false)
+    @JoinColumn(name = "person_id", referencedColumnName = "person_id")
     @ManyToOne(optional = false)
     private Person personId;
-    @JoinColumn(name = "requisition_detail_id", referencedColumnName = "requisition_detail_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "requisition_detail_id", referencedColumnName = "requisition_detail_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private RequisitionDetail requisitionDetail;
-    @JoinColumn(name = "requisition_status_id", referencedColumnName = "requisition_status_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "requisition_status_id", referencedColumnName = "requisition_status_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private RequisitionStatus requisitionStatus;
 

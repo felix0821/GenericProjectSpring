@@ -21,7 +21,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "period_data")
+@Table(name = "period_data", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "PeriodData.findAll", query = "SELECT p FROM PeriodData p"),
     @NamedQuery(name = "PeriodData.findByPeriodId", query = "SELECT p FROM PeriodData p WHERE p.periodDataPK.periodId = :periodId"),
@@ -33,12 +33,12 @@ public class PeriodData implements Serializable {
     @EmbeddedId
     protected PeriodDataPK periodDataPK;
     @Basic(optional = false)
-    @Column(name = "period_data_state", nullable = false)
+    @Column(name = "period_data_state")
     private Character periodDataState;
-    @JoinColumn(name = "data_id", referencedColumnName = "data_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "data_id", referencedColumnName = "data_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Data data;
-    @JoinColumn(name = "period_id", referencedColumnName = "period_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "period_id", referencedColumnName = "period_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Period period;
 

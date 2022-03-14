@@ -24,7 +24,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "certificate_studies")
+@Table(name = "certificate_studies", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "CertificateStudies.findAll", query = "SELECT c FROM CertificateStudies c"),
     @NamedQuery(name = "CertificateStudies.findByCertificateStudiesId", query = "SELECT c FROM CertificateStudies c WHERE c.certificateStudiesId = :certificateStudiesId"),
@@ -34,14 +34,14 @@ public class CertificateStudies implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "certificate_studies_id", nullable = false)
+    @Column(name = "certificate_studies_id")
     private Long certificateStudiesId;
-    @Column(name = "certificate_studies_code", length = 64)
+    @Column(name = "certificate_studies_code")
     private String certificateStudiesCode;
-    @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false)
+    @JoinColumn(name = "person_id", referencedColumnName = "person_id")
     @ManyToOne(optional = false)
     private Person personId;
-    @JoinColumn(name = "program_id", referencedColumnName = "program_id", nullable = false)
+    @JoinColumn(name = "program_id", referencedColumnName = "program_id")
     @ManyToOne(optional = false)
     private Program programId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "certificateStudiesId")

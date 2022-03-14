@@ -18,10 +18,10 @@ import javax.persistence.Embeddable;
 public class PersonIdentificationPK implements Serializable {
 
     @Basic(optional = false)
-    @Column(name = "person_id", nullable = false)
+    @Column(name = "person_id")
     private long personId;
     @Basic(optional = false)
-    @Column(name = "identification_document_id", nullable = false)
+    @Column(name = "identification_document_id")
     private long identificationDocumentId;
 
     public PersonIdentificationPK() {

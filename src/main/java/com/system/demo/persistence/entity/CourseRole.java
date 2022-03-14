@@ -21,7 +21,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "course_role")
+@Table(name = "course_role", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "CourseRole.findAll", query = "SELECT c FROM CourseRole c"),
     @NamedQuery(name = "CourseRole.findByCourseDetailId", query = "SELECT c FROM CourseRole c WHERE c.courseRolePK.courseDetailId = :courseDetailId"),
@@ -34,18 +34,18 @@ public class CourseRole implements Serializable {
     @EmbeddedId
     protected CourseRolePK courseRolePK;
     @Basic(optional = false)
-    @Column(name = "course_role_enroll", nullable = false)
+    @Column(name = "course_role_enroll")
     private boolean courseRoleEnroll;
     @Basic(optional = false)
-    @Column(name = "course_role_state", nullable = false)
+    @Column(name = "course_role_state")
     private Character courseRoleState;
-    @JoinColumn(name = "course_detail_id", referencedColumnName = "course_detail_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "course_detail_id", referencedColumnName = "course_detail_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private CourseDetail courseDetail;
     @JoinColumn(name = "schedule_id", referencedColumnName = "schedule_id")
     @ManyToOne
     private ModulusSchedule scheduleId;
-    @JoinColumn(name = "role_id", referencedColumnName = "role_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "role_id", referencedColumnName = "role_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Role role;
 

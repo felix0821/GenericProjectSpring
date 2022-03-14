@@ -21,15 +21,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
 
 /**
  *
  * @author Felix
  */
 @Entity
-@Table(name = "horary_detail", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"horary_id", "horary_detail_date"})})
+@Table(name = "horary_detail", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "HoraryDetail.findAll", query = "SELECT h FROM HoraryDetail h"),
     @NamedQuery(name = "HoraryDetail.findByHoraryDetailId", query = "SELECT h FROM HoraryDetail h WHERE h.horaryDetailId = :horaryDetailId"),
@@ -40,16 +38,16 @@ public class HoraryDetail implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "horary_detail_id", nullable = false)
+    @Column(name = "horary_detail_id")
     private Long horaryDetailId;
     @Basic(optional = false)
-    @Column(name = "horary_detail_date", nullable = false)
+    @Column(name = "horary_detail_date")
     @Temporal(TemporalType.DATE)
     private Date horaryDetailDate;
     @Basic(optional = false)
-    @Column(name = "horary_detail_exception", nullable = false)
+    @Column(name = "horary_detail_exception")
     private boolean horaryDetailException;
-    @JoinColumn(name = "horary_id", referencedColumnName = "horary_id", nullable = false)
+    @JoinColumn(name = "horary_id", referencedColumnName = "horary_id")
     @ManyToOne(optional = false)
     private Horary horaryId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "horaryDetail")

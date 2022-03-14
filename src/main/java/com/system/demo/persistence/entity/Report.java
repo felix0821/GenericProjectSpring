@@ -22,7 +22,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "report")
+@Table(name = "report", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "Report.findAll", query = "SELECT r FROM Report r"),
     @NamedQuery(name = "Report.findByReportId", query = "SELECT r FROM Report r WHERE r.reportId = :reportId"),
@@ -33,13 +33,13 @@ public class Report implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "report_id", nullable = false)
+    @Column(name = "report_id")
     private Long reportId;
     @Basic(optional = false)
-    @Column(name = "report_name", nullable = false, length = 64)
+    @Column(name = "report_name")
     private String reportName;
     @Basic(optional = false)
-    @Column(name = "report_state", nullable = false)
+    @Column(name = "report_state")
     private Character reportState;
     @OneToMany(mappedBy = "reportId")
     private Collection<ReportDetail> reportDetailCollection;

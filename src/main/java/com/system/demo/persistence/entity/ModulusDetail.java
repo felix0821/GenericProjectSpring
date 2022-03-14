@@ -25,7 +25,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "modulus_detail")
+@Table(name = "modulus_detail", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "ModulusDetail.findAll", query = "SELECT m FROM ModulusDetail m"),
     @NamedQuery(name = "ModulusDetail.findByModulusId", query = "SELECT m FROM ModulusDetail m WHERE m.modulusDetailPK.modulusId = :modulusId"),
@@ -38,19 +38,19 @@ public class ModulusDetail implements Serializable {
     @EmbeddedId
     protected ModulusDetailPK modulusDetailPK;
     @Basic(optional = false)
-    @Column(name = "modulus_detail_state", nullable = false)
+    @Column(name = "modulus_detail_state")
     private Character modulusDetailState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "modulusDetail")
     private Collection<CourseDetail> courseDetailCollection;
-    @JoinColumn(name = "modulus_id", referencedColumnName = "modulus_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "modulus_id", referencedColumnName = "modulus_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Modulus modulus;
-    @JoinColumn(name = "schedule_id", referencedColumnName = "schedule_id", nullable = false)
+    @JoinColumn(name = "schedule_id", referencedColumnName = "schedule_id")
     @ManyToOne(optional = false)
     private ModulusSchedule scheduleId;
     @JoinColumns({
-        @JoinColumn(name = "program_id", referencedColumnName = "program_id", nullable = false, insertable = false, updatable = false),
-        @JoinColumn(name = "period_id", referencedColumnName = "period_id", nullable = false, insertable = false, updatable = false)})
+        @JoinColumn(name = "program_id", referencedColumnName = "program_id", insertable = false, updatable = false),
+        @JoinColumn(name = "period_id", referencedColumnName = "period_id", insertable = false, updatable = false)})
     @ManyToOne(optional = false)
     private ProgramPeriod programPeriod;
 

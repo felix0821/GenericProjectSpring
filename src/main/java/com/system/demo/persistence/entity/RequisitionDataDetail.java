@@ -21,7 +21,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "requisition_data_detail")
+@Table(name = "requisition_data_detail", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "RequisitionDataDetail.findAll", query = "SELECT r FROM RequisitionDataDetail r"),
     @NamedQuery(name = "RequisitionDataDetail.findByRequisitionId", query = "SELECT r FROM RequisitionDataDetail r WHERE r.requisitionDataDetailPK.requisitionId = :requisitionId"),
@@ -33,14 +33,14 @@ public class RequisitionDataDetail implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected RequisitionDataDetailPK requisitionDataDetailPK;
-    @Column(name = "requisition_data_detail_value", length = 256)
+    @Column(name = "requisition_data_detail_value")
     private String requisitionDataDetailValue;
     @JoinColumns({
-        @JoinColumn(name = "requisition_id", referencedColumnName = "requisition_id", nullable = false, insertable = false, updatable = false),
-        @JoinColumn(name = "data_id", referencedColumnName = "data_id", nullable = false, insertable = false, updatable = false)})
+        @JoinColumn(name = "requisition_id", referencedColumnName = "requisition_id", insertable = false, updatable = false),
+        @JoinColumn(name = "data_id", referencedColumnName = "data_id", insertable = false, updatable = false)})
     @ManyToOne(optional = false)
     private RequisitionData requisitionData;
-    @JoinColumn(name = "requisition_detail_id", referencedColumnName = "requisition_detail_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "requisition_detail_id", referencedColumnName = "requisition_detail_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private RequisitionDetail requisitionDetail;
 

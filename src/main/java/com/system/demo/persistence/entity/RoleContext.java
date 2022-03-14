@@ -21,7 +21,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "role_context")
+@Table(name = "role_context", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "RoleContext.findAll", query = "SELECT r FROM RoleContext r"),
     @NamedQuery(name = "RoleContext.findByRoleId", query = "SELECT r FROM RoleContext r WHERE r.roleContextPK.roleId = :roleId"),
@@ -33,12 +33,12 @@ public class RoleContext implements Serializable {
     @EmbeddedId
     protected RoleContextPK roleContextPK;
     @Basic(optional = false)
-    @Column(name = "role_context_state", nullable = false)
+    @Column(name = "role_context_state")
     private Character roleContextState;
-    @JoinColumn(name = "context_id", referencedColumnName = "context_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "context_id", referencedColumnName = "context_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Context context;
-    @JoinColumn(name = "role_id", referencedColumnName = "role_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "role_id", referencedColumnName = "role_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Role role;
 

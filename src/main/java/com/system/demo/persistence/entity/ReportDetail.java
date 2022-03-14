@@ -24,7 +24,7 @@ import javax.persistence.TemporalType;
  * @author Felix
  */
 @Entity
-@Table(name = "report_detail")
+@Table(name = "report_detail", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "ReportDetail.findAll", query = "SELECT r FROM ReportDetail r"),
     @NamedQuery(name = "ReportDetail.findByReportDetailId", query = "SELECT r FROM ReportDetail r WHERE r.reportDetailId = :reportDetailId"),
@@ -35,13 +35,13 @@ public class ReportDetail implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "report_detail_id", nullable = false)
+    @Column(name = "report_detail_id")
     private Long reportDetailId;
     @Basic(optional = false)
-    @Column(name = "report_detail_state", nullable = false)
+    @Column(name = "report_detail_state")
     private Character reportDetailState;
     @Basic(optional = false)
-    @Column(name = "report_detail_date", nullable = false)
+    @Column(name = "report_detail_date")
     @Temporal(TemporalType.DATE)
     private Date reportDetailDate;
     @JoinColumn(name = "report_id", referencedColumnName = "report_id")

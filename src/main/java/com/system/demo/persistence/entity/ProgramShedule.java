@@ -28,7 +28,7 @@ import javax.persistence.TemporalType;
  * @author Felix
  */
 @Entity
-@Table(name = "program_shedule")
+@Table(name = "program_shedule", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "ProgramShedule.findAll", query = "SELECT p FROM ProgramShedule p"),
     @NamedQuery(name = "ProgramShedule.findBySheduleId", query = "SELECT p FROM ProgramShedule p WHERE p.sheduleId = :sheduleId"),
@@ -40,24 +40,24 @@ public class ProgramShedule implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "shedule_id", nullable = false)
+    @Column(name = "shedule_id")
     private Long sheduleId;
     @Basic(optional = false)
-    @Column(name = "program_shedule_month", nullable = false)
+    @Column(name = "program_shedule_month")
     private int programSheduleMonth;
     @Basic(optional = false)
-    @Column(name = "program_shedule_start_date", nullable = false)
+    @Column(name = "program_shedule_start_date")
     @Temporal(TemporalType.DATE)
     private Date programSheduleStartDate;
     @Basic(optional = false)
-    @Column(name = "program_shedule_final_date", nullable = false)
+    @Column(name = "program_shedule_final_date")
     @Temporal(TemporalType.DATE)
     private Date programSheduleFinalDate;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "sheduleId")
     private Collection<PaymentSchedule> paymentScheduleCollection;
     @JoinColumns({
-        @JoinColumn(name = "program_id", referencedColumnName = "program_id", nullable = false),
-        @JoinColumn(name = "period_id", referencedColumnName = "period_id", nullable = false)})
+        @JoinColumn(name = "program_id", referencedColumnName = "program_id"),
+        @JoinColumn(name = "period_id", referencedColumnName = "period_id")})
     @ManyToOne(optional = false)
     private ProgramPeriod programPeriod;
 

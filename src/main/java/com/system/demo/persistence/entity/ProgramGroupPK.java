@@ -18,10 +18,10 @@ import javax.persistence.Embeddable;
 public class ProgramGroupPK implements Serializable {
 
     @Basic(optional = false)
-    @Column(name = "program_id", nullable = false)
+    @Column(name = "program_id")
     private long programId;
     @Basic(optional = false)
-    @Column(name = "group_id", nullable = false)
+    @Column(name = "group_id")
     private long groupId;
 
     public ProgramGroupPK() {

@@ -18,10 +18,10 @@ import javax.persistence.Embeddable;
 public class ResourceContextPK implements Serializable {
 
     @Basic(optional = false)
-    @Column(name = "context_id", nullable = false)
+    @Column(name = "context_id")
     private long contextId;
     @Basic(optional = false)
-    @Column(name = "resource_id", nullable = false)
+    @Column(name = "resource_id")
     private long resourceId;
 
     public ResourceContextPK() {

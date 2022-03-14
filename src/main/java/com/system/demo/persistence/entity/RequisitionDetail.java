@@ -27,7 +27,7 @@ import javax.persistence.TemporalType;
  * @author Felix
  */
 @Entity
-@Table(name = "requisition_detail")
+@Table(name = "requisition_detail", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "RequisitionDetail.findAll", query = "SELECT r FROM RequisitionDetail r"),
     @NamedQuery(name = "RequisitionDetail.findByRequisitionDetailId", query = "SELECT r FROM RequisitionDetail r WHERE r.requisitionDetailId = :requisitionDetailId"),
@@ -38,19 +38,19 @@ public class RequisitionDetail implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "requisition_detail_id", nullable = false)
+    @Column(name = "requisition_detail_id")
     private Long requisitionDetailId;
     @Basic(optional = false)
-    @Column(name = "requisition_detail_checking", nullable = false)
+    @Column(name = "requisition_detail_checking")
     private boolean requisitionDetailChecking;
     @Basic(optional = false)
-    @Column(name = "requisition_detail_date", nullable = false)
+    @Column(name = "requisition_detail_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date requisitionDetailDate;
-    @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false)
+    @JoinColumn(name = "person_id", referencedColumnName = "person_id")
     @ManyToOne(optional = false)
     private Person personId;
-    @JoinColumn(name = "requisition_id", referencedColumnName = "requisition_id", nullable = false)
+    @JoinColumn(name = "requisition_id", referencedColumnName = "requisition_id")
     @ManyToOne(optional = false)
     private Requisition requisitionId;
     @OneToMany(mappedBy = "requisitionDetailReferenceId")

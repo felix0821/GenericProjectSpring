@@ -22,7 +22,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "requisition")
+@Table(name = "requisition", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "Requisition.findAll", query = "SELECT r FROM Requisition r"),
     @NamedQuery(name = "Requisition.findByRequisitionId", query = "SELECT r FROM Requisition r WHERE r.requisitionId = :requisitionId"),
@@ -35,18 +35,18 @@ public class Requisition implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "requisition_id", nullable = false)
+    @Column(name = "requisition_id")
     private Long requisitionId;
     @Basic(optional = false)
-    @Column(name = "requisition_name", nullable = false, length = 64)
+    @Column(name = "requisition_name")
     private String requisitionName;
-    @Column(name = "requisition_description", length = 128)
+    @Column(name = "requisition_description")
     private String requisitionDescription;
     @Basic(optional = false)
-    @Column(name = "requisition_type", nullable = false)
+    @Column(name = "requisition_type")
     private Character requisitionType;
     @Basic(optional = false)
-    @Column(name = "requisition_state", nullable = false)
+    @Column(name = "requisition_state")
     private Character requisitionState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisitionId")
     private Collection<RequisitionDetail> requisitionDetailCollection;
@@ -56,6 +56,12 @@ public class Requisition implements Serializable {
     private Collection<ProgramPeriod> programPeriodCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisition")
     private Collection<RequisitionData> requisitionDataCollection;
+    @OneToMany(mappedBy = "requisitionReferenceId")
+    private Collection<RequisitionRemark> requisitionRemarkCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisition")
+    private Collection<RequisitionReference> requisitionReferenceCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisition1")
+    private Collection<RequisitionReference> requisitionReferenceCollection1;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisition")
     private Collection<RequisitionNotificationRole> requisitionNotificationRoleCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisition")
@@ -145,6 +151,30 @@ public class Requisition implements Serializable {
 
     public void setRequisitionDataCollection(Collection<RequisitionData> requisitionDataCollection) {
         this.requisitionDataCollection = requisitionDataCollection;
+    }
+
+    public Collection<RequisitionRemark> getRequisitionRemarkCollection() {
+        return requisitionRemarkCollection;
+    }
+
+    public void setRequisitionRemarkCollection(Collection<RequisitionRemark> requisitionRemarkCollection) {
+        this.requisitionRemarkCollection = requisitionRemarkCollection;
+    }
+
+    public Collection<RequisitionReference> getRequisitionReferenceCollection() {
+        return requisitionReferenceCollection;
+    }
+
+    public void setRequisitionReferenceCollection(Collection<RequisitionReference> requisitionReferenceCollection) {
+        this.requisitionReferenceCollection = requisitionReferenceCollection;
+    }
+
+    public Collection<RequisitionReference> getRequisitionReferenceCollection1() {
+        return requisitionReferenceCollection1;
+    }
+
+    public void setRequisitionReferenceCollection1(Collection<RequisitionReference> requisitionReferenceCollection1) {
+        this.requisitionReferenceCollection1 = requisitionReferenceCollection1;
     }
 
     public Collection<RequisitionNotificationRole> getRequisitionNotificationRoleCollection() {

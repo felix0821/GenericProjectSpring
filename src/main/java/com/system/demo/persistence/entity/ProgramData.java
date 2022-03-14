@@ -21,7 +21,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "program_data")
+@Table(name = "program_data", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "ProgramData.findAll", query = "SELECT p FROM ProgramData p"),
     @NamedQuery(name = "ProgramData.findByProgramId", query = "SELECT p FROM ProgramData p WHERE p.programDataPK.programId = :programId"),
@@ -33,12 +33,12 @@ public class ProgramData implements Serializable {
     @EmbeddedId
     protected ProgramDataPK programDataPK;
     @Basic(optional = false)
-    @Column(name = "program_data_state", nullable = false)
+    @Column(name = "program_data_state")
     private Character programDataState;
-    @JoinColumn(name = "data_id", referencedColumnName = "data_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "data_id", referencedColumnName = "data_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Data data;
-    @JoinColumn(name = "program_id", referencedColumnName = "program_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "program_id", referencedColumnName = "program_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Program program;
 

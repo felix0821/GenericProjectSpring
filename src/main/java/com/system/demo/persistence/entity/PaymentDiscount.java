@@ -22,7 +22,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "payment_discount")
+@Table(name = "payment_discount", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "PaymentDiscount.findAll", query = "SELECT p FROM PaymentDiscount p"),
     @NamedQuery(name = "PaymentDiscount.findByPaymentDiscountId", query = "SELECT p FROM PaymentDiscount p WHERE p.paymentDiscountId = :paymentDiscountId"),
@@ -35,18 +35,18 @@ public class PaymentDiscount implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "payment_discount_id", nullable = false)
+    @Column(name = "payment_discount_id")
     private Long paymentDiscountId;
     @Basic(optional = false)
-    @Column(name = "payment_discount_name", nullable = false, length = 64)
+    @Column(name = "payment_discount_name")
     private String paymentDiscountName;
-    @Column(name = "payment_discount_description", length = 128)
+    @Column(name = "payment_discount_description")
     private String paymentDiscountDescription;
     @Basic(optional = false)
-    @Column(name = "payment_discount_percent", nullable = false)
+    @Column(name = "payment_discount_percent")
     private double paymentDiscountPercent;
     @Basic(optional = false)
-    @Column(name = "payment_discount_state", nullable = false)
+    @Column(name = "payment_discount_state")
     private Character paymentDiscountState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "paymentDiscount")
     private Collection<DiscountPerson> discountPersonCollection;

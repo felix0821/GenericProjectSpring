@@ -27,7 +27,7 @@ import javax.persistence.TemporalType;
  * @author Felix
  */
 @Entity
-@Table(name = "financial_movement_detail")
+@Table(name = "financial_movement_detail", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "FinancialMovementDetail.findAll", query = "SELECT f FROM FinancialMovementDetail f"),
     @NamedQuery(name = "FinancialMovementDetail.findByFinancialMovementDetailId", query = "SELECT f FROM FinancialMovementDetail f WHERE f.financialMovementDetailId = :financialMovementDetailId"),
@@ -40,27 +40,27 @@ public class FinancialMovementDetail implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "financial_movement_detail_id", nullable = false)
+    @Column(name = "financial_movement_detail_id")
     private Long financialMovementDetailId;
     @Basic(optional = false)
-    @Column(name = "financial_movement_detail_amount", nullable = false)
+    @Column(name = "financial_movement_detail_amount")
     private double financialMovementDetailAmount;
     @Basic(optional = false)
-    @Column(name = "financial_movement_detail_date", nullable = false)
+    @Column(name = "financial_movement_detail_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date financialMovementDetailDate;
     @Basic(optional = false)
-    @Column(name = "financial_movement_detail_register_type", nullable = false)
+    @Column(name = "financial_movement_detail_register_type")
     private Character financialMovementDetailRegisterType;
     @Basic(optional = false)
-    @Column(name = "financial_movement_detail_state", nullable = false)
+    @Column(name = "financial_movement_detail_state")
     private Character financialMovementDetailState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "financialMovementDetail")
     private Collection<FinancialRequisition> financialRequisitionCollection;
-    @JoinColumn(name = "financial_movement_id", referencedColumnName = "financial_movement_id", nullable = false)
+    @JoinColumn(name = "financial_movement_id", referencedColumnName = "financial_movement_id")
     @ManyToOne(optional = false)
     private FinancialMovement financialMovementId;
-    @JoinColumn(name = "person_registering_id", referencedColumnName = "person_registering_id", nullable = false)
+    @JoinColumn(name = "person_registering_id", referencedColumnName = "person_registering_id")
     @ManyToOne(optional = false)
     private PersonRegistering personRegisteringId;
 

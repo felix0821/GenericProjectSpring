@@ -27,7 +27,7 @@ import javax.persistence.TemporalType;
  * @author Felix
  */
 @Entity
-@Table(name = "person_registering")
+@Table(name = "person_registering", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "PersonRegistering.findAll", query = "SELECT p FROM PersonRegistering p"),
     @NamedQuery(name = "PersonRegistering.findByPersonRegisteringId", query = "SELECT p FROM PersonRegistering p WHERE p.personRegisteringId = :personRegisteringId"),
@@ -38,14 +38,14 @@ public class PersonRegistering implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "person_registering_id", nullable = false)
+    @Column(name = "person_registering_id")
     private Long personRegisteringId;
     @Basic(optional = false)
-    @Column(name = "person_registering_date", nullable = false)
+    @Column(name = "person_registering_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date personRegisteringDate;
     @Basic(optional = false)
-    @Column(name = "person_registering_category", nullable = false)
+    @Column(name = "person_registering_category")
     private Character personRegisteringCategory;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "personRegisteringId")
     private Collection<EnrollmentQualification> enrollmentQualificationCollection;
@@ -53,7 +53,7 @@ public class PersonRegistering implements Serializable {
     private Collection<DiscountPerson> discountPersonCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "personRegisteringId")
     private Collection<Assistance> assistanceCollection;
-    @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false)
+    @JoinColumn(name = "person_id", referencedColumnName = "person_id")
     @ManyToOne(optional = false)
     private Person personId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "personRegisteringId")

@@ -18,10 +18,10 @@ import javax.persistence.Embeddable;
 public class FinancialRequisitionPK implements Serializable {
 
     @Basic(optional = false)
-    @Column(name = "financial_movement_detail_id", nullable = false)
+    @Column(name = "financial_movement_detail_id")
     private long financialMovementDetailId;
     @Basic(optional = false)
-    @Column(name = "requisition_detail_id", nullable = false)
+    @Column(name = "requisition_detail_id")
     private long requisitionDetailId;
 
     public FinancialRequisitionPK() {

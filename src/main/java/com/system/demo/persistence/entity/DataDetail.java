@@ -24,34 +24,41 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "data_detail")
+@Table(name = "data_detail", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "DataDetail.findAll", query = "SELECT d FROM DataDetail d"),
     @NamedQuery(name = "DataDetail.findByDataDetailId", query = "SELECT d FROM DataDetail d WHERE d.dataDetailId = :dataDetailId"),
     @NamedQuery(name = "DataDetail.findByDataDetailName", query = "SELECT d FROM DataDetail d WHERE d.dataDetailName = :dataDetailName"),
     @NamedQuery(name = "DataDetail.findByDataDetailValue", query = "SELECT d FROM DataDetail d WHERE d.dataDetailValue = :dataDetailValue"),
+    @NamedQuery(name = "DataDetail.findByDataDetailEditable", query = "SELECT d FROM DataDetail d WHERE d.dataDetailEditable = :dataDetailEditable"),
+    @NamedQuery(name = "DataDetail.findByDataDetailType", query = "SELECT d FROM DataDetail d WHERE d.dataDetailType = :dataDetailType"),
     @NamedQuery(name = "DataDetail.findByDataDetailState", query = "SELECT d FROM DataDetail d WHERE d.dataDetailState = :dataDetailState")})
 public class DataDetail implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "data_detail_id", nullable = false)
+    @Column(name = "data_detail_id")
     private Long dataDetailId;
     @Basic(optional = false)
-    @Column(name = "data_detail_name", nullable = false, length = 64)
+    @Column(name = "data_detail_name")
     private String dataDetailName;
     @Basic(optional = false)
-    @Column(name = "data_detail_value", nullable = false, length = 64)
+    @Column(name = "data_detail_value")
     private String dataDetailValue;
     @Basic(optional = false)
-    @Column(name = "data_detail_state", nullable = false)
+    @Column(name = "data_detail_editable")
+    private boolean dataDetailEditable;
+    @Column(name = "data_detail_type")
+    private Character dataDetailType;
+    @Basic(optional = false)
+    @Column(name = "data_detail_state")
     private Character dataDetailState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "dataDetail")
     private Collection<DataDetailPeriod> dataDetailPeriodCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "dataDetail")
     private Collection<DataDetailProgram> dataDetailProgramCollection;
-    @JoinColumn(name = "data_id", referencedColumnName = "data_id", nullable = false)
+    @JoinColumn(name = "data_id", referencedColumnName = "data_id")
     @ManyToOne(optional = false)
     private Data dataId;
 
@@ -62,10 +69,11 @@ public class DataDetail implements Serializable {
         this.dataDetailId = dataDetailId;
     }
 
-    public DataDetail(Long dataDetailId, String dataDetailName, String dataDetailValue, Character dataDetailState) {
+    public DataDetail(Long dataDetailId, String dataDetailName, String dataDetailValue, boolean dataDetailEditable, Character dataDetailState) {
         this.dataDetailId = dataDetailId;
         this.dataDetailName = dataDetailName;
         this.dataDetailValue = dataDetailValue;
+        this.dataDetailEditable = dataDetailEditable;
         this.dataDetailState = dataDetailState;
     }
 
@@ -91,6 +99,22 @@ public class DataDetail implements Serializable {
 
     public void setDataDetailValue(String dataDetailValue) {
         this.dataDetailValue = dataDetailValue;
+    }
+
+    public boolean getDataDetailEditable() {
+        return dataDetailEditable;
+    }
+
+    public void setDataDetailEditable(boolean dataDetailEditable) {
+        this.dataDetailEditable = dataDetailEditable;
+    }
+
+    public Character getDataDetailType() {
+        return dataDetailType;
+    }
+
+    public void setDataDetailType(Character dataDetailType) {
+        this.dataDetailType = dataDetailType;
     }
 
     public Character getDataDetailState() {

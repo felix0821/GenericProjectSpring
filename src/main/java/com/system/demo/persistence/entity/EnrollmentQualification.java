@@ -22,7 +22,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "enrollment_qualification")
+@Table(name = "enrollment_qualification", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "EnrollmentQualification.findAll", query = "SELECT e FROM EnrollmentQualification e"),
     @NamedQuery(name = "EnrollmentQualification.findByQualificationCriteriaId", query = "SELECT e FROM EnrollmentQualification e WHERE e.enrollmentQualificationPK.qualificationCriteriaId = :qualificationCriteriaId"),
@@ -35,20 +35,20 @@ public class EnrollmentQualification implements Serializable {
     @EmbeddedId
     protected EnrollmentQualificationPK enrollmentQualificationPK;
     @Basic(optional = false)
-    @Column(name = "enrollment_qualification_value", nullable = false)
+    @Column(name = "enrollment_qualification_value")
     private double enrollmentQualificationValue;
     @JoinColumns({
-        @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false, insertable = false, updatable = false),
-        @JoinColumn(name = "course_detail_id", referencedColumnName = "course_detail_id", nullable = false, insertable = false, updatable = false)})
+        @JoinColumn(name = "person_id", referencedColumnName = "person_id", insertable = false, updatable = false),
+        @JoinColumn(name = "course_detail_id", referencedColumnName = "course_detail_id", insertable = false, updatable = false)})
     @ManyToOne(optional = false)
     private EnrollmentCourse enrollmentCourse;
-    @JoinColumn(name = "evaluated_status_id", referencedColumnName = "evaluated_status_id", nullable = false)
+    @JoinColumn(name = "evaluated_status_id", referencedColumnName = "evaluated_status_id")
     @ManyToOne(optional = false)
     private EvaluatedStatus evaluatedStatusId;
-    @JoinColumn(name = "person_registering_id", referencedColumnName = "person_registering_id", nullable = false)
+    @JoinColumn(name = "person_registering_id", referencedColumnName = "person_registering_id")
     @ManyToOne(optional = false)
     private PersonRegistering personRegisteringId;
-    @JoinColumn(name = "qualification_criteria_id", referencedColumnName = "qualification_criteria_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "qualification_criteria_id", referencedColumnName = "qualification_criteria_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private QualificationCriteria qualificationCriteria;
 

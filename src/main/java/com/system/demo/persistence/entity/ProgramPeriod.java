@@ -27,7 +27,7 @@ import javax.persistence.TemporalType;
  * @author Felix
  */
 @Entity
-@Table(name = "program_period")
+@Table(name = "program_period", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "ProgramPeriod.findAll", query = "SELECT p FROM ProgramPeriod p"),
     @NamedQuery(name = "ProgramPeriod.findByProgramId", query = "SELECT p FROM ProgramPeriod p WHERE p.programPeriodPK.programId = :programId"),
@@ -47,30 +47,30 @@ public class ProgramPeriod implements Serializable {
     @Column(name = "program_period_index")
     private Integer programPeriodIndex;
     @Basic(optional = false)
-    @Column(name = "program_period_pay_enrollment", nullable = false)
+    @Column(name = "program_period_pay_enrollment")
     private double programPeriodPayEnrollment;
     @Basic(optional = false)
-    @Column(name = "program_period_pay_pension", nullable = false)
+    @Column(name = "program_period_pay_pension")
     private double programPeriodPayPension;
     @Basic(optional = false)
-    @Column(name = "program_period_opening", nullable = false)
+    @Column(name = "program_period_opening")
     @Temporal(TemporalType.DATE)
     private Date programPeriodOpening;
     @Basic(optional = false)
-    @Column(name = "program_period_enrollment_closure", nullable = false)
+    @Column(name = "program_period_enrollment_closure")
     @Temporal(TemporalType.DATE)
     private Date programPeriodEnrollmentClosure;
     @Basic(optional = false)
-    @Column(name = "program_period_closing", nullable = false)
+    @Column(name = "program_period_closing")
     @Temporal(TemporalType.DATE)
     private Date programPeriodClosing;
     @Basic(optional = false)
-    @Column(name = "program_period_state", nullable = false)
+    @Column(name = "program_period_state")
     private Character programPeriodState;
-    @JoinColumn(name = "period_id", referencedColumnName = "period_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "period_id", referencedColumnName = "period_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Period period;
-    @JoinColumn(name = "program_id", referencedColumnName = "program_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "program_id", referencedColumnName = "program_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Program program;
     @JoinColumn(name = "requisition_id", referencedColumnName = "requisition_id")

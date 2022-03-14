@@ -22,7 +22,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "group_teaching")
+@Table(name = "group_teaching", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "GroupTeaching.findAll", query = "SELECT g FROM GroupTeaching g"),
     @NamedQuery(name = "GroupTeaching.findByGroupId", query = "SELECT g FROM GroupTeaching g WHERE g.groupId = :groupId"),
@@ -34,16 +34,16 @@ public class GroupTeaching implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "group_id", nullable = false)
+    @Column(name = "group_id")
     private Long groupId;
     @Basic(optional = false)
-    @Column(name = "group_name", nullable = false, length = 64)
+    @Column(name = "group_name")
     private String groupName;
     @Basic(optional = false)
-    @Column(name = "group_acronym", nullable = false)
+    @Column(name = "group_acronym")
     private Character groupAcronym;
     @Basic(optional = false)
-    @Column(name = "group_state", nullable = false)
+    @Column(name = "group_state")
     private Character groupState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "groupId")
     private Collection<CourseDetail> courseDetailCollection;

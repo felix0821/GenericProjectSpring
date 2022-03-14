@@ -21,7 +21,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "person_data_detail")
+@Table(name = "person_data_detail", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "PersonDataDetail.findAll", query = "SELECT p FROM PersonDataDetail p"),
     @NamedQuery(name = "PersonDataDetail.findByDataId", query = "SELECT p FROM PersonDataDetail p WHERE p.personDataDetailPK.dataId = :dataId"),
@@ -33,14 +33,14 @@ public class PersonDataDetail implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected PersonDataDetailPK personDataDetailPK;
-    @Column(name = "user_data_detail_value", length = 256)
+    @Column(name = "user_data_detail_value")
     private String userDataDetailValue;
-    @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "person_id", referencedColumnName = "person_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Person person;
     @JoinColumns({
-        @JoinColumn(name = "data_id", referencedColumnName = "data_id", nullable = false, insertable = false, updatable = false),
-        @JoinColumn(name = "role_id", referencedColumnName = "role_id", nullable = false, insertable = false, updatable = false)})
+        @JoinColumn(name = "data_id", referencedColumnName = "data_id", insertable = false, updatable = false),
+        @JoinColumn(name = "role_id", referencedColumnName = "role_id", insertable = false, updatable = false)})
     @ManyToOne(optional = false)
     private PersonData personData;
 

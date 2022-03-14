@@ -22,7 +22,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "period_modality")
+@Table(name = "period_modality", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "PeriodModality.findAll", query = "SELECT p FROM PeriodModality p"),
     @NamedQuery(name = "PeriodModality.findByModalityId", query = "SELECT p FROM PeriodModality p WHERE p.modalityId = :modalityId"),
@@ -33,13 +33,13 @@ public class PeriodModality implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "modality_id", nullable = false, length = 1)
+    @Column(name = "modality_id")
     private String modalityId;
     @Basic(optional = false)
-    @Column(name = "modality_name", nullable = false, length = 32)
+    @Column(name = "modality_name")
     private String modalityName;
     @Basic(optional = false)
-    @Column(name = "modality_state", nullable = false)
+    @Column(name = "modality_state")
     private Character modalityState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "modalityId")
     private Collection<Period> periodCollection;

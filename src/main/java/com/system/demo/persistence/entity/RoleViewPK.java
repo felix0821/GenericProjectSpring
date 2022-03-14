@@ -18,10 +18,10 @@ import javax.persistence.Embeddable;
 public class RoleViewPK implements Serializable {
 
     @Basic(optional = false)
-    @Column(name = "interface_view_id", nullable = false)
+    @Column(name = "interface_view_id")
     private long interfaceViewId;
     @Basic(optional = false)
-    @Column(name = "role_id", nullable = false)
+    @Column(name = "role_id")
     private long roleId;
 
     public RoleViewPK() {

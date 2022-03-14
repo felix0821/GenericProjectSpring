@@ -21,7 +21,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "resource_context")
+@Table(name = "resource_context", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "ResourceContext.findAll", query = "SELECT r FROM ResourceContext r"),
     @NamedQuery(name = "ResourceContext.findByContextId", query = "SELECT r FROM ResourceContext r WHERE r.resourceContextPK.contextId = :contextId"),
@@ -33,12 +33,12 @@ public class ResourceContext implements Serializable {
     @EmbeddedId
     protected ResourceContextPK resourceContextPK;
     @Basic(optional = false)
-    @Column(name = "resource_context_state", nullable = false)
+    @Column(name = "resource_context_state")
     private Character resourceContextState;
-    @JoinColumn(name = "context_id", referencedColumnName = "context_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "context_id", referencedColumnName = "context_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Context context;
-    @JoinColumn(name = "resource_id", referencedColumnName = "resource_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "resource_id", referencedColumnName = "resource_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Resource resource;
 

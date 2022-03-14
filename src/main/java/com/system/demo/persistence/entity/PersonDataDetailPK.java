@@ -18,13 +18,13 @@ import javax.persistence.Embeddable;
 public class PersonDataDetailPK implements Serializable {
 
     @Basic(optional = false)
-    @Column(name = "data_id", nullable = false)
+    @Column(name = "data_id")
     private long dataId;
     @Basic(optional = false)
-    @Column(name = "role_id", nullable = false)
+    @Column(name = "role_id")
     private long roleId;
     @Basic(optional = false)
-    @Column(name = "person_id", nullable = false)
+    @Column(name = "person_id")
     private long personId;
 
     public PersonDataDetailPK() {

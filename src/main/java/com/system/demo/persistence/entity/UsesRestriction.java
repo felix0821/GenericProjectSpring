@@ -21,7 +21,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "uses_restriction")
+@Table(name = "uses_restriction", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "UsesRestriction.findAll", query = "SELECT u FROM UsesRestriction u"),
     @NamedQuery(name = "UsesRestriction.findByUsesId", query = "SELECT u FROM UsesRestriction u WHERE u.usesRestrictionPK.usesId = :usesId"),
@@ -33,12 +33,12 @@ public class UsesRestriction implements Serializable {
     @EmbeddedId
     protected UsesRestrictionPK usesRestrictionPK;
     @Basic(optional = false)
-    @Column(name = "uses_restriction_state", nullable = false)
+    @Column(name = "uses_restriction_state")
     private Character usesRestrictionState;
-    @JoinColumn(name = "data_reference_id", referencedColumnName = "data_reference_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "data_reference_id", referencedColumnName = "data_reference_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private DataReference dataReference;
-    @JoinColumn(name = "uses_id", referencedColumnName = "uses_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "uses_id", referencedColumnName = "uses_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Uses uses;
 

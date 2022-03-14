@@ -24,7 +24,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "requisition_data")
+@Table(name = "requisition_data", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "RequisitionData.findAll", query = "SELECT r FROM RequisitionData r"),
     @NamedQuery(name = "RequisitionData.findByRequisitionId", query = "SELECT r FROM RequisitionData r WHERE r.requisitionDataPK.requisitionId = :requisitionId"),
@@ -39,12 +39,12 @@ public class RequisitionData implements Serializable {
     @Column(name = "requisition_data_index")
     private Integer requisitionDataIndex;
     @Basic(optional = false)
-    @Column(name = "requisition_data_state", nullable = false)
+    @Column(name = "requisition_data_state")
     private Character requisitionDataState;
-    @JoinColumn(name = "data_id", referencedColumnName = "data_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "data_id", referencedColumnName = "data_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Data data;
-    @JoinColumn(name = "requisition_id", referencedColumnName = "requisition_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "requisition_id", referencedColumnName = "requisition_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Requisition requisition;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisitionData")

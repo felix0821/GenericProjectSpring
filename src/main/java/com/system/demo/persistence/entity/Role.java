@@ -22,7 +22,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "role")
+@Table(name = "role", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "Role.findAll", query = "SELECT r FROM Role r"),
     @NamedQuery(name = "Role.findByRoleId", query = "SELECT r FROM Role r WHERE r.roleId = :roleId"),
@@ -35,18 +35,18 @@ public class Role implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "role_id", nullable = false)
+    @Column(name = "role_id")
     private Long roleId;
     @Basic(optional = false)
-    @Column(name = "role_name", nullable = false, length = 64)
+    @Column(name = "role_name")
     private String roleName;
-    @Column(name = "role_description", length = 225)
+    @Column(name = "role_description")
     private String roleDescription;
     @Basic(optional = false)
-    @Column(name = "role_type", nullable = false)
+    @Column(name = "role_type")
     private Character roleType;
     @Basic(optional = false)
-    @Column(name = "role_state", nullable = false)
+    @Column(name = "role_state")
     private Character roleState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "role")
     private Collection<PersonRole> personRoleCollection;

@@ -22,7 +22,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "data_category")
+@Table(name = "data_category", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "DataCategory.findAll", query = "SELECT d FROM DataCategory d"),
     @NamedQuery(name = "DataCategory.findByDataCategoryId", query = "SELECT d FROM DataCategory d WHERE d.dataCategoryId = :dataCategoryId"),
@@ -34,15 +34,15 @@ public class DataCategory implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "data_category_id", nullable = false)
+    @Column(name = "data_category_id")
     private Long dataCategoryId;
     @Basic(optional = false)
-    @Column(name = "data_category_name", nullable = false, length = 64)
+    @Column(name = "data_category_name")
     private String dataCategoryName;
-    @Column(name = "data_category_description", length = 128)
+    @Column(name = "data_category_description")
     private String dataCategoryDescription;
     @Basic(optional = false)
-    @Column(name = "data_category_state", nullable = false)
+    @Column(name = "data_category_state")
     private Character dataCategoryState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "dataCategoryId")
     private Collection<Data> dataCollection;

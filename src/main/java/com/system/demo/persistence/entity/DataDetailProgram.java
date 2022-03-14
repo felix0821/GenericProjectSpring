@@ -21,7 +21,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "data_detail_program")
+@Table(name = "data_detail_program", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "DataDetailProgram.findAll", query = "SELECT d FROM DataDetailProgram d"),
     @NamedQuery(name = "DataDetailProgram.findByDataDetailId", query = "SELECT d FROM DataDetailProgram d WHERE d.dataDetailProgramPK.dataDetailId = :dataDetailId"),
@@ -33,12 +33,12 @@ public class DataDetailProgram implements Serializable {
     @EmbeddedId
     protected DataDetailProgramPK dataDetailProgramPK;
     @Basic(optional = false)
-    @Column(name = "data_detail_program_state", nullable = false)
+    @Column(name = "data_detail_program_state")
     private Character dataDetailProgramState;
-    @JoinColumn(name = "data_detail_id", referencedColumnName = "data_detail_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "data_detail_id", referencedColumnName = "data_detail_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private DataDetail dataDetail;
-    @JoinColumn(name = "program_id", referencedColumnName = "program_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "program_id", referencedColumnName = "program_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Program program;
 

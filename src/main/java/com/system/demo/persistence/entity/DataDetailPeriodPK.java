@@ -18,10 +18,10 @@ import javax.persistence.Embeddable;
 public class DataDetailPeriodPK implements Serializable {
 
     @Basic(optional = false)
-    @Column(name = "data_detail_id", nullable = false)
+    @Column(name = "data_detail_id")
     private long dataDetailId;
     @Basic(optional = false)
-    @Column(name = "period_id", nullable = false)
+    @Column(name = "period_id")
     private long periodId;
 
     public DataDetailPeriodPK() {

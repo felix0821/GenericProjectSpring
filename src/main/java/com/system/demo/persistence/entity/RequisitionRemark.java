@@ -24,7 +24,7 @@ import javax.persistence.TemporalType;
  * @author Felix
  */
 @Entity
-@Table(name = "requisition_remark")
+@Table(name = "requisition_remark", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "RequisitionRemark.findAll", query = "SELECT r FROM RequisitionRemark r"),
     @NamedQuery(name = "RequisitionRemark.findByRequisitionRemarkId", query = "SELECT r FROM RequisitionRemark r WHERE r.requisitionRemarkId = :requisitionRemarkId"),
@@ -36,21 +36,24 @@ public class RequisitionRemark implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "requisition_remark_id", nullable = false)
+    @Column(name = "requisition_remark_id")
     private Long requisitionRemarkId;
     @Column(name = "requisition_remark_index")
     private Integer requisitionRemarkIndex;
     @Basic(optional = false)
-    @Column(name = "requisition_remark_content", nullable = false, length = 256)
+    @Column(name = "requisition_remark_content")
     private String requisitionRemarkContent;
     @Basic(optional = false)
-    @Column(name = "requisition_remark_date", nullable = false)
+    @Column(name = "requisition_remark_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date requisitionRemarkDate;
-    @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false)
+    @JoinColumn(name = "person_id", referencedColumnName = "person_id")
     @ManyToOne(optional = false)
     private Person personId;
-    @JoinColumn(name = "requisition_detail_id", referencedColumnName = "requisition_detail_id", nullable = false)
+    @JoinColumn(name = "requisition_reference_id", referencedColumnName = "requisition_id")
+    @ManyToOne
+    private Requisition requisitionReferenceId;
+    @JoinColumn(name = "requisition_detail_id", referencedColumnName = "requisition_detail_id")
     @ManyToOne(optional = false)
     private RequisitionDetail requisitionDetailId;
 
@@ -105,6 +108,14 @@ public class RequisitionRemark implements Serializable {
 
     public void setPersonId(Person personId) {
         this.personId = personId;
+    }
+
+    public Requisition getRequisitionReferenceId() {
+        return requisitionReferenceId;
+    }
+
+    public void setRequisitionReferenceId(Requisition requisitionReferenceId) {
+        this.requisitionReferenceId = requisitionReferenceId;
     }
 
     public RequisitionDetail getRequisitionDetailId() {

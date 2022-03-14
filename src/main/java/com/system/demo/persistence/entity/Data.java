@@ -24,7 +24,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "data")
+@Table(name = "data", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "Data.findAll", query = "SELECT d FROM Data d"),
     @NamedQuery(name = "Data.findByDataId", query = "SELECT d FROM Data d WHERE d.dataId = :dataId"),
@@ -43,38 +43,38 @@ public class Data implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "data_id", nullable = false)
+    @Column(name = "data_id")
     private Long dataId;
     @Basic(optional = false)
-    @Column(name = "data_name", nullable = false, length = 64)
+    @Column(name = "data_name")
     private String dataName;
-    @Column(name = "data_description", length = 128)
+    @Column(name = "data_description")
     private String dataDescription;
-    @Column(name = "data_value", length = 256)
+    @Column(name = "data_value")
     private String dataValue;
-    @Column(name = "data_placeholder", length = 64)
+    @Column(name = "data_placeholder")
     private String dataPlaceholder;
-    @Column(name = "data_pattern", length = 64)
+    @Column(name = "data_pattern")
     private String dataPattern;
     @Basic(optional = false)
-    @Column(name = "data_required", nullable = false)
+    @Column(name = "data_required")
     private boolean dataRequired;
     @Basic(optional = false)
-    @Column(name = "data_disable", nullable = false)
+    @Column(name = "data_disable")
     private boolean dataDisable;
     @Basic(optional = false)
-    @Column(name = "data_hidden", nullable = false)
+    @Column(name = "data_hidden")
     private boolean dataHidden;
     @Basic(optional = false)
-    @Column(name = "data_type", nullable = false)
+    @Column(name = "data_type")
     private Character dataType;
     @Basic(optional = false)
-    @Column(name = "data_state", nullable = false)
+    @Column(name = "data_state")
     private Character dataState;
-    @JoinColumn(name = "data_category_id", referencedColumnName = "data_category_id", nullable = false)
+    @JoinColumn(name = "data_category_id", referencedColumnName = "data_category_id")
     @ManyToOne(optional = false)
     private DataCategory dataCategoryId;
-    @JoinColumn(name = "data_entry_id", referencedColumnName = "data_entry_id", nullable = false)
+    @JoinColumn(name = "data_entry_id", referencedColumnName = "data_entry_id")
     @ManyToOne(optional = false)
     private DataEntry dataEntryId;
     @JoinColumn(name = "data_reference_id", referencedColumnName = "data_reference_id")

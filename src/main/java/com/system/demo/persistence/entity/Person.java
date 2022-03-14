@@ -21,15 +21,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
 
 /**
  *
  * @author Felix
  */
 @Entity
-@Table(name = "person", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"person_username"})})
+@Table(name = "person", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "Person.findAll", query = "SELECT p FROM Person p"),
     @NamedQuery(name = "Person.findByPersonId", query = "SELECT p FROM Person p WHERE p.personId = :personId"),
@@ -48,36 +46,36 @@ public class Person implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "person_id", nullable = false)
+    @Column(name = "person_id")
     private Long personId;
     @Basic(optional = false)
-    @Column(name = "person_username", nullable = false, length = 128)
+    @Column(name = "person_username")
     private String personUsername;
     @Basic(optional = false)
-    @Column(name = "person_password", nullable = false, length = 128)
+    @Column(name = "person_password")
     private String personPassword;
     @Basic(optional = false)
-    @Column(name = "person_name", nullable = false, length = 128)
+    @Column(name = "person_name")
     private String personName;
     @Basic(optional = false)
-    @Column(name = "person_lastname_father", nullable = false, length = 128)
+    @Column(name = "person_lastname_father")
     private String personLastnameFather;
     @Basic(optional = false)
-    @Column(name = "person_lastname_mother", nullable = false, length = 128)
+    @Column(name = "person_lastname_mother")
     private String personLastnameMother;
     @Column(name = "person_date_birth")
     @Temporal(TemporalType.DATE)
     private Date personDateBirth;
     @Basic(optional = false)
-    @Column(name = "person_date_registration", nullable = false)
+    @Column(name = "person_date_registration")
     @Temporal(TemporalType.TIMESTAMP)
     private Date personDateRegistration;
-    @Column(name = "person_email", length = 128)
+    @Column(name = "person_email")
     private String personEmail;
-    @Column(name = "person_url_profilepicture", length = 256)
+    @Column(name = "person_url_profilepicture")
     private String personUrlProfilepicture;
     @Basic(optional = false)
-    @Column(name = "person_state", nullable = false)
+    @Column(name = "person_state")
     private Character personState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
     private Collection<PersonRole> personRoleCollection;
@@ -98,6 +96,8 @@ public class Person implements Serializable {
     private Collection<EnrollmentProgram> enrollmentProgramCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
     private Collection<Assistance> assistanceCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId")
+    private Collection<PersonPhone> personPhoneCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId")
     private Collection<PersonRegistering> personRegisteringCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
@@ -283,6 +283,14 @@ public class Person implements Serializable {
 
     public void setAssistanceCollection(Collection<Assistance> assistanceCollection) {
         this.assistanceCollection = assistanceCollection;
+    }
+
+    public Collection<PersonPhone> getPersonPhoneCollection() {
+        return personPhoneCollection;
+    }
+
+    public void setPersonPhoneCollection(Collection<PersonPhone> personPhoneCollection) {
+        this.personPhoneCollection = personPhoneCollection;
     }
 
     public Collection<PersonRegistering> getPersonRegisteringCollection() {

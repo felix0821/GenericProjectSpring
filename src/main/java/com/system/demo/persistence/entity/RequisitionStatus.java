@@ -22,7 +22,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "requisition_status")
+@Table(name = "requisition_status", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "RequisitionStatus.findAll", query = "SELECT r FROM RequisitionStatus r"),
     @NamedQuery(name = "RequisitionStatus.findByRequisitionStatusId", query = "SELECT r FROM RequisitionStatus r WHERE r.requisitionStatusId = :requisitionStatusId"),
@@ -35,19 +35,19 @@ public class RequisitionStatus implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "requisition_status_id", nullable = false)
+    @Column(name = "requisition_status_id")
     private Long requisitionStatusId;
     @Basic(optional = false)
-    @Column(name = "requisition_status_name", nullable = false, length = 64)
+    @Column(name = "requisition_status_name")
     private String requisitionStatusName;
     @Basic(optional = false)
-    @Column(name = "requisition_status_description", nullable = false, length = 128)
+    @Column(name = "requisition_status_description")
     private String requisitionStatusDescription;
     @Basic(optional = false)
-    @Column(name = "requisition_status_color", nullable = false, length = 32)
+    @Column(name = "requisition_status_color")
     private String requisitionStatusColor;
     @Basic(optional = false)
-    @Column(name = "requisition_status_state", nullable = false)
+    @Column(name = "requisition_status_state")
     private Character requisitionStatusState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisitionStatus")
     private Collection<RequisitionStatusDetail> requisitionStatusDetailCollection;

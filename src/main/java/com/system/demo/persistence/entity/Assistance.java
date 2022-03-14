@@ -19,7 +19,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "assistance")
+@Table(name = "assistance", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "Assistance.findAll", query = "SELECT a FROM Assistance a"),
     @NamedQuery(name = "Assistance.findByPersonId", query = "SELECT a FROM Assistance a WHERE a.assistancePK.personId = :personId"),
@@ -29,16 +29,16 @@ public class Assistance implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected AssistancePK assistancePK;
-    @JoinColumn(name = "assistance_status_id", referencedColumnName = "assistance_status_id", nullable = false)
+    @JoinColumn(name = "assistance_status_id", referencedColumnName = "assistance_status_id")
     @ManyToOne(optional = false)
     private AssistanceStatus assistanceStatusId;
-    @JoinColumn(name = "horary_detail_id", referencedColumnName = "horary_detail_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "horary_detail_id", referencedColumnName = "horary_detail_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private HoraryDetail horaryDetail;
-    @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "person_id", referencedColumnName = "person_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Person person;
-    @JoinColumn(name = "person_registering_id", referencedColumnName = "person_registering_id", nullable = false)
+    @JoinColumn(name = "person_registering_id", referencedColumnName = "person_registering_id")
     @ManyToOne(optional = false)
     private PersonRegistering personRegisteringId;
 

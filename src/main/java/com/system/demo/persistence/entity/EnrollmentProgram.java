@@ -28,7 +28,7 @@ import javax.persistence.TemporalType;
  * @author Felix
  */
 @Entity
-@Table(name = "enrollment_program")
+@Table(name = "enrollment_program", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "EnrollmentProgram.findAll", query = "SELECT e FROM EnrollmentProgram e"),
     @NamedQuery(name = "EnrollmentProgram.findByPersonId", query = "SELECT e FROM EnrollmentProgram e WHERE e.enrollmentProgramPK.personId = :personId"),
@@ -43,23 +43,23 @@ public class EnrollmentProgram implements Serializable {
     @EmbeddedId
     protected EnrollmentProgramPK enrollmentProgramPK;
     @Basic(optional = false)
-    @Column(name = "enrollment_program_date", nullable = false)
+    @Column(name = "enrollment_program_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date enrollmentProgramDate;
     @Basic(optional = false)
-    @Column(name = "enrollment_program_checking", nullable = false)
+    @Column(name = "enrollment_program_checking")
     private boolean enrollmentProgramChecking;
     @Basic(optional = false)
-    @Column(name = "enrollment_program_state", nullable = false)
+    @Column(name = "enrollment_program_state")
     private Character enrollmentProgramState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "enrollmentProgram")
     private Collection<PaymentSchedule> paymentScheduleCollection;
-    @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "person_id", referencedColumnName = "person_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Person person;
     @JoinColumns({
-        @JoinColumn(name = "program_id", referencedColumnName = "program_id", nullable = false, insertable = false, updatable = false),
-        @JoinColumn(name = "period_id", referencedColumnName = "period_id", nullable = false, insertable = false, updatable = false)})
+        @JoinColumn(name = "program_id", referencedColumnName = "program_id", insertable = false, updatable = false),
+        @JoinColumn(name = "period_id", referencedColumnName = "period_id", insertable = false, updatable = false)})
     @ManyToOne(optional = false)
     private ProgramPeriod programPeriod;
     @JoinColumn(name = "requisition_detail_id", referencedColumnName = "requisition_detail_id")

@@ -21,7 +21,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "occupational_field")
+@Table(name = "occupational_field", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "OccupationalField.findAll", query = "SELECT o FROM OccupationalField o"),
     @NamedQuery(name = "OccupationalField.findByOccupationalFieldId", query = "SELECT o FROM OccupationalField o WHERE o.occupationalFieldId = :occupationalFieldId"),
@@ -33,17 +33,17 @@ public class OccupationalField implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "occupational_field_id", nullable = false)
+    @Column(name = "occupational_field_id")
     private Long occupationalFieldId;
     @Column(name = "occupational_field_index")
     private Integer occupationalFieldIndex;
     @Basic(optional = false)
-    @Column(name = "occupational_field_name", nullable = false, length = 64)
+    @Column(name = "occupational_field_name")
     private String occupationalFieldName;
     @Basic(optional = false)
-    @Column(name = "occupational_field_state", nullable = false)
+    @Column(name = "occupational_field_state")
     private Character occupationalFieldState;
-    @JoinColumn(name = "program_id", referencedColumnName = "program_id", nullable = false)
+    @JoinColumn(name = "program_id", referencedColumnName = "program_id")
     @ManyToOne(optional = false)
     private Program programId;
 

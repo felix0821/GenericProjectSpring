@@ -18,10 +18,10 @@ import javax.persistence.Embeddable;
 public class DiscountPersonPK implements Serializable {
 
     @Basic(optional = false)
-    @Column(name = "payment_discount_id", nullable = false)
+    @Column(name = "payment_discount_id")
     private long paymentDiscountId;
     @Basic(optional = false)
-    @Column(name = "person_id", nullable = false)
+    @Column(name = "person_id")
     private long personId;
 
     public DiscountPersonPK() {

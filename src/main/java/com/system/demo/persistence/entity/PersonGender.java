@@ -21,7 +21,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "person_gender")
+@Table(name = "person_gender", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "PersonGender.findAll", query = "SELECT p FROM PersonGender p"),
     @NamedQuery(name = "PersonGender.findByGenderId", query = "SELECT p FROM PersonGender p WHERE p.genderId = :genderId"),
@@ -32,13 +32,13 @@ public class PersonGender implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "gender_id", nullable = false, length = 1)
+    @Column(name = "gender_id")
     private String genderId;
     @Basic(optional = false)
-    @Column(name = "gender_name", nullable = false, length = 64)
+    @Column(name = "gender_name")
     private String genderName;
     @Basic(optional = false)
-    @Column(name = "gender_state", nullable = false)
+    @Column(name = "gender_state")
     private Character genderState;
     @OneToMany(mappedBy = "genderId")
     private Collection<Person> personCollection;

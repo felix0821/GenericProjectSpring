@@ -25,7 +25,7 @@ import javax.persistence.TemporalType;
  * @author Felix
  */
 @Entity
-@Table(name = "modulus_schedule")
+@Table(name = "modulus_schedule", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "ModulusSchedule.findAll", query = "SELECT m FROM ModulusSchedule m"),
     @NamedQuery(name = "ModulusSchedule.findByScheduleId", query = "SELECT m FROM ModulusSchedule m WHERE m.scheduleId = :scheduleId"),
@@ -37,7 +37,7 @@ public class ModulusSchedule implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "schedule_id", nullable = false)
+    @Column(name = "schedule_id")
     private Long scheduleId;
     @Column(name = "schedule_start_date")
     @Temporal(TemporalType.DATE)
@@ -46,7 +46,7 @@ public class ModulusSchedule implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date scheduleFinalDate;
     @Basic(optional = false)
-    @Column(name = "schedule_state", nullable = false)
+    @Column(name = "schedule_state")
     private Character scheduleState;
     @OneToMany(mappedBy = "scheduleId")
     private Collection<CourseRole> courseRoleCollection;

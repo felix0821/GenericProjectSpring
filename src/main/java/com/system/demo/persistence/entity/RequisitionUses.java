@@ -21,7 +21,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "requisition_uses")
+@Table(name = "requisition_uses", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "RequisitionUses.findAll", query = "SELECT r FROM RequisitionUses r"),
     @NamedQuery(name = "RequisitionUses.findByRequisitionId", query = "SELECT r FROM RequisitionUses r WHERE r.requisitionUsesPK.requisitionId = :requisitionId"),
@@ -33,12 +33,12 @@ public class RequisitionUses implements Serializable {
     @EmbeddedId
     protected RequisitionUsesPK requisitionUsesPK;
     @Basic(optional = false)
-    @Column(name = "requisition_uses_state", nullable = false)
+    @Column(name = "requisition_uses_state")
     private Character requisitionUsesState;
-    @JoinColumn(name = "requisition_id", referencedColumnName = "requisition_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "requisition_id", referencedColumnName = "requisition_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Requisition requisition;
-    @JoinColumn(name = "uses_id", referencedColumnName = "uses_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "uses_id", referencedColumnName = "uses_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Uses uses;
 

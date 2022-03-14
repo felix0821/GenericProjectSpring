@@ -24,7 +24,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "interface_view")
+@Table(name = "interface_view", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "InterfaceView.findAll", query = "SELECT i FROM InterfaceView i"),
     @NamedQuery(name = "InterfaceView.findByInterfaceViewId", query = "SELECT i FROM InterfaceView i WHERE i.interfaceViewId = :interfaceViewId"),
@@ -36,15 +36,15 @@ public class InterfaceView implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "interface_view_id", nullable = false)
+    @Column(name = "interface_view_id")
     private Long interfaceViewId;
     @Column(name = "interface_view_index")
     private Integer interfaceViewIndex;
     @Basic(optional = false)
-    @Column(name = "interface_view_name", nullable = false, length = 64)
+    @Column(name = "interface_view_name")
     private String interfaceViewName;
     @Basic(optional = false)
-    @Column(name = "interface_view_site", nullable = false)
+    @Column(name = "interface_view_site")
     private Character interfaceViewSite;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "interfaceView")
     private Collection<RoleView> roleViewCollection;
@@ -53,7 +53,7 @@ public class InterfaceView implements Serializable {
     @JoinColumn(name = "parent_interface_view_id", referencedColumnName = "interface_view_id")
     @ManyToOne
     private InterfaceView parentInterfaceViewId;
-    @JoinColumn(name = "resource_id", referencedColumnName = "resource_id", nullable = false)
+    @JoinColumn(name = "resource_id", referencedColumnName = "resource_id")
     @ManyToOne(optional = false)
     private Resource resourceId;
 

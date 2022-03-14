@@ -21,7 +21,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "report_data")
+@Table(name = "report_data", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "ReportData.findAll", query = "SELECT r FROM ReportData r"),
     @NamedQuery(name = "ReportData.findByDataId", query = "SELECT r FROM ReportData r WHERE r.reportDataPK.dataId = :dataId"),
@@ -33,12 +33,12 @@ public class ReportData implements Serializable {
     @EmbeddedId
     protected ReportDataPK reportDataPK;
     @Basic(optional = false)
-    @Column(name = "report_data_state", nullable = false)
+    @Column(name = "report_data_state")
     private Character reportDataState;
-    @JoinColumn(name = "data_id", referencedColumnName = "data_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "data_id", referencedColumnName = "data_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Data data;
-    @JoinColumn(name = "report_id", referencedColumnName = "report_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "report_id", referencedColumnName = "report_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Report report;
 

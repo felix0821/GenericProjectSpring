@@ -22,7 +22,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "context")
+@Table(name = "context", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "Context.findAll", query = "SELECT c FROM Context c"),
     @NamedQuery(name = "Context.findByContextId", query = "SELECT c FROM Context c WHERE c.contextId = :contextId"),
@@ -34,16 +34,16 @@ public class Context implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "context_id", nullable = false)
+    @Column(name = "context_id")
     private Long contextId;
     @Basic(optional = false)
-    @Column(name = "context_name", nullable = false, length = 64)
+    @Column(name = "context_name")
     private String contextName;
     @Basic(optional = false)
-    @Column(name = "context_state", nullable = false)
+    @Column(name = "context_state")
     private Character contextState;
     @Basic(optional = false)
-    @Column(name = "context_type", nullable = false)
+    @Column(name = "context_type")
     private Character contextType;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "context")
     private Collection<ResourceContext> resourceContextCollection;

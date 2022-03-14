@@ -21,7 +21,7 @@ import javax.persistence.Table;
  * @author Felix
  */
 @Entity
-@Table(name = "role_view")
+@Table(name = "role_view", catalog = "ucps_system", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "RoleView.findAll", query = "SELECT r FROM RoleView r"),
     @NamedQuery(name = "RoleView.findByInterfaceViewId", query = "SELECT r FROM RoleView r WHERE r.roleViewPK.interfaceViewId = :interfaceViewId"),
@@ -33,16 +33,15 @@ public class RoleView implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected RoleViewPK roleViewPK;
+    @Column(name = "role_view_index")
+    private Integer roleViewIndex;
     @Basic(optional = false)
-    @Column(name = "role_view_index", nullable = false)
-    private int roleViewIndex;
-    @Basic(optional = false)
-    @Column(name = "role_view_state", nullable = false)
+    @Column(name = "role_view_state")
     private Character roleViewState;
-    @JoinColumn(name = "interface_view_id", referencedColumnName = "interface_view_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "interface_view_id", referencedColumnName = "interface_view_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private InterfaceView interfaceView;
-    @JoinColumn(name = "role_id", referencedColumnName = "role_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "role_id", referencedColumnName = "role_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Role role;
 
@@ -53,9 +52,8 @@ public class RoleView implements Serializable {
         this.roleViewPK = roleViewPK;
     }
 
-    public RoleView(RoleViewPK roleViewPK, int roleViewIndex, Character roleViewState) {
+    public RoleView(RoleViewPK roleViewPK, Character roleViewState) {
         this.roleViewPK = roleViewPK;
-        this.roleViewIndex = roleViewIndex;
         this.roleViewState = roleViewState;
     }
 
@@ -71,11 +69,11 @@ public class RoleView implements Serializable {
         this.roleViewPK = roleViewPK;
     }
 
-    public int getRoleViewIndex() {
+    public Integer getRoleViewIndex() {
         return roleViewIndex;
     }
 
-    public void setRoleViewIndex(int roleViewIndex) {
+    public void setRoleViewIndex(Integer roleViewIndex) {
         this.roleViewIndex = roleViewIndex;
     }
 
