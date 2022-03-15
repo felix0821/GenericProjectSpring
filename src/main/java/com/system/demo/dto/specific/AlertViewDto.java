@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class AlertViewDto {
+public class AlertViewDto<T> {
 	
 	private Long id;
 	
@@ -14,15 +14,9 @@ public class AlertViewDto {
 	
 	private String sender;
 	
-	private Long periodId;
-	
-	private Long programId;
-	
-	private int monto;
-	
-	private int movement;
-	
 	private List<AlertViewDataDto> data;
+	
+	private List<AlertViewEventDto<T>> actions;
 
 	public AlertViewDto(Long id, String name, Date date, String sender) {
 		super();
@@ -31,6 +25,7 @@ public class AlertViewDto {
 		this.date = date;
 		this.sender = sender;
 		this.data = new ArrayList<>();
+		this.actions = new ArrayList<>();
 	}
 
 	public Long getId() {
@@ -73,36 +68,12 @@ public class AlertViewDto {
 		this.data = data;
 	}
 
-	public Long getPeriodId() {
-		return periodId;
+	public List<AlertViewEventDto<T>> getActions() {
+		return actions;
 	}
 
-	public void setPeriodId(Long periodId) {
-		this.periodId = periodId;
-	}
-
-	public Long getProgramId() {
-		return programId;
-	}
-
-	public void setProgramId(Long programId) {
-		this.programId = programId;
-	}
-
-	public int getMonto() {
-		return monto;
-	}
-
-	public void setMonto(int monto) {
-		this.monto = monto;
-	}
-
-	public int getMovement() {
-		return movement;
-	}
-
-	public void setMovement(int movement) {
-		this.movement = movement;
+	public void setActions(List<AlertViewEventDto<T>> actions) {
+		this.actions = actions;
 	}
 
 }

@@ -16,8 +16,6 @@ import com.system.demo.persistence.entity.Role;
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long>{
 	
-	
-
 	public Optional<Role> findByRoleName(@Param(value="roleName")String roleName);
 	
 	public Iterable<Role> findByRoleType(@Param(value="roleType")Character roleType);

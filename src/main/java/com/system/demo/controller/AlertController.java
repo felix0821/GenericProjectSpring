@@ -29,11 +29,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.system.demo.dto.generic.DropdownDataDto;
 import com.system.demo.dto.generic.Message;
 import com.system.demo.dto.specific.AlertDto;
 import com.system.demo.dto.specific.AlertObserveDto;
 import com.system.demo.dto.specific.AlertViewDataDto;
 import com.system.demo.dto.specific.AlertViewDto;
+import com.system.demo.dto.specific.AlertViewEventDto;
 import com.system.demo.persistence.entity.Data;
 import com.system.demo.persistence.entity.EnrollmentProgram;
 import com.system.demo.persistence.entity.FinancialMovement;
@@ -49,8 +51,10 @@ import com.system.demo.persistence.entity.RequisitionDetail;
 import com.system.demo.persistence.entity.RequisitionRemark;
 import com.system.demo.persistence.entity.RequisitionStatus;
 import com.system.demo.persistence.entity.RequisitionStatusDetail;
+import com.system.demo.persistence.entity.Uses;
 import com.system.demo.persistence.repository.FinancialMovementRepository;
 import com.system.demo.persistence.repository.FinancialRequisitionRepository;
+import com.system.demo.persistence.repository.UsesRepository;
 import com.system.demo.security.JwtProvider;
 import com.system.demo.service.DataService;
 import com.system.demo.service.EnrollmentProgramService;
@@ -79,6 +83,11 @@ public class AlertController {
 	@Autowired
 	PreferenceUtility preference;
 	
+//	*Repository
+	@Autowired
+	UsesRepository usesRepository;
+	
+//	*Service
 	@Autowired
 	RequisitionDetailService requisitionDetailService;
 	@Autowired
@@ -134,37 +143,26 @@ public class AlertController {
 	@GetMapping(URL_ALERT_VIEW_GET)
 	public ResponseEntity<?> academicPeriodForm(@RequestParam(name ="id")Long id) {
 		try {
-			Period period = null;
-			Program program = null;
+//			°Consulta solicitud detalle
 			RequisitionDetail requisition = requisitionDetailService.RequisitionDetailById(id).get();
-			AlertViewDto alertDto = new AlertViewDto(requisition.getRequisitionDetailId(), requisition.getRequisitionId().getRequisitionName(),
+			AlertViewDto<String> alertDto = new AlertViewDto(requisition.getRequisitionDetailId(), requisition.getRequisitionId().getRequisitionName(),
 					requisition.getRequisitionDetailDate(), requisition.getPersonId().getPersonUsername());
 			List<AlertViewDataDto> dates = new ArrayList<>();
 			Iterable<RequisitionDataDetail> reqDataDetails = requisitionDataDetailService.getRequisitionDetailsByRequisitionDetailId(id);
 			for(RequisitionDataDetail reqDataDetail: reqDataDetails) {
 				Data data = dataService.getDataById(reqDataDetail.getRequisitionDataDetailPK().getDataId()).get();
-				String value = "";
-				/*if(data.getDataId()==10001L) {
-					period = periodService.getPeriodById(Long.parseLong(reqDataDetail.getRequisitionDataDetailValue()));
-					value = period.getPeriodIdentifier();
-				} else if(data.getDataId()==10002L) {
-					program = programService.getProgramById(Long.parseLong(reqDataDetail.getRequisitionDataDetailValue()));
-					value = program.getProgramName();
-				} else if(data.getDataId()==10003L) {
-					value = reqDataDetail.getRequisitionDataDetailValue();
-					alertDto.setMonto(Integer.parseInt(value));
-				} else if(data.getDataId()==10005L) {
-					value = reqDataDetail.getRequisitionDataDetailValue();
-					alertDto.setMovement(Integer.parseInt(value));
-				} else {
-					value = reqDataDetail.getRequisitionDataDetailValue();
-				}*/
-				value = reqDataDetail.getRequisitionDataDetailValue();
+				String value = reqDataDetail.getRequisitionDataDetailValue();
 				dates.add(new AlertViewDataDto(data.getDataId(), data.getDataName(), value, data.getDataType()));
 			}
-			alertDto.setPeriodId(null);
-			alertDto.setProgramId(null);
+//			°Consulta eventos
+			List<AlertViewEventDto<String>> actions = new ArrayList<>();
+			Iterable<Uses> usesIterable = usesRepository.findByRequisitionDetailId(id);
+			for(Uses uses: usesIterable) {
+				actions.add(new AlertViewEventDto<String>(uses.getUsesId(), uses.getUsesName()));
+			}
+//			°Retornar solicitud
 			alertDto.setData(dates);
+			alertDto.setActions(actions);
 			return new ResponseEntity<AlertViewDto>(alertDto, HttpStatus.OK);
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -183,8 +181,8 @@ public class AlertController {
 			RequisitionDetail requisition = requisitionDetailService.RequisitionDetailById(alertDto.getId()).get();
 //			Insertar ids
 			Person person = personService.getPersonById(requisition.getPersonId().getPersonId());
-			Period period = periodService.getPeriodById(alertDto.getPeriodId());
-			Program program = programService.getProgramById(alertDto.getProgramId());
+			Period period = periodService.getPeriodById(1L);//alertDto.getPeriodId()
+			Program program = programService.getProgramById(1L);//alertDto.getProgramId()
 			FinancialMovement income = financialMovementService.getById(SYSTEM_FINANTIAL_MOVEMENT_INCOME_SOLES);
 //			Crear persona que registra
 			Long pRegisteringId = uniqueId.getUniqId();
@@ -200,8 +198,8 @@ public class AlertController {
 			enrollmentProgramService.createEnrollmentProgramPeriod(enroll);
 //			Crear movimiento financiero
 			Long idMovFin = uniqueId.getUniqId();
-			FinancialMovementDetail financial = new FinancialMovementDetail(idMovFin, alertDto.getMonto(), 
-					dateRegister, SYSTEM_TYPE_AUTOGENERATED, SYSTEM_STATE_ACTIVE);
+			FinancialMovementDetail financial = new FinancialMovementDetail(idMovFin, 0, 
+					dateRegister, SYSTEM_TYPE_AUTOGENERATED, SYSTEM_STATE_ACTIVE); //alertDto.getMonto()
 			financial.setFinancialMovementId(income);
 			financial.setPersonRegisteringId(pRegistering);
 			financialMovementDetailService.createFinancialMovementDetail(financial);
