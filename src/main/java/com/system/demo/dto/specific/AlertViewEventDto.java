@@ -1,31 +1,31 @@
 package com.system.demo.dto.specific;
 
-public class AlertViewEventDto<T> {
+public class AlertViewEventDto {
 	
-	private Long event;
+	private Long value;
 	
-	private T value;
+	private String text;
 
-	public AlertViewEventDto(Long event, T value) {
+	public AlertViewEventDto(Long value, String text) {
 		super();
-		this.event = event;
 		this.value = value;
+		this.text = text;
 	}
 
-	public Long getEvent() {
-		return event;
-	}
-
-	public void setEvent(Long event) {
-		this.event = event;
-	}
-
-	public T getValue() {
+	public Long getValue() {
 		return value;
 	}
 
-	public void setValue(T value) {
+	public void setValue(Long value) {
 		this.value = value;
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
 	}
 	
 }

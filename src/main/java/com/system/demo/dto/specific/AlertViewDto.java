@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class AlertViewDto<T> {
+public class AlertViewDto {
 	
 	private Long id;
 	
@@ -16,7 +16,7 @@ public class AlertViewDto<T> {
 	
 	private List<AlertViewDataDto> data;
 	
-	private List<AlertViewEventDto<T>> actions;
+	private List<AlertViewEventDto> actions;
 
 	public AlertViewDto(Long id, String name, Date date, String sender) {
 		super();
@@ -68,11 +68,11 @@ public class AlertViewDto<T> {
 		this.data = data;
 	}
 
-	public List<AlertViewEventDto<T>> getActions() {
+	public List<AlertViewEventDto> getActions() {
 		return actions;
 	}
 
-	public void setActions(List<AlertViewEventDto<T>> actions) {
+	public void setActions(List<AlertViewEventDto> actions) {
 		this.actions = actions;
 	}
 

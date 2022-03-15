@@ -145,7 +145,7 @@ public class AlertController {
 		try {
 //			°Consulta solicitud detalle
 			RequisitionDetail requisition = requisitionDetailService.RequisitionDetailById(id).get();
-			AlertViewDto<String> alertDto = new AlertViewDto(requisition.getRequisitionDetailId(), requisition.getRequisitionId().getRequisitionName(),
+			AlertViewDto alertDto = new AlertViewDto(requisition.getRequisitionDetailId(), requisition.getRequisitionId().getRequisitionName(),
 					requisition.getRequisitionDetailDate(), requisition.getPersonId().getPersonUsername());
 			List<AlertViewDataDto> dates = new ArrayList<>();
 			Iterable<RequisitionDataDetail> reqDataDetails = requisitionDataDetailService.getRequisitionDetailsByRequisitionDetailId(id);
@@ -155,10 +155,10 @@ public class AlertController {
 				dates.add(new AlertViewDataDto(data.getDataId(), data.getDataName(), value, data.getDataType()));
 			}
 //			°Consulta eventos
-			List<AlertViewEventDto<String>> actions = new ArrayList<>();
+			List<AlertViewEventDto> actions = new ArrayList<>();
 			Iterable<Uses> usesIterable = usesRepository.findByRequisitionDetailId(id);
 			for(Uses uses: usesIterable) {
-				actions.add(new AlertViewEventDto<String>(uses.getUsesId(), uses.getUsesName()));
+				actions.add(new AlertViewEventDto(uses.getUsesId(), uses.getUsesName()));
 			}
 //			°Retornar solicitud
 			alertDto.setData(dates);
