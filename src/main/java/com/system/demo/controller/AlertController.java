@@ -144,9 +144,9 @@ public class AlertController {
 	public ResponseEntity<?> academicPeriodForm(@RequestParam(name ="id")Long id) {
 		try {
 //			°Consulta solicitud detalle
-			RequisitionDetail requisition = requisitionDetailService.RequisitionDetailById(id).get();
-			AlertViewDto alertDto = new AlertViewDto(requisition.getRequisitionDetailId(), requisition.getRequisitionId().getRequisitionName(),
-					requisition.getRequisitionDetailDate(), requisition.getPersonId().getPersonUsername());
+			RequisitionDetail reqDetail = requisitionDetailService.RequisitionDetailById(id).get();
+			AlertViewDto alertDto = new AlertViewDto(reqDetail.getRequisitionDetailId(), reqDetail.getRequisitionId().getRequisitionName(),
+					reqDetail.getRequisitionDetailDate(), reqDetail.getPersonId().getPersonUsername());
 			List<AlertViewDataDto> dates = new ArrayList<>();
 			Iterable<RequisitionDataDetail> reqDataDetails = requisitionDataDetailService.getRequisitionDetailsByRequisitionDetailId(id);
 			for(RequisitionDataDetail reqDataDetail: reqDataDetails) {
@@ -178,9 +178,9 @@ public class AlertController {
 //			Insertar fecha de registro
 			LocalDateTime dateTimePeru = LocalDateTime.now(ZoneId.of(ZONE_DATE_LIMA));
 			Date dateRegister=Date.from(dateTimePeru.atZone(ZoneId.systemDefault()).toInstant());
-			RequisitionDetail requisition = requisitionDetailService.RequisitionDetailById(alertDto.getId()).get();
+			RequisitionDetail reqDetail = requisitionDetailService.RequisitionDetailById(alertDto.getId()).get();
 //			Insertar ids
-			Person person = personService.getPersonById(requisition.getPersonId().getPersonId());
+			Person person = personService.getPersonById(reqDetail.getPersonId().getPersonId());
 			Period period = periodService.getPeriodById(1L);//alertDto.getPeriodId()
 			Program program = programService.getProgramById(1L);//alertDto.getProgramId()
 			FinancialMovement income = financialMovementService.getById(SYSTEM_FINANTIAL_MOVEMENT_INCOME_SOLES);
@@ -194,7 +194,7 @@ public class AlertController {
 			enroll.setEnrollmentProgramDate(dateRegister);
 			enroll.setEnrollmentProgramChecking(false);
 			enroll.setEnrollmentProgramState(SYSTEM_STATE_ACTIVE);
-			enroll.setRequisitionDetailId(requisition);
+			enroll.setRequisitionDetailId(reqDetail);
 			enrollmentProgramService.createEnrollmentProgramPeriod(enroll);
 //			Crear movimiento financiero
 			Long idMovFin = uniqueId.getUniqId();
@@ -204,14 +204,14 @@ public class AlertController {
 			financial.setPersonRegisteringId(pRegistering);
 			financialMovementDetailService.createFinancialMovementDetail(financial);
 //			Generar entidad estado
-			RequisitionStatusDetail reqStatusDetail = new RequisitionStatusDetail(requisition.getRequisitionDetailId(), 
+			RequisitionStatusDetail reqStatusDetail = new RequisitionStatusDetail(reqDetail.getRequisitionDetailId(), 
 					SYSTEM_REQUISITION_STATUS_ACCEPT);
 			reqStatusDetail.setPersonId(person);
 			reqStatusDetail.setRequisitionStatusDetailDate(dateRegister);
 			requisitionStatusDetailService.createRequisitionStatusDetail(reqStatusDetail);
 			requisitionDetailService.checkingRequisitionDetailById(alertDto.getId());
 			FinancialRequisition finMovReq = new FinancialRequisition(financial.getFinancialMovementDetailId(), 
-					requisition.getRequisitionDetailId());
+					reqDetail.getRequisitionDetailId());
 			finMovReq.setFinancialRequisitionState(SYSTEM_STATE_ACTIVE);
 			financialRequisitionRepository.save(finMovReq);
 			return new ResponseEntity(new Message(SYSTEM_SUCCESS), HttpStatus.OK);

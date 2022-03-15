@@ -96,9 +96,9 @@ public class MyProceduresController {
 		try {
 			Period period = null;
 			Program program = null;
-			RequisitionDetail requisition = requisitionDetailService.RequisitionDetailById(id).get();
-			MyProceduresViewDto procedureDto = new MyProceduresViewDto(requisition.getRequisitionId().getRequisitionName(),
-					requisition.getRequisitionDetailDate());
+			RequisitionDetail reqDetail = requisitionDetailService.RequisitionDetailById(id).get();
+			MyProceduresViewDto procedureDto = new MyProceduresViewDto(reqDetail.getRequisitionId().getRequisitionName(),
+					reqDetail.getRequisitionDetailChecking(), reqDetail.getRequisitionDetailDate());
 			List<AlertViewDataDto> dates = new ArrayList<>();
 			List<MyProceduresObserveDto> observes = new ArrayList<>();
 			List<MyProceduresStatusDto> states = new ArrayList<>();

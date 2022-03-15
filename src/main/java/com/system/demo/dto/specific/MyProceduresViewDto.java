@@ -9,15 +9,18 @@ public class MyProceduresViewDto {
 	
 	private Date date;
 	
+	private boolean checking;
+	
 	private List<AlertViewDataDto> data;
 	
 	private List<MyProceduresObserveDto> observes;
 	
 	private List<MyProceduresStatusDto> states;
 
-	public MyProceduresViewDto(String name, Date date) {
+	public MyProceduresViewDto(String name, boolean checking, Date date) {
 		super();
 		this.name = name;
+		this.checking = checking;
 		this.date = date;
 	}
 
@@ -27,6 +30,14 @@ public class MyProceduresViewDto {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public boolean isChecking() {
+		return checking;
+	}
+
+	public void setChecking(boolean checking) {
+		this.checking = checking;
 	}
 
 	public Date getDate() {
