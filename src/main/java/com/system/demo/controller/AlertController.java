@@ -114,7 +114,7 @@ public class AlertController {
     public ResponseEntity<?> getAlerts(@RequestHeader HttpHeaders headers){
 		try {
 			String userFromToken = usernameFromToken(headers);
-			
+//			°Mostrar lista de matriculados
 			Person personId = personService.getPersonByUsername(userFromToken).get();
 			Iterable<RequisitionDetail> requisitionDetails = requisitionDetailService.getAllRequisitionDetailByNotCheckingByPersonId(personId.getPersonId());
 			List<AlertDto> alertsDto = new ArrayList<>();
@@ -144,7 +144,7 @@ public class AlertController {
 			for(RequisitionDataDetail reqDataDetail: reqDataDetails) {
 				Data data = dataService.getDataById(reqDataDetail.getRequisitionDataDetailPK().getDataId()).get();
 				String value = "";
-				if(data.getDataId()==10001L) {
+				/*if(data.getDataId()==10001L) {
 					period = periodService.getPeriodById(Long.parseLong(reqDataDetail.getRequisitionDataDetailValue()));
 					value = period.getPeriodIdentifier();
 				} else if(data.getDataId()==10002L) {
@@ -158,11 +158,12 @@ public class AlertController {
 					alertDto.setMovement(Integer.parseInt(value));
 				} else {
 					value = reqDataDetail.getRequisitionDataDetailValue();
-				}
+				}*/
+				value = reqDataDetail.getRequisitionDataDetailValue();
 				dates.add(new AlertViewDataDto(data.getDataId(), data.getDataName(), value, data.getDataType()));
 			}
-			alertDto.setPeriodId(period.getPeriodId());
-			alertDto.setProgramId(program.getProgramId());
+			alertDto.setPeriodId(null);
+			alertDto.setProgramId(null);
 			alertDto.setData(dates);
 			return new ResponseEntity<AlertViewDto>(alertDto, HttpStatus.OK);
 		} catch(Exception e) {
