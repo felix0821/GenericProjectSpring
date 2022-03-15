@@ -9,13 +9,13 @@ public class GenericProjectSystemDefinition {
 	//	Respeusta concretada
 	public static String SYSTEM_SUCCESS = "Proceso exitoso";
 	//	Respuesta de error
-	public static String SYSTEM_ERROR = "Error general de sistema";
+	public static String SYSTEM_ERROR = "Fallo general de sistema";
 	public static String SYSTEM_ERROR_NO_ID = "No existe Id";
 	public static String SYSTEM_ERROR_REGISTER = "Error de registro";
 	
 	//	Respuestas controlador de autenticación
 	//	Respuestas de error
-	public static String SYSTEM_ERROR_AUTH = "Error de login";
+	public static String SYSTEM_ERROR_AUTH = "Login inválido";
 	public static String SYSTEM_ERROR_TOKEN = "Error de token";
 	
 	//	Respuestas controldaro de gestion de usuarios

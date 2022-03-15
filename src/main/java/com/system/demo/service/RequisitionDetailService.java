@@ -7,7 +7,7 @@ import com.system.demo.persistence.entity.RequisitionDetail;
 
 public interface RequisitionDetailService {
 	
-	public Iterable<RequisitionDetail> getRequisitionDetailsByRequisitionIdNotChecking(Long requisitionId);
+	public Iterable<RequisitionDetail> getAllRequisitionDetailByNotCheckingByPersonId(Long personId);
 	
 	public Iterable<RequisitionDetail> getAllRequisitionDetails();
 	
@@ -18,7 +18,7 @@ public interface RequisitionDetailService {
 	
 	public void checkingRequisitionDetailById(Long id);
 	
-	public Iterable<RequisitionDetail> getRequisitionDetailsByPersonId(Long personId);
+	public Iterable<RequisitionDetail> getAllRequisitionDetailByPersonId(Long personId);
 	
 	public Iterable<RequisitionDetail> getAllRequisitionDetailsByDateRange(Date startDate, Date endDate);
 

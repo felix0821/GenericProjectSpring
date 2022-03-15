@@ -78,7 +78,7 @@ public class MyProceduresController {
 		try {
 			List<MyProceduresDto> result = new ArrayList<>();
 			Person person = personService.getPersonByUsername(userFromToken).get();
-			Iterable<RequisitionDetail> reqDetails = requisitionDetailService.getRequisitionDetailsByPersonId(person.getPersonId());
+			Iterable<RequisitionDetail> reqDetails = requisitionDetailService.getAllRequisitionDetailByPersonId(person.getPersonId());
 			for(RequisitionDetail reqDetail: reqDetails) {
 				result.add(new MyProceduresDto(reqDetail.getRequisitionDetailId(), reqDetail.getRequisitionId().getRequisitionName(), 
 						reqDetail.getRequisitionDetailChecking(), reqDetail.getRequisitionDetailDate()));

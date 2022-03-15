@@ -81,7 +81,6 @@ public class PersonController {
 	
 	@Autowired
 	UniqIdUtility uI;
-	
 	@Autowired
 	AclFilterVerify aclFilterVerify;
 	

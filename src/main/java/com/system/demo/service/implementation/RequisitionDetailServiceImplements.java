@@ -20,17 +20,20 @@ public class RequisitionDetailServiceImplements implements RequisitionDetailServ
 	RequisitionDetailRepository requisitionDetailRepository;
 	
 	@Override
-	public Iterable<RequisitionDetail> getRequisitionDetailsByRequisitionIdNotChecking(Long requisitionId) {
-		return requisitionDetailRepository.findByRequisitionIdAndNotChecking(requisitionId);
+	public Iterable<RequisitionDetail> getAllRequisitionDetailByNotCheckingByPersonId(Long personId) {
+		// TODO Auto-generated method stub
+		return requisitionDetailRepository.findByPersonIdAndNotChecking(personId);
 	}
 
 	@Override
 	public Iterable<RequisitionDetail> getAllRequisitionDetails() {
+		// TODO Auto-generated method stub
 		return requisitionDetailRepository.findAll();
 	}
 
 	@Override
 	public RequisitionDetail createRequisitionDetail(RequisitionDetail requisitionDetail) {
+		// TODO Auto-generated method stub
 		return requisitionDetailRepository.save(requisitionDetail);
 	}
 
@@ -52,7 +55,7 @@ public class RequisitionDetailServiceImplements implements RequisitionDetailServ
 	}
 
 	@Override
-	public Iterable<RequisitionDetail> getRequisitionDetailsByPersonId(Long personId) {
+	public Iterable<RequisitionDetail> getAllRequisitionDetailByPersonId(Long personId) {
 		// TODO Auto-generated method stub
 		return requisitionDetailRepository.findByPersonId(personId);
 	}

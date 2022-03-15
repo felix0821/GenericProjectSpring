@@ -113,7 +113,10 @@ public class AlertController {
 	@ResponseBody
     public ResponseEntity<?> getAlerts(@RequestHeader HttpHeaders headers){
 		try {
-			Iterable<RequisitionDetail> requisitionDetails = requisitionDetailService.getRequisitionDetailsByRequisitionIdNotChecking(1L);
+			String userFromToken = usernameFromToken(headers);
+			
+			Person personId = personService.getPersonByUsername(userFromToken).get();
+			Iterable<RequisitionDetail> requisitionDetails = requisitionDetailService.getAllRequisitionDetailByNotCheckingByPersonId(personId.getPersonId());
 			List<AlertDto> alertsDto = new ArrayList<>();
 			for(RequisitionDetail requisitionDetail: requisitionDetails) {
 				Requisition requisition = requisitionDetail.getRequisitionId();

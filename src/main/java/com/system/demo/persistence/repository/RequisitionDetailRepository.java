@@ -14,8 +14,8 @@ public interface RequisitionDetailRepository extends JpaRepository<RequisitionDe
 	@Query(value="SELECT r FROM RequisitionDetail r WHERE r.personId.personId = :personId")
 	public Iterable<RequisitionDetail> findByPersonId(@Param(value="personId")Long personId);
 	
-	@Query(value="SELECT r FROM RequisitionDetail r WHERE r.requisitionId.requisitionId = :requisitionId AND r.requisitionDetailChecking = false")
-	public Iterable<RequisitionDetail> findByRequisitionIdAndNotChecking(@Param(value="requisitionId")Long requisitionId);
+	@Query(value="SELECT DISTINCT rd FROM RequisitionDetail rd INNER JOIN Requisition r ON r.requisitionId = rd.requisitionId.requisitionId INNER JOIN RequisitionNotificationRole rn ON rn.requisitionNotificationRolePK.requisitionId = r.requisitionId INNER JOIN PersonRole p ON p.personRolePK.roleId = rn.requisitionNotificationRolePK.roleId WHERE p.personRolePK.personId = :personId AND rd.requisitionDetailChecking = false")
+	public Iterable<RequisitionDetail> findByPersonIdAndNotChecking(@Param(value="personId")Long personId);
 	
 	@Query(value="SELECT r FROM RequisitionDetail r WHERE r.requisitionDetailDate BETWEEN :startDate AND :endDate ORDER BY r.requisitionDetailDate ASC")
 	public Iterable<RequisitionDetail> findByRequisitionDetailDateRange(@Param("startDate")Date startDate, @Param("endDate")Date endDate);

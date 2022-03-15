@@ -62,7 +62,7 @@ public class AuthenticationController {
             return new ResponseEntity<JwtDto>(jwtDto, HttpStatus.OK);
         }
         catch (Exception e) {
-        	System.out.println(e);
+        	e.printStackTrace();
         	return new ResponseEntity(new Message(SYSTEM_ERROR_AUTH), HttpStatus.BAD_REQUEST);
         }
     }
